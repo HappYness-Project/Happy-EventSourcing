@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EventSourcing
+namespace DemoLib
 {
-    public interface IDomainEvent<out TKey>
+    public class DemoLibMediatREntryPoint
     {
-        long AggregateVersion { get; }
     }
 }

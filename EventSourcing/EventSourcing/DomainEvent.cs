@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace EventSourcing
 {
-    public interface IDomainEvent<out TKey>
+    public class DomainEvent : IDomainEvent
     {
-        long AggregateVersion { get; }
     }
 }
