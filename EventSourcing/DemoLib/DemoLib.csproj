@@ -10,8 +10,4 @@
     <PackageReference Include="MediatR" Version="10.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
-
 </Project>
