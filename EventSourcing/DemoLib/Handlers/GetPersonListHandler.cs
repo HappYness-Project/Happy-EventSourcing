@@ -12,6 +12,7 @@ namespace DemoLib.Handlers
     public class GetPersonListHandler : IRequestHandler<GetPersonListQuery, List<PersonModel>>
     {
         private readonly IDemoDataAccess _data;
+        private readonly IRepository<Person> _personRepository;
         public GetPersonListHandler(IDemoDataAccess data)
         {
             _data = data;   
@@ -19,6 +20,6 @@ namespace DemoLib.Handlers
         public Task<List<PersonModel>> Handle(GetPersonListQuery request, CancellationToken cancellationToken)
         {
             return Task.FromResult(_data.GetPeople());
-        }
+         }
     }
 }

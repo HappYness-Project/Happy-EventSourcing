@@ -25,9 +25,14 @@ namespace DemoApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<PersonModel> Get(int id)
+        public async Task<IActionResult> Get(int id, CancellationToken token = default)
         {
-            return await _mediator.Send(new GetPersonByIdQuery(id)); 
+            var person = await _mediator.Send(new GetPersonByIdQuery(id)); 
+            if(person == null)
+            {
+                return NotFound();
+            }
+            return Ok(person);
         }
 
         [HttpPost]
@@ -35,6 +40,12 @@ namespace DemoApi.Controllers
         {
             return await _mediator.Send(new InsertPersonCommand(value.FirstName, value.LastName));
         }
+
+        //[HttpPut("{id}")]
+        //public async Task<PersonModel> Update(int id, PersonModel value)
+        //{
+        //    return await _mediator.Send(new UpdatePersonCommand(value.))
+        //}
 
     }
 }

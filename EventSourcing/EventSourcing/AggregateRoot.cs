@@ -10,10 +10,7 @@ namespace EventSourcing
     {
         public TId Id { get; protected set; }
         public long Version { get; internal set; }
-
         public IReadOnlyCollection<IDomainEvent<TId>> Events => throw new NotImplementedException();
-
-
         public void ClearEvents()
         {
             throw new NotImplementedException();
