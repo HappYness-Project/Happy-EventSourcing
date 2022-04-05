@@ -3,10 +3,6 @@ using MediatR;
 
 namespace DemoLib.Queries
 {
-    public record GetPersonListQuery() : IRequest<List<PersonModel>>;
+    public record GetPersonListQuery() : IRequest<List<Person>>;
 
-    //Same with above!
-    //public class GetPersonListQueryClass : IRequest<List<PersonModel>>
-    //{
-    //}
 }

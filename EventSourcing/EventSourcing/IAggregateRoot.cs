@@ -14,7 +14,6 @@ namespace EventSourcing
     {
         public long Version { get; }
         IReadOnlyCollection<IDomainEvent<TKey>> Events { get; }
-        IAggregateSnapshot<TKey> Snapshot { get; }
 
         void ClearEvents();
 

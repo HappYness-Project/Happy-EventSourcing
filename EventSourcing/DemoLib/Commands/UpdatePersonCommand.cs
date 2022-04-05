@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace DemoLib.Commands
 {
-    public record UpdatePersonCommand(string FirstName, string LastName) : IRequest<PersonModel>;
+    public record UpdatePersonCommand(string FirstName, string LastName) : IRequest<Person>;
 
 }

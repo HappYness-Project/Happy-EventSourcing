@@ -4,7 +4,7 @@ namespace DemoLib
 {
     public interface IDemoDataAccess
     {
-        List<PersonModel> GetPeople();
-        PersonModel InsertPerson(string firstName, string LastName);
+        List<Person> GetPeople();
+        Person InsertPerson(string firstName, string LastName);
     }
 }

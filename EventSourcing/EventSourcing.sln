@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoLib", "DemoLib\DemoLib.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoApi", "DemoApi\DemoApi.csproj", "{60DF4AB5-243A-40F0-B420-AE7C4AA6A0F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP.Infrastructure", "HP.Infrastructure\HP.Infrastructure.csproj", "{5F3C962C-5CDA-4724-86B4-66EF3BED698C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.Infrastructure", "HP.Infrastructure\HP.Infrastructure.csproj", "{5F3C962C-5CDA-4724-86B4-66EF3BED698C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP.Core", "HP.Core\HP.Core.csproj", "{33901D9F-C964-4AC5-9491-0564BB194E4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP.Domain", "HP.Domain\HP.Domain.csproj", "{D5C3347D-A497-4EC4-B6F1-DF03CD5FA227}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{5F3C962C-5CDA-4724-86B4-66EF3BED698C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F3C962C-5CDA-4724-86B4-66EF3BED698C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F3C962C-5CDA-4724-86B4-66EF3BED698C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33901D9F-C964-4AC5-9491-0564BB194E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33901D9F-C964-4AC5-9491-0564BB194E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33901D9F-C964-4AC5-9491-0564BB194E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33901D9F-C964-4AC5-9491-0564BB194E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5C3347D-A497-4EC4-B6F1-DF03CD5FA227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5C3347D-A497-4EC4-B6F1-DF03CD5FA227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5C3347D-A497-4EC4-B6F1-DF03CD5FA227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5C3347D-A497-4EC4-B6F1-DF03CD5FA227}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

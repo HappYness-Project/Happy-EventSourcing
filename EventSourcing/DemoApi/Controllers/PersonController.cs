@@ -19,7 +19,7 @@ namespace DemoApi.Controllers
         }
 
         [HttpGet]
-        public async Task<List<PersonModel>> Get()
+        public async Task<List<Person>> Get()
         {
             return await _mediator.Send(new GetPersonListQuery());
         }
@@ -36,7 +36,7 @@ namespace DemoApi.Controllers
         }
 
         [HttpPost]
-        public async Task<PersonModel> Post([FromBody]PersonModel value)
+        public async Task<Person> Post([FromBody]Person value)
         {
             return await _mediator.Send(new InsertPersonCommand(value.FirstName, value.LastName));
         }

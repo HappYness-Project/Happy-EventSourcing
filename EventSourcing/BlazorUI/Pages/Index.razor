@@ -19,7 +19,7 @@ Welcome to your new app.
 
 
 @code {
-    List<PersonModel> people;
+    List<Person> people;
     protected override async Task OnInitializedAsync()
     {
         people = await _mediator.Send(new GetPersonListQuery());

@@ -4,5 +4,5 @@ using MediatR;
 
 namespace DemoLib.Queries
 {
-    public record GetPersonByNameQuery(int Id) : IRequest<PersonModel>;
+    public record GetPersonByNameQuery(int Id) : IRequest<Person>;
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DemoLib.Handlers
 {
-    public class GetPersonByIdHandler : IRequestHandler<GetPersonByIdQuery, PersonModel>
+    public class GetPersonByIdHandler : IRequestHandler<GetPersonByIdQuery, Person>
     {
         private readonly IMediator _mediator;
 
@@ -17,7 +17,7 @@ namespace DemoLib.Handlers
         {
             this._mediator = mediator;
         }
-        public async Task<PersonModel> Handle(GetPersonByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Person> Handle(GetPersonByIdQuery request, CancellationToken cancellationToken)
         {
             var results = await _mediator.Send(new GetPersonListQuery());
             var output = results.FirstOrDefault(x => x.Id == request.Id);

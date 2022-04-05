@@ -1,0 +1,22 @@
+﻿ommon advice is to not publish domain events outside of your service boundary.
+They should only exist within your service boundary.
+Instead, you should publish integration events for other service boundaries. 
+
+
+What is Domain Events?
+Use domain events to explicitly implement side effects across multiple aggregates.
+Optionally, for better scalability and less impact locks, use eventual consistency between aggregates within the same domain.
+A domain event is, something that happened in the domain that you want other parts of the same domain (in-process) to be aware of.
+The notified parts usually react somehow to the events.
+ This is generally all done in-process. Meaning the consumers all process the same event within the same process as the publisher
+
+
+ Integration Events?
+ Integration events are generally used for integrating with other service boundaries.
+ We're moving work out of process by leveraging a message broker.
+ 
+
+Integration events differ from Domain Events in that Domain events are very specific concepts within a boundary.
+A Domain event may not mean anything or have a perceived different meaning to another boundary.
+Integration events are specifically for telling other outside boundaries that something has occurred within a boundary.
+

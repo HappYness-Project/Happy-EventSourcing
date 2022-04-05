@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DemoLib.Models
+namespace HP.Domain.Person
 {
-    public class Todo
+    public class Person /*: AggregateRoot*/
     {
         public int Id { get; set; }
-        public string Title { get; set; }   
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
         public string Description { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
 
     }
 }
