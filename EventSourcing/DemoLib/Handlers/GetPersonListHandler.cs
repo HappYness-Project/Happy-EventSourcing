@@ -1,6 +1,7 @@
-﻿using DemoLib.Models;
-using DemoLib.Queries;
+﻿using DemoLib.Queries;
+using HP.Domain.Person;
 using HP.Infrastructure;
+using HP.Infrastructure.Repository;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ namespace DemoLib.Handlers
     public class GetPersonListHandler : IRequestHandler<GetPersonListQuery, List<Person>>
     {
         private readonly IDemoDataAccess _data;
-        private readonly IRepository<Person> _personRepository;
-        public GetPersonListHandler(IDemoDataAccess data, IRepository<Person> personRepository)
+        private readonly IPersonRepository _personRepository;
+        public GetPersonListHandler(IDemoDataAccess data, IPersonRepository personRepository)
         {
             _data = data;
             _personRepository = personRepository;

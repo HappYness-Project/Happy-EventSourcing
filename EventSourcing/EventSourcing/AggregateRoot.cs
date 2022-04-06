@@ -9,11 +9,11 @@ namespace EventSourcing
     public class AggregateRoot<TId> : IAggregateRoot<TId>
     {
         public TId Id { get; protected set; }
-        public long Version { get; internal set; }
-        public IReadOnlyCollection<IDomainEvent<TId>> Events => throw new NotImplementedException();
+        public long Version { get; protected set; }
+        public IReadOnlyCollection<IDomainEvent> DomainEvents { get; set; } = new List<IDomainEvent>();
         public void ClearEvents()
         {
-            throw new NotImplementedException();
+           // DomainEvents?.Clear();
         }
     }
 }

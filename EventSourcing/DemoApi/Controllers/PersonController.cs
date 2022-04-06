@@ -1,6 +1,6 @@
 ﻿using DemoLib.Commands;
-using DemoLib.Models;
 using DemoLib.Queries;
+using HP.Domain.Person;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

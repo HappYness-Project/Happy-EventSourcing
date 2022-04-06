@@ -1,6 +1,7 @@
 ﻿using DemoLib.Commands;
-using DemoLib.Models;
+using HP.Domain.Person;
 using HP.Infrastructure;
+using HP.Infrastructure.Repository;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace DemoLib.Handlers
     public class InsertPersonHandler : IRequestHandler<InsertPersonCommand, Person>
     {
         private readonly IDemoDataAccess _data;
-        private readonly IRepository<PersonRepository> _repository;
+        private readonly IPersonRepository _repository;
         public InsertPersonHandler(IDemoDataAccess data)
         {
             this._data = data;

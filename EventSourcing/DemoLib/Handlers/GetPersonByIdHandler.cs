@@ -1,5 +1,5 @@
-﻿using DemoLib.Models;
-using DemoLib.Queries;
+﻿using DemoLib.Queries;
+using HP.Domain.Person;
 using MediatR;
 using System;
 using System.Collections.Generic;

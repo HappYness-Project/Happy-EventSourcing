@@ -13,9 +13,16 @@ namespace EventSourcing
     public interface IAggregateRoot<out TKey> : IEntity<TKey>
     {
         public long Version { get; }
-        IReadOnlyCollection<IDomainEvent<TKey>> Events { get; }
+        IReadOnlyCollection<IDomainEvent> DomainEvents { get; }
 
         void ClearEvents();
 
     }
 }
+
+
+
+//An aggregate is a collection of one or more related entities (and possibly value objects). 
+// Each Aggregate has a single root entity, referred to as the aggregate root.
+// The aggregate root is responsible for controlling access to all of the members of its aggregate.
+// it's perfectly acceptable f

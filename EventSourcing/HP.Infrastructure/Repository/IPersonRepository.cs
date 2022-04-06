@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HP.Infrastructure.Repository
 {
-    public interface IPersonRepository
+    public interface IPersonRepository 
     {
         Task<Person> GetPersonAsync(string personId);
         Task<Person> UpdatePersonAsync(Person person);

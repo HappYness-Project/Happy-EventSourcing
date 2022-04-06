@@ -1,4 +1,4 @@
-﻿using DemoLib.Models;
+﻿using HP.Domain.Person;
 using MediatR;
 
 namespace DemoLib.Queries

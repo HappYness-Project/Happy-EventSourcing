@@ -9,12 +9,33 @@ namespace HP.Infrastructure.Repository
 {
     public class PersonRepository : IPersonRepository
     {
+        //private readonly PeopleContext _context;
+        public void Add(Person aggregate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Person aggregate)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> DeletePersonAsync(string personId)
         {
             throw new NotImplementedException();
         }
 
+        public Person Find(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Person> GetPersonAsync(string personId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Person aggregate)
         {
             throw new NotImplementedException();
         }

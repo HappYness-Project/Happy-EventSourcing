@@ -14,4 +14,8 @@
     <Folder Include="DbAccess\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HP.Domain\HP.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

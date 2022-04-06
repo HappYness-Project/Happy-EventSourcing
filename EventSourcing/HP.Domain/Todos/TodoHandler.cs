@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HP.Domain.Todos
 {
-    internal class TodoHandler
+    public class TodoHandler
     {
     }
 }

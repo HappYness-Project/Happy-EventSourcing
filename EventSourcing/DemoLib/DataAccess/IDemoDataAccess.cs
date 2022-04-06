@@ -1,4 +1,5 @@
-﻿using DemoLib.Models;
+﻿
+using HP.Domain.Person;
 
 namespace DemoLib
 {
