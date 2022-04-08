@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventSourcing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HP.Domain.Person
 {
-    public class Person /*: AggregateRoot*/
+    public class Person : AggregateRoot<int>
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

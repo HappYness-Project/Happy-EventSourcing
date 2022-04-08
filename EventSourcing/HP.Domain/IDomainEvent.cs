@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EventSourcing
+namespace HP.Domain
 {
     public interface IDomainEvent : INotification
     {

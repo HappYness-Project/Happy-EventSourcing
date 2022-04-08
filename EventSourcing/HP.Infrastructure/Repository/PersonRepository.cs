@@ -10,6 +10,10 @@ namespace HP.Infrastructure.Repository
     public class PersonRepository : IPersonRepository
     {
         //private readonly PeopleContext _context;
+        public PersonRepository()
+        {
+            //this._context = context ?? throw new ArgumentNullException(nameof(context));
+        }
         public void Add(Person aggregate)
         {
             throw new NotImplementedException();
