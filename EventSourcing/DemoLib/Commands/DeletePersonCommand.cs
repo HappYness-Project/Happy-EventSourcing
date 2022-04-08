@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace DemoLib.Commands
 {
-    internal class DeletePersonCommand
+    public record DeletePersonCommand(string PersonId) : ICommand
     {
+        public static DeletePersonCommand Create(string personId)
+        {
+            if()
+            return new DeletePersonCommand(personId);
+        }
     }
 }

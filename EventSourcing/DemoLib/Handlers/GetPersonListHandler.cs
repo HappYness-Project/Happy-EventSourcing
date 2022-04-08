@@ -20,9 +20,8 @@ namespace DemoLib.Handlers
             _data = data;
             _personRepository = personRepository;
         } 
-        public Task<List<Person>> Handle(GetPersonListQuery request, CancellationToken cancellationToken)
-        {
+        public Task<List<Person>> Handle(GetPersonL   
             return Task.FromResult(_data.GetPeople());
-         }
+        }
     }
 }
