@@ -1,8 +1,7 @@
-﻿using EventSourcing;
-
+﻿
 namespace HP.Domain
 {
-    public class Todo : AggregateRoot<int>
+    public class Todo : IAggregateRoot
     {
         public int Id { get; set; }
         public string Title { get; set; }

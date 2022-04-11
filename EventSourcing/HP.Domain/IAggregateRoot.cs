@@ -6,18 +6,7 @@ using System.Threading.Tasks;
 
 namespace HP.Domain
 {
-    public interface IEntity<out TKey>
-    {
-        TKey Id { get; }
-    }
-    public interface IAggregateRoot<out TKey> : IEntity<TKey>
-    {
-        public long Version { get; }
-        IReadOnlyCollection<IDomainEvent> DomainEvents { get; }
-
-        void ClearEvents();
-
-    }
+    public interface IAggregateRoot { }
 }
 
 
