@@ -9,15 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HP.Application.Handlers
+namespace HP.Application.Commands
 {
 
     // Command handler
-    public class InsertPersonHandler : IRequestHandler<InsertPersonCommand, Person>
+    public class InsertPersonCommandHandler : IRequestHandler<InsertPersonCommand, Person>
     {
         private readonly IDemoDataAccess _data;
         private readonly IPersonRepository _repository;
-        public InsertPersonHandler(IDemoDataAccess data)
+        public InsertPersonCommandHandler(IDemoDataAccess data)
         {
             this._data = data;
         }
@@ -27,3 +27,8 @@ namespace HP.Application.Handlers
         }
     }
 }
+
+
+//please read this !!!
+//TODO https://ademcatamak.medium.com/layers-in-ddd-projects-bd492aa2b8aa
+// This one too! https://matthiasnoback.nl/2021/02/does-it-belong-in-the-application-or-domain-layer/

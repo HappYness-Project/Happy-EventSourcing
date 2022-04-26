@@ -1,5 +1,5 @@
 ﻿using HP.Domain.Common;
-namespace HP.Domain
+namespace HP.Domain.Todos
 {
     public class Todo : Entity, IAggregateRoot
     {

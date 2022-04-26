@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HP.Domain.Person;
+using MediatR;
 
 namespace HP.Application.Commands
 {
-    public record DeletePersonCommand(string PersonId) : ICommand
+    public record DeletePersonCommand(string PersonId) : IRequest<Person>
     {
         public static DeletePersonCommand Create(string personId)
         {
-            //if()
             return new DeletePersonCommand(personId);
         }
     }
