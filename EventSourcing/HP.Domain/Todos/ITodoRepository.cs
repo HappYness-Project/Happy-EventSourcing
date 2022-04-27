@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HP.Domain.Todos
 {
-    public interface ITodoRepository
+    public interface ITodoRepository : IBaseRepository<Todo>
     {
 
     }

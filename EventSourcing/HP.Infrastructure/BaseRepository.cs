@@ -2,6 +2,7 @@
 using HP.Domain.Common;
 using HP.Infrastructure.DbAccess;
 using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace HP.Infrastructure
 {
@@ -24,18 +25,31 @@ namespace HP.Infrastructure
         {
             await _collection.ReplaceOneAsync(p => p.Id == entity.Id, entity, new ReplaceOptions() { IsUpsert = false });
         }
-
         public virtual async Task<T> GetByIdAsync(string id)
         {
             return await _collection.Find(e => e.Id == id).FirstOrDefaultAsync();
         }
-        public virtual async Task<IEnumerable<T>> GetListAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _collection.AsQueryable().ToListAsync();
         }
         public void Dispose()
         {
             GC.SuppressFinalize(this);
+        }
+        public Task<T> FindOneAndReplaceAsync(FilterDefinition<T> filter, T replacement)
+        {
+            return _collection.FindOneAndReplaceAsync(filter, replacement);
+        }
+
+        public IFindFluent<T, T> Find(FilterDefinition<T> filter)
+        {
+            return _collection.Find(filter);
+        }
+
+        public IFindFluent<T, T> Find(Expression<Func<T, bool>> filter)
+        {
+            return _collection.Find(filter);
         }
     }
 }

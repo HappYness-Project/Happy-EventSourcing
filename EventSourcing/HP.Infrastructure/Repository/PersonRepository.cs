@@ -1,25 +1,28 @@
-﻿using HP.Domain.Person;
-using System;
-using System.Collections.Generic;
+﻿using HP.Domain;
+using HP.Domain.Todos;
+using HP.Infrastructure.DbAccess;
+using MongoDB.Driver;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HP.Infrastructure.Repository
 {
-    public class PersonRepository : IPersonRepository
+    public class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
-        //private readonly PeopleContext _context;
-        public PersonRepository()
+        private readonly IMongoCollection<Person> _mongoCollection;
+        public PersonRepository(IMongoDbContext dbContext) : base(dbContext)
         {
-            //this._context = context ?? throw new ArgumentNullException(nameof(context));
+            this._mongoCollection = dbContext.GetCollection<Person>() ?? throw new ArgumentNullException(nameof(dbContext));
         }
-        public void Add(Person aggregate)
+
+        public Task<long> CountAsync()
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Person aggregate)
+        public Task CreateAsync(Person entity)
         {
             throw new NotImplementedException();
         }
@@ -29,7 +32,32 @@ namespace HP.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public Person Find(Guid id)
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IFindFluent<Person, Person> Find(FilterDefinition<Person> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IFindFluent<Person, Person> Find(Expression<Func<Person, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Person> FindOneAndReplaceAsync(FilterDefinition<Person> filter, Person replacement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Person>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Person> GetByIdAsync(string id)
         {
             throw new NotImplementedException();
         }
@@ -39,7 +67,7 @@ namespace HP.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public void Update(Person aggregate)
+        public Task UpdateAsync(Person entity)
         {
             throw new NotImplementedException();
         }

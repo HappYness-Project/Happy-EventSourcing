@@ -1,9 +1,6 @@
 ﻿using HP.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace HP.Domain
 {
@@ -12,7 +9,10 @@ namespace HP.Domain
         Task CreateAsync(T entity);
         Task UpdateAsync(T entity);
         Task<T> GetByIdAsync(string id);
-        Task<IEnumerable<T>> GetListAsync();
+        Task<IEnumerable<T>> GetAllAsync();
+        IFindFluent<T, T> Find(FilterDefinition<T> filter);
+        public IFindFluent<T, T> Find(Expression<Func<T, bool>> filter);
+        Task<T> FindOneAndReplaceAsync(FilterDefinition<T> filter, T replacement);
         Task<long> CountAsync();
     }
 }
