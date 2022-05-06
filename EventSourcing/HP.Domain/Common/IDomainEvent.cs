@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace HP.Domain
+namespace HP.Domain.Common
 {
     public interface IDomainEvent : INotification
     {

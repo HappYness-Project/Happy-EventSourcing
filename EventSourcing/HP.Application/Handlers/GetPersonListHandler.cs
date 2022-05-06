@@ -1,6 +1,6 @@
 ﻿
 using HP.Application.Queries;
-using HP.Domain.Person;
+using HP.Domain;
 using HP.Infrastructure;
 using HP.Infrastructure.Repository;
 using MediatR;
@@ -14,11 +14,9 @@ namespace HP.Application.Handlers
 {
     public class GetPersonListHandler : IRequestHandler<GetPersonListQuery, List<Person>>
     {
-        private readonly IDemoDataAccess _data;
         private readonly IPersonRepository _personRepository;
-        public GetPersonListHandler(IDemoDataAccess data, IPersonRepository personRepository)
+        public GetPersonListHandler(IPersonRepository personRepository)
         {
-            _data = data;
             _personRepository = personRepository;
         }
 

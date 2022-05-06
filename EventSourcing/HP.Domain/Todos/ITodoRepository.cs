@@ -8,6 +8,7 @@ namespace HP.Domain.Todos
 {
     public interface ITodoRepository : IBaseRepository<Todo>
     {
+        Task<IEnumerable<Todo>> GetTodosWithKey(string key);
 
     }
 }

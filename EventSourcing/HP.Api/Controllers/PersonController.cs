@@ -1,6 +1,6 @@
 ﻿using HP.Application.Commands;
 using HP.Application.Queries;
-using HP.Domain.Person;
+using HP.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,14 +36,18 @@ namespace HP.Controllers
 
         [HttpPost]
         //[ProducesResponseType(typeof(UserId))]
-        public async Task<Person> Post([FromBody]Person value)
+        public async Task<IActionResult> Create([FromBody]CreatePersonDto personDto, CancellationToken cancellationToken = default)
         {
+            if (personDto == null)
+                return BadRequest();
 
+            // 
+            var cmd = new InsertPersonCommand(personDto.FirstName, personDto.LastName);
             // Implementation from the API service. 
             //var createUserCommand = new CreateUserCommand(new Email(postUserHttpRequest?.Email ?? string.Empty));
             //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
             //return StatusCode((int)HttpStatusCode.Created, userId);
-            return await _mediator.Send(new InsertPersonCommand(value.FirstName, value.LastName));
+            return await _mediator.Send(new InsertPersonCommand(personDto.FirstName, personDto.LastName));
         }
 
         //[HttpPut("{id}")]
@@ -51,6 +55,7 @@ namespace HP.Controllers
         //{
         //    return await _mediator.Send(new UpdatePersonCommand(value.))
         //}
+
 
     }
 }

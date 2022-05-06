@@ -1,5 +1,6 @@
 ﻿
-using HP.Domain.Person;
+
+using HP.Domain;
 
 namespace HP.Application
 {

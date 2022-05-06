@@ -58,6 +58,11 @@ namespace HP.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<Todo>> GetTodosWithKey(string key)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task UpdateAsync(Todo entity)
         {
             throw new NotImplementedException();

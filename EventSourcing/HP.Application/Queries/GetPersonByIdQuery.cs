@@ -1,4 +1,4 @@
-﻿using HP.Domain.Person;
+﻿using HP.Domain;
 using MediatR;
 
 namespace HP.Application.Queries

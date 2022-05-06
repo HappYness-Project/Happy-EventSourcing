@@ -1,37 +1,42 @@
 ﻿using HP.Domain;
 using HP.Domain.Todos;
+using HP.Infrastructure.DbAccess;
+using HP.Infrastructure.Repository;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace HP.test
 {
     public class MongoTest
     {
-        private IBaseRepository<Todo> _repository;
+        private IConfiguration _configuration;
+        private IMongoDbContext mongoDbContext;
+
         [SetUp]
         public void Setup()
         {
+            _configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(@"appsettings.json", false, false)
+                .AddEnvironmentVariables()
+                .Build();
+            mongoDbContext = new MongoDbContext(_configuration);
 
+            var settings = MongoClientSettings.FromConnectionString("mongodb://hyunbin7303:asdf1234@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false");
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("test");
         }
 
         [Test]
         public void Test1()
         {
-            var dbContextMock = new Mock<ProductsDbContext>();
-            var dbSetMock = new Mock<DbSet<Todo>>();
-            dbSetMock.Setup(s => s.FindAsync(It.IsAny<Guid>())).Returns(Task.FromResult(new Todo()));
-            dbContextMock.Setup(s => s.Set<Todo>()).Returns(dbSetMock.Object);
-
-            //Execute method of SUT (ProductsRepository)  
-            var productRepository = new TodoRepository(dbContextMock.Object);
-            var product = productRepository.GetByIdAsync(Guid.NewGuid()).Result;
-
-            //Assert  
-            Assert.NotNull(product);
-            Assert.IsAssignableFrom<Product>(product);
-            Assert.Pass();
+            //mongoDbContext.GetCollection("");
         }
     }
 }
