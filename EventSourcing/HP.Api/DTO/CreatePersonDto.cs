@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HP.Controllers
+namespace HP.Api.DTO
 {
     public class CreatePersonDto
     {

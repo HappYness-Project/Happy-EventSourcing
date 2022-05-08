@@ -21,9 +21,6 @@ namespace HP.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-
-
-
         public Task<Person> GetPersonAsync(string personId)
         {
             throw new NotImplementedException();

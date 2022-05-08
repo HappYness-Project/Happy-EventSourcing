@@ -1,4 +1,5 @@
-﻿using HP.Application.Commands;
+﻿using HP.Api.DTO;
+using HP.Application.Commands;
 using HP.Application.Queries;
 using HP.Domain;
 using MediatR;
@@ -40,14 +41,16 @@ namespace HP.Controllers
         {
             if (personDto == null)
                 return BadRequest();
-
-            // 
+            
             var cmd = new InsertPersonCommand(personDto.FirstName, personDto.LastName);
-            // Implementation from the API service. 
             //var createUserCommand = new CreateUserCommand(new Email(postUserHttpRequest?.Email ?? string.Empty));
             //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
-            //return StatusCode((int)HttpStatusCode.Created, userId);
-            return await _mediator.Send(new InsertPersonCommand(personDto.FirstName, personDto.LastName));
+            var person = await _mediator.Send(new InsertPersonCommand(personDto.FirstName, personDto.LastName));
+
+            //TODO: Since it is a Create, I think it's desirable to use Publish command . 
+            await _mediator.Publish(cmd, cancellationToken);
+
+            return Ok(person);
         }
 
         //[HttpPut("{id}")]

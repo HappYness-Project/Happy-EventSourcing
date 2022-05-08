@@ -46,7 +46,6 @@ namespace HP.Infrastructure
         {
             return _collection.Find(filter);
         }
-
         public IFindFluent<T, T> Find(Expression<Func<T, bool>> filter)
         {
             return _collection.Find(filter);
