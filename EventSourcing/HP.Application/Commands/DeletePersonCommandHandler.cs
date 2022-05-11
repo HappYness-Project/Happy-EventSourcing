@@ -3,11 +3,16 @@ using MediatR;
 
 namespace HP.Application.Commands
 {
-    public class DeletePersonCommandHandler : IRequestHandler<DeletePersonCommand, Person>
+    public class DeletePersonCommandHandler : IRequestHandler<DeletePersonCommand, bool>
     {
-        public Task<Person> Handle(DeletePersonCommand request, CancellationToken cancellationToken)
+        private readonly IPersonRepository _repository;
+        public DeletePersonCommandHandler(IPersonRepository personRepository)
         {
-            throw new NotImplementedException();
+            this._repository = personRepository;
+        }
+        public Task<bool> Handle(DeletePersonCommand request, CancellationToken cancellationToken)
+        {
+            return _repository.DeletePersonAsync(request.PersonId);
         }
     }
 }

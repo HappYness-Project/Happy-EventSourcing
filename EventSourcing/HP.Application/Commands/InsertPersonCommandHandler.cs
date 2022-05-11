@@ -1,13 +1,5 @@
-﻿using HP.Application.Commands;
-using HP.Domain;
-using HP.Infrastructure;
-using HP.Infrastructure.Repository;
+﻿using HP.Domain;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HP.Application.Commands
 {
@@ -22,18 +14,14 @@ namespace HP.Application.Commands
         }
         public Task<Person> Handle(InsertPersonCommand request, CancellationToken cancellationToken)
         {
-            // Where should the Automapper located
-            //_repository.CreateAsync()
-
-
             // await event service. PersistAsync
-
             Person person = new Person
             {
-                
-            }
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+            };
 
-            _repository.CreateAsync()
+            var check = _repository.CreateAsync(person);
             // dbContext 
             return Task.FromResult(_data.InsertPerson(request.FirstName, request.LastName));
         }

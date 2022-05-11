@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace HP.Application.Commands
 {
-   public record CancelTodoCommand : IRequest<bool>;
+   public record CancelTodoCommand(string todoId) : IRequest<bool>;
 }

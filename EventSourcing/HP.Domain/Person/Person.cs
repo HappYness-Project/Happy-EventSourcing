@@ -10,9 +10,7 @@ namespace HP.Domain
         public string LastName { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
-
         public string Description { get; set; }
-
         public static Person Create()
         {
             //if (!email.IsValid) throw new EmailNotValidException(email);

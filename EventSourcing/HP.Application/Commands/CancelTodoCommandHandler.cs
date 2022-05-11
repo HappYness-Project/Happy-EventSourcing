@@ -1,13 +1,22 @@
 ﻿using HP.Application.Commands;
+using HP.Domain.Todos;
 using MediatR;
+using System.Linq.Expressions;
 
 namespace HP.Application.Handlers
 {
     public class CancelTodoCommandHandler : IRequestHandler<CancelTodoCommand, bool>
     {
-        public Task<bool> Handle(CancelTodoCommand request, CancellationToken cancellationToken)
+        private readonly ITodoRepository _repository;
+        public CancelTodoCommandHandler(ITodoRepository todoRepository)
         {
-            throw new NotImplementedException();
+            this._repository = todoRepository;
+        }
+        public async Task<bool> Handle(CancelTodoCommand request, CancellationToken cancellationToken)
+        {
+            Expression<Func<Todo, bool>> hi = null;
+            await _repository.DeleteOneAsync(hi);
+            return true;
         }
     }
 }

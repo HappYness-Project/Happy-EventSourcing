@@ -23,11 +23,6 @@ namespace HP.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public Task CreateAsync(Todo entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Dispose()
         {
             throw new NotImplementedException();
