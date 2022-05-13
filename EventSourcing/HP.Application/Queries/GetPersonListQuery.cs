@@ -3,6 +3,6 @@ using MediatR;
 
 namespace HP.Application.Queries
 {
-    public record GetPersonListQuery() : IRequest<List<Person>>;
+    public record GetPersonListQuery() : IRequest<IEnumerable<Person>>;
 
 }

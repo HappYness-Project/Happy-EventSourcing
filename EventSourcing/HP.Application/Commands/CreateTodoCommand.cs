@@ -3,5 +3,5 @@ using MediatR;
 
 namespace HP.Application.Handlers
 {
-    public record CreateTodoCommand(string TodoTitle) : IRequest<Todo>;
+    public record CreateTodoCommand(string TodoTitle, string Description = null, string Tag = null) : IRequest<Todo>;
 }

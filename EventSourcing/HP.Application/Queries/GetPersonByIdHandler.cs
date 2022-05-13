@@ -1,8 +1,6 @@
-﻿
-using HP.Application.Queries;
-using HP.Domain;
+﻿using HP.Domain;
 using MediatR;
-namespace HP.Application.Handlers
+namespace HP.Application.Queries
 {
     public class GetPersonByIdHandler : IRequestHandler<GetPersonByIdQuery, Person>
     {
@@ -10,12 +8,12 @@ namespace HP.Application.Handlers
 
         public GetPersonByIdHandler(IMediator mediator)
         {
-            this._mediator = mediator;
+            _mediator = mediator;
         }
         public async Task<Person> Handle(GetPersonByIdQuery request, CancellationToken cancellationToken)
         {
             var results = await _mediator.Send(new GetPersonListQuery());
-            var output = results.FirstOrDefault(x => x.Id == request.Id);
+            var output = results.FirstOrDefault(x => x.UserId == request.Id);
             return output;
         }
     }

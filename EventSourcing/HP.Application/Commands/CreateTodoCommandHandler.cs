@@ -10,9 +10,21 @@ namespace HP.Application.Handlers
 {
     public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, Todo>
     {
+        private readonly ITodoRepository _repository;
+        public CreateTodoCommandHandler(ITodoRepository repository)
+        {
+            _repository = repository;
+        }
+
         public Task<Todo> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Todo todo = new Todo
+            {
+                Title = request.TodoTitle,
+                Description = request.Description,
+                Tag = request.Tag,
+            };
+            return _repository.CreateAsync(todo);
         }
     }
 }

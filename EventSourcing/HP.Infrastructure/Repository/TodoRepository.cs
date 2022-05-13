@@ -17,50 +17,10 @@ namespace HP.Infrastructure.Repository
         {
             _todoCollections = dbContext.GetCollection<Todo>();
         }
-
-        public Task<long> CountAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFindFluent<Todo, Todo> Find(FilterDefinition<Todo> filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFindFluent<Todo, Todo> Find(Expression<Func<Todo, bool>> filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Todo> FindOneAndReplaceAsync(FilterDefinition<Todo> filter, Todo replacement)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Todo>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Todo> GetByIdAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<IEnumerable<Todo>> GetTodosWithKey(string key)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Todo entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

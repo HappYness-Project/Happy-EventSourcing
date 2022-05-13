@@ -17,8 +17,11 @@ namespace HP.Infrastructure.DbAccess
 
         public MongoDbContext(IConfiguration configuration)
         {
-            _dbName = configuration["Mongo:Read:Database"];
-            _connStr = configuration["Mongo:Read:Connection"];
+            //   _dbName = configuration["Mongo:Read:Database"];
+            //   _connStr = configuration["Mongo:Read:Connection"];
+            _connStr = configuration["ConnectionStrings:mongo"];
+            _dbName = configuration["ConnectionStrings:dbname"];
+
             MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(_connStr));
             _mongoClient = new MongoClient(settings);
             _mongoDb = _mongoClient.GetDatabase(_dbName);

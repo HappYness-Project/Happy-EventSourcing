@@ -5,11 +5,9 @@ namespace HP.Application.Commands
 {
     public class InsertPersonCommandHandler : IRequestHandler<InsertPersonCommand, Person>
     {
-        private readonly IDemoDataAccess _data;
         private readonly IPersonRepository _repository;
-        public InsertPersonCommandHandler(IDemoDataAccess data, IPersonRepository personRepository)
+        public InsertPersonCommandHandler(IPersonRepository personRepository)
         {
-            this._data = data;
             this._repository = personRepository;
         }
         public Task<Person> Handle(InsertPersonCommand request, CancellationToken cancellationToken)
@@ -20,10 +18,8 @@ namespace HP.Application.Commands
                 FirstName = request.FirstName,
                 LastName = request.LastName,
             };
-
             var check = _repository.CreateAsync(person);
-            // dbContext 
-            return Task.FromResult(_data.InsertPerson(request.FirstName, request.LastName));
+            return check;
         }
     }
 }

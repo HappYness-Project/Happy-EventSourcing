@@ -19,13 +19,13 @@ namespace HP.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Person>> Get()
+        public async Task<IEnumerable<Person>> Get()
         {
             return await _mediator.Send(new GetPersonListQuery());
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id, CancellationToken token = default)
+        public async Task<IActionResult> Get(string id, CancellationToken token = default)
         {
             var person = await _mediator.Send(new GetPersonByIdQuery(id)); 
             if(person == null)
@@ -46,10 +46,8 @@ namespace HP.Controllers
             //var createUserCommand = new CreateUserCommand(new Email(postUserHttpRequest?.Email ?? string.Empty));
             //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
             var person = await _mediator.Send(new InsertPersonCommand(personDto.FirstName, personDto.LastName));
-
             //TODO: Since it is a Create, I think it's desirable to use Publish command . 
             await _mediator.Publish(cmd, cancellationToken);
-
             return Ok(person);
         }
 

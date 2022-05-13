@@ -4,8 +4,6 @@ using HP.Domain.Todos;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using MediatR;
-using Microsoft.Extensions.Configuration.Json;
-using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +15,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
-builder.Services.AddSingleton<IDemoDataAccess, DemoDataAccess>();
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();
 builder.Services.AddTransient<ITodoRepository, TodoRepository>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);

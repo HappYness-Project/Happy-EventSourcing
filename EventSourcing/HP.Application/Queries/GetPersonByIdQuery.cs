@@ -10,5 +10,5 @@ namespace HP.Application.Queries
         }
     }
 
-    public record GetPersonByIdQuery(int Id) : IRequest<Person>;
+    public record GetPersonByIdQuery(string Id) : IRequest<Person>;
 }

@@ -4,5 +4,5 @@ using MediatR;
 
 namespace HP.Application.Queries
 {
-    public record GetPersonByNameQuery(int Id) : IRequest<Person>;
+    public record GetPersonByNameQuery(string firstName, string lastName) : IRequest<Person>;
 }
