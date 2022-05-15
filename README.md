@@ -1,9 +1,37 @@
-Eventsourcing sample project.
+Eventsourcing implementation for managing Human being's life. 
 
-# Eventsourcing_Practice
+# Eventsourcing Happiness project impelmentation
 * CQRS implementation.
 * Evcent sourcing implement
 * Storing Event data in the Event Store db.
+* Build the Todo Service - named as HP project for now. 
+* Build the Finance service
+* Build the Broker Service(TBD, future objective) 
+
+
+# How to use:
+* You will need the latest Visual Studio 2022 and the latest .NET Core SDK.
+* Need to setup/download mongo DB in local.
+
+
+## Technologies Used:
+* Asp.net core Dotnet 6.
+* AutoMapper
+* MediatR
+* Mongo Drive
+
+## Architecture Implemented:
+* Full architecture with responsibility separation concerns, SOLID and Clean Code
+* Domain Driven Design (Layers and Domain Model Pattern)
+* CQRS
+* Domain Events
+* Event Sourcing
+* Repository pattern 
+//Domain Notification
+//Domain Validations
+
+
+# Explanation of the Event Sourcing / CQRS pattern. 
 
 Event sourcing is a way of capturing/storing an application's state through the history of events that have happened already. It provides a single source of truth about what occured in the whole application.
 
