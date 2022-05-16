@@ -14,8 +14,8 @@ namespace HP.Application.Handlers
         }
         public async Task<bool> Handle(CancelTodoCommand request, CancellationToken cancellationToken)
         {
-            Expression<Func<Todo, bool>> hi = null;
-            await _repository.DeleteOneAsync(hi);
+            Expression<Func<Todo, bool>> expr = x => x.Id == request.todoId;
+            await _repository.DeleteOneAsync(expr);
             return true;
         }
     }
