@@ -7,6 +7,7 @@ namespace HP.Domain.Todos
         public string Description { get; set; }
         public string Type { get; set; }
         public string Tag { get; set; }
+        public TodoStatus Status { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
 

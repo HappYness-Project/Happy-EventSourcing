@@ -24,6 +24,9 @@ namespace HP.Application.Handlers
                 Description = request.Description,
                 Tag = request.Tag,
             };
+
+            var @event = new TodoCreatedEvent(todo.Id, request.UserId);
+            // Send event.
             return _repository.CreateAsync(todo);
         }
     }
