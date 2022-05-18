@@ -22,6 +22,21 @@ namespace HP.Infrastructure.Repository
             return Task.FromResult(check.DeletedCount > 0 ? true : false);
         }
 
+        public Task<IEnumerable<Person>> GetListByGroupIdAsync(string groupId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Person>> GetListByRoleAsync(string role)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Person>> GetListByTagAsync(string tag)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Person> UpdatePersonAsync(Person person)
         {
             throw new NotImplementedException();

@@ -36,27 +36,26 @@ namespace HP.Controllers
         }
 
         [HttpPost]
-        //[ProducesResponseType(typeof(UserId))]
         public async Task<IActionResult> Create([FromBody]CreatePersonDto personDto, CancellationToken cancellationToken = default)
         {
             if (personDto == null)
                 return BadRequest();
             
             var cmd = new InsertPersonCommand(personDto.FirstName, personDto.LastName);
-            //var createUserCommand = new CreateUserCommand(new Email(postUserHttpRequest?.Email ?? string.Empty));
+            // Message Broker call? Should we need to do in both? 
             //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
             var person = await _mediator.Send(new InsertPersonCommand(personDto.FirstName, personDto.LastName));
             //TODO: Since it is a Create, I think it's desirable to use Publish command . 
-            await _mediator.Publish(cmd, cancellationToken);
+            // Actually, to do publish, you need to set up notification
+            //await _mediator.Publish(cmd, cancellationToken);
             return Ok(person);
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<PersonModel> Update(int id, PersonModel value)
-        //{
-        //    return await _mediator.Send(new UpdatePersonCommand(value.))
-        //}
-
+        [HttpPut("{id}")]
+        public async Task<Person> Update(string id, [FromBody]UpdatePersonDto personDto)
+        {
+            return await _mediator.Send(new UpdatePersonCommand(id, personDto.FirstName, personDto.LastName, personDto.Address, personDto.Email));
+        }
 
     }
 }

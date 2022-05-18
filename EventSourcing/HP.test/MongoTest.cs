@@ -28,10 +28,18 @@ namespace HP.test
                 .Build();
             mongoDbContext = new MongoDbContext(_configuration);
 
+            //
             var settings = MongoClientSettings.FromConnectionString("mongodb://hyunbin7303:asdf1234@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false");
             var client = new MongoClient(settings);
             var database = client.GetDatabase("test");
         }
+
+        [Test]
+        public void DatabaseIsConnected_to_Local()
+        {
+
+        }
+
 
         [Test]
         public void Test1()

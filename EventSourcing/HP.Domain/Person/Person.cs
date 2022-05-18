@@ -11,6 +11,10 @@ namespace HP.Domain
         public string Address { get; set; }
         public string Email { get; set; }
         public string Description { get; set; }
+        public int GroupId { get; set; }
+        public string Role { get; set; }
+        public string Tag { get; set; }
+        public bool IsActive { get; set; }
         public static Person Create()
         {
             //if (!email.IsValid) throw new EmailNotValidException(email);
