@@ -6,6 +6,7 @@ namespace HP.Domain
     {
         Task<Person> UpdatePersonAsync(Person person);
         Task<bool> DeletePersonAsync(string personId);
+        Task<Person> GetPersonByUserIdAsync(string UserId);
         Task<IEnumerable<Person>> GetListByGroupIdAsync(string groupId);
         Task<IEnumerable<Person>> GetListByTagAsync(string tag);
         Task<IEnumerable<Person>> GetListByRoleAsync(string role);

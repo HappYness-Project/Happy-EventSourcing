@@ -17,6 +17,17 @@ namespace HP.Infrastructure.Repository
         {
             _todoCollections = dbContext.GetCollection<Todo>();
         }
+
+        public Task<IEnumerable<Todo>> GetListByKey(string key, string userId = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Todo>> GetListByUserId(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<Todo>> GetTodosWithKey(string key)
         {
             throw new NotImplementedException();

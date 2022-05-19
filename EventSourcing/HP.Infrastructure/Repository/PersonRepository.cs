@@ -21,6 +21,14 @@ namespace HP.Infrastructure.Repository
             var check = _mongoCollection.DeleteOne(personId);
             return Task.FromResult(check.DeletedCount > 0 ? true : false);
         }
+        public Task<Person> GetPersonByUserIdAsync(string UserId)
+        {
+            Expression<Func<Todo, bool>> expr = x => x.Equals(UserId);
+            // TODO FInd the specific user in here.
+            //Expression<Func<T, bool>>
+            //Find(expr);
+            throw new NotImplementedException();
+        }
 
         public Task<IEnumerable<Person>> GetListByGroupIdAsync(string groupId)
         {
@@ -36,6 +44,7 @@ namespace HP.Infrastructure.Repository
         {
             throw new NotImplementedException();
         }
+
 
         public Task<Person> UpdatePersonAsync(Person person)
         {

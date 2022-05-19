@@ -21,7 +21,7 @@ namespace HP.Application.Handlers
 
         public async Task<Todo> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
         {
-            var person = _personRepository.GetByIdAsync(request.personId);
+            var person = _personRepository.GetByIdAsync(request.UserId).Result;
             if (person == null)
                 return null;
 
@@ -32,7 +32,7 @@ namespace HP.Application.Handlers
                 //Tag = request.Tag,
             };
 
-            var @event = new TodoCreatedEvent(todo.Id, person.Result.UserId);
+            var @event = new TodoCreatedEvent(todo.Id, person.UserId);
             // TODO Send event.
             return await _repository.CreateAsync(todo);
         }

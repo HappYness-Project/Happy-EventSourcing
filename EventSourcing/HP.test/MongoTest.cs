@@ -28,23 +28,21 @@ namespace HP.test
                 .Build();
             mongoDbContext = new MongoDbContext(_configuration);
 
-            //
-            var settings = MongoClientSettings.FromConnectionString("mongodb://hyunbin7303:asdf1234@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false");
-            var client = new MongoClient(settings);
-            var database = client.GetDatabase("test");
-        }
 
+        }
         [Test]
-        public void DatabaseIsConnected_to_Local()
+        public void MongoDbContext_Collections_Exist()
         {
-
+            Assert.IsNotNull(mongoDbContext.Collections());
         }
-
-
         [Test]
-        public void Test1()
+        public void DbCotextReturnCollectionTodo()
         {
-            //mongoDbContext.GetCollection("");
+            var check = mongoDbContext.GetCollection<Todo>("todo");
+            Assert.IsNotNull(check);
         }
+
+
+
     }
 }

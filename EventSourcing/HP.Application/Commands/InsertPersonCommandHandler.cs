@@ -15,11 +15,14 @@ namespace HP.Application.Commands
             // await event service. PersistAsync
             Person person = new Person
             {
+                UserId = request.UserId,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
+                Address = request.Address,
+                IsActive = true,
+
             };
-            var check = _repository.CreateAsync(person);
-            return check;
+            return _repository.CreateAsync(person);
         }
     }
 }

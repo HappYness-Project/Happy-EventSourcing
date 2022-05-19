@@ -13,8 +13,7 @@ namespace HP.Application.Queries
         public async Task<Person> Handle(GetPersonByIdQuery request, CancellationToken cancellationToken)
         {
             var results = await _mediator.Send(new GetPersonListQuery());
-            var output = results.FirstOrDefault(x => x.UserId == request.Id);
-            return output;
+            return results.FirstOrDefault(x => x.UserId == request.Id);
         }
     }
 }

@@ -1,9 +1,6 @@
-﻿namespace HP.Api.DTO
-{
-    public class CreateTodoDto
-    {
-        public string Title { get; set; }   
-        public string Description { get; set; }
+﻿using HP.Domain.Todos;
 
-    }
+namespace HP.Api.DTO
+{
+    public record CreateTodoDto(string Title, string Description, TodoStatus Status, string[] Tag);
 }

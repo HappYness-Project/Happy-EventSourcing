@@ -4,18 +4,5 @@ using MediatR;
 namespace HP.Application.Queries
 {
     public record GetTodosByUserId(string UserId) : IRequest<IEnumerable<Todo>>;
-    public class GetTodosByUserIdHandler : IRequestHandler<GetTodosByUserId, IEnumerable<Todo>>
-    {
-        private readonly ITodoRepository _todoRepository;
-        public GetTodosByUserIdHandler(ITodoRepository todoRepository)
-        {
-            _todoRepository = todoRepository;
-        }
-        public async Task<IEnumerable<Todo>> Handle(GetTodosByUserId request, CancellationToken cancellationToken)
-        {
-             var check = _todoRepository.GetListByUserId(request.UserId);
-             return null;
-        }
-    }
 
 }

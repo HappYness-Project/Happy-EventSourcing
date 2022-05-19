@@ -2,6 +2,7 @@
 using HP.Application.Commands;
 using HP.Application.Handlers;
 using HP.Application.Queries;
+using HP.Domain.Todos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +12,20 @@ namespace HP.Controllers
     [Route("[controller]")]
     public class TodoController : ControllerBase
     {
+        private readonly ITodoRepository repository;
         // Need to update Identity Service. 
         private readonly IMediator _mediator;
-        public TodoController(IMediator mediator)
+        public TodoController(ITodoRepository todoRepository, IMediator mediator)
         {
+            repository = todoRepository;
             _mediator = mediator;
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await repository.GetAllAsync());
         }
 
         [HttpGet("{id}")]
@@ -28,9 +38,7 @@ namespace HP.Controllers
             }
             return Ok(todo);
         }
-
-
-        [HttpGet("{id}")]
+        [HttpGet("users/{id}")]
         public async Task<IActionResult> GetTodosByUser(string id, CancellationToken token = default)
         {
             var todo = await _mediator.Send(new GetTodoByIdQuery(id));
@@ -40,10 +48,7 @@ namespace HP.Controllers
             }
             return Ok(todo);
         }
-
-
-        [Route("{personId}/todos")]
-        [HttpPost]
+        [HttpPost("{personId}/todos")]
         public async Task<IActionResult> Create([FromRoute]string personId, [FromBody] CreateTodoDto todoDto, CancellationToken cancellationToken = default)
         {
             if (todoDto == null)
@@ -51,8 +56,15 @@ namespace HP.Controllers
 
             var cmd = new CreateTodoCommand(personId, todoDto.Title, todoDto.Description);
             var todo = await _mediator.Send(cmd);
-            await _mediator.Publish(cmd, cancellationToken);
+           // await _mediator.Publish(cmd, cancellationToken);
             return Ok(todo);
+        }
+
+        [HttpPut("")]
+        public async Task<IActionResult> Update([FromRoute] string personId, [FromBody]UpdateTodoDto todoDto, CancellationToken cancellationToken = default)
+        {
+            var cmd = new UpdateTodoCommand(todoDto.TodoId, todoDto.TodoTotle, todoDto.TodoDescription, todoDto.Tags);
+            return Ok();
         }
 
         [Route("{personId}/Todos/{todoId}")]
