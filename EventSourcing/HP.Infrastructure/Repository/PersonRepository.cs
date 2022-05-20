@@ -1,6 +1,7 @@
 ﻿using HP.Domain;
 using HP.Domain.Todos;
 using HP.Infrastructure.DbAccess;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Linq;
 using System.Linq.Expressions;
@@ -21,33 +22,33 @@ namespace HP.Infrastructure.Repository
             var check = _mongoCollection.DeleteOne(personId);
             return Task.FromResult(check.DeletedCount > 0 ? true : false);
         }
-        public Task<Person> GetPersonByUserIdAsync(string UserId)
+        public async Task<Person> GetPersonByUserIdAsync(string UserId)
         {
-            Expression<Func<Todo, bool>> expr = x => x.Equals(UserId);
-            // TODO FInd the specific user in here.
-            //Expression<Func<T, bool>>
-            //Find(expr);
-            throw new NotImplementedException();
+            return await _mongoCollection.Find(x => x.UserId == UserId).FirstOrDefaultAsync();
         }
 
-        public Task<IEnumerable<Person>> GetListByGroupIdAsync(string groupId)
+        public async Task<IEnumerable<Person>> GetListByGroupIdAsync(int groupId)
         {
-            throw new NotImplementedException();
+            return await _mongoCollection.Find(x => x.GroupId == groupId).ToListAsync();
         }
 
-        public Task<IEnumerable<Person>> GetListByRoleAsync(string role)
+        public async Task<IEnumerable<Person>> GetListByRoleAsync(string role)
         {
-            throw new NotImplementedException();
+            return await _mongoCollection.Find(x => x.Role == role).ToListAsync();
         }
 
-        public Task<IEnumerable<Person>> GetListByTagAsync(string tag)
+        public async Task<Person> UpdatePersonAsync(Person person)
         {
-            throw new NotImplementedException();
-        }
+            var filter = Builders<Person>.Filter.And(
+             Builders<Person>.Filter.Eq("UserId", person.UserId));
+            var update = Builders<Person>.Update.Set("createdDate", DateTime.UtcNow);
+            var result = await _mongoCollection.FindOneAndUpdateAsync(filter, update,
+                    options: new FindOneAndUpdateOptions<Person, BsonDocument>
+                    {
+                        IsUpsert = true,
+                        ReturnDocument = ReturnDocument.After
+                    });
 
-
-        public Task<Person> UpdatePersonAsync(Person person)
-        {
             throw new NotImplementedException();
         }
     }

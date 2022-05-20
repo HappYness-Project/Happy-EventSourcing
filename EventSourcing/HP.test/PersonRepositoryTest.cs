@@ -1,3 +1,4 @@
+using HP.Domain;
 using HP.Domain.Todos;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
@@ -7,29 +8,30 @@ using System.IO;
 
 namespace HP.test
 {
-    public class TodoRepositoryTest
+    public class PersonRepositoryTest
     {
-        ITodoRepository todoRepository = null;
+        IPersonRepository personRepository = null;
         IMongoDbContext dbContext = null;
         // Repository pattern testing
         [SetUp]
         public void Setup()
         {
-
+            var bin_path = Directory.GetCurrentDirectory();
+            var check = System.IO.Path.Combine(bin_path, @"..\..\..");
             IConfiguration _configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
+            .SetBasePath(check)
             .AddJsonFile(@"appsettings.json", false, false)
             .AddEnvironmentVariables()
             .Build();
             dbContext = new MongoDbContext(_configuration);
-            todoRepository = new TodoRepository(dbContext);
+            personRepository = new PersonRepository(dbContext);
         }
 
         [Test]
-        public void GetListByKey_Return_Nothing()
+        public void GetAllAsync_ReturnAllPeople()
         {
-            var check = todoRepository.GetListByKey("", "hyunbin7303").Result;
-            Assert.Pass();
-        }
+            var people = personRepository.GetAllAsync();
+            Assert.NotNull(people);
+         }
     }
 }

@@ -1,0 +1,21 @@
+﻿using HP.Domain.Todos;
+using MediatR;
+
+namespace HP.Application.Handlers
+{
+    public class StartTodoCommandHandler : IRequestHandler<StartTodoCommand, Todo>
+    {
+        private readonly ITodoRepository _repository;
+        public StartTodoCommandHandler(ITodoRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task<Todo> Handle(StartTodoCommand cmd, CancellationToken cancellationToken)
+        {
+            var todo =  await _repository.GetByIdAsync(cmd.todoId);
+            todo.IsActive = true;
+            return todo;
+        }
+    }
+}

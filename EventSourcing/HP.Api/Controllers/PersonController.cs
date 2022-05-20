@@ -45,8 +45,7 @@ namespace HP.Controllers
             // Message Broker call? Should we need to do in both? 
             //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
             var person = await _mediator.Send(cmd);
-            //TODO: Since it is a Create, I think it's desirable to use Publish command . 
-            // Actually, to do publish, you need to set up notification
+            //TODO: Since it is a Create, I think it's desirable to use Publish command .  
             //await _mediator.Publish(cmd, cancellationToken);
             return Ok(person);
         }
