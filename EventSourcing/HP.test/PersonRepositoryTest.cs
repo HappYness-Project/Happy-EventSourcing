@@ -32,6 +32,6 @@ namespace HP.test
         {
             var people = personRepository.GetAllAsync();
             Assert.NotNull(people);
-         }
+        }
     }
 }

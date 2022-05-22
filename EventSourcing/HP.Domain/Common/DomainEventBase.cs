@@ -8,7 +8,9 @@ namespace HP.Domain.Common
             OccuredOn = DateTime.Now;
         }
         public DateTime OccuredOn { get; }
+        public string EntityId { get; }
         public string Type { get; set; }
+        public string EntityType { get; }
     }
 }
 

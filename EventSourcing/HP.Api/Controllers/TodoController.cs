@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HP.Controllers
 {
     [ApiController]
+    [ApiVersion("1.0")]
     [Route("[controller]")]
     public class TodoController : ControllerBase
     {
@@ -66,6 +67,21 @@ namespace HP.Controllers
             var cmd = new UpdateTodoCommand(todoDto.TodoId, todoDto.TodoTotle, todoDto.TodoDescription, todoDto.Tags);
             return Ok();
         }
+
+
+        [HttpPut("todos/{todoId}/start")]
+        public async Task<IActionResult> StartTodo([FromRoute]string todoId, CancellationToken cancellationToken = default)
+        {
+            // TODO Getting User Identity from here. 
+            var temp_userId = "hyunbin7303";
+            var cmd = new StartTodoCommand(temp_userId, todoId);
+            var todo = await _mediator.Send(cmd);
+            return Ok(todo);
+        } 
+
+        
+
+
 
         [Route("{personId}/Todos/{todoId}")]
         [HttpDelete]
