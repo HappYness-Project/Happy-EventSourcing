@@ -14,7 +14,7 @@ namespace HP.Application.Handlers
         public async Task<Todo> Handle(StartTodoCommand cmd, CancellationToken cancellationToken)
         {
             var todo =  await _repository.GetByIdAsync(cmd.TodoId);
-            todo.IsActive = true;
+            todo.ActivateTodo(todo.Id);
             await _repository.UpdateAsync(todo);
             return todo;
         }

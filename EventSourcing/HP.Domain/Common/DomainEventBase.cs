@@ -1,7 +1,7 @@
 ﻿using HP.Domain;
 namespace HP.Domain.Common
 {
-    public class DomainEventBase : IDomainEvent
+    public abstract record DomainEventBase : IDomainEvent
     {
         public DomainEventBase()
         {
@@ -9,7 +9,7 @@ namespace HP.Domain.Common
         }
         public DateTime OccuredOn { get; }
         public string EntityId { get; }
-        public string Type { get; set; }
+        public string Type { get; }
         public string EntityType { get; }
     }
 }

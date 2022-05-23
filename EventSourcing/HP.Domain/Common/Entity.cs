@@ -4,7 +4,7 @@ namespace HP.Domain.Common
 {
     public abstract class Entity
     {
-        public string Id { get; private set; }
+        public string Id { get; protected set; }
         public DateTime CreateDate { get; private set; }
         public Entity()
         {
@@ -30,5 +30,6 @@ namespace HP.Domain.Common
                 throw new BusinessRuleValidationException(rule);
             }
         }
+        protected abstract void When(IDomainEvent @event);
     }
 }

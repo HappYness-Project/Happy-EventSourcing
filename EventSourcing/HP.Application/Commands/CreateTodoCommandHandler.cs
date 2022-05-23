@@ -25,14 +25,9 @@ namespace HP.Application.Handlers
             if (person == null)
                 return null;
 
-            Todo todo = new Todo
-            {
-                Title = request.TodoTitle,
-                Description = request.Description,
-                //Tag = request.Tag,
-            };
+            Todo todo = new Todo(request.UserId, request.TodoTitle, request.Type, request.Tag);
 
-            var @event = new TodoCreatedEvent(todo.Id, person.UserId);
+            var @event = new TodoEvents.TodoCreatedEvent(todo.Id, person.UserId, request.TodoTitle, request.Type);
             // TODO Send event.
             return await _repository.CreateAsync(todo);
         }

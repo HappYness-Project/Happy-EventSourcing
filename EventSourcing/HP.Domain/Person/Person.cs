@@ -28,5 +28,9 @@ namespace HP.Domain
             return new Person();
         }
 
+        protected override void When(IDomainEvent @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

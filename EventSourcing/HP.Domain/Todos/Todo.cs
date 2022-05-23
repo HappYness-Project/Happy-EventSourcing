@@ -7,7 +7,7 @@ namespace HP.Domain.Todos
         {
             Tag = Array.Empty<string>();
         }
-        public Todo(string userId, string title, string type, string[] tag, IEnumerable<Todo> subTodos) 
+        public Todo(string userId, string title, string type, string[] tag) 
             : this()
         {
             AddTodoItem(this.Id, userId, title, type);
@@ -27,8 +27,25 @@ namespace HP.Domain.Todos
 
         public void AddTodoItem(string todoId, string userId, string title, string type)
         {
-            this.AddDomainEvent(new TodoCreatedEvent(todoId, userId, title, type));
+            this.AddDomainEvent(new TodoEvents.TodoCreatedEvent(todoId, userId, title, type));
         }
 
+        protected override void When(IDomainEvent @event)
+        {
+            switch(@event)
+            {
+                case TodoEvents.TodoCreatedEvent c:
+                    this.Id = c.EntityId; // How the Entity Id is used????????
+                    break;
+            }
+
+            throw new NotImplementedException();
+        }
+
+
+        public void ActivateTodo(string todoId)
+        {
+            this.IsActive = true;
+        }
     }
 }

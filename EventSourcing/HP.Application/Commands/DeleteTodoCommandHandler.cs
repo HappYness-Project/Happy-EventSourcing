@@ -14,9 +14,13 @@ namespace HP.Application.Commands
         }
         public async Task<bool> Handle(DeleteTodoCommand request, CancellationToken cancellationToken)
         {
-            Expression<Func<Todo, bool>> expr = x => x.Id == request.id;
+
+
+            Expression<Func<Todo, bool>> expr = x => x.Id == request.Id;
             await _repository.DeleteOneAsync(expr);
-            //TODO : How can we make it to return true or false? or should we need to do it?
+            var @event = new TodoEvents.TodoRemovedEvent(request.Id);
+            // Publish Remove event. 
+
             return true;
         }
     }

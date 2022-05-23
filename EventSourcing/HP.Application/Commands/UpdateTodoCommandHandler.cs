@@ -12,13 +12,14 @@ namespace HP.Application.Commands
         }
         public async Task<bool> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
         {
-            Todo todo = new Todo
-            {
-                Title = request.Title,
-                Description = request.Description,
-                Tag = request.Tags,
-            };
-            await _repository.UpdateAsync(todo);
+            
+            //Todo todo = new Todo
+            //{
+            //    Title = request.Title,
+            //    Description = request.Description,
+            //    Tag = request.Tags,
+            //};
+            //await _repository.UpdateAsync(todo);
             return true;
         }
     }
