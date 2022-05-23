@@ -39,6 +39,16 @@ namespace HP.Domain.Todos
         {
 
         }
+
+        public record TodoCompltedEvent : DomainEventBase
+        {
+            public TodoCompltedEvent(string todoId)
+            {
+                this.TodoId = todoId;
+            }
+            public string TodoId { get; }
+        }
+
     }
 
 }

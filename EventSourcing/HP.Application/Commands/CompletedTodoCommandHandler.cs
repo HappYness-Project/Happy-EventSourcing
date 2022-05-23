@@ -3,7 +3,7 @@ using MediatR;
 
 namespace HP.Application.Handlers
 {
-    public class CompletedTodoCommandHandler : IRequestHandler<CompletedTodoCommand, Todo>
+    public class CompletedTodoCommandHandler : IRequestHandler<CompletedTodoCommand, bool>
     {
         private readonly ITodoRepository _repository;
         public CompletedTodoCommandHandler(ITodoRepository repository)
@@ -11,9 +11,15 @@ namespace HP.Application.Handlers
             _repository = repository;
         }
 
-        public Task<Todo> Handle(CompletedTodoCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CompletedTodoCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var todo = _repository.GetByIdAsync(request.TodoId)?.Result;
+            if (todo == null)
+                return false;
+
+            todo.SetStatus(request.TodoId, TodoStatus.Completed);
+            await _repository.UpdateAsync(todo);
+            return true;
         }
     }
 }
