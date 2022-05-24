@@ -1,7 +1,7 @@
 ﻿using HP.Domain.Common;
 namespace HP.Domain.Todos
 {
-    public static class TodoEvents
+    public static class TodoDomainEvents
     {
         public record TodoCreatedEvent : DomainEventBase
         {
@@ -35,18 +35,24 @@ namespace HP.Domain.Todos
 
         }
 
-        public record TodoActivateEvent : DomainEventBase
+        public record TodoActivatedEvent : DomainEventBase
         {
-
-        }
-
-        public record TodoCompltedEvent : DomainEventBase
-        {
-            public TodoCompltedEvent(string todoId)
+            public TodoActivatedEvent(string todoId)
             {
                 this.TodoId = todoId;
             }
             public string TodoId { get; }
+        }
+
+        public record TodoCompletedEvent : DomainEventBase
+        {
+            public TodoCompletedEvent(string todoId, TodoStatus todoStatus)
+            {
+                this.TodoId = todoId;
+                this.todoStatus = todoStatus;
+            }
+            public string TodoId { get; }
+            public TodoStatus todoStatus { get; }
         }
 
     }

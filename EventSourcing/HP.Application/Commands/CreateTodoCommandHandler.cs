@@ -27,7 +27,7 @@ namespace HP.Application.Handlers
 
             Todo todo = new Todo(request.UserId, request.TodoTitle, request.Type, request.Tag);
 
-            var @event = new TodoEvents.TodoCreatedEvent(todo.Id, person.UserId, request.TodoTitle, request.Type);
+            var @event = new TodoDomainEvents.TodoCreatedEvent(todo.Id, person.UserId, request.TodoTitle, request.Type);
             // TODO Send event.
             return await _repository.CreateAsync(todo);
         }

@@ -28,14 +28,16 @@ namespace HP.Domain.Todos
 
         public void AddTodoItem(string todoId, string userId, string title, string type)
         {
-            this.AddDomainEvent(new TodoEvents.TodoCreatedEvent(todoId, userId, title, type));
+
+            // I am not sure if it's just adding the todoItem Extra inside of Todo Object.
+            this.AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(todoId, userId, title, type));
         }
 
         protected override void When(IDomainEvent @event)
         {
             switch(@event)
             {
-                case TodoEvents.TodoCreatedEvent c:
+                case TodoDomainEvents.TodoCreatedEvent c:
                     this.Id = c.EntityId; // How the Entity Id is used????????
                     break;
             }
@@ -47,18 +49,27 @@ namespace HP.Domain.Todos
         public void ActivateTodo(string todoId)
         {
             this.IsActive = true;
+            this.AddDomainEvent(new TodoDomainEvents.TodoActivatedEvent(todoId));
+
+        }
+        public void DeactivateTodo(string todoId)
+        {
+            this.IsActive = false;
+            //this.AddDomainEvent(new TodoDomainEvents.TodoDeActivatedEvent(todoId));
+
         }
         public void SetStatus(string todoId, TodoStatus status)
         {
-            this.Status = status;
             switch(status)
             {
                 case TodoStatus.Completed:
-                    this.Description = $"Todo Id:{todoId} of Title: {Title} is completed.";
-                    AddDomainEvent(new TodoEvents.TodoCompltedEvent(todoId));
+                    this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is completed.";
+                    AddDomainEvent(new TodoDomainEvents.TodoCompletedEvent(todoId, status));
                     break;
 
                 case TodoStatus.Pending:
+                    this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is pending.";
+              //      AddDomainEvent(new TodoDomainEvents.TodoStatusToPendingEvent(todoId, status));
                     break;
 
                 default:

@@ -18,7 +18,7 @@ namespace HP.Application.Commands
 
             Expression<Func<Todo, bool>> expr = x => x.Id == request.Id;
             await _repository.DeleteOneAsync(expr);
-            var @event = new TodoEvents.TodoRemovedEvent(request.Id);
+            var @event = new TodoDomainEvents.TodoRemovedEvent(request.Id);
             // Publish Remove event. 
 
             return true;

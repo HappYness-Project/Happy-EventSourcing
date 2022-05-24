@@ -23,6 +23,10 @@ namespace HP.Domain.Common
         {
             _domainEvents?.Clear();
         }
+        public void RemoveEvent(IDomainEvent domainEvent)
+        {
+            _domainEvents?.Remove(domainEvent);
+        }
         protected static void CheckRule(IBusinessRule rule)
         {
             if (rule.IsBroken())
