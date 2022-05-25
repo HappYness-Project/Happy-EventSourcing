@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace HP.Application.Events.IntegrationEvent
+namespace HP.Application.IntegrationEvents
 {
     public record TodoStatusChangedToPendingValidationEvent : IntegrationEvent
     {

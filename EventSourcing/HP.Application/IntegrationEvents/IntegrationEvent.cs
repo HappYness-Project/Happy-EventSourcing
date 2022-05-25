@@ -5,12 +5,12 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace HP.Application.Events.IntegrationEvent
+namespace HP.Application.IntegrationEvents
 {
     public interface IIntegrationEvent
     {
         Guid Id { get; }
-        DateTime CreationDate { get;  }
+        DateTime CreationDate { get; }
     }
     public record IntegrationEvent : IIntegrationEvent
     {

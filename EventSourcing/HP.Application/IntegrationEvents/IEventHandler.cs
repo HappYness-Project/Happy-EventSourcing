@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace HP.Application.Events
+namespace HP.Application.IntegrationEvents
 {
     public interface IEvent : INotification { }
 
