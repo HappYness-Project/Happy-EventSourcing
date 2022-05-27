@@ -10,5 +10,6 @@ namespace HP.Domain.Todos
     {
         Task<IEnumerable<Todo>> GetListByKey(string key, string userId = null);
         Task<IEnumerable<Todo>> GetListByUserId(string userId);
+        Task<IEnumerable<Todo>> GetListByTag(string tag);
     }
 }
