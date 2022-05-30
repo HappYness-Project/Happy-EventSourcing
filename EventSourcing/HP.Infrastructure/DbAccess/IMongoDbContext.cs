@@ -7,5 +7,6 @@ namespace HP.Infrastructure.DbAccess
         IMongoCollection<TEntity> GetCollection<TEntity>(string name = "");
         void CreateCollection<TEntity>(string name = "");
         IList<string> Collections();
+        IClientSessionHandle Session { get; }
     }
 }

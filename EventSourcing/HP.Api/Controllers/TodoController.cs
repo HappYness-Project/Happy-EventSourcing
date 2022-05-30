@@ -15,6 +15,7 @@ namespace HP.Controllers
     {
         private readonly ITodoRepository repository;
         // Need to update Identity Service. 
+
         private readonly IMediator _mediator;
         public TodoController(ITodoRepository todoRepository, IMediator mediator)
         {
@@ -52,6 +53,9 @@ namespace HP.Controllers
         [HttpPost("{personId}/todos")]
         public async Task<IActionResult> Create([FromRoute]string personId, [FromBody] CreateTodoDto todoDto, CancellationToken cancellationToken = default)
         {
+            // TODO if client exists.
+
+
             if (todoDto == null)
                 return BadRequest();
 
@@ -79,15 +83,14 @@ namespace HP.Controllers
             return Ok(todo);
         } 
 
-        
 
 
-
-        [Route("{personId}/Todos/{todoId}")]
+        [Route("/Todos/{todoId}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string todoId, CancellationToken token = default)
         {
             var cmd = new DeleteTodoCommand(todoId);
+            var todo = await _mediator.Send(cmd);
             return Ok();
         }
 

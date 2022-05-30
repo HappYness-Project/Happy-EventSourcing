@@ -1,6 +1,4 @@
-﻿
-
-namespace HP.Domain
+﻿namespace HP.Domain.Person
 {
     public interface IPersonRepository : IBaseRepository<Person>
     {

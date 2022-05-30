@@ -1,5 +1,5 @@
 using HP.Application;
-using HP.Domain;
+using HP.Domain.Person;
 using HP.Domain.Todos;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
@@ -14,7 +14,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
+// make use of the same session accross different handler classes that are part of the flow.
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();
 builder.Services.AddTransient<ITodoRepository, TodoRepository>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);

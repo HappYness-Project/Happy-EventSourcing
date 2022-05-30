@@ -28,8 +28,15 @@ namespace HP.test
         [Test]
         public void GetListByKey_Return_Nothing()
         {
-            var check = todoRepository.GetListByKey("", "hyunbin7303").Result;
-            Assert.Pass();
+            //var check = todoRepository.GetListByTags().Result;
+            //Assert.Pass();
+        }
+
+        [Test]
+        public void Exists_ReturnTrueIfExist()
+        {
+            var check = todoRepository.Exists(x => x.IsActive);
+            Assert.IsTrue(check);
         }
     }
 }

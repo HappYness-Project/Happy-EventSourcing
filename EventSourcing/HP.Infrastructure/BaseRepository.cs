@@ -57,14 +57,11 @@ namespace HP.Infrastructure
         {
             return Task.Run(() => _collection.FindOneAndDelete(filterExpression));
         }
-
         public bool Exists(Expression<Func<T, bool>> predicate)
         {
             var set = CreateSet();
             return set.Any(predicate);
         }
-
-
         private IQueryable<T> CreateSet()
         {
             return _collection.AsQueryable<T>();

@@ -19,4 +19,5 @@ namespace HP.Infrastructure.EventStore
         Task<IReadOnlyCollection<IDomainEvent>> LoadAsync(string aggregateRootId);
         // fetches aggregate, using aggregateId as param,....load the aggregate.
     }
+
 }

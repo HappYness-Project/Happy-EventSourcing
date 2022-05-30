@@ -27,6 +27,8 @@ namespace HP.Infrastructure.DbAccess
             _mongoDb = _mongoClient.GetDatabase(_dbName);
         }
 
+        public IClientSessionHandle Session => throw new NotImplementedException();
+
         public IList<string> Collections()
         {
             var collections = _mongoDb.ListCollections().ToList();

@@ -1,4 +1,5 @@
 ﻿using HP.Domain;
+using HP.Domain.Person;
 using HP.Domain.Todos;
 using MediatR;
 using System;
@@ -25,11 +26,16 @@ namespace HP.Application.Handlers
             if (person == null)
                 return null;
 
-            Todo todo = new Todo(request.UserId, request.TodoTitle, request.Type, request.Tag);
 
+            var todo = Todo.CreateTodo(request.UserId, request.TodoTitle, request.Type, request.Tag);
+            var checkTodo = await _repository.CreateAsync(todo);
             var @event = new TodoDomainEvents.TodoCreatedEvent(todo.Id, person.UserId, request.TodoTitle, request.Type);
+            //Stored as inmemory..... as well as database.
             // TODO Send event.
-            return await _repository.CreateAsync(todo);
+            return ;
         }
     }
 }
+https://github.com/IvanMilano/MongoDbTransactionsDemo
+https://chaitanyasuvarna.wordpress.com/2021/05/30/event-sourcing-pattern-in-net-core/
+https://devblogs.microsoft.com/cesardelatorre/using-domain-events-within-a-net-core-microservice/

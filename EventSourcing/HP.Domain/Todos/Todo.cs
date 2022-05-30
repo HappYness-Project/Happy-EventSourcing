@@ -10,7 +10,13 @@ namespace HP.Domain.Todos
         public Todo(string userId, string title, string type, string[] tag) 
             : this()
         {
-            AddTodoItem(this.Id, userId, title, type);
+
+
+            
+            // TODO : CheckPolicies
+            AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(Id, userId, title, type));
+
+          //  AddTodoItem(this.Id, userId, title, type);
         }
         public string UserId { get; private set; }
         public string Title { get; private set; }
@@ -27,13 +33,29 @@ namespace HP.Domain.Todos
         public DateTime? Updated { get; private set; } 
         public DateTime? Completed { get; private set; }
 
+
+        // Pass ITodovalidatorService??
+        public static Todo CreateTodo(string userId, string title, string type, string[] tags)
+        {
+            return new Todo(userId, title, type, tags);
+        }
+
+        // ??? TODO I am not sure i am adding todoItems, or Just Todo from this method.
         public void AddTodoItem(string todoId, string userId, string title, string type)
         {
 
             // I am not sure if it's just adding the todoItem Extra inside of Todo Object.
-            this.AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(todoId, userId, title, type));
+            //this.AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(todoId, userId, title, type));
         }
 
+        public void DeleteTodoItems(string todoId)
+        {
+            var todo = SubTodos.FirstOrDefault(x => x.Id == todoId);
+            if (todo == null)
+                throw new Exception("Not Found Todo!!");
+            // Not sure!!
+            //todo.Delete
+        }
         protected override void When(IDomainEvent @event)
         {
             switch(@event)
@@ -43,7 +65,6 @@ namespace HP.Domain.Todos
                     break;
             }
 
-            throw new NotImplementedException();
         }
 
 
@@ -56,7 +77,7 @@ namespace HP.Domain.Todos
         public void DeactivateTodo(string todoId)
         {
             this.IsActive = false;
-            //this.AddDomainEvent(new TodoDomainEvents.TodoDeActivatedEvent(todoId));
+            this.AddDomainEvent(new TodoDomainEvents.TodoDeactivatedEvent(todoId));
 
         }
         public void SetStatus(string todoId, TodoStatus status)
@@ -64,11 +85,13 @@ namespace HP.Domain.Todos
             switch(status)
             {
                 case TodoStatus.Completed:
+                    this.Status = status;
                     this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is completed.";
                     AddDomainEvent(new TodoDomainEvents.TodoCompletedEvent(todoId));
                     break;
 
                 case TodoStatus.Pending:
+                    this.Status = status;
                     this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is pending.";
                     AddDomainEvent(new TodoDomainEvents.TodoStatusToPendingEvent(todoId));
                     break;

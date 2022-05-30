@@ -1,5 +1,6 @@
 ﻿using HP.Domain.Todos;
 using HP.Infrastructure.DbAccess;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -12,26 +13,26 @@ namespace HP.Infrastructure.Repository
 {
     public class TodoRepository : BaseRepository<Todo>, ITodoRepository
     {
-        private readonly IMongoCollection<Todo> _todoCollections;
+        private readonly IMongoCollection<Todo> _todos;
         public TodoRepository(IMongoDbContext dbContext) : base(dbContext)
         {
-            _todoCollections = dbContext.GetCollection<Todo>();
+            _todos = dbContext.GetCollection<Todo>();
         }
 
-        public Task<IEnumerable<Todo>> GetListByKey(string key, string userId = null)
+        public Task<IEnumerable<Todo>> GetListByTags(string[] tags)
         {
+            //var check = _todos.AsQueryable().Where(x => tags.Contains(x.Tag));
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Todo>> GetListByUserId(string userId)
+        public async Task<IEnumerable<Todo>> GetListByUserId(string userId)
+        {
+            return await _todos.AsQueryable().Where(x => x.UserId == userId).ToListAsync();
+        }
+
+        public IEnumerable<Todo> Search(int page, int recordsPerPage, string TodoTitle, out int totalCount)
         {
             throw new NotImplementedException();
         }
-
-        public Task<IEnumerable<Todo>> GetTodosWithKey(string key)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

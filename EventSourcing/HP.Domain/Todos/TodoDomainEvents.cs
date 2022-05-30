@@ -26,15 +26,6 @@ namespace HP.Domain.Todos
             }
             public string TodoId { get; }
         }
-        public record TodoStatusUpdatedEvent : DomainEventBase
-        {
-            public TodoStatusUpdatedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
-            {
-                this.TodoId = todoId;
-            }
-            public string TodoId { get; }
-
-        }
         public record TodoStatusToPendingEvent : DomainEventBase 
         {
             public TodoStatusToPendingEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
@@ -46,6 +37,14 @@ namespace HP.Domain.Todos
         public record TodoActivatedEvent : DomainEventBase
         {
             public TodoActivatedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
+            {
+                this.TodoId = todoId;
+            }
+            public string TodoId { get; }
+        }
+        public record TodoDeactivatedEvent : DomainEventBase
+        {
+            public TodoDeactivatedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
             {
                 this.TodoId = todoId;
             }

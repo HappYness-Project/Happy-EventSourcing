@@ -1,4 +1,5 @@
 ﻿using HP.Domain;
+using HP.Domain.Person;
 using HP.Domain.Todos;
 using HP.Infrastructure.DbAccess;
 using MongoDB.Bson;
@@ -13,13 +14,16 @@ namespace HP.Infrastructure.Repository
     public class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
         private readonly IMongoCollection<Person> _mongoCollection;
-        public PersonRepository(IMongoDbContext dbContext) : base(dbContext)
+        private readonly IEventStore _eventStore;
+        public PersonRepository(IMongoDbContext dbContext, IEventStore eventStore) : base(dbContext)
         {
             this._mongoCollection = dbContext.GetCollection<Person>() ?? throw new ArgumentNullException(nameof(dbContext));
+            _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));   
         }
         public Task<bool> DeletePersonAsync(string personId)
         {
             var check = _mongoCollection.DeleteOne(personId);
+
             return Task.FromResult(check.DeletedCount > 0 ? true : false);
         }
         public async Task<Person> GetPersonByUserIdAsync(string UserId)
