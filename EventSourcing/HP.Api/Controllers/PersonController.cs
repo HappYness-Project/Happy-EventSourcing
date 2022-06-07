@@ -1,7 +1,7 @@
 ﻿using HP.Api.DTO;
 using HP.Application.Commands;
 using HP.Application.Queries;
-using HP.Domain;
+using HP.Domain.Person;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +17,7 @@ namespace HP.Controllers
         {
             _mediator = mediator;
         }
-
+        !@!
         [HttpGet]
         public async Task<IEnumerable<Person>> Get()
         {

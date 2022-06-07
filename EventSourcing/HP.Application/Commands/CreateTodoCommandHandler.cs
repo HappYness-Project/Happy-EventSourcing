@@ -30,12 +30,13 @@ namespace HP.Application.Handlers
             var todo = Todo.CreateTodo(request.UserId, request.TodoTitle, request.Type, request.Tag);
             var checkTodo = await _repository.CreateAsync(todo);
             var @event = new TodoDomainEvents.TodoCreatedEvent(todo.Id, person.UserId, request.TodoTitle, request.Type);
+            // Publish event ???
             //Stored as inmemory..... as well as database.
             // TODO Send event.
-            return ;
+            return null;
         }
     }
 }
-https://github.com/IvanMilano/MongoDbTransactionsDemo
-https://chaitanyasuvarna.wordpress.com/2021/05/30/event-sourcing-pattern-in-net-core/
-https://devblogs.microsoft.com/cesardelatorre/using-domain-events-within-a-net-core-microservice/
+//https://github.com/IvanMilano/MongoDbTransactionsDemo
+//https://chaitanyasuvarna.wordpress.com/2021/05/30/event-sourcing-pattern-in-net-core/
+//https://devblogs.microsoft.com/cesardelatorre/using-domain-events-within-a-net-core-microservice/
