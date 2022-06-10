@@ -1,7 +1,7 @@
 ﻿using HP.Domain;
 namespace HP.Domain.Common
 {
-    public abstract record DomainEventBase : IDomainEvent
+    public abstract class DomainEventBase : IDomainEvent
     {
         public DomainEventBase(string entityId, string entityType)
         {

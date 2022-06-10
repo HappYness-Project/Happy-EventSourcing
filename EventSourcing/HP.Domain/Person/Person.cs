@@ -26,6 +26,12 @@ namespace HP.Domain.Person
             //var userCreatedEvent = new UserCreatedEvent(user, password);
             return new Person();
         }
+        public static Address CreateAddress(string Country, string City, string Region, string PostalCode)
+        {
+            // TODO Validation for the Address.
+
+            return new Address(Country, City, Region, PostalCode);
+        }
 
         protected override void When(IDomainEvent @event)
         {

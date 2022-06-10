@@ -33,7 +33,7 @@ namespace HP.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id, CancellationToken token = default)
         {
-            var todo = await _mediator.Send(new GetTodoByIdQuery(id));
+            var todo = await _mediator.Send(new GetTodoById(id));
             if (todo == null)
             {
                 return NotFound();
@@ -43,7 +43,7 @@ namespace HP.Controllers
         [HttpGet("users/{id}")]
         public async Task<IActionResult> GetTodosByUser(string id, CancellationToken token = default)
         {
-            var todo = await _mediator.Send(new GetTodoByIdQuery(id));
+            var todo = await _mediator.Send(new GetTodoById(id));
             if (todo == null)
             {
                 return NotFound();

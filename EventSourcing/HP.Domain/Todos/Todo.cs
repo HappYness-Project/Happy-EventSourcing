@@ -72,7 +72,6 @@ namespace HP.Domain.Todos
         {
             this.IsActive = true;
             this.AddDomainEvent(new TodoDomainEvents.TodoActivatedEvent(todoId));
-
         }
         public void DeactivateTodo(string todoId)
         {
