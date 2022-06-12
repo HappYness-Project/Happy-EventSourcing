@@ -1,7 +1,7 @@
 ﻿using HP.Domain.Person;
 using MediatR;
 
-namespace HP.Application.Queries
+namespace HP.Application.Queries.Person
 {
     public record PersonDetails
     {
