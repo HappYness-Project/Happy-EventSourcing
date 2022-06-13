@@ -7,15 +7,10 @@ namespace HP.Domain.Todos
         {
             Tag = Array.Empty<string>();
         }
-        public Todo(string userId, string title, string type, string[] tag) 
-            : this()
+        public Todo(string userId, string title, string type, string[] tag) : this()
         {
-
-
-            
             // TODO : CheckPolicies
             AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(Id, userId, title, type));
-
           //  AddTodoItem(this.Id, userId, title, type);
         }
         public string UserId { get; private set; }
@@ -39,7 +34,6 @@ namespace HP.Domain.Todos
         {
             return new Todo(userId, title, type, tags);
         }
-
         // ??? TODO I am not sure i am adding todoItems, or Just Todo from this method.
         public void AddTodoItem(string todoId, string userId, string title, string type)
         {

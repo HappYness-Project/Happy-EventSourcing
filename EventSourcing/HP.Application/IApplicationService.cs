@@ -2,8 +2,7 @@
 
 namespace HP.Application
 {
-    public interface IApplicationService
-    {
+    public interface IApplicationService{
     }
 
     public abstract class ApplicationService : IApplicationService

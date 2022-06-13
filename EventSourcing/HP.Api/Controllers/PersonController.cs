@@ -1,6 +1,6 @@
 ﻿using HP.Api.DTO;
 using HP.Application.Commands;
-using HP.Application.Queries;
+using HP.Application.Queries.Person;
 using HP.Domain.Person;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,6 @@ namespace HP.Controllers
         {
             _mediator = mediator;
         }
-        !@!
         [HttpGet]
         public async Task<IEnumerable<Person>> Get()
         {
@@ -53,7 +52,7 @@ namespace HP.Controllers
         [HttpPut("{id}")]
         public async Task<Person> Update(string id, [FromBody]UpdatePersonDto personDto)
         {
-            return await _mediator.Send(new UpdatePersonCommand(id, personDto.FirstName, personDto.LastName, personDto.Address, personDto.Email));
+            return await _mediator.Send(new UpdatePersonCommand(id, personDto.FirstName, personDto.LastName,personDto.Email));
         }
 
     }

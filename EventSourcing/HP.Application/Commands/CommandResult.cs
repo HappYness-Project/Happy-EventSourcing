@@ -1,4 +1,4 @@
-﻿namespace HP.Application
+﻿namespace HP.Application.Commands
 {
     public class CommandResult
     {

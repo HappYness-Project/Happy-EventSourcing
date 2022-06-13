@@ -18,7 +18,6 @@ namespace HP.Application.Commands
 
             person.FirstName = request.FirstName;
             person.LastName = request.LastName;
-            person.Address = request.Address;
             person.Email = request.Email;
             return _repository.UpdatePersonAsync(person);
         }

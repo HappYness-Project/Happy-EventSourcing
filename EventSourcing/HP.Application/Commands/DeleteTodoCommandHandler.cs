@@ -18,7 +18,6 @@ namespace HP.Application.Commands
             if(todo == null)
                 throw new ArgumentNullException(nameof(todo));
 
-            todo.DeleteTodo
             Expression<Func<Todo, bool>> expr = x => x.Id == request.Id;
             await _repository.DeleteOneAsync(expr);
             var @event = new TodoDomainEvents.TodoRemovedEvent(request.Id);

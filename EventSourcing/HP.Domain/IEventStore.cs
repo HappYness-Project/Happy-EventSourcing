@@ -22,6 +22,6 @@ namespace HP.Domain
         /// <summary>
         /// 
         /// </summary>
-        Task<List<TStoredEvent>> GetListAsync<TStoredEvent>(string entityId, string entityType) where TStoredEvent : StoredEvent;
+        //Task<List<TStoredEvent>> GetListAsync<TStoredEvent>(string entityId, string entityType) where TStoredEvent : StoredEvent;
     }
 }

@@ -69,6 +69,7 @@ namespace HP.Controllers
         public async Task<IActionResult> Update([FromRoute] string personId, [FromBody]UpdateTodoDto todoDto, CancellationToken cancellationToken = default)
         {
             var cmd = new UpdateTodoCommand(todoDto.TodoId, todoDto.TodoTotle, todoDto.TodoDescription, todoDto.Tags);
+            //TODO Update info.
             return Ok();
         }
 

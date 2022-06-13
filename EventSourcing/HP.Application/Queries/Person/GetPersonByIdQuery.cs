@@ -1,5 +1,4 @@
-﻿using HP.Domain.Person;
-using MediatR;
+﻿using MediatR;
 
 namespace HP.Application.Queries.Person
 {
@@ -10,5 +9,5 @@ namespace HP.Application.Queries.Person
         }
     }
 
-    public record GetPersonByIdQuery(string Id) : IRequest<Person>;
+    public record GetPersonByIdQuery(string Id) : IRequest<HP.Domain.Person.Person>;
 }

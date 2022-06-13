@@ -2,12 +2,11 @@
 using HP.Domain.Todos;
 using MediatR;
 using AutoMapper;
-
 namespace HP.Application.Queries.Todo
 {
     public class TodoQueryHandlers : BaseQueryHandler,
                                      IRequestHandler<GetTodosByUserId, IEnumerable<TodoBasicInfoDto>>,
-                                     IRequestHandler<GetTodoById, Todo>
+                                     IRequestHandler<GetTodoById, Domain.Todos.Todo>
 
     {
         private readonly ITodoRepository _todoRepository;
@@ -23,7 +22,7 @@ namespace HP.Application.Queries.Todo
                 throw new ApplicationException($"Todos not exist for this user ID:{request.UserId}");
             return _mapper.Map<List<TodoBasicInfoDto>>(todos);
         }
-        public Task<Todo> Handle(GetTodoById request, CancellationToken cancellationToken)
+        public Task<Domain.Todos.Todo> Handle(GetTodoById request, CancellationToken cancellationToken)
         {
             return _todoRepository.GetByIdAsync(request.Id);
         }

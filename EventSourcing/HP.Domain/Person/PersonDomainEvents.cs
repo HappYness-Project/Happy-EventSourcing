@@ -9,9 +9,9 @@ namespace HP.Domain.Person
 {
     public static class PersonDomainEvents
     {
-        public record AddressChanged : DomainEventBase
+        public class AddressChanged : DomainEventBase
         {
-            public AddressChanged(string country, string city, string stress, string zipCode) : base()
+            public AddressChanged(string id, string country, string city, string stress, string zipCode) : base(entityId: id,entityType: nameof(Address))
             {
                 Country = country;
                 City = city;

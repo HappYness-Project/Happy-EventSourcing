@@ -29,5 +29,5 @@ namespace HP.Application
             Id = Guid.NewGuid();
             DomainEvent = domainEvent;
         }
-)    }
+    }
 }

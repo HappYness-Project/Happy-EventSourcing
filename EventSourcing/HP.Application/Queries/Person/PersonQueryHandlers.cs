@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HP.Application.Queries.Person;
 using HP.Domain;
 using HP.Domain.Person;
 using HP.Infrastructure;
@@ -6,11 +7,11 @@ using HP.Infrastructure.Repository;
 using MediatR;
 
 
-namespace HP.Application.Queries.Person
+namespace HP.Application.Queries
 {
     public class PersonQueryHandlers : BaseQueryHandler,
-                                        IRequestHandler<GetPersonListQuery, IEnumerable<Person>>,
-                                        IRequestHandler<GetPersonByIdQuery, Person>
+                                        IRequestHandler<GetPersonListQuery, IEnumerable<HP.Domain.Person.Person>>,
+                                        IRequestHandler<GetPersonByIdQuery, HP.Domain.Person.Person>
     {
         private readonly IPersonRepository _personRepository;
         private readonly IMediator _mediator;
@@ -19,12 +20,12 @@ namespace HP.Application.Queries.Person
             _mediator = mediator;
             _personRepository = personRepository;
         }
-        public Task<IEnumerable<Person>> Handle(GetPersonListQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<HP.Domain.Person.Person>> Handle(GetPersonListQuery request, CancellationToken cancellationToken)
         {
             return _personRepository.GetAllAsync();
         }
 
-        public async Task<Person> Handle(GetPersonByIdQuery request, CancellationToken cancellationToken)
+        public async Task<HP.Domain.Person.Person> Handle(GetPersonByIdQuery request, CancellationToken cancellationToken)
         {
             var results = await _mediator.Send(new GetPersonListQuery());
             return results.FirstOrDefault(x => x.UserId == request.Id);

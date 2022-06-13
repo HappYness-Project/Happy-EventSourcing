@@ -1,5 +1,4 @@
-using HP.Domain;
-using HP.Domain.Todos;
+using HP.Domain.Person;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +23,7 @@ namespace HP.test
             .AddEnvironmentVariables()
             .Build();
             dbContext = new MongoDbContext(_configuration);
-            personRepository = new PersonRepository(dbContext);
+            personRepository = new PersonRepository(dbContext, null);
         }
 
         [Test]

@@ -3,7 +3,7 @@ namespace HP.Domain.Todos
 {
     public static class TodoDomainEvents
     {
-        public record TodoCreatedEvent : DomainEventBase
+        public class TodoCreatedEvent : DomainEventBase
         {
             public TodoCreatedEvent(string todoId, string userId, string todoTitle, string type) 
                 : base(entityId: todoId, entityType:nameof(Todo))
@@ -18,7 +18,7 @@ namespace HP.Domain.Todos
             public string TodoTitle { get; }
             public string Type { get; }
         }
-        public record TodoRemovedEvent : DomainEventBase
+        public class TodoRemovedEvent : DomainEventBase
         {
             public TodoRemovedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
             {
@@ -26,7 +26,7 @@ namespace HP.Domain.Todos
             }
             public string TodoId { get; }
         }
-        public record TodoStatusToPendingEvent : DomainEventBase 
+        public class TodoStatusToPendingEvent : DomainEventBase 
         {
             public TodoStatusToPendingEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
             {
@@ -34,7 +34,7 @@ namespace HP.Domain.Todos
             }
             public string TodoId { get; }
         }
-        public record TodoActivatedEvent : DomainEventBase
+        public class TodoActivatedEvent : DomainEventBase
         {
             public TodoActivatedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
             {
@@ -42,7 +42,7 @@ namespace HP.Domain.Todos
             }
             public string TodoId { get; }
         }
-        public record TodoDeactivatedEvent : DomainEventBase
+        public class TodoDeactivatedEvent : DomainEventBase
         {
             public TodoDeactivatedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
             {
@@ -50,7 +50,7 @@ namespace HP.Domain.Todos
             }
             public string TodoId { get; }
         }
-        public record TodoCompletedEvent : DomainEventBase
+        public class TodoCompletedEvent : DomainEventBase
         {
             public TodoCompletedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
             {

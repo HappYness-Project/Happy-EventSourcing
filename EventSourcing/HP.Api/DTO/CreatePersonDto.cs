@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HP.Domain.Person;
+using System.ComponentModel.DataAnnotations;
 
 namespace HP.Api.DTO
 {
@@ -11,7 +12,7 @@ namespace HP.Api.DTO
         [Required]
         public string LastName { get; set; }
         [Required]
-        public string Address { get; set; }
+        public Address Address { get; set; }
         [Required]
         public string Email { get; set; }
     }
