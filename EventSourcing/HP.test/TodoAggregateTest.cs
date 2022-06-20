@@ -11,7 +11,6 @@ namespace HP.test
         {
 
         }
-
         [Test]
         public void Create_new_Todo_raises_new_event()
         {

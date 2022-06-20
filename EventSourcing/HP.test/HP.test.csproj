@@ -20,4 +20,10 @@
     <ProjectReference Include="..\HP.Infrastructure\HP.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

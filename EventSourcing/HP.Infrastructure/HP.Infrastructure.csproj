@@ -20,4 +20,8 @@
     <ProjectReference Include="..\HP.Domain\HP.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EventStore\" />
+  </ItemGroup>
+
 </Project>

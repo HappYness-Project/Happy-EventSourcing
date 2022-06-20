@@ -1,6 +1,6 @@
-﻿using HP.Domain.Common;
+﻿using HP.Domain;
+using HP.Domain.Common;
 using HP.Infrastructure.DbAccess;
-using HP.Infrastructure.EventStore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -47,6 +47,16 @@ namespace HP.Infrastructure.Repository
                 //aggregateId =
             });
 
+            throw new NotImplementedException();
+        }
+
+        public void Save<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveAsync<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
+        {
             throw new NotImplementedException();
         }
     }

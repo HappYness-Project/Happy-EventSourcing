@@ -13,22 +13,11 @@ using System.Threading.Tasks;
 
 namespace HP.test
 {
-    public class MongoTest
+    public class MongoTest : TestBase
     {
-        private IConfiguration _configuration;
-        private IMongoDbContext mongoDbContext;
-
         [SetUp]
         public void Setup()
         {
-            _configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(@"appsettings.json", false, false)
-                .AddEnvironmentVariables()
-                .Build();
-            mongoDbContext = new MongoDbContext(_configuration);
-
-
         }
         [Test]
         public void MongoDbContext_Collections_Exist()
