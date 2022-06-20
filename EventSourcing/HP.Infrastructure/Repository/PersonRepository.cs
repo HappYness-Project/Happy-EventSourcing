@@ -22,8 +22,7 @@ namespace HP.Infrastructure.Repository
         }
         public Task<bool> DeletePersonAsync(string personId)
         {
-            var check = _mongoCollection.DeleteOne(personId);
-
+            var check = _mongoCollection.DeleteOne(x => x.Id == personId);
             return Task.FromResult(check.DeletedCount > 0 ? true : false);
         }
         public async Task<Person> GetPersonByUserIdAsync(string UserId)

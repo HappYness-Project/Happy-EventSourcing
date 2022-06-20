@@ -1,3 +1,4 @@
+using HP.Domain;
 using HP.Domain.Person;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
@@ -10,11 +11,13 @@ namespace HP.test
     public class PersonRepositoryTest : TestBase
     {
         IPersonRepository personRepository = null;
+        IEventStore eventStore = null;
         // Repository pattern testing
         [SetUp]
         public void Setup()
         {
-            personRepository = new PersonRepository(mongoDbContext, null);
+            eventStore = new EventStoreRepository(_configuration, _mongoDbContext);
+            personRepository = new PersonRepository(_mongoDbContext, eventStore);
         }
 
         [Test]

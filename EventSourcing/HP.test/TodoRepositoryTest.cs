@@ -19,7 +19,7 @@ namespace HP.test
             .AddJsonFile(@"appsettings.json", false, false)
             .AddEnvironmentVariables()
             .Build();
-            todoRepository = new TodoRepository(mongoDbContext);
+            todoRepository = new TodoRepository(_mongoDbContext);
         }
         [Test]
         public void GetListByUserId_Return_Nothing()

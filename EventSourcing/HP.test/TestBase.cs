@@ -13,12 +13,12 @@ namespace HP.test
     public class TestBase
     {
         protected IConfiguration _configuration;
-        protected IMongoDbContext mongoDbContext;
+        protected IMongoDbContext _mongoDbContext;
         [SetUp]
         public async Task BeforeTestStart()
         {
             _configuration = new ConfigurationBuilder().AddJsonFile(@"appsettings.json", optional:false, true).Build();
-            mongoDbContext = new MongoDbContext(_configuration);
+            _mongoDbContext = new MongoDbContext(_configuration);
         }
     }
 }

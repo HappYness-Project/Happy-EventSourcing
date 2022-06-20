@@ -22,12 +22,12 @@ namespace HP.test
         [Test]
         public void MongoDbContext_Collections_Exist()
         {
-            Assert.IsNotNull(mongoDbContext.Collections());
+            Assert.IsNotNull(_mongoDbContext.Collections());
         }
         [Test]
         public void DbCotextReturnCollectionTodo()
         {
-            var check = mongoDbContext.GetCollection<Todo>("todo");
+            var check = _mongoDbContext.GetCollection<Todo>("todo");
             Assert.IsNotNull(check);
         }
 
