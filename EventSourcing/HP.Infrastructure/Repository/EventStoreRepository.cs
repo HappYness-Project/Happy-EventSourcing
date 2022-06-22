@@ -25,6 +25,7 @@ namespace HP.Infrastructure.Repository
         {
             _configuration = configuration;
             _mongoDbContext = mongoDbContext;   
+            // Creating Mongo DB - database if there are any.
         }
         public async Task<IReadOnlyCollection<IDomainEvent>> LoadAsync(string aggregateRootId)
         {

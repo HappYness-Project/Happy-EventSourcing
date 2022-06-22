@@ -5,11 +5,16 @@ namespace HP.Domain.Todos
     {
         public Todo()
         {
+            IsActive = true;
             Tag = Array.Empty<string>();
         }
         public Todo(string userId, string title, string type, string[] tag) : this()
         {
             // TODO : CheckPolicies
+            UserId = userId;
+            Title = title;
+            Type = type;
+            Tag = tag;
             AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(Id, userId, title, type));
           //  AddTodoItem(this.Id, userId, title, type);
         }

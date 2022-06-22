@@ -1,4 +1,5 @@
-﻿using HP.Domain.Todos;
+﻿using HP.Domain;
+using HP.Domain.Todos;
 using HP.Infrastructure.DbAccess;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
@@ -14,7 +15,7 @@ namespace HP.Infrastructure.Repository
     public class TodoRepository : BaseRepository<Todo>, ITodoRepository
     {
         private readonly IMongoCollection<Todo> _todos;
-        public TodoRepository(IMongoDbContext dbContext) : base(dbContext)
+        public TodoRepository(IMongoDbContext dbContext, IEventStore eventStore) : base(dbContext)
         {
             _todos = dbContext.GetCollection<Todo>();
         }

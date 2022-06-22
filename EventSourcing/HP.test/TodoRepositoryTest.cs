@@ -1,3 +1,5 @@
+using FluentAssertions;
+using HP.Domain;
 using HP.Domain.Todos;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
@@ -11,15 +13,13 @@ namespace HP.test
     public class TodoRepositoryTest : TestBase
     {
         private ITodoRepository todoRepository;
+        private IEventStore eventStore = null;
         [SetUp]
         public void Setup()
         {
-            IConfiguration _configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(@"appsettings.json", false, false)
-            .AddEnvironmentVariables()
-            .Build();
-            todoRepository = new TodoRepository(_mongoDbContext);
+            eventStore = new EventStoreRepository(_configuration, _mongoDbContext);
+            todoRepository = new TodoRepository(_mongoDbContext, eventStore);
+            // Seed Data Insertion?
         }
         [Test]
         public void GetListByUserId_Return_Nothing()
@@ -36,9 +36,31 @@ namespace HP.test
         [Test]
         public void CreateNewTodo_From_Repository()
         {
-            var todo = Todo.CreateTodo("userId7303", "Create Todo through the UnitTest", "General", null);
+            // Arrange
+            var expectedUserName = "TestUser123";
+            var expectedTitle = "Creating Todo";
+
+            // Act
+            var todo = TodoFactory.Create(expectedUserName, expectedTitle, true);
             var todoObj = todoRepository.CreateAsync(todo)?.Result;
+
+            // Assert
             Assert.NotNull(todoObj);
+            todoObj.UserId.Should().Be(expectedUserName);
+            todoObj.Title.Should().Be(expectedTitle);
+        }
+
+        [Test]
+        public void DeactivateTodo_Todo_Is_Deactivated()
+        {
+            // Arrange
+            var todo = TodoFactory.Create();
+
+            // Act
+            todo.DeactivateTodo(todo.Id);
+
+            //Assert
+            todo.IsActive.Should().BeFalse();
         }
     }
 }

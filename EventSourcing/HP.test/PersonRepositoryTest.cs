@@ -4,7 +4,6 @@ using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
-using System.IO;
 
 namespace HP.test
 {
@@ -44,5 +43,16 @@ namespace HP.test
             var personObj = personRepository.CreateAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }
+
+
+        //
+        [Test]
+        public void UpdatePersonAsync_UpdateSuccessful()
+        {
+            Person person = Person.Create("Kevin", "Park", "hyunbin7303@gmail.com");
+            var personObj = personRepository.UpdatePersonAsync(person)?.Result;
+            Assert.That(personObj, Is.Not.Null);
+        }
+
     }
 }

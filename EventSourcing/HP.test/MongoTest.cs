@@ -1,15 +1,5 @@
-﻿using HP.Domain;
-using HP.Domain.Todos;
-using HP.Infrastructure.DbAccess;
-using HP.Infrastructure.Repository;
-using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
-using Moq;
+﻿using HP.Domain.Todos;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace HP.test
 {
@@ -30,8 +20,5 @@ namespace HP.test
             var check = _mongoDbContext.GetCollection<Todo>("todo");
             Assert.IsNotNull(check);
         }
-
-
-
     }
 }
