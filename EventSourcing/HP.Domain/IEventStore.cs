@@ -18,7 +18,7 @@ namespace HP.Domain
         /// 
         /// </summary>
         //Task<List<TStoredEvent>> GetListAsync<TStoredEvent>(string entityId, string entityType) where TStoredEvent : StoredEvent;
-
+        Task<IList<TDomainEvent>> GetEvents<TDomainEvent>(string aggregateId) where TDomainEvent : IDomainEvent;
 
 
     //    Task SaveAsync(string aggregateId,

@@ -31,8 +31,6 @@ namespace HP.Infrastructure.Repository
         {
             if (aggregateRootId == null) throw new Exception("Cannot be null");
 
-
-
             throw new NotImplementedException();
         }
 
@@ -57,6 +55,11 @@ namespace HP.Infrastructure.Repository
         }
 
         public Task SaveAsync<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<TDomainEvent>> GetEvents<TDomainEvent>(string aggregateId) where TDomainEvent : IDomainEvent
         {
             throw new NotImplementedException();
         }

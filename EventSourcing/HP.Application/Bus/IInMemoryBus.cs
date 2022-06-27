@@ -21,3 +21,8 @@ namespace HP.Application.Bus
     public delegate Task EventReceivedHandler(object sender, IIntegrationEvent @event);
     public delegate void ExceptionThrownHandler(object sender, Exception exception);
 }
+
+
+// Use this code https://github.com/EduardoPires/EquinoxProject/blob/master/src/Equinox.Infra.CrossCutting.Bus/InMemoryBus.cs
+
+

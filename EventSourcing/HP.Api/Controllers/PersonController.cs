@@ -43,10 +43,9 @@ namespace HP.Controllers
             var cmd = new InsertPersonCommand(personDto.UserId,personDto.FirstName, personDto.LastName, personDto.Address);
             // Message Broker call? Should we need to do in both? 
             //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
-            var person = await _mediator.Send(cmd);
             //TODO: Since it is a Create, I think it's desirable to use Publish command .  
-            //await _mediator.Publish(cmd, cancellationToken);
-            return Ok(person);
+            await _mediator.Publish(cmd, cancellationToken);
+            return Ok();
         }
 
         [HttpPut("{id}")]
