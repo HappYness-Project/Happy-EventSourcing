@@ -20,7 +20,7 @@ namespace HP.test
             var expectedResult = 1;
 
             // Act
-            var fakeTodo = new Todo("FakeUserName", "fake Todo", "fake type", faketags);
+            var fakeTodo = new Todo("FakeUserName", "fake Todo", "fake Description","fake type", faketags);
 
             //Assert
             Assert.Equals(fakeTodo.DomainEvents.Count, expectedResult);

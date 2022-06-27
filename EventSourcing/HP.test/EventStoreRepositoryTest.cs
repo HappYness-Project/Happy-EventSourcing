@@ -1,5 +1,4 @@
-﻿using HP.Application.Events;
-using HP.Domain;
+﻿using HP.Domain;
 using HP.Domain.Common;
 using HP.Infrastructure.Repository;
 using NUnit.Framework;
@@ -8,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static HP.Domain.Todos.TodoDomainEvents;
 
 namespace HP.test
 {
+    using static HP.Domain.Todos.TodoDomainEvents;
     internal class EventStoreRepositoryTest : TestBase
     {
 
@@ -30,11 +29,11 @@ namespace HP.test
         }
 
 
-        [Test]
-        public void eventStore_Save()
-        {
-            IDomainEvent domainEvent = new TodoCreatedEvent("HP09428", Guid.NewGuid().ToString(), "Todo Application Event created.", "Todo Description", "InGeneral");
-            var events = eventStore.GetEvents("");
-        }
+        //[Test]
+        //public void eventStore_Save()
+        //{
+        //    IDomainEvent domainEvent = new TodoCreatedEvent("HP09428", Guid.NewGuid().ToString(), "Todo Application Event created.", "Todo Description", "InGeneral");
+        //    var events = eventStore.GetEvents("");
+        //}
     }
 }

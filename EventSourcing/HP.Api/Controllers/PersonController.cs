@@ -11,7 +11,6 @@ namespace HP.Controllers
     [Route("[controller]")]
     public class PersonController : ControllerBase
     {
-
         private readonly IMediator _mediator;
         public PersonController(IMediator mediator)
         {

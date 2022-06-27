@@ -11,12 +11,12 @@ namespace HP.test
     {
         public static Todo Create()
         {
-            return Todo.CreateTodo("userId7303", "Create Todo through the UnitTest", "General", null);
+            return Todo.CreateTodo("userId7303", "Create Todo through the UnitTest", "description","General", null);
         }
         public static Todo Create(string userId, string todoTitle, bool defaultTag = true)
         {
             string[] tags = { "Study", "Exercise", "Chore" };
-            return Todo.CreateTodo(userId, todoTitle, "General", defaultTag ? tags : null);
+            return Todo.CreateTodo(userId, todoTitle,"Description", "General", defaultTag ? tags : null);
         }
     }
 }

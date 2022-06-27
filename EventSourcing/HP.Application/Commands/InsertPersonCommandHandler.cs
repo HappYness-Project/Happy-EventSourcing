@@ -10,7 +10,7 @@ namespace HP.Application.Commands
         {
             this._repository = personRepository;
         }
-        public Task<Person> Handle(InsertPersonCommand request, CancellationToken cancellationToken)
+        public async Task<Person> Handle(InsertPersonCommand request, CancellationToken cancellationToken)
         {
             // await event service. PersistAsync
             Person person = new Person
@@ -22,7 +22,7 @@ namespace HP.Application.Commands
                 IsActive = true,
 
             };
-            return _repository.CreateAsync(person);
+            return await _repository.CreateAsync(person);
         }
     }
 }

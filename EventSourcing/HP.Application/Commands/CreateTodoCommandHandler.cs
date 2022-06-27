@@ -27,9 +27,9 @@ namespace HP.Application.Handlers
                 return null;
 
 
-            var todo = Todo.CreateTodo(request.UserId, request.TodoTitle, request.Type, request.Tag);
+            var todo = Todo.CreateTodo(request.UserId, request.TodoTitle, request.Description,request.Type, request.Tag);
             var checkTodo = await _repository.CreateAsync(todo);
-            var @event = new TodoDomainEvents.TodoCreatedEvent(todo.Id, person.UserId, request.TodoTitle, request.Type);
+            var @event = new TodoDomainEvents.TodoCreatedEvent(todo.Id, person.UserId, request.TodoTitle, request.Description,request.Type);
             // Publish event ???
             //Stored as inmemory..... as well as database.
             // TODO Send event.

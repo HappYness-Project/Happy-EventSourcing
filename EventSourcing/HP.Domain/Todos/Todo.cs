@@ -8,15 +8,15 @@ namespace HP.Domain.Todos
             IsActive = true;
             Tag = Array.Empty<string>();
         }
-        public Todo(string userId, string title, string type, string[] tag) : this()
+        public Todo(string userId, string title, string description, string type, string[] tag) : this()
         {
             // TODO : CheckPolicies
             UserId = userId;
             Title = title;
+            Description = description;
             Type = type;
             Tag = tag;
-            AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(Id, userId, title, type));
-          //  AddTodoItem(this.Id, userId, title, type);
+            AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(Id, userId, title, Description, type));
         }
         public string UserId { get; private set; }
         public string Title { get; private set; }
@@ -34,15 +34,13 @@ namespace HP.Domain.Todos
         public DateTime? Completed { get; private set; }
 
 
-        // Pass ITodovalidatorService??
-        public static Todo CreateTodo(string userId, string title, string type, string[] tags)
+        public static Todo CreateTodo(string userId, string title, string description, string type, string[] tags)
         {
-            return new Todo(userId, title, type, tags);
+            return new Todo(userId, title, description, type, tags);
         }
         // ??? TODO I am not sure i am adding todoItems, or Just Todo from this method.
         public void AddTodoItem(string todoId, string userId, string title, string type)
         {
-
             // I am not sure if it's just adding the todoItem Extra inside of Todo Object.
             //this.AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(todoId, userId, title, type));
         }
