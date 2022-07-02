@@ -16,7 +16,6 @@ namespace HP.Infrastructure
 
         public async Task Publish<TNotification>(TNotification notification) where TNotification : INotification
         {
-
             //Convertion might required????
             //_eventStore?.Save(notification);
             await _mediator.Publish(notification);  

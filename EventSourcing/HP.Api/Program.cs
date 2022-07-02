@@ -3,6 +3,7 @@ using HP.Application.Queries.Person;
 using HP.Domain;
 using HP.Domain.Person;
 using HP.Domain.Todos;
+using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using MediatR;
@@ -22,7 +23,10 @@ builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
 builder.Services.AddSingleton<IEventStore, EventStoreRepository>();
 // make use of the same session accross different handler classes that are part of the flow.
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();
-builder.Services.AddTransient<ITodoRepository, TodoRepository>(); 
+builder.Services.AddTransient<ITodoRepository, TodoRepository>();
+
+builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
+
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);
 builder.Services.AddMediatR(typeof(GetPersonByIdQuery));
 builder.Services.AddMediatR(typeof(GetPersonByNameQuery));

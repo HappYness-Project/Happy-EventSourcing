@@ -25,29 +25,32 @@ namespace HP.Infrastructure.Repository
         {
             _configuration = configuration;
             _mongoDbContext = mongoDbContext;   
+            // check if the Event Store for the Evet exists in the Mongo DB?
+
+
             // Creating Mongo DB - database if there are any.
         }
-        public async Task<IReadOnlyCollection<IDomainEvent>> LoadAsync(string aggregateRootId)
+        public async Task<IReadOnlyCollection<IDomainEvent>> LoadAsync(int aggregateRootId)
         {
             if (aggregateRootId == null) throw new Exception("Cannot be null");
 
             throw new NotImplementedException();
         }
 
-        public async Task SaveAsync(string aggregateId, int originatingVersion, IReadOnlyCollection<IDomainEvent> events, string aggregateName = "Aggregate Name")
-        {
-            if (events.Count == 0) return;
+        //public async Task SaveAsync(string aggregateId, int originatingVersion, IReadOnlyCollection<IDomainEvent> events, string aggregateName = "Aggregate Name")
+        //{
+        //    if (events.Count == 0) return;
 
-            var query = "Insert query";
+        //    var query = "Insert query";
 
-            var listofEvents = events.Select(e => new
-            {
-                //Aggregate 
-                //aggregateId =
-            });
+        //    var listofEvents = events.Select(e => new
+        //    {
+        //        //Aggregate 
+        //        aggregateId = aggregateId
+        //    });
 
-            throw new NotImplementedException();
-        }
+        //    throw new NotImplementedException();
+        //}
 
         public void Save<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
         {
@@ -59,7 +62,7 @@ namespace HP.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IList<TDomainEvent>> GetEvents<TDomainEvent>(string aggregateId) where TDomainEvent : IDomainEvent
+        public Task<IList<TDomainEvent>> GetEvents<TDomainEvent>(int aggregateId) where TDomainEvent : IDomainEvent
         {
             throw new NotImplementedException();
         }
