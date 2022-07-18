@@ -9,9 +9,34 @@ namespace HP.Domain.Person
 {
     public static class PersonDomainEvents
     {
+        public class PersonCreated : DomainEventBase
+        {
+            public PersonCreated(string personId, string firstName, string lastName, string email, Address address) : base(nameof(Person))
+            {
+                FirstName = firstName;
+                LastName = lastName;
+                Email = email;
+                Address = address;
+            }
+            public string FirstName { get; }
+            public string LastName { get; }
+            public Address Address { get; }
+            public string Email { get; }
+
+        }
+
+        public class PersonUpdated : DomainEventBase
+        {
+            public PersonUpdated()
+            {
+
+            }
+        }
+
+
         public class AddressChanged : DomainEventBase
         {
-            public AddressChanged(string id, string country, string city, string stress, string zipCode) : base(entityId: id,entityType: nameof(Address))
+            public AddressChanged(string personId, string country, string city, string stress, string zipCode) : base(entityType: nameof(Address))
             {
                 Country = country;
                 City = city;

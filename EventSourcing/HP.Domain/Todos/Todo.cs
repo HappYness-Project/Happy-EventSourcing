@@ -16,7 +16,7 @@ namespace HP.Domain.Todos
             Description = description;
             Type = type;
             Tag = tag;
-            AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(Id, userId, title, Description, type));
+            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, userId, title, Description, type));
         }
         public string UserId { get; private set; }
         public string Title { get; private set; }
@@ -34,7 +34,7 @@ namespace HP.Domain.Todos
         public DateTime? Completed { get; private set; }
 
 
-        public static Todo CreateTodo(string userId, string title, string description, string type, string[] tags)
+        public static Todo Create(string userId, string title, string description, string type, string[] tags)
         {
             return new Todo(userId, title, description, type, tags);
         }
@@ -57,8 +57,10 @@ namespace HP.Domain.Todos
         {
             switch(@event)
             {
-                case TodoDomainEvents.TodoCreatedEvent c:
-                    this.Id = c.EntityId; // How the Entity Id is used????????
+                case TodoDomainEvents.TodoCreated c:
+                    break;
+
+                case TodoDomainEvents.TodoUpdated u:
                     break;
             }
 
@@ -68,12 +70,12 @@ namespace HP.Domain.Todos
         public void ActivateTodo(string todoId)
         {
             this.IsActive = true;
-            this.AddDomainEvent(new TodoDomainEvents.TodoActivatedEvent(todoId));
+            this.AddDomainEvent(new TodoDomainEvents.TodoActivated(todoId));
         }
         public void DeactivateTodo(string todoId)
         {
             this.IsActive = false;
-            this.AddDomainEvent(new TodoDomainEvents.TodoDeactivatedEvent(todoId));
+            this.AddDomainEvent(new TodoDomainEvents.TodoDeactivated(todoId));
 
         }
         public void SetStatus(string todoId, TodoStatus status)
@@ -83,13 +85,13 @@ namespace HP.Domain.Todos
                 case TodoStatus.Completed:
                     this.Status = status;
                     this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is completed.";
-                    AddDomainEvent(new TodoDomainEvents.TodoCompletedEvent(todoId));
+                    AddDomainEvent(new TodoDomainEvents.TodoCompleted(todoId));
                     break;
 
                 case TodoStatus.Pending:
                     this.Status = status;
                     this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is pending.";
-                    AddDomainEvent(new TodoDomainEvents.TodoStatusToPendingEvent(todoId));
+                    AddDomainEvent(new TodoDomainEvents.TodoStatusToPending(todoId));
                     break;
 
                 default:

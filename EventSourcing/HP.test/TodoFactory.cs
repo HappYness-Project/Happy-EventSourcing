@@ -1,22 +1,16 @@
 ﻿using HP.Domain.Todos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace HP.test
 {
     public class TodoFactory
     {
         public static Todo Create()
         {
-            return Todo.CreateTodo("userId7303", "Create Todo through the UnitTest", "description","General", null);
+            return Todo.Create("userId7303", "Create Todo through the UnitTest", "description","General", null);
         }
         public static Todo Create(string userId, string todoTitle, bool defaultTag = true)
         {
             string[] tags = { "Study", "Exercise", "Chore" };
-            return Todo.CreateTodo(userId, todoTitle,"Description", "General", defaultTag ? tags : null);
+            return Todo.Create(userId, todoTitle,"Description", "General", defaultTag ? tags : null);
         }
     }
 }

@@ -9,12 +9,12 @@ using static HP.Domain.Todos.TodoDomainEvents;
 
 namespace HP.Application.EventHandlers
 {
-    public class TodoEventHandlers : INotificationHandler<TodoCreatedEvent>,
-                                     INotificationHandler<TodoUpdatedEvent>,
-                                     INotificationHandler<TodoCompletedEvent>,
-                                     INotificationHandler<TodoActivatedEvent>,
-                                     INotificationHandler<TodoDeactivatedEvent>,
-                                     INotificationHandler<TodoRemovedEvent>
+    public class TodoEventHandlers : INotificationHandler<TodoCreated>,
+                                     INotificationHandler<TodoUpdated>,
+                                     INotificationHandler<TodoCompleted>,
+                                     INotificationHandler<TodoActivated>,
+                                     INotificationHandler<TodoDeactivated>,
+                                     INotificationHandler<TodoRemoved>
 
     {
         private readonly ITodoRepository _todoRepository;
@@ -23,32 +23,32 @@ namespace HP.Application.EventHandlers
             _todoRepository = todoRepository;
         }
 
-        public Task Handle(TodoCreatedEvent notification, CancellationToken cancellationToken)
+        public Task Handle(TodoCreated notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task Handle(TodoUpdatedEvent notification, CancellationToken cancellationToken)
+        public Task Handle(TodoUpdated notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task Handle(TodoCompletedEvent notification, CancellationToken cancellationToken)
+        public Task Handle(TodoCompleted notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task Handle(TodoRemovedEvent notification, CancellationToken cancellationToken)
+        public Task Handle(TodoRemoved notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task Handle(TodoActivatedEvent notification, CancellationToken cancellationToken)
+        public Task Handle(TodoActivated notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task Handle(TodoDeactivatedEvent notification, CancellationToken cancellationToken)
+        public Task Handle(TodoDeactivated notification, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

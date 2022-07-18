@@ -6,9 +6,7 @@ namespace HP.Domain.Common
     {
         public int AggregateId { get; }
         public int AggregateVersion { get; }
-        public string EntityId { get; }
         public string EventId { get; }
-        public string EventName { get; }
         public string EventType { get; }
         public string EventData { get; }
         DateTime OccuredOn { get; }

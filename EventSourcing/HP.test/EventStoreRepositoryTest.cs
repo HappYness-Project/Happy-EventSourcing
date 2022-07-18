@@ -1,5 +1,6 @@
 ﻿using HP.Domain;
 using HP.Domain.Common;
+using HP.Domain.Person;
 using HP.Infrastructure.Repository;
 using NUnit.Framework;
 using System;
@@ -11,6 +12,8 @@ using System.Threading.Tasks;
 namespace HP.test
 {
     using static HP.Domain.Todos.TodoDomainEvents;
+    using static HP.Domain.Person.PersonDomainEvents;
+
     internal class EventStoreRepositoryTest : TestBase
     {
 
@@ -22,9 +25,17 @@ namespace HP.test
         }
 
         [Test]
-        public void eventStore_Save()
+        public void EventStore_Save_For_TodoCreate()
         {
-            IDomainEvent domainEvent = new TodoCreatedEvent(Guid.NewGuid().ToString(), "HP09428", "Todo Application Event created.", "Todo Description", "General");
+            IDomainEvent domainEvent = new TodoCreated(Guid.NewGuid().ToString(), "HP09428", "Todo Application Event created.", "Todo Description", "General");
+            eventStore.Save(domainEvent);
+        }
+
+        [Test]
+        public void EventStore_Save_For_PersonCreate()
+        {
+            var addr = new Address("Canada", "Kitchener", "Ontario", "N2L 3M3");
+            IDomainEvent domainEvent = new PersonDomainEvents.PersonCreated(Guid.NewGuid().ToString(), "Kevin", "Park", "hyunbin7303@gmail.com", addr);
             eventStore.Save(domainEvent);
         }
 

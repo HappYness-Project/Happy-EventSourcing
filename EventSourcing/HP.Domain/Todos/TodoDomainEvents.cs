@@ -3,10 +3,10 @@ namespace HP.Domain.Todos
 {
     public static class TodoDomainEvents
     {
-        public class TodoCreatedEvent : DomainEventBase
+        public class TodoCreated : DomainEventBase
         {
-            public TodoCreatedEvent(string todoId, string userId, string todoTitle, string description, string type) 
-                : base(entityId: todoId, entityType:nameof(Todo))
+            public TodoCreated(string todoId, string userId, string todoTitle, string description, string type) 
+                : base(entityType:nameof(Todo))
             {
                 this.TodoId = todoId;
                 this.UserId = userId;
@@ -20,9 +20,9 @@ namespace HP.Domain.Todos
             public string Description { get; }
             public string Type { get; }
         }
-        public class TodoUpdatedEvent : DomainEventBase
+        public class TodoUpdated : DomainEventBase
         {
-            public TodoUpdatedEvent(string userId, string id, string todoTitle, string description, string type) : base(entityId: id, entityType: nameof(Todo))
+            public TodoUpdated(string userId, string id, string todoTitle, string description, string type) : base(entityType: nameof(Todo))
             {
                 UserId = userId;
                 TodoId = id;
@@ -36,41 +36,41 @@ namespace HP.Domain.Todos
             public string Description { get; set; }
             public string TodoType { get; set; }
         }
-        public class TodoRemovedEvent : DomainEventBase
+        public class TodoRemoved : DomainEventBase
         {
-            public TodoRemovedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
+            public TodoRemoved(string todoId) : base(entityType: nameof(Todo))
             {
                 this.TodoId = todoId;   
             }
             public string TodoId { get; }
         }
-        public class TodoStatusToPendingEvent : DomainEventBase 
+        public class TodoStatusToPending : DomainEventBase 
         {
-            public TodoStatusToPendingEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
+            public TodoStatusToPending(string todoId) : base(entityType: nameof(Todo))
             {
                 this.TodoId = todoId;
             }
             public string TodoId { get; }
         }
-        public class TodoActivatedEvent : DomainEventBase
+        public class TodoActivated : DomainEventBase
         {
-            public TodoActivatedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
+            public TodoActivated(string todoId) : base(entityType: nameof(Todo))
             {
                 this.TodoId = todoId;
             }
             public string TodoId { get; }
         }
-        public class TodoDeactivatedEvent : DomainEventBase
+        public class TodoDeactivated : DomainEventBase
         {
-            public TodoDeactivatedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
+            public TodoDeactivated(string todoId) : base(entityType: nameof(Todo))
             {
                 this.TodoId = todoId;
             }
             public string TodoId { get; }
         }
-        public class TodoCompletedEvent : DomainEventBase
+        public class TodoCompleted : DomainEventBase
         {
-            public TodoCompletedEvent(string todoId) : base(entityId: todoId, entityType: nameof(Todo))
+            public TodoCompleted(string todoId) : base(entityType: nameof(Todo))
             {
                 this.TodoId = todoId;
             }

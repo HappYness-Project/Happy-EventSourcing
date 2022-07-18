@@ -37,14 +37,12 @@ namespace HP.Infrastructure.Repository
             var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
             await collection.InsertOneAsync(@event);
         }
-
         public Task<IReadOnlyCollection<TDomainEvent>> GetEvents<TDomainEvent>(int aggregateId) where TDomainEvent : IDomainEvent
         {
             var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
             //collection.FindAsync(aggregateId);
             return null;
         }
-
         public async Task SaveEventsAsync(string aggregateId, int originatingVersion, IReadOnlyCollection<IDomainEvent> events, string aggregateName)
         {
             if (events.Count == 0) return;
