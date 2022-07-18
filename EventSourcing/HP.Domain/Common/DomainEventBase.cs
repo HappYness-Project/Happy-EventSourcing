@@ -3,6 +3,9 @@ namespace HP.Domain.Common
 {
     public abstract class DomainEventBase : IDomainEvent
     {
+
+        protected DomainEventBase() { }
+
         public DomainEventBase(string entityId, string entityType)
         {
             EntityId = entityId;

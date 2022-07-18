@@ -44,8 +44,6 @@ namespace HP.test
             Assert.That(personObj, Is.Not.Null);
         }
 
-
-        //
         [Test]
         public void UpdatePersonAsync_UpdateSuccessful()
         {

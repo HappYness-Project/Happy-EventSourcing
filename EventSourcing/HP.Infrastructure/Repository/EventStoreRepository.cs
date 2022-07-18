@@ -14,57 +14,42 @@ namespace HP.Infrastructure.Repository
 {
     public class EventStoreRepository : IEventStore
     {
-        // Connection factory for NoSQL seems appropriate .
         private string EventStoreTableName = "EventStore";
-        private static string EventStoreInsertColumns = "[Id], [CreatedAt], [Version], [Name], [AggregateId], [Data], [Aggregate]";
-
         private readonly IConfiguration _configuration;
         private readonly IMongoDbContext _mongoDbContext;
-        // Mongo DB information 
         public EventStoreRepository(IConfiguration configuration, IMongoDbContext mongoDbContext)
         {
             _configuration = configuration;
             _mongoDbContext = mongoDbContext;   
             // check if the Event Store for the Evet exists in the Mongo DB?
-
-
             // Creating Mongo DB - database if there are any.
         }
-        public async Task<IReadOnlyCollection<IDomainEvent>> LoadAsync(int aggregateRootId)
-        {
-            if (aggregateRootId == null) throw new Exception("Cannot be null");
 
-            throw new NotImplementedException();
-        }
 
-        //public async Task SaveAsync(string aggregateId, int originatingVersion, IReadOnlyCollection<IDomainEvent> events, string aggregateName = "Aggregate Name")
-        //{
-        //    if (events.Count == 0) return;
-
-        //    var query = "Insert query";
-
-        //    var listofEvents = events.Select(e => new
-        //    {
-        //        //Aggregate 
-        //        aggregateId = aggregateId
-        //    });
-
-        //    throw new NotImplementedException();
-        //}
 
         public void Save<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
         {
-            throw new NotImplementedException();
+            var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
+            collection.InsertOne(@event);
+        }
+        public async Task SaveAsync<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
+        {
+            var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
+            await collection.InsertOneAsync(@event);
         }
 
-        public Task SaveAsync<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
+        public Task<IReadOnlyCollection<TDomainEvent>> GetEvents<TDomainEvent>(int aggregateId) where TDomainEvent : IDomainEvent
         {
-            throw new NotImplementedException();
+            var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
+            //collection.FindAsync(aggregateId);
+            return null;
         }
 
-        public Task<IList<TDomainEvent>> GetEvents<TDomainEvent>(int aggregateId) where TDomainEvent : IDomainEvent
+        public async Task SaveEventsAsync(string aggregateId, int originatingVersion, IReadOnlyCollection<IDomainEvent> events, string aggregateName)
         {
-            throw new NotImplementedException();
+            if (events.Count == 0) return;
+            var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
+            await collection.InsertManyAsync(events);
         }
     }
 }

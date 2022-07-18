@@ -22,6 +22,9 @@ namespace HP.Infrastructure.Repository
 
         public Task<IEnumerable<Todo>> GetListByTags(string[] tags)
         {
+
+            //await _collection.InsertOneAsync(entity);
+            //return entity;
             //var check = _todos.AsQueryable().Where(x => tags.Contains(x.Tag));
             throw new NotImplementedException();
         }
