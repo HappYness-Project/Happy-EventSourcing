@@ -3,14 +3,14 @@ using MediatR;
 
 namespace HP.Application.Commands
 {
-    public class InsertPersonCommandHandler : IRequestHandler<InsertPersonCommand, Person>
+    public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, Person>
     {
         private readonly IPersonRepository _repository;
-        public InsertPersonCommandHandler(IPersonRepository personRepository)
+        public CreatePersonCommandHandler(IPersonRepository personRepository)
         {
             this._repository = personRepository;
         }
-        public async Task<Person> Handle(InsertPersonCommand request, CancellationToken cancellationToken)
+        public async Task<Person> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
             // await event service. PersistAsync
             Person person = new Person

@@ -62,6 +62,12 @@ namespace HP.Domain.Todos
 
                 case TodoDomainEvents.TodoUpdated u:
                     break;
+
+                case TodoDomainEvents.TodoActivated a:
+                    break;
+
+                case TodoDomainEvents.TodoDeactivated d:
+                    break;
             }
 
         }

@@ -29,7 +29,10 @@ namespace HP.test
         public void Delete_Specific_person_by_PersonId()
         {
             // Creating a person object into the db.
-            Person person = Person.Create("Kevin", "Park", "asdf@gmail.com");
+            Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
+            Email email = new Email("hyunbin7303@gmail.com");
+
+            Person person = Person.Create("Kevin", "Park", addr, email);
             var newPerson = personRepository.CreateAsync(person).Result;
 
             var isRemoved = personRepository.DeletePersonAsync(newPerson.Id)?.Result;
@@ -39,7 +42,11 @@ namespace HP.test
         [Test]
         public void CreatePerson()
         {
-            Person person = Person.Create("Kevin", "Park", "hyunbin7303@gmail.com");
+            // Arrange
+            Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
+            Email email = new Email("hyunbin7303@gmail.com");
+
+            Person person = Person.Create("Kevin", "Park", addr, email);
             var personObj = personRepository.CreateAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }
@@ -47,7 +54,10 @@ namespace HP.test
         [Test]
         public void UpdatePersonAsync_UpdateSuccessful()
         {
-            Person person = Person.Create("Kevin", "Park", "hyunbin7303@gmail.com");
+            // Arrange
+            Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
+            Email email = new Email("hyunbin7303@gmail.com");
+            Person person = Person.Create("Kevin", "Park", addr, email);
             var personObj = personRepository.UpdatePersonAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }

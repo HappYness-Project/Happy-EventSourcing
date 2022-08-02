@@ -39,7 +39,7 @@ namespace HP.Controllers
             if (personDto == null)
                 return BadRequest();
             
-            var cmd = new InsertPersonCommand(personDto.UserId,personDto.FirstName, personDto.LastName, personDto.Address);
+            var cmd = new CreatePersonCommand(personDto.UserId,personDto.FirstName, personDto.LastName, personDto.Address);
             // Message Broker call? Should we need to do in both? 
             //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
             //TODO: Since it is a Create, I think it's desirable to use Publish command .  

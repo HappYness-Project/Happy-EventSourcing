@@ -8,24 +8,40 @@ namespace HP.Domain.Person
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Address Address { get; set; }
-        public string Email { get; set; }
+        public Email Email { get; set; }
         public string Description { get; set; }
         public int GroupId { get; set; }
         public string Role { get; set; }
         public bool IsActive { get; set; }
-        public static Person Create(string firstName, string lastName, string Email)
+        private Person() { }
+        public Person(string firstName, string lastName, Address address, Email email)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Address = address;
+            Email = email;
+            if (string.IsNullOrWhiteSpace(firstName))
+                throw new ArgumentNullException(nameof(firstName));
+
+            if (string.IsNullOrWhiteSpace(lastName))
+                throw new ArgumentNullException(nameof(lastName));
+
+
+        }
+
+        public static Person Create(string firstName, string lastName, Address address, Email email)
         {
             //if (!email.IsValid) throw new EmailNotValidException(email);
             //bool unique = userUniqueChecker.CheckAsync(email, cancellationToken).GetAwaiter().GetResult();
             //if (!unique) throw new UserAlreadyExistException(email);
-
             //UserId userId = userIdGenerator.Generate();
             //Password password = passwordGenerator.Generate();
             //PasswordHash passwordHash = passwordHasher.Hash(password);
             //var user = new User(userId, email, passwordHash, DateTime.UtcNow);
             //var userCreatedEvent = new UserCreatedEvent(user, password);
-            return new Person();
+            return new Person(firstName, lastName, address, email); 
         }
+
         public static Address CreateAddress(string Country, string City, string Region, string PostalCode)
         {
             // TODO Validation for the Address.
@@ -35,6 +51,18 @@ namespace HP.Domain.Person
 
         protected override void When(IDomainEvent @event)
         {
+            switch(@event)
+            {
+                case PersonEvents.PersonCreated c:
+                    //this.Id = c.AggregateId;
+                    break;
+
+                case PersonEvents.PersonUpdated u:
+                    break;
+
+                //case PersonEvents.PersonDeleted d:
+                //    break;
+            }
             throw new NotImplementedException();
         }
     }

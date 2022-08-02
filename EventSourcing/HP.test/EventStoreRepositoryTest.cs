@@ -1,4 +1,5 @@
-﻿using HP.Domain;
+﻿using HP.Application.Commands;
+using HP.Domain;
 using HP.Domain.Common;
 using HP.Domain.Person;
 using HP.Infrastructure.Repository;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace HP.test
 {
     using static HP.Domain.Todos.TodoDomainEvents;
-    using static HP.Domain.Person.PersonDomainEvents;
+    using static HP.Domain.Person.PersonEvents;
 
     internal class EventStoreRepositoryTest : TestBase
     {
@@ -35,16 +36,26 @@ namespace HP.test
         public void EventStore_Save_For_PersonCreate()
         {
             var addr = new Address("Canada", "Kitchener", "Ontario", "N2L 3M3");
-            IDomainEvent domainEvent = new PersonDomainEvents.PersonCreated(Guid.NewGuid().ToString(), "Kevin", "Park", "hyunbin7303@gmail.com", addr);
+            IDomainEvent domainEvent = new PersonCreated(Guid.NewGuid().ToString(), "Kevin", "Park", "hyunbin7303@gmail.com", addr);
             eventStore.Save(domainEvent);
         }
 
 
         //[Test]
-        //public void eventStore_Save()
+        //public void EventStore_Save_For_PersonCreate()
         //{
-        //    IDomainEvent domainEvent = new TodoCreatedEvent("HP09428", Guid.NewGuid().ToString(), "Todo Application Event created.", "Todo Description", "InGeneral");
-        //    var events = eventStore.GetEvents("");
+        //    var addr = new Address("Canada", "Kitchener", "Ontario", "N2L 3M3");
+        //    var person = new Person();
+        //    var createUserCommand = new CreatePersonCommand("hyunbin7303", "Kevin", "Park", addr);
+
+        //    IDomainEvent domainEvent = new PersonCreated(Guid.NewGuid().ToString(), "Kevin", "Park", "hyunbin7303@gmail.com", addr);
+        //    eventStore.SaveEventsAsync(1, 1, null, "PersonCreated");
         //}
+
+        [Test]
+        public void eventStore_Save()
+        {
+            var events = eventStore.GetEvents<PersonCreated>(1);
+        }
     }
 }

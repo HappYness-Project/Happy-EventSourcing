@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HP.Domain.Person
 {
-    public static class PersonDomainEvents
+    public static class PersonEvents
     {
         public class PersonCreated : DomainEventBase
         {
