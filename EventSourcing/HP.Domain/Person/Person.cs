@@ -13,23 +13,30 @@ namespace HP.Domain.Person
         public int GroupId { get; set; }
         public string Role { get; set; }
         public bool IsActive { get; set; }
-        private Person() { }
-        public Person(string firstName, string lastName, Address address, Email email)
+        protected Person() 
         {
-            FirstName = firstName;
-            LastName = lastName;
-            Address = address;
-            Email = email;
+            IsActive = false;
+        }
+        public Person(string firstName, string lastName, Address address, Email email, string userId = null)
+        {
+
             if (string.IsNullOrWhiteSpace(firstName))
                 throw new ArgumentNullException(nameof(firstName));
 
             if (string.IsNullOrWhiteSpace(lastName))
                 throw new ArgumentNullException(nameof(lastName));
 
+            FirstName = firstName;
+            LastName = lastName;
+            Address = address;
+            Email = email;
+            UserId = userId;
+            IsActive = true;    
+
 
         }
 
-        public static Person Create(string firstName, string lastName, Address address, Email email)
+        public static Person Create(string firstName, string lastName, Address address, string emailvalue, string userId=null)
         {
             //if (!email.IsValid) throw new EmailNotValidException(email);
             //bool unique = userUniqueChecker.CheckAsync(email, cancellationToken).GetAwaiter().GetResult();
@@ -39,7 +46,8 @@ namespace HP.Domain.Person
             //PasswordHash passwordHash = passwordHasher.Hash(password);
             //var user = new User(userId, email, passwordHash, DateTime.UtcNow);
             //var userCreatedEvent = new UserCreatedEvent(user, password);
-            return new Person(firstName, lastName, address, email); 
+            Email email = new Email(emailvalue);
+            return new Person(firstName, lastName, address, email, userId); 
         }
 
         public static Address CreateAddress(string Country, string City, string Region, string PostalCode)

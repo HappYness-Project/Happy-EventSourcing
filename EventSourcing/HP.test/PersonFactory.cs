@@ -6,12 +6,11 @@ namespace HP.test
         public static Person Create()
         {
             Address addr = new Address("Canada", "Waterloo","ON","N2L-4m2");
-            Email email = new Email("hyunbin7303@gmail.com");
-            return Person.Create("Kevin", "Park", addr, email);
+            return Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com");
         }
-        public static Person Create(string fName, string lName, string addr, string email)
+        public static Person Create(string fName, string lName, Address addr, string email)
         {
-            return Person.Create(fName, lName, email);
+            return Person.Create(fName, lName, addr, email);
         }
     }
     

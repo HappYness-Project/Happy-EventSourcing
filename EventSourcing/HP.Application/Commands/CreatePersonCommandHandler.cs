@@ -13,15 +13,7 @@ namespace HP.Application.Commands
         public async Task<Person> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
             // await event service. PersistAsync
-            Person person = new Person
-            {
-                UserId = request.UserId,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Address = request.Address,
-                IsActive = true,
-
-            };
+            var person = Person.Create(request.FirstName, request.LastName, request.Address, request.emailAddr, request.UserName);
             return await _repository.CreateAsync(person);
         }
     }

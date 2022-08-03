@@ -30,9 +30,7 @@ namespace HP.test
         {
             // Creating a person object into the db.
             Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
-            Email email = new Email("hyunbin7303@gmail.com");
-
-            Person person = Person.Create("Kevin", "Park", addr, email);
+            Person person = Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com");
             var newPerson = personRepository.CreateAsync(person).Result;
 
             var isRemoved = personRepository.DeletePersonAsync(newPerson.Id)?.Result;
@@ -44,9 +42,7 @@ namespace HP.test
         {
             // Arrange
             Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
-            Email email = new Email("hyunbin7303@gmail.com");
-
-            Person person = Person.Create("Kevin", "Park", addr, email);
+            Person person = Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com");
             var personObj = personRepository.CreateAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }
@@ -56,8 +52,7 @@ namespace HP.test
         {
             // Arrange
             Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
-            Email email = new Email("hyunbin7303@gmail.com");
-            Person person = Person.Create("Kevin", "Park", addr, email);
+            Person person = Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com");
             var personObj = personRepository.UpdatePersonAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }
