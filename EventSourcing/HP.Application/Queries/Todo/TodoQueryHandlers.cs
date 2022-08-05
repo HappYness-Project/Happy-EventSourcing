@@ -6,7 +6,8 @@ namespace HP.Application.Queries.Todo
 {
     public class TodoQueryHandlers : BaseQueryHandler,
                                      IRequestHandler<GetTodosByUserId, IEnumerable<TodoBasicInfoDto>>,
-                                     IRequestHandler<GetTodoById, Domain.Todos.Todo>
+                                     IRequestHandler<GetTodoById, TodoDetailsDto>,
+                                     IRequestHandler<GetTodosByProjectId, IEnumerable<TodoDetailsDto>>
 
     {
         private readonly ITodoRepository _todoRepository;
@@ -20,11 +21,26 @@ namespace HP.Application.Queries.Todo
             var todos = await _todoRepository.GetListByUserId(request.UserId);
             if (todos == null)
                 throw new ApplicationException($"Todos not exist for this user ID:{request.UserId}");
+
             return _mapper.Map<List<TodoBasicInfoDto>>(todos);
         }
-        public Task<Domain.Todos.Todo> Handle(GetTodoById request, CancellationToken cancellationToken)
+        public async Task<TodoDetailsDto> Handle(GetTodoById request, CancellationToken cancellationToken)
         {
-            return _todoRepository.GetByIdAsync(request.Id);
+            var todo = await _todoRepository.GetByIdAsync(request.Id);
+            if (todo is null)
+                throw new ApplicationException($"TodoId:{request.Id} does not exist.");
+
+            return _mapper.Map<TodoDetailsDto>(todo);
+        }
+
+        public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByProjectId request, CancellationToken cancellationToken)
+        {
+            var todos = await _todoRepository.GetAllAsync();
+            var todoWithProjId = todos.Where(x => x.ProjectId == request.ProjectId);
+            if (todoWithProjId is null)
+                throw new ApplicationException($"Todo project does not exist. Project ID:{request.ProjectId}");
+
+            return _mapper.Map<List<TodoDetailsDto>>(todoWithProjId);
         }
     }
 }

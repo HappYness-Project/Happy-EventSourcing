@@ -57,5 +57,6 @@ namespace HP.test
         {
             var events = eventStore.GetEvents<PersonCreated>(1);
         }
+
     }
 }

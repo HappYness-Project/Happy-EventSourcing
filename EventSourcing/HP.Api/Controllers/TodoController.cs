@@ -1,4 +1,4 @@
-﻿using HP.Api.DTO;
+﻿using HP.Api.Requests;
 using HP.Application.Commands;
 using HP.Application.Handlers;
 using HP.Application.Queries;
@@ -50,20 +50,20 @@ namespace HP.Controllers
             return Ok(todo);
         }
         [HttpPost("{personId}/todos")]
-        public async Task<IActionResult> Create([FromRoute]string personId, [FromBody] CreateTodoDto todoDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create([FromRoute]string personId, [FromBody] CreateTodoRequest createTodoRequest, CancellationToken cancellationToken = default)
         {
-            if (todoDto == null)
+            if (createTodoRequest == null)
                 return BadRequest();
 
-            var cmd = new CreateTodoCommand(personId, todoDto.Title, todoDto.Description);
+            var cmd = new CreateTodoCommand(personId, createTodoRequest.Title, createTodoRequest.Description);
             await _mediator.Publish(cmd, cancellationToken);
             return CreatedAtAction("GetTodo", new { Title = cmd.TodoTitle }, cmd);
         }
 
         [HttpPut("")]
-        public async Task<IActionResult> Update([FromRoute] string personId, [FromBody]UpdateTodoDto todoDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Update([FromRoute] string personId, [FromBody]UpdateTodoRequest todoRequest, CancellationToken cancellationToken = default)
         {
-            var cmd = new UpdateTodoCommand(todoDto.TodoId, todoDto.TodoTotle, todoDto.TodoDescription, todoDto.Tags);
+            var cmd = new UpdateTodoCommand(todoRequest.TodoId, todoRequest.TodoTotle, todoRequest.TodoDescription, todoRequest.Tags);
             //TODO Update info.
             return Ok();
         }

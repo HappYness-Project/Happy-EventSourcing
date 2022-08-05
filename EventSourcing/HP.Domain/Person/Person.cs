@@ -36,12 +36,11 @@ namespace HP.Domain.Person
 
         }
 
-        public static Person Create(string firstName, string lastName, Address address, string emailvalue, string userId=null)
+        public static Person Create(string firstName, string lastName, Address address, string emailvalue, string userId= null)
         {
-            //if (!email.IsValid) throw new EmailNotValidException(email);
             //bool unique = userUniqueChecker.CheckAsync(email, cancellationToken).GetAwaiter().GetResult();
             //if (!unique) throw new UserAlreadyExistException(email);
-            //UserId userId = userIdGenerator.Generate();
+            //UserId userId = userIdG enerator.Generate();
             //Password password = passwordGenerator.Generate();
             //PasswordHash passwordHash = passwordHasher.Hash(password);
             //var user = new User(userId, email, passwordHash, DateTime.UtcNow);

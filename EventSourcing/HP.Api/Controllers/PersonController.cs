@@ -1,4 +1,4 @@
-﻿using HP.Api.DTO;
+﻿using HP.Api.Requests;
 using HP.Application.Commands;
 using HP.Application.Queries.Person;
 using HP.Domain.Person;
@@ -34,7 +34,7 @@ namespace HP.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreatePersonDto personDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create([FromBody]CreatePersonRequest personDto, CancellationToken cancellationToken = default)
         {
             if (personDto == null)
                 return BadRequest();
@@ -48,7 +48,7 @@ namespace HP.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<Person> Update(string id, [FromBody]UpdatePersonDto personDto)
+        public async Task<Person> Update(string id, [FromBody]UpdatePersonRequest personDto)
         {
             return await _mediator.Send(new UpdatePersonCommand(id, personDto.FirstName, personDto.LastName,personDto.Email));
         }

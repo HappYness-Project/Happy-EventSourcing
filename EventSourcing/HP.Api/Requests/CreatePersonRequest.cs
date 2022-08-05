@@ -1,9 +1,9 @@
 ﻿using HP.Domain.Person;
 using System.ComponentModel.DataAnnotations;
 
-namespace HP.Api.DTO
+namespace HP.Api.Requests
 {
-    public class CreatePersonDto
+    public class CreatePersonRequest
     {
         [Required]
         public string UserId { get; set; }
