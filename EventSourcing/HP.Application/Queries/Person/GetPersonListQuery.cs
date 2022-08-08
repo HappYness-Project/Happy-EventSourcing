@@ -1,7 +1,8 @@
-﻿using MediatR;
+﻿using HP.Application.DTOs;
+using MediatR;
 
 namespace HP.Application.Queries.Person
 {
-    public record GetPersonListQuery() : IRequest<List<HP.Domain.Person.Person>>;
+    public record GetPersonListQuery() : IRequest<List<PersonDetailsDto>>;
 
 }

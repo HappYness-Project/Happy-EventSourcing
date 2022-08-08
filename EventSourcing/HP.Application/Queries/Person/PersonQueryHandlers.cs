@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
+using HP.Application.DTOs;
+using HP.Application.Queries.People;
 using HP.Application.Queries.Person;
 using HP.Domain;
 using HP.Domain.Person;
-using HP.Infrastructure;
-using HP.Infrastructure.Repository;
 using MediatR;
 
 
 namespace HP.Application.Queries
 {
     public class PersonQueryHandlers : BaseQueryHandler,
-                                        IRequestHandler<GetPersonListQuery, IEnumerable<HP.Domain.Person.Person>>,
-                                        IRequestHandler<GetPersonByIdQuery, HP.Domain.Person.Person>
+                                        IRequestHandler<GetPersonListQuery, IEnumerable<PersonDetailsDto>>,
+                                        IRequestHandler<GetPersonByIdQuery, PersonDetailsDto>
     {
         private readonly IPersonRepository _personRepository;
         private readonly IMediator _mediator;
@@ -20,12 +20,16 @@ namespace HP.Application.Queries
             _mediator = mediator;
             _personRepository = personRepository;
         }
-        public Task<IEnumerable<HP.Domain.Person.Person>> Handle(GetPersonListQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<PersonDetailsDto>> Handle(GetPersonListQuery request, CancellationToken cancellationToken)
         {
-            return _personRepository.GetAllAsync();
+            var check = _personRepository.GetAllAsync();
+            if (check is null)
+                return null;
+
+            return Task.FromResult(_mapper.Map<IEnumerable<PersonDetailsDto>>(check));
         }
 
-        public async Task<HP.Domain.Person.Person> Handle(GetPersonByIdQuery request, CancellationToken cancellationToken)
+        public async Task<PersonDetailsDto> Handle(GetPersonByIdQuery request, CancellationToken cancellationToken)
         {
             var results = await _mediator.Send(new GetPersonListQuery());
             return results.FirstOrDefault(x => x.UserId == request.Id);

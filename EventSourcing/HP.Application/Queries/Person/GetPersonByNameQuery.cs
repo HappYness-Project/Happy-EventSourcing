@@ -1,8 +1,6 @@
-﻿using HP.Domain.Person;
+﻿using HP.Application.DTOs;
 using MediatR;
-
-
-namespace HP.Application.Queries.Person
+namespace HP.Application.Queries.People
 {
-    public record GetPersonByNameQuery(string firstName, string lastName) : IRequest<HP.Domain.Person.Person>;
+    public record GetPersonByNameQuery(string firstName, string lastName) : IRequest<PersonDetailsDto>;
 }

@@ -1,4 +1,7 @@
-﻿namespace HP.Application.Commands
+﻿
+using MediatR;
+
+namespace HP.Application.Commands
 {
     public class CommandResult
     {
@@ -10,4 +13,7 @@
             Message = msg;
         }
     }
+
+
+
 }
