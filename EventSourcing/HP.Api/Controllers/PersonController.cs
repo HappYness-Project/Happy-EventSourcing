@@ -1,5 +1,6 @@
 ﻿using HP.Api.Requests;
 using HP.Application.Commands;
+using HP.Application.DTOs;
 using HP.Application.Queries.Person;
 using HP.Domain.Person;
 using MediatR;
@@ -17,7 +18,7 @@ namespace HP.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IEnumerable<Person>> Get()
+        public async Task<IEnumerable<PersonDetailsDto>> Get()
         {
             return await _mediator.Send(new GetPersonListQuery());
         }
@@ -25,7 +26,7 @@ namespace HP.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id, CancellationToken token = default)
         {
-            var person = await _mediator.Send(new GetPersonByIdQuery(id)); 
+            var person = await _mediator.Send(new GetPersonListQuery()); 
             if(person == null)
             {
                 return NotFound();

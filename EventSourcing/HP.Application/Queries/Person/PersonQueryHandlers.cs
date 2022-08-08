@@ -31,8 +31,11 @@ namespace HP.Application.Queries
 
         public async Task<PersonDetailsDto> Handle(GetPersonByIdQuery request, CancellationToken cancellationToken)
         {
-            var results = await _mediator.Send(new GetPersonListQuery());
-            return results.FirstOrDefault(x => x.UserId == request.Id);
+            var check = _personRepository.GetByIdAsync(request.Id);
+            if (check is null)
+                return null;
+
+            return _mapper.Map<PersonDetailsDto>(check);
         }
     }
 }

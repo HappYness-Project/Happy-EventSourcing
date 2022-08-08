@@ -21,7 +21,7 @@ Welcome to your new app.
 
 
 @code {
-    List<Person> people;
+    List<HP.Application.DTOs.PersonDetailsDto> people;
     protected override async Task OnInitializedAsync()
     {
         people = await _mediator.Send(new GetPersonListQuery());

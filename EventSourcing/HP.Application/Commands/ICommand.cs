@@ -7,7 +7,7 @@ namespace HP.Application.Commands
         string Id { get; }
     }
 
-    public abstract class CommandBase<TResult> : ICommand<TResult>
+    public abstract record CommandBase<TResult> : ICommand<TResult>
     {
         public string Id { get; }
 
