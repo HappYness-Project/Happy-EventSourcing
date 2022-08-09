@@ -28,31 +28,30 @@ namespace HP.Domain.Person
 
             FirstName = firstName;
             LastName = lastName;
-            Address = address;
-            Email = email;
+            Address = address ?? throw new ArgumentNullException(nameof(address));
+            Email = email ?? throw new ArgumentNullException(nameof(email));
             UserId = userId;
             IsActive = true;    
 
-
+            AddDomainEvent(new PersonEvents.PersonCreated(Id, firstName, lastName, email, address));
         }
 
-        public static Person Create(string firstName, string lastName, Address address, string emailvalue, string userId= null)
+        public static Person Create(string firstName, string lastName, Address address, string emailValue, string userId= null)
         {
-            //bool unique = userUniqueChecker.CheckAsync(email, cancellationToken).GetAwaiter().GetResult();
-            //if (!unique) throw new UserAlreadyExistException(email);
-            //UserId userId = userIdG enerator.Generate();
-            //Password password = passwordGenerator.Generate();
-            //PasswordHash passwordHash = passwordHasher.Hash(password);
-            //var user = new User(userId, email, passwordHash, DateTime.UtcNow);
+            if (firstName is null || lastName is null)
+                throw new ArgumentNullException("Firstname or lastName cannot be null");
+
+            if (address is null)
+                throw new ArgumentNullException(nameof(address));
+
             //var userCreatedEvent = new UserCreatedEvent(user, password);
-            Email email = new Email(emailvalue);
+            Email email = new Email(emailValue);
             return new Person(firstName, lastName, address, email, userId); 
         }
 
         public static Address CreateAddress(string Country, string City, string Region, string PostalCode)
         {
             // TODO Validation for the Address.
-
             return new Address(Country, City, Region, PostalCode);
         }
 

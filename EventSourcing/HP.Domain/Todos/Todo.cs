@@ -11,11 +11,17 @@ namespace HP.Domain.Todos
         public Todo(string userId, string title, string description, string type, string[] tag) : this()
         {
             // TODO : CheckPolicies
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentNullException(nameof(userId));
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentNullException(nameof(title));
+            
             UserId = userId;
             Title = title;
             Description = description;
             Type = type;
             Tag = tag;
+
             AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, userId, title, Description, type));
         }
         public string UserId { get; private set; }
@@ -64,6 +70,8 @@ namespace HP.Domain.Todos
                     break;
 
                 case TodoDomainEvents.TodoActivated a:
+                    this.IsActive = true;
+                    
                     break;
 
                 case TodoDomainEvents.TodoDeactivated d:

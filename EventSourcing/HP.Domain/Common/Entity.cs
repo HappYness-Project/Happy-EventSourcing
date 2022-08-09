@@ -18,7 +18,6 @@ namespace HP.Domain.Common
         {
             // Check Invriants??
             // Update Aggregate?? 
-
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();
             _domainEvents.Add(domainEvent);
         }
