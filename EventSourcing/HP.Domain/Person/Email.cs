@@ -3,7 +3,7 @@
 
 namespace HP.Domain.Person
 {
-    public class Email
+    public record Email
     {
         public Email(string emailAddr)
         {

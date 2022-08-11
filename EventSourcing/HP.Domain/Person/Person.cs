@@ -4,15 +4,15 @@ namespace HP.Domain.Person
 {
     public class Person : Entity, IAggregateRoot
     {
-        public string UserId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Address Address { get; set; }
-        public Email Email { get; set; }
-        public string Description { get; set; }
-        public int GroupId { get; set; }
-        public string Role { get; set; }
-        public bool IsActive { get; set; }
+        public string UserId { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public Address Address { get; private set; }
+        public Email Email { get; private set; }
+        public string Description { get; private set; }
+        public int GroupId { get; private set; }
+        public string Role { get; private set; }
+        public bool IsActive { get; private set; }
         protected Person() 
         {
             IsActive = false;
@@ -49,6 +49,11 @@ namespace HP.Domain.Person
             return new Person(firstName, lastName, address, email, userId); 
         }
 
+        public static Person Update(string firstName, string lastName, string emailAddr, Address address)
+        {
+            // Person . How to update the Person info?
+            return null;
+        }
         public static Address CreateAddress(string Country, string City, string Region, string PostalCode)
         {
             // TODO Validation for the Address.
@@ -59,17 +64,21 @@ namespace HP.Domain.Person
         {
             switch(@event)
             {
-                case PersonEvents.PersonCreated c:
-                    //this.Id = c.AggregateId;
+                case PersonEvents.PersonCreated created:
+                    //@event.Equals(@event);
                     break;
 
                 case PersonEvents.PersonUpdated u:
+                    
+                    break;
+
+                case PersonEvents.PersonRoleSetAdminAssigned a:
+
                     break;
 
                 //case PersonEvents.PersonDeleted d:
-                //    break;
+                //  break;
             }
-            throw new NotImplementedException();
         }
     }
 }

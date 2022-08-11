@@ -72,6 +72,9 @@ namespace HP.Domain.Todos
         {
             public TodoCompleted(string todoId) : base(entityType: nameof(Todo))
             {
+                if(string.IsNullOrEmpty(todoId))
+                    throw new ArgumentNullException(nameof(todoId));
+
                 this.TodoId = todoId;
             }
             public string TodoId { get; }

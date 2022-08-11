@@ -16,8 +16,8 @@ namespace HP.Application.Commands
             if (person == null)
                 return null;
 
-            person.FirstName = request.FirstName;
-            person.LastName = request.LastName;
+            //var address = person.CreateAddress("", "", "", "");
+            person.Update(request.FirstName, request.LastName, request.Email);
             person.Email = new Email(request.Email);
             return _repository.UpdatePersonAsync(person);
         }

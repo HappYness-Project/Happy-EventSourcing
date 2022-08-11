@@ -16,8 +16,8 @@ namespace HP.Domain.Common
         public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
         protected void AddDomainEvent(IDomainEvent domainEvent)
         {
-            // Check Invriants??
-            // Update Aggregate?? 
+            // TODO : Check Invriants??
+            // TODO L: Update Aggregate?? 
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();
             _domainEvents.Add(domainEvent);
         }

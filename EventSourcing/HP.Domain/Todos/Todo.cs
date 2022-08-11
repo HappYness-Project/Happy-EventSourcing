@@ -33,7 +33,7 @@ namespace HP.Domain.Todos
         public bool IsStarted { get; private set; }
         public bool IsActive { get; private set; }
         public double Score { get; private set; }
-        public IEnumerable<Todo> SubTodos { get; private set; } = Enumerable.Empty<Todo>();
+        public IEnumerable<TodoItem> SubTodos { get; private set; } = Enumerable.Empty<TodoItem>();
         public TodoStatus Status { get; private set; }  
         public string StatusDesc { get; private set; }
         public DateTime? Updated { get; private set; } 
@@ -42,7 +42,7 @@ namespace HP.Domain.Todos
 
         public static Todo Create(string userId, string title, string description, string type, string[] tags)
         {
-            return new Todo(userId, title, description, type, tags);
+            return new(userId, title, description, type, tags);
         }
         // ??? TODO I am not sure i am adding todoItems, or Just Todo from this method.
         public void AddTodoItem(string todoId, string userId, string title, string type)
@@ -51,11 +51,11 @@ namespace HP.Domain.Todos
             //this.AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(todoId, userId, title, type));
         }
 
-        public void DeleteTodoItems(string todoId)
+        public void DeleteTodoItems(string todoId, string subTodoId)
         {
             var todo = SubTodos.FirstOrDefault(x => x.Id == todoId);
             if (todo == null)
-                throw new Exception("Not Found Todo!!");
+                throw new Exception("Not Found Todo.");
             // Not sure!!
             //todo.Delete
         }
@@ -99,6 +99,7 @@ namespace HP.Domain.Todos
                 case TodoStatus.Completed:
                     this.Status = status;
                     this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is completed.";
+                    this.ver++;
                     AddDomainEvent(new TodoDomainEvents.TodoCompleted(todoId));
                     break;
 

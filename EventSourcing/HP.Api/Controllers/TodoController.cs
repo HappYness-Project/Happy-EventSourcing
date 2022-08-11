@@ -22,7 +22,6 @@ namespace HP.Controllers
             _mediator = mediator;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -61,13 +60,12 @@ namespace HP.Controllers
         }
 
         [HttpPut("")]
-        public async Task<IActionResult> Update([FromRoute] string personId, [FromBody]UpdateTodoRequest todoRequest, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Update([FromBody]UpdateTodoRequest todoRequest, CancellationToken cancellationToken = default)
         {
             var cmd = new UpdateTodoCommand(todoRequest.TodoId, todoRequest.TodoTotle, todoRequest.TodoDescription, todoRequest.Tags);
             //TODO Update info.
             return Ok();
         }
-
 
         [HttpPut("todos/{todoId}/start")]
         public async Task<IActionResult> StartTodo([FromRoute]string todoId, CancellationToken cancellationToken = default)
@@ -78,8 +76,6 @@ namespace HP.Controllers
             var todo = await _mediator.Send(cmd);
             return Ok(todo);
         } 
-
-
 
         [Route("/Todos/{todoId}")]
         [HttpDelete]

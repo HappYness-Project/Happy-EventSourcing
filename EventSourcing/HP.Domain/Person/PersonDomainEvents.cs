@@ -24,7 +24,6 @@ namespace HP.Domain.Person
             public Email Email { get; }
 
         }
-
         public class PersonUpdated : DomainEventBase
         {
             public PersonUpdated()
@@ -32,8 +31,6 @@ namespace HP.Domain.Person
 
             }
         }
-
-
         public class AddressChanged : DomainEventBase
         {
             public AddressChanged(string personId, string country, string city, string stress, string zipCode) : base(entityType: nameof(Address))
@@ -47,6 +44,14 @@ namespace HP.Domain.Person
             public string City { get; }
             public string Stress { get; }
             public string ZipCode { get; }
+        }
+        public class PersonRoleSetAdminAssigned : DomainEventBase
+        {
+            public PersonRoleSetAdminAssigned(string personId) : base(entityType: nameof(Person))
+            {
+                Id = personId;
+            }
+            public string Id { get; }
         }
     }
 }
