@@ -1,4 +1,4 @@
-﻿namespace HP.Domain.Person
+﻿namespace HP.Domain
 {
     public record Address
     {

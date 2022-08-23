@@ -1,5 +1,5 @@
 ﻿using HP.Domain.Common;
-namespace HP.Domain.Todos
+namespace HP.Domain
 {
     public static class TodoDomainEvents
     {

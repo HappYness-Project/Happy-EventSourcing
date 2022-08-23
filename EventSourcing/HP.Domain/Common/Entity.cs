@@ -6,6 +6,8 @@ namespace HP.Domain.Common
     {
         public string Id { get; protected set; }
         public DateTime CreateDate { get; private set; }
+        public long Version { get; private set; }
+
         public Entity()
         {
             Id = ObjectId.GenerateNewId().ToString();

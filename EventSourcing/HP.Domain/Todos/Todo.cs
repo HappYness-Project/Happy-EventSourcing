@@ -1,28 +1,29 @@
 ﻿using HP.Domain.Common;
-namespace HP.Domain.Todos
+namespace HP.Domain
 {
     public class Todo : Entity, IAggregateRoot
     {
-        public Todo()
+        protected Todo()
         {
             IsActive = true;
             Tag = Array.Empty<string>();
         }
-        public Todo(string userId, string title, string description, string type, string[] tag) : this()
+        public Todo(Person person, string title, string description, string type, string[] tag) : this()
         {
             // TODO : CheckPolicies
-            if (string.IsNullOrWhiteSpace(userId))
-                throw new ArgumentNullException(nameof(userId));
+            if (person is null)
+                throw new ArgumentNullException(nameof(person));
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentNullException(nameof(title));
             
-            UserId = userId;
+            UserId = person.UserId;
             Title = title;
             Description = description;
             Type = type;
             Tag = tag;
+            IsActive = true;
 
-            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, userId, title, Description, type));
+            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, Description, type));
         }
         public string UserId { get; private set; }
         public string Title { get; private set; }
@@ -40,9 +41,12 @@ namespace HP.Domain.Todos
         public DateTime? Completed { get; private set; }
 
 
-        public static Todo Create(string userId, string title, string description, string type, string[] tags)
+        public static Todo Create(Person person, string title, string description, string type, string[] tags)
         {
-            return new(userId, title, description, type, tags);
+            if(person is null)
+                throw new ArgumentNullException(nameof(person));
+
+            return new(person, title, description, type, tags);
         }
         // ??? TODO I am not sure i am adding todoItems, or Just Todo from this method.
         public void AddTodoItem(string todoId, string userId, string title, string type)
@@ -55,9 +59,9 @@ namespace HP.Domain.Todos
         {
             var todo = SubTodos.FirstOrDefault(x => x.Id == todoId);
             if (todo == null)
-                throw new Exception("Not Found Todo.");
-            // Not sure!!
+                throw new Exception("Not Found SubTodo.");
             //todo.Delete
+            
         }
         protected override void When(IDomainEvent @event)
         {
@@ -99,7 +103,6 @@ namespace HP.Domain.Todos
                 case TodoStatus.Completed:
                     this.Status = status;
                     this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is completed.";
-                    this.ver++;
                     AddDomainEvent(new TodoDomainEvents.TodoCompleted(todoId));
                     break;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HP.Domain.Todos
+namespace HP.Domain
 {
     public enum TodoStatus
     {

@@ -1,4 +1,4 @@
-﻿using HP.Domain.Person;
+﻿using HP.Domain;
 using MediatR;
 
 namespace HP.Application.Commands
@@ -16,7 +16,7 @@ namespace HP.Application.Commands
             if (person == null)
                 return null;
 
-            //var address = person.CreateAddress("", "", "", "");
+            var address = person.CreateAddress("", "", "", "");
             person.Update(request.FirstName, request.LastName, request.Email);
             person.Email = new Email(request.Email);
             return _repository.UpdatePersonAsync(person);

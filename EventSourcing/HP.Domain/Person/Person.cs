@@ -1,6 +1,5 @@
 ﻿using HP.Domain.Common;
-
-namespace HP.Domain.Person
+namespace HP.Domain
 {
     public class Person : Entity, IAggregateRoot
     {
@@ -13,6 +12,7 @@ namespace HP.Domain.Person
         public int GroupId { get; private set; }
         public string Role { get; private set; }
         public bool IsActive { get; private set; }
+        public decimal CurrentScore { get; private set; }
         protected Person() 
         {
             IsActive = false;

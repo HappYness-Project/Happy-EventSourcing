@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace HP.Domain.Person
+namespace HP.Domain
 {
     public record Email
     {
