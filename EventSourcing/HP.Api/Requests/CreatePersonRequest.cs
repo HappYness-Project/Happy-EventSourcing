@@ -1,4 +1,4 @@
-﻿using HP.Domain.Person;
+﻿using HP.Domain;
 using System.ComponentModel.DataAnnotations;
 
 namespace HP.Api.Requests

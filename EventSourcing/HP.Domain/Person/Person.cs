@@ -16,6 +16,7 @@ namespace HP.Domain
         protected Person() 
         {
             IsActive = false;
+            CurrentScore = 0;
         }
         public Person(string firstName, string lastName, Address address, Email email, string userId = null)
         {
