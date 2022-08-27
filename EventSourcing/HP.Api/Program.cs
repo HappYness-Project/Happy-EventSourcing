@@ -2,8 +2,6 @@ using HP.Application;
 using HP.Application.Queries.People;
 using HP.Application.Queries.Person;
 using HP.Domain;
-using HP.Domain.Person;
-using HP.Domain.Todos;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;

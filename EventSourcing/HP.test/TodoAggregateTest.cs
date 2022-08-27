@@ -1,4 +1,4 @@
-﻿using HP.Domain.Todos;
+﻿using HP.Domain;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -17,10 +17,12 @@ namespace HP.test
             //Arrange
             string[] faketags = { "Study", "Kevin", "DDD" };
             List<Todo> todoList = new List<Todo>();
+            Address addr = new Address("Canada", "Waterloo", "ON", "n2l-4m2");
             var expectedResult = 1;
+            Person person= new Person("Kevin", "Park", addr, null);
 
             // Act
-            var fakeTodo = new Todo("FakeUserName", "fake Todo", "fake Description","fake type", faketags);
+            var fakeTodo = Todo.Create(person, "fake Todo", "fake Description", "fake type", faketags);
 
             //Assert
             Assert.Equals(fakeTodo.DomainEvents.Count, expectedResult);

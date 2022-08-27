@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HP.Application.DTOs;
-using HP.Domain.Person;
+using HP.Domain;
 using MediatR;
 
 namespace HP.Application.Commands

@@ -1,14 +1,14 @@
-﻿using HP.Domain.Todos;
+﻿using HP.Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static HP.Domain.Todos.TodoDomainEvents;
 
 namespace HP.Application.EventHandlers
 {
+    using static HP.Domain.TodoDomainEvents;
     public class TodoEventHandlers : INotificationHandler<TodoCreated>,
                                      INotificationHandler<TodoUpdated>,
                                      INotificationHandler<TodoCompleted>,

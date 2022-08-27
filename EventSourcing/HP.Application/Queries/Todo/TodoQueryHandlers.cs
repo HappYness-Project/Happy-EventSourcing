@@ -1,7 +1,8 @@
 ﻿using HP.Application.DTOs;
-using HP.Domain.Todos;
 using MediatR;
 using AutoMapper;
+using HP.Domain;
+
 namespace HP.Application.Queries.Todo
 {
     public class TodoQueryHandlers : BaseQueryHandler,

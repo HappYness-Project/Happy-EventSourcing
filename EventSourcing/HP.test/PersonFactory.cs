@@ -1,4 +1,5 @@
-﻿using HP.Domain.Person;
+﻿using HP.Domain;
+
 namespace HP.test
 {
     public class PersonFactory

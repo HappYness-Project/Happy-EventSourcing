@@ -1,19 +1,13 @@
 ﻿using HP.Application.Commands;
 using HP.Domain;
 using HP.Domain.Common;
-using HP.Domain.Person;
 using HP.Infrastructure.Repository;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace HP.test
 {
-    using static HP.Domain.Todos.TodoDomainEvents;
-    using static HP.Domain.Person.PersonEvents;
+    using static HP.Domain.PersonEvents;
+    using static HP.Domain.TodoDomainEvents;
 
     internal class EventStoreRepositoryTest : TestBase
     {
@@ -36,7 +30,7 @@ namespace HP.test
         public void EventStore_Save_For_PersonCreate()
         {
             var addr = new Address("Canada", "Kitchener", "Ontario", "N2L 3M3");
-            IDomainEvent domainEvent = new PersonCreated(Guid.NewGuid().ToString(), "Kevin", "Park", "hyunbin7303@gmail.com", addr);
+            IDomainEvent domainEvent = new PersonCreated(Guid.NewGuid().ToString(), "Kevin", "Park", new Email("hyunbin7303@gmail.com"), addr);
             eventStore.Save(domainEvent);
         }
 

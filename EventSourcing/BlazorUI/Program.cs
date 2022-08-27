@@ -1,7 +1,6 @@
 using BlazorUI.Data;
 using HP.Application;
 using HP.Domain;
-using HP.Domain.Person;
 using HP.Infrastructure.Repository;
 using MediatR;
 using Microsoft.AspNetCore.Components;

@@ -17,7 +17,7 @@ namespace HP.Application.Commands
                 return null;
 
             var address = Person.CreateAddress("Canada", "Sample", "", "");
-            Person.Update(request.FirstName, request.LastName, request.Email, address);
+            Person.Update(request.FirstName, request.LastName, request.Email, address); // Not sure it will update the main object
             //person.Email = new Email(request.Email);
             var check = _repository.UpdatePersonAsync(person);
             if (check != null)

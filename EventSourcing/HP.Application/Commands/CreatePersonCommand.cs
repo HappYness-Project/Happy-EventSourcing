@@ -1,6 +1,5 @@
 ﻿using HP.Application.DTOs;
 using HP.Domain;
-using HP.Domain.Person;
 using MediatR;
 
 namespace HP.Application.Commands

@@ -1,6 +1,4 @@
 ﻿using HP.Domain;
-using HP.Domain.Person;
-using HP.Domain.Todos;
 using HP.Infrastructure.DbAccess;
 using MongoDB.Bson;
 using MongoDB.Driver;

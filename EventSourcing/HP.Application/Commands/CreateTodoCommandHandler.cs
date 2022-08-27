@@ -1,6 +1,4 @@
 ﻿using HP.Domain;
-using HP.Domain.Person;
-using HP.Domain.Todos;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -26,8 +24,7 @@ namespace HP.Application.Handlers
             if (person == null)
                 return null;
 
-
-            var todo = Todo.Create(request.UserId, request.TodoTitle, request.Description,request.Type, request.Tag);
+            var todo = Todo.Create(person, request.TodoTitle, request.Description,request.Type, request.Tag);
             var checkTodo = await _repository.CreateAsync(todo);
             var @event = new TodoDomainEvents.TodoCreated(todo.Id, person.UserId, request.TodoTitle, request.Description,request.Type);
             // Publish event ???

@@ -1,5 +1,4 @@
 using HP.Domain;
-using HP.Domain.Person;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;

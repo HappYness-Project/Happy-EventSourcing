@@ -2,6 +2,7 @@
 using HP.Application.Commands;
 using HP.Application.Handlers;
 using HP.Application.Queries;
+using HP.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
