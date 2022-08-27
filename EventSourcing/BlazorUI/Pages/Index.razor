@@ -1,6 +1,5 @@
 ﻿@page "/"
-@using HP.Application.Queries.Person
-@using HP.Domain.Person
+@using HP.Application.Queries
 @inject MediatR.IMediator _mediator
 
 <PageTitle>Index</PageTitle>
@@ -21,9 +20,9 @@ Welcome to your new app.
 
 
 @code {
-    List<HP.Application.DTOs.PersonDetailsDto> people;
+    IEnumerable<HP.Application.DTOs.PersonDetailsDto> people;
     protected override async Task OnInitializedAsync()
     {
-        people = await _mediator.Send(new GetPersonListQuery());
+        people = await _mediator.Send(new GetPersonList());
     }
 }

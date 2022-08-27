@@ -1,7 +1,7 @@
 ﻿using HP.Application.DTOs;
 using MediatR;
 
-namespace HP.Application.Queries.Todo
+namespace HP.Application.Queries.Todos
 {
     public record GetTodosByUserId(string UserId) : IRequest<IEnumerable<TodoBasicInfoDto>>;
 }

@@ -3,12 +3,13 @@ using MediatR;
 using AutoMapper;
 using HP.Domain;
 
-namespace HP.Application.Queries.Todo
+namespace HP.Application.Queries.Todos
 {
     public class TodoQueryHandlers : BaseQueryHandler,
                                      IRequestHandler<GetTodosByUserId, IEnumerable<TodoBasicInfoDto>>,
                                      IRequestHandler<GetTodoById, TodoDetailsDto>,
-                                     IRequestHandler<GetTodosByProjectId, IEnumerable<TodoDetailsDto>>
+                                     IRequestHandler<GetTodosByProjectId, IEnumerable<TodoDetailsDto>>,
+                                     IRequestHandler<GetTodos, IEnumerable<TodoBasicInfoDto>>
 
     {
         private readonly ITodoRepository _todoRepository;
@@ -42,6 +43,12 @@ namespace HP.Application.Queries.Todo
                 throw new ApplicationException($"Todo project does not exist. Project ID:{request.ProjectId}");
 
             return _mapper.Map<List<TodoDetailsDto>>(todoWithProjId);
+        }
+
+        public async Task<IEnumerable<TodoBasicInfoDto>> Handle(GetTodos request, CancellationToken cancellationToken)
+        {
+            var todos = await _todoRepository.GetAllAsync();
+            return _mapper.Map<List<TodoBasicInfoDto>>(todos);
         }
     }
 }

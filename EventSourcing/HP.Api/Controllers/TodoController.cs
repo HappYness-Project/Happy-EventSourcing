@@ -1,7 +1,7 @@
 ﻿using HP.Api.Requests;
 using HP.Application.Commands;
 using HP.Application.Handlers;
-using HP.Application.Queries;
+using HP.Application.Queries.Todos;
 using HP.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,19 +13,16 @@ namespace HP.Controllers
     [Route("[controller]")]
     public class TodoController : ControllerBase
     {
-        private readonly ITodoRepository repository;
-        // Need to update Identity Service. 
         private readonly IMediator _mediator;
-        public TodoController(ITodoRepository todoRepository, IMediator mediator)
+        public TodoController(IMediator mediator)
         {
-            repository = todoRepository;
             _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await repository.GetAllAsync());
+            return Ok(await _mediator.Send(new GetTodos()));
         }
 
         [HttpGet("{id}")]
