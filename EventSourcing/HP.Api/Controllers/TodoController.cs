@@ -52,7 +52,8 @@ namespace HP.Controllers
                 return BadRequest();
 
             var cmd = new CreateTodoCommand(personId, createTodoRequest.Title, createTodoRequest.Description);
-            await _mediator.Publish(cmd, cancellationToken);
+            var todo = await _mediator.Send(cmd);
+            // await _mediator.Publish(cmd, cancellationToken);
             return CreatedAtAction("GetTodo", new { Title = cmd.TodoTitle }, cmd);
         }
 

@@ -18,8 +18,8 @@ namespace HP.Application.Queries
         public Task<IEnumerable<PersonDetailsDto>> Handle(GetPersonList request, CancellationToken cancellationToken)
         {
             var check = _personRepository.GetAllAsync();
-            if (check is null)
-                return null;
+            if (check == null)
+                throw new ApplicationException($"There is no person in the Person Collection.");
 
             return Task.FromResult(_mapper.Map<IEnumerable<PersonDetailsDto>>(check));
         }
@@ -28,7 +28,7 @@ namespace HP.Application.Queries
         {
             var check = _personRepository.GetByIdAsync(request.Id);
             if (check is null)
-                return null;
+                throw new ApplicationException($"Person not exist. Person ID:{request.Id}");
 
             return _mapper.Map<PersonDetailsDto>(check);
         }

@@ -21,8 +21,8 @@ namespace HP.Application.Handlers
         public async Task<Todo> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
         {
             var person = _personRepository.GetByIdAsync(request.UserId).Result;
-            if (person == null)
-                return null;
+            if (person is null)
+                throw new ApplicationException($"There is no person for this person. User ID : {request.UserId}");
 
             var todo = Todo.Create(person, request.TodoTitle, request.Description,request.Type, request.Tag);
             var checkTodo = await _repository.CreateAsync(todo);

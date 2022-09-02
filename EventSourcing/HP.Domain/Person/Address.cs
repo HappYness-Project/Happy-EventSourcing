@@ -10,8 +10,8 @@
                 throw new ArgumentNullException(nameof(city));
             if(string.IsNullOrEmpty(region))
                 throw new ArgumentNullException(nameof(region));
-            if(string.IsNullOrEmpty(PostalCode))
-                throw new ArgumentNullException(nameof(PostalCode));
+            if(string.IsNullOrEmpty(postalCode))
+                throw new ArgumentNullException(nameof(postalCode));
 
             this.Country = country;
             this.City = city;
