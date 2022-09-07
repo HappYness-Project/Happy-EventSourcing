@@ -1,4 +1,5 @@
-﻿using HP.Domain;
+﻿using HP.Application.DTOs;
+using HP.Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HP.Application.Handlers
 {
-    public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, Todo>
+    public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, TodoDetailsDto>
     {
         private readonly ITodoRepository _repository;
         private readonly IPersonRepository _personRepository;
@@ -18,7 +19,7 @@ namespace HP.Application.Handlers
             _personRepository = personRepository;
         }
 
-        public async Task<Todo> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
+        public async Task<TodoDetailsDto> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
         {
             var person = _personRepository.GetByIdAsync(request.UserId).Result;
             if (person is null)

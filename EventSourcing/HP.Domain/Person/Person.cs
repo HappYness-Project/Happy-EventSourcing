@@ -48,15 +48,8 @@ namespace HP.Domain
             Email email = new Email(emailValue);
             return new Person(firstName, lastName, address, email, userId); 
         }
-
-        public static Person Update(string firstName, string lastName, string emailAddr, Address address)
-        {
-            // Person . How to update the Person info?
-            return null;
-        }
         public static Address CreateAddress(string Country, string City, string Region, string PostalCode)
         {
-            // TODO Validation for the Address.
             return new Address(Country, City, Region, PostalCode);
         }
 
@@ -65,6 +58,7 @@ namespace HP.Domain
             switch(@event)
             {
                 case PersonEvents.PersonCreated created:
+                    Id = created.AggregateId.ToString();
                     //@event.Equals(@event);
                     break;
 

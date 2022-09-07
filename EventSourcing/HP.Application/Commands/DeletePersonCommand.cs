@@ -3,7 +3,7 @@ using MediatR;
 
 namespace HP.Application.Commands
 {
-    public record DeletePersonCommand(string PersonId) : IRequest<bool>
+    public record DeletePersonCommand(string PersonId) : CommandBase<bool>
     {
         public static DeletePersonCommand Create(string personId)
         {

@@ -14,10 +14,10 @@ namespace HP.Application.Commands
         {
             var person = _repository.GetByIdAsync(request.UserId).Result;
             if (person == null)
-                return null;
+                throw new ApplicationException($"{request.UserId}");
 
             var address = Person.CreateAddress("Canada", "Sample", "", "");
-            Person.Update(request.FirstName, request.LastName, request.Email, address); // Not sure it will update the main object
+            //Person.Update(request.FirstName, request.LastName, request.Email, address); // Not sure it will update the main object
             //person.Email = new Email(request.Email);
             var check = _repository.UpdatePersonAsync(person);
             if (check != null)

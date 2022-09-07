@@ -18,16 +18,12 @@ namespace HP.Application.Commands
         {
             var person = await _repository.GetPersonByUserIdAsync(request.UserName);
             if(person != null)
-            {
-                var person = Person.Create(request.FirstName, request.LastName, request.Address, request.emailAddr, request.UserName);
-                var check = await _repository.CreateAsync(person);
-                return _mapper.Map<PersonDetailsDto>(check);
-            }
+                throw new ApplicationException($"The username : {request.UserName} Already exists.");
 
+            var check = await _repository.CreateAsync(Person.Create(request.FirstName, request.LastName, request.Address, request.emailAddr, request.UserName));
+            return _mapper.Map<PersonDetailsDto>(check);
         }
     }
 }
-
-//please read this !!!
-//TODO https://ademcatamak.medium.com/layers-in-ddd-projects-bd492aa2b8aa
-// This one too! https://matthiasnoback.nl/2021/02/does-it-belong-in-the-application-or-domain-layer/
+// https://ademcatamak.medium.com/layers-in-ddd-projects-bd492aa2b8aa
+// https://matthiasnoback.nl/2021/02/does-it-belong-in-the-application-or-domain-layer/

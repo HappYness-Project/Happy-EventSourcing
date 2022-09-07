@@ -48,6 +48,9 @@ namespace HP.Application.Queries.Todos
         public async Task<IEnumerable<TodoBasicInfoDto>> Handle(GetTodos request, CancellationToken cancellationToken)
         {
             var todos = await _todoRepository.GetAllAsync();
+            if (todos == null)
+                throw new ApplicationException($"");
+
             return _mapper.Map<List<TodoBasicInfoDto>>(todos);
         }
     }

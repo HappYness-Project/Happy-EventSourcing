@@ -14,10 +14,9 @@ namespace HP.Application.Handlers
         public async Task<Todo> Handle(StartTodoCommand cmd, CancellationToken cancellationToken)
         {
             var todo =  await _repository.GetByIdAsync(cmd.TodoId);
-            if(todo == null)
-            {
-
-            }
+            if(todo is null)
+                throw new ApplicationException($"Todo ID: {cmd.TodoId} does not exist.");
+            
             todo.ActivateTodo(todo.Id);
             todo.SetStatus(todo.Id, TodoStatus.Started);
             await _repository.UpdateAsync(todo);

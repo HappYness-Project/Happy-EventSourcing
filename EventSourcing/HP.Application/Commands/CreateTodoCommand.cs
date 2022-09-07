@@ -1,10 +1,9 @@
 ﻿using HP.Application.Commands;
-using HP.Domain;
-using MediatR;
+using HP.Application.DTOs;
 
 namespace HP.Application.Handlers
 {
-    public record CreateTodoCommand(string todoTitle, string todoType, string Description = null,  string[] Tag = null) : CommandBase<Todo>
+    public record CreateTodoCommand(string todoTitle, string todoType, string Description = null,  string[] Tag = null) : CommandBase<TodoDetailsDto>
     {
         public string UserId { get; set; }
         public string TodoTitle { get; set; }
