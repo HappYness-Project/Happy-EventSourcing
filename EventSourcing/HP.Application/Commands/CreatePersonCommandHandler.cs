@@ -16,9 +16,14 @@ namespace HP.Application.Commands
         }
         public async Task<PersonDetailsDto> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
-            var person = Person.Create(request.FirstName, request.LastName, request.Address, request.emailAddr, request.UserName);
-            var check = await _repository.CreateAsync(person);
-            return _mapper.Map<PersonDetailsDto>(check);
+            var person = await _repository.GetPersonByUserIdAsync(request.UserName);
+            if(person != null)
+            {
+                var person = Person.Create(request.FirstName, request.LastName, request.Address, request.emailAddr, request.UserName);
+                var check = await _repository.CreateAsync(person);
+                return _mapper.Map<PersonDetailsDto>(check);
+            }
+
         }
     }
 }

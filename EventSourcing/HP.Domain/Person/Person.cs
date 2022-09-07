@@ -45,7 +45,6 @@ namespace HP.Domain
             if (address is null)
                 throw new ArgumentNullException(nameof(address));
 
-            //var userCreatedEvent = new UserCreatedEvent(user, password);
             Email email = new Email(emailValue);
             return new Person(firstName, lastName, address, email, userId); 
         }
