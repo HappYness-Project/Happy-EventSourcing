@@ -3,7 +3,6 @@ namespace HP.Domain.Common
 {
     public abstract class DomainEventBase : IDomainEvent
     {
-
         protected DomainEventBase() { }
 
         public DomainEventBase(string entityType)
@@ -17,7 +16,7 @@ namespace HP.Domain.Common
         public string EntityType { get; }
         public string EventId { get; }
         public string EventType { get; }
-        public int AggregateId { get; private set; }
+        public Guid AggregateId { get; private set; }
         public int AggregateVersion { get; private set; }
         public string EventData { get; private set; }
     }
