@@ -49,7 +49,7 @@ namespace HP.Application.Queries.Todos
         {
             var todos = await _todoRepository.GetAllAsync();
             if (todos == null)
-                throw new ApplicationException($"");
+                throw new ApplicationException($"Todos Null.");
 
             return _mapper.Map<List<TodoBasicInfoDto>>(todos);
         }

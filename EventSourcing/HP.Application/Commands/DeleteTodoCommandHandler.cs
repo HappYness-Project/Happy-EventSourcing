@@ -1,7 +1,6 @@
 ﻿using HP.Domain;
 using MediatR;
 using System.Linq.Expressions;
-
 namespace HP.Application.Commands
 {
     public class DeleteTodoCommandHandler : IRequestHandler<DeleteTodoCommand, bool>
@@ -20,8 +19,7 @@ namespace HP.Application.Commands
             Expression<Func<Todo, bool>> expr = x => x.Id == request.Id;
             await _repository.DeleteOneAsync(expr);
             var @event = new TodoDomainEvents.TodoRemoved(request.Id);
-            // Publish Remove event. 
-            return true;
+            return true;// Publish Remove event. 
         }
     }
 }

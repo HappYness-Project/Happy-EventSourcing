@@ -15,6 +15,7 @@ namespace HP.Application.Mappers
         {
             CreateMap<Person, PersonDetailsDto>();
             CreateMap<Todo, TodoBasicInfoDto>();
+            CreateMap<Todo, TodoDetailsDto>();
         }
     }
 }

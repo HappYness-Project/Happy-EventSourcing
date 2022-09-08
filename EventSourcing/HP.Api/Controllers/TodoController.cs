@@ -30,9 +30,8 @@ namespace HP.Controllers
         {
             var todo = await _mediator.Send(new GetTodoById(id));
             if (todo == null)
-            {
                 return NotFound();
-            }
+
             return Ok(todo);
         }
         [HttpGet("users/{id}")]
@@ -40,9 +39,8 @@ namespace HP.Controllers
         {
             var todo = await _mediator.Send(new GetTodoById(id));
             if (todo == null)
-            {
                 return NotFound();
-            }
+
             return Ok(todo);
         }
         [HttpPost("{personId}/todos")]
@@ -53,35 +51,37 @@ namespace HP.Controllers
 
             var cmd = new CreateTodoCommand(personId, createTodoRequest.Title, createTodoRequest.Description);
             var todo = await _mediator.Send(cmd);
-            // await _mediator.Publish(cmd, cancellationToken);
-            return CreatedAtAction("GetTodo", new { Title = cmd.TodoTitle }, cmd);
+            return CreatedAtAction("GetTodo", new { Title = cmd.TodoTitle }, cmd);// await _mediator.Publish(cmd, cancellationToken);
         }
 
         [HttpPut("")]
         public async Task<IActionResult> Update([FromBody]UpdateTodoRequest todoRequest, CancellationToken cancellationToken = default)
         {
+            if (todoRequest == null)
+                return BadRequest();
+
             var cmd = new UpdateTodoCommand(todoRequest.TodoId, todoRequest.TodoTotle, todoRequest.TodoDescription, todoRequest.Tags);
-            //TODO Update info.
-            return Ok();
+            return Ok(await _mediator.Send(cmd));
         }
 
-        [HttpPut("todos/{todoId}/start")]
+        [HttpPut("{userId}/todos/{todoId}/start")]
         public async Task<IActionResult> StartTodo([FromRoute]string todoId, CancellationToken cancellationToken = default)
         {
-            // TODO Getting User Identity from here. 
-            var temp_userId = "hyunbin7303";
-            var cmd = new StartTodoCommand(temp_userId, todoId);
-            var todo = await _mediator.Send(cmd);
-            return Ok(todo);
+            if (string.IsNullOrEmpty(todoId))
+                return BadRequest($"TodoId is null.");
+
+            return Ok(await _mediator.Send(new StartTodoCommand(todoId)));
         } 
 
         [Route("/Todos/{todoId}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string todoId, CancellationToken token = default)
         {
+            if (string.IsNullOrEmpty(todoId))
+                return BadRequest("Todo id is null");
+
             var cmd = new DeleteTodoCommand(todoId);
-            var todo = await _mediator.Send(cmd);
-            return Ok();
+            return Ok(await _mediator.Send(cmd));
         }
 
 

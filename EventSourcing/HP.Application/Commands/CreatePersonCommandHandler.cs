@@ -2,7 +2,6 @@
 using HP.Application.DTOs;
 using HP.Domain;
 using MediatR;
-
 namespace HP.Application.Commands
 {
     public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, PersonDetailsDto>

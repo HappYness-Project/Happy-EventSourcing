@@ -1,20 +1,17 @@
-﻿using HP.Application.DTOs;
+﻿using AutoMapper;
+using HP.Application.DTOs;
 using HP.Domain;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace HP.Application.Handlers
 {
     public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, TodoDetailsDto>
     {
+        private readonly IMapper _mapper;
         private readonly ITodoRepository _repository;
         private readonly IPersonRepository _personRepository;
-        public CreateTodoCommandHandler(ITodoRepository repository, IPersonRepository personRepository)
+        public CreateTodoCommandHandler(IMapper mapper, ITodoRepository repository, IPersonRepository personRepository)
         {
+            _mapper = mapper;
             _repository = repository;
             _personRepository = personRepository;
         }
@@ -28,13 +25,10 @@ namespace HP.Application.Handlers
             var todo = Todo.Create(person, request.TodoTitle, request.Description,request.Type, request.Tag);
             var checkTodo = await _repository.CreateAsync(todo);
             var @event = new TodoDomainEvents.TodoCreated(todo.Id, person.UserId, request.TodoTitle, request.Description,request.Type);
-            // Publish event ???
-            //Stored as inmemory..... as well as database.
-            // TODO Send event.
-            return null;
+            return _mapper.Map<TodoDetailsDto>(checkTodo);
         }
     }
 }
-//https://github.com/IvanMilano/MongoDbTransactionsDemo
+
 //https://chaitanyasuvarna.wordpress.com/2021/05/30/event-sourcing-pattern-in-net-core/
 //https://devblogs.microsoft.com/cesardelatorre/using-domain-events-within-a-net-core-microservice/

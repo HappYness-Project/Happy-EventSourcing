@@ -6,7 +6,6 @@ namespace HP.Application.Commands
     {
         string Id { get; }
     }
-
     public abstract record CommandBase<TResult> : ICommand<TResult>
     {
         public string Id { get; }
@@ -15,7 +14,6 @@ namespace HP.Application.Commands
         {
             this.Id = Guid.NewGuid().ToString();
         }
-
         protected CommandBase(string id)
         {
             this.Id = id;
