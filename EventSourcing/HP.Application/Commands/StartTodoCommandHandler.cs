@@ -6,7 +6,7 @@ namespace HP.Application.Handlers
     public class StartTodoCommandHandler : IRequestHandler<StartTodoCommand, Todo>
     {
         private readonly ITodoRepository _repository;
-        public StartTodoCommandHandler(ITodoRepository repository)
+        public StartTodoCommandHandler(ITodoRepository   repository)
         {
             _repository = repository;
         }

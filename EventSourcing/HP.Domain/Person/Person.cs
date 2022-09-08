@@ -20,7 +20,6 @@ namespace HP.Domain
         }
         public Person(string firstName, string lastName, Address address, Email email, string userId = null)
         {
-
             if (string.IsNullOrWhiteSpace(firstName))
                 throw new ArgumentNullException(nameof(firstName));
 

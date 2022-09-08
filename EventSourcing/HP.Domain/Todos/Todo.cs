@@ -40,7 +40,6 @@ namespace HP.Domain
         public DateTime? Updated { get; private set; } 
         public DateTime? Completed { get; private set; }
 
-
         public static Todo Create(Person person, string title, string description, string type, string[] tags)
         {
             if(person is null)
@@ -48,7 +47,7 @@ namespace HP.Domain
 
             return new(person, title, description, type, tags);
         }
-        // ??? TODO I am not sure i am adding todoItems, or Just Todo from this method.
+        //TODO I am not sure i am adding todoItems, or Just Todo from this method.
         public void AddTodoItem(string todoId, string userId, string title, string type)
         {
             // I am not sure if it's just adding the todoItem Extra inside of Todo Object.
@@ -75,7 +74,6 @@ namespace HP.Domain
 
                 case TodoDomainEvents.TodoActivated a:
                     this.IsActive = true;
-                    
                     break;
 
                 case TodoDomainEvents.TodoDeactivated d:

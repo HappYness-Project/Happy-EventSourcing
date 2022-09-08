@@ -17,7 +17,7 @@ namespace HP.Domain
             if (!IsPostalCode(postalCode))
                 throw new ApplicationException($"Postal Code : {postalCode} invalid format.");
             
-                    this.Country = country;
+            this.Country = country;
             this.City = city;
             this.Region = region;
             this.PostalCode = postalCode;

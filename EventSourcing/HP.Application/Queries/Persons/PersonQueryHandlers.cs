@@ -30,7 +30,6 @@ namespace HP.Application.Queries
             if (check is null)
                 throw new ApplicationException($"Person not exist. Person ID:{request.Id}");
 
-
             return _mapper.Map<PersonDetailsDto>(check);
         }
     }
