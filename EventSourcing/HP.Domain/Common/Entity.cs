@@ -5,13 +5,13 @@ namespace HP.Domain.Common
     public abstract class Entity
     {
         public string Id { get; protected set; }
-        public DateTime CreateDate { get; private set; }
+        public DateTime CreatedDate { get; private set; }
         public long Version { get; private set; }
 
         public Entity()
         {
             Id = ObjectId.GenerateNewId().ToString();
-            CreateDate = DateTime.Now;
+            CreatedDate = DateTime.Now;
         }
 
         private List<IDomainEvent> _domainEvents;

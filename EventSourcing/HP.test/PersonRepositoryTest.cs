@@ -10,7 +10,6 @@ namespace HP.test
     {
         IPersonRepository personRepository = null;
         IEventStore eventStore = null;
-        // Repository pattern testing
         [SetUp]
         public void Setup()
         {
@@ -51,7 +50,7 @@ namespace HP.test
         {
             // Arrange
             Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
-            Person person = Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com");
+            Person person = Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com","hyunbin7303");
             var personObj = personRepository.UpdatePersonAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }

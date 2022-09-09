@@ -13,6 +13,7 @@ namespace HP.Domain
         public string Role { get; private set; }
         public bool IsActive { get; private set; }
         public decimal CurrentScore { get; private set; }
+        public DateTime UpdateDate { get; private set; }
         protected Person() 
         {
             IsActive = false;
@@ -31,8 +32,7 @@ namespace HP.Domain
             Address = address ?? throw new ArgumentNullException(nameof(address));
             Email = email ?? throw new ArgumentNullException(nameof(email));
             UserId = userId;
-            IsActive = true;    
-
+            IsActive = true;
             AddDomainEvent(new PersonEvents.PersonCreated(Id, firstName, lastName, email, address));
         }
 
@@ -47,6 +47,16 @@ namespace HP.Domain
             Email email = new Email(emailValue);
             return new Person(firstName, lastName, address, email, userId); 
         }
+
+        public static Person UpdatePerson(Person person, string firstName, string lastName, string emailAddr)
+        {
+            person.FirstName = firstName;
+            person.LastName = lastName;
+            person.Email = new Email(emailAddr);
+            return person;
+        }
+
+
         public static Address CreateAddress(string Country, string City, string Region, string PostalCode)
         {
             return new Address(Country, City, Region, PostalCode);

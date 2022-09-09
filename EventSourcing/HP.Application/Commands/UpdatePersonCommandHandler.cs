@@ -12,13 +12,11 @@ namespace HP.Application.Commands
         }
         public Task<bool> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
         {
-            var person = _repository.GetByIdAsync(request.UserId).Result;
+            var person = _repository.GetPersonByUserIdAsync(request.UserId).Result;
             if (person == null)
                 throw new ApplicationException($"{request.UserId}");
 
-            var address = Person.CreateAddress("Canada", "Sample", "", "");
-            //Person.Update(request.FirstName, request.LastName, request.Email, address); // Not sure it will update the main object
-            //person.Email = new Email(request.Email);
+            person = Person.UpdateBasicPerson(person, request.FirstName, request.LastName, request.Email);
             var check = _repository.UpdatePersonAsync(person);
             if (check != null)
                 return Task.FromResult(true);
