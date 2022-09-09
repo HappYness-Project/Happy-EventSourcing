@@ -43,6 +43,7 @@ namespace HP.Infrastructure.Repository
             var filter = Builders<Person>.Filter.And(Builders<Person>.Filter.Eq("UserId", person.UserId));
             var update = Builders<Person>.Update.Set("FirstName", person.FirstName)
                                                 .Set("LastName", person.LastName)
+                                                .Set("Email.EmailAddr", person.Email.ToString())
                                                 .Set("UpdateDate", DateTime.Now);
             var result = await _mongoCollection.FindOneAndUpdateAsync(filter, update,
                     options: new FindOneAndUpdateOptions<Person, BsonDocument>

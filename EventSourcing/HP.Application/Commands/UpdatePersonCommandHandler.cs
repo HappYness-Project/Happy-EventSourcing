@@ -14,7 +14,7 @@ namespace HP.Application.Commands
         {
             var person = _repository.GetPersonByUserIdAsync(request.UserId).Result;
             if (person == null)
-                throw new ApplicationException($"{request.UserId}");
+                throw new ApplicationException($"UserId : {request.UserId} is not exist.");
 
             person = Person.UpdateBasicPerson(person, request.FirstName, request.LastName, request.Email);
             var check = _repository.UpdatePersonAsync(person);

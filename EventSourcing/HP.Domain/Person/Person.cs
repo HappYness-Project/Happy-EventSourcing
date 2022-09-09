@@ -48,7 +48,7 @@ namespace HP.Domain
             return new Person(firstName, lastName, address, email, userId); 
         }
 
-        public static Person UpdatePerson(Person person, string firstName, string lastName, string emailAddr)
+        public static Person UpdateBasicPerson(Person person, string firstName, string lastName, string emailAddr)
         {
             person.FirstName = firstName;
             person.LastName = lastName;
