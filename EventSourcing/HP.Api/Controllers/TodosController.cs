@@ -11,10 +11,10 @@ namespace HP.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("[controller]")]
-    public class TodoController : ControllerBase
+    public class TodosController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public TodoController(IMediator mediator)
+        public TodosController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -25,32 +25,33 @@ namespace HP.Controllers
             return Ok(await _mediator.Send(new GetTodos()));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet, Route("{id}", Name = "GetTodo")]
         public async Task<IActionResult> Get(string id, CancellationToken token = default)
         {
-            var todo = await _mediator.Send(new GetTodoById(id));
+            var todo = await _mediator.Send(new GetTodoById(id), token);
             if (todo == null)
                 return NotFound();
 
             return Ok(todo);
         }
-        [HttpGet("users/{id}")]
+        [HttpGet, Route("users/{id}", Name = "GetTodosByUser")]
         public async Task<IActionResult> GetTodosByUser(string id, CancellationToken token = default)
         {
-            var todo = await _mediator.Send(new GetTodoById(id));
+            var todo = await _mediator.Send(new GetTodoById(id), token);
             if (todo == null)
                 return NotFound();
 
             return Ok(todo);
         }
         [HttpPost("{UserName}/todos")]
-        public async Task<IActionResult> Create([FromRoute]string UserName, [FromBody] CreateTodoRequest createTodoRequest, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create([FromRoute]string UserName, [FromBody] CreateTodoRequest request, CancellationToken cancellationToken = default)
         {
-            if (createTodoRequest == null)
+            if (request == null)
                 return BadRequest();
 
-            var todo = await _mediator.Send(new CreateTodoCommand(UserName, createTodoRequest.Title, createTodoRequest.Description, createTodoRequest.Tags));
-            return CreatedAtAction($"Create new Todo for username : {UserName}", new { Title = todo.TodoTitle }, todo);// await _mediator.Publish(cmd, cancellationToken);
+            var todo = await _mediator.Send(new CreateTodoCommand(UserName, request.Title, request.TodoType, request.Description, request.Tags));
+        //    return CreatedAtAction($"GetTodo", new { Title = todo.TodoTitle }, todo);// await _mediator.Publish(cmd, cancellationToken);
+            return Ok(todo);
         }
 
         [HttpPut("")]

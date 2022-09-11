@@ -11,7 +11,6 @@ namespace HP.Domain
         public Todo(Person person, string title, string description, string type, string[] tag) : this()
         {
             // TODO : CheckPolicies
-            
             if (person is null)
                 throw new ArgumentNullException(nameof(person));
             if (string.IsNullOrWhiteSpace(title))

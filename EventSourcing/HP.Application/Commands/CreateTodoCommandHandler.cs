@@ -18,13 +18,13 @@ namespace HP.Application.Handlers
 
         public async Task<TodoDetailsDto> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
         {
-            var person = _personRepository.GetPersonByUserIdAsync(request.UserId.ToUpper()).Result;
+            var person = _personRepository.GetPersonByUserIdAsync(request.UserName.ToUpper()).Result;
             if (person is null)
-                throw new ApplicationException($"There is no person for this person. User ID : {request.UserId}");
+                throw new ApplicationException($"There is no person for this person. User ID : {request.UserName}");
 
-            var todo = Todo.Create(person, request.TodoTitle, request.Description,request.Type, request.Tag);
+            var todo = Todo.Create(person, request.TodoTitle, request.Description,request.TodoType, request.Tag);
             var checkTodo = await _repository.CreateAsync(todo);
-            var @event = new TodoDomainEvents.TodoCreated(todo.Id, person.UserId, request.TodoTitle, request.Description,request.Type);
+            var @event = new TodoDomainEvents.TodoCreated(todo.Id, person.UserId, request.TodoTitle, request.Description,request.TodoType);
             return _mapper.Map<TodoDetailsDto>(checkTodo);
         }
     }
