@@ -12,7 +12,7 @@ namespace HP.Application.Commands
         }
         public Task<bool> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
         {
-            var person = _repository.GetPersonByUserIdAsync(request.UserId).Result;
+            var person = _repository.GetPersonByUserIdAsync(request.UserId.ToUpper()).Result;
             if (person == null)
                 throw new ApplicationException($"UserId : {request.UserId} is not exist.");
 

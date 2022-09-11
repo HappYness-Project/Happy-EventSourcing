@@ -45,7 +45,7 @@ namespace HP.Domain
                 throw new ArgumentNullException(nameof(address));
 
             Email email = new Email(emailValue);
-            return new Person(firstName, lastName, address, email, userId); 
+            return new Person(firstName.ToUpper(), lastName.ToUpper(), address, email, userId); 
         }
 
         public static Person UpdateBasicPerson(Person person, string firstName, string lastName, string emailAddr)
