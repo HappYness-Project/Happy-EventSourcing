@@ -43,15 +43,14 @@ namespace HP.Controllers
 
             return Ok(todo);
         }
-        [HttpPost("{personId}/todos")]
-        public async Task<IActionResult> Create([FromRoute]string personId, [FromBody] CreateTodoRequest createTodoRequest, CancellationToken cancellationToken = default)
+        [HttpPost("{UserName}/todos")]
+        public async Task<IActionResult> Create([FromRoute]string UserName, [FromBody] CreateTodoRequest createTodoRequest, CancellationToken cancellationToken = default)
         {
             if (createTodoRequest == null)
                 return BadRequest();
 
-            var cmd = new CreateTodoCommand(personId, createTodoRequest.Title, createTodoRequest.Description);
-            var todo = await _mediator.Send(cmd);
-            return CreatedAtAction("GetTodo", new { Title = cmd.TodoTitle }, cmd);// await _mediator.Publish(cmd, cancellationToken);
+            var todo = await _mediator.Send(new CreateTodoCommand(UserName, createTodoRequest.Title, createTodoRequest.Description, createTodoRequest.Tags));
+            return CreatedAtAction($"Create new Todo for username : {UserName}", new { Title = todo.TodoTitle }, todo);// await _mediator.Publish(cmd, cancellationToken);
         }
 
         [HttpPut("")]
