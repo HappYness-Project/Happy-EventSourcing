@@ -19,7 +19,7 @@ namespace HP.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _mediator.Send(new GetTodos()));
