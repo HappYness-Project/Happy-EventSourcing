@@ -39,7 +39,7 @@ namespace HP.Application.Queries.Todos
         {
             var todos = await _todoRepository.GetAllAsync();
             var todoWithProjId = todos.Where(x => x.ProjectId == request.ProjectId);
-            if (todoWithProjId is null)
+            if (todoWithProjId == null)
                 throw new ApplicationException($"Todo project does not exist. Project ID:{request.ProjectId}");
 
             return _mapper.Map<List<TodoDetailsDto>>(todoWithProjId);

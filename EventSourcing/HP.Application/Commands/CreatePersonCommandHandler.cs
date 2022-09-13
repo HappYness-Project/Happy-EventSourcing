@@ -15,11 +15,11 @@ namespace HP.Application.Commands
         }
         public async Task<PersonDetailsDto> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
-            var person = await _repository.GetPersonByUserIdAsync(request.UserName);
+            var person = await _repository.GetPersonByUserIdAsync(request.UserName.ToUpper());
             if(person != null)
                 throw new ApplicationException($"The username : {request.UserName} Already exists.");
 
-            var check = await _repository.CreateAsync(Person.Create(request.FirstName, request.LastName, request.Address, request.emailAddr, request.UserName));
+            var check = await _repository.CreateAsync(Person.Create(request.FirstName, request.LastName, request.Address, request.emailAddr, request.UserName.ToUpper()));
             return _mapper.Map<PersonDetailsDto>(check);
         }
     }
