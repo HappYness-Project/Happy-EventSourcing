@@ -1,6 +1,5 @@
 ﻿using HP.Domain;
 using MediatR;
-
 namespace HP.Application.Commands
 {
     public class UpdatePersonCommandHandler : IRequestHandler<UpdatePersonCommand, bool>

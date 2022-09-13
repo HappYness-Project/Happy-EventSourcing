@@ -33,7 +33,16 @@ namespace HP.Domain
             Email = email ?? throw new ArgumentNullException(nameof(email));
             UserId = userId;
             IsActive = true;
+            Role = PersonRoleType.Normal.ToString(); // For now, Normal is the default Role.
             AddDomainEvent(new PersonEvents.PersonCreated(Id, firstName, lastName, email, address));
+        }
+
+        public static void UpdateRole(Person person, string role)
+        {
+            if (role is null)
+                throw new ArgumentNullException("Role input cannot be null");
+
+            person.Role = role;
         }
 
         public static Person Create(string firstName, string lastName, Address address, string emailValue, string userId= null)
