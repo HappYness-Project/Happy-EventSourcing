@@ -34,10 +34,10 @@ namespace HP.Controllers
 
             return Ok(todo);
         }
-        [HttpGet("users/{id}")]
-        public async Task<IActionResult> GetTodosByUser(string id, CancellationToken token = default)
+        [HttpGet("users/{userId}")]
+        public async Task<IActionResult> GetTodosByUser(string userId, CancellationToken token = default)
         {
-            var todo = await _mediator.Send(new GetTodoById(id));
+            var todo = await _mediator.Send(new GetTodosByUserId(userId));
             if (todo == null)
                 return NotFound();
 
@@ -49,9 +49,12 @@ namespace HP.Controllers
             if (createTodoRequest == null)
                 return BadRequest();
 
+            //TODO :  Should I check from here if person exists?
+
+
             var cmd = new CreateTodoCommand(personId, createTodoRequest.Title, createTodoRequest.Description);
             var todo = await _mediator.Send(cmd);
-            return CreatedAtAction("GetTodo", new { Title = cmd.TodoTitle }, cmd);// await _mediator.Publish(cmd, cancellationToken);
+            return CreatedAtAction("GetTodo", new { Title = cmd.todoTitle }, cmd);// await _mediator.Publish(cmd, cancellationToken);
         }
 
         [HttpPut("")]
@@ -64,9 +67,10 @@ namespace HP.Controllers
             return Ok(await _mediator.Send(cmd));
         }
 
-        [HttpPut("{userId}/todos/{todoId}/start")]
+        [HttpPut("{todoId}/start")]
         public async Task<IActionResult> StartTodo([FromRoute]string todoId, CancellationToken cancellationToken = default)
         {
+            // Todo User Authentication required.
             if (string.IsNullOrEmpty(todoId))
                 return BadRequest($"TodoId is null.");
 
