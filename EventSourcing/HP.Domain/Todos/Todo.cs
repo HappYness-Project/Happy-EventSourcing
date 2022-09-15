@@ -23,7 +23,7 @@ namespace HP.Domain
             Tag = tag;
             IsActive = true;
 
-            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, Description, type));
+            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, type));
         }
         public string UserId { get; private set; }
         public string Title { get; private set; }
@@ -67,21 +67,28 @@ namespace HP.Domain
             switch(@event)
             {
                 case TodoDomainEvents.TodoCreated c:
+                    this.Id = c.AggregateId.ToString();
+                    this.Title = c.TodoTitle;
+                    this.Type = c.Type;
+                    this.UserId = c.UserId;
                     break;
 
                 case TodoDomainEvents.TodoUpdated u:
+                    this.Id = u.AggregateId.ToString();
+                    this.UserId = u.UserId;
                     break;
 
                 case TodoDomainEvents.TodoActivated a:
+                    this.Id = a.TodoId;
                     this.IsActive = true;
                     break;
 
                 case TodoDomainEvents.TodoDeactivated d:
+                    this.IsActive = false;
                     break;
             }
 
         }
-
 
         public void ActivateTodo(string todoId)
         {

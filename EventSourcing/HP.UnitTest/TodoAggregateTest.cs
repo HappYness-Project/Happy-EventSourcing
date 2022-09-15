@@ -27,6 +27,16 @@ namespace HP.test
             //Assert
             Assert.Equals(fakeTodo.DomainEvents.Count, expectedResult);
         }
-
+        [Test]
+        public void ActivateTodo_Raises_new_event()
+        {
+            //Arrange
+            Person person = new Person("Kevin", "Park", new Address("Canada", "Waterloo", "ON", "n2l 4m2"), null);
+            var fakeTodo = Todo.Create(person, "fake Todo", "fake Description", "fake type", null);
+            // Act
+            fakeTodo.ActivateTodo("");
+            //Assert
+            Assert.Equals(fakeTodo.DomainEvents.Count, expectedResult);
+        }
     }
 }
