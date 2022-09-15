@@ -99,8 +99,12 @@ namespace HP.Domain
         {
             this.IsActive = false;
             this.AddDomainEvent(new TodoDomainEvents.TodoDeactivated(todoId));
-
         }
+        public void Remove(string todoId)
+        {
+            this.AddDomainEvent(new TodoDomainEvents.TodoRemoved(todoId));
+        }
+
         public void SetStatus(string todoId, TodoStatus status)
         {
             switch(status)

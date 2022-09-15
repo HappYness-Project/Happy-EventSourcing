@@ -21,11 +21,18 @@ namespace HP.Domain
         }
         public class PersonUpdated : DomainEventBase
         {
-            public PersonUpdated()
-            {
-
-            }
+            public PersonUpdated(string personId) : base(nameof(Person))
+            {}
         }
+        public class PersonRoleUpdated : DomainEventBase
+        {
+            public PersonRoleUpdated(string personId, string preRole, string curRole) : base(nameof(Person))
+            { }
+
+           public string PreRole { get; set; }
+            public string Role { get; set; }
+        }
+
         public class AddressChanged : DomainEventBase
         {
             public AddressChanged(string personId, string country, string city, string stress, string zipCode) : base(entityType: nameof(Address))

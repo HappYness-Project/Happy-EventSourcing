@@ -37,12 +37,14 @@ namespace HP.Domain
             AddDomainEvent(new PersonEvents.PersonCreated(Id, firstName, lastName, email, address));
         }
 
-        public static void UpdateRole(Person person, string role)
+        public void UpdateRole(string role)
         {
             if (role is null)
                 throw new ArgumentNullException("Role input cannot be null");
 
-            person.Role = role;
+            string preRole = this.Role;
+            this.Role = role;
+            AddDomainEvent(new PersonEvents.PersonRoleUpdated(Id, preRole, role));
         }
 
         public static Person Create(string firstName, string lastName, Address address, string emailValue, string userId= null)
@@ -77,7 +79,6 @@ namespace HP.Domain
             {
                 case PersonEvents.PersonCreated created:
                     Id = created.AggregateId.ToString();
-                    //@event.Equals(@event);
                     break;
 
                 case PersonEvents.PersonUpdated u:

@@ -51,30 +51,7 @@ namespace HP.test
             todoObj.Title.Should().Be(expectedTitle);
         }
 
-        [Test]
-        public void ActivateTodo_Todo_Activated_True()
-        {
-            // Arrange
-            var todo = TodoFactory.Create();
 
-            //Act 
-            todo.ActivateTodo(todo.Id);
 
-            //Assert
-            todo.IsActive.Should().BeTrue();
-        }
-
-        [Test]
-        public void DeactivateTodo_Todo_Is_Deactivated()
-        {
-            // Arrange
-            var todo = TodoFactory.Create();
-
-            // Act
-            todo.DeactivateTodo(todo.Id);
-
-            //Assert
-            todo.IsActive.Should().BeFalse();
-        }
     }
 }

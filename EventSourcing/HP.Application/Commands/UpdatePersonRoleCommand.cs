@@ -16,7 +16,7 @@ namespace HP.Application.Commands
             if (person == null)
                 throw new ApplicationException($"UserId : {request.UserName} is not exist.");
 
-            Person.UpdateRole(person, request.Role);
+            person.UpdateRole(request.Role);
             await _repository.UpdateAsync(person);
             return Unit.Value;
         }

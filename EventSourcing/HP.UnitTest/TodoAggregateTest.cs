@@ -1,4 +1,5 @@
-﻿using HP.Domain;
+﻿using FluentAssertions;
+using HP.Domain;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -27,16 +28,31 @@ namespace HP.test
             //Assert
             Assert.Equals(fakeTodo.DomainEvents.Count, expectedResult);
         }
+
         [Test]
-        public void ActivateTodo_Raises_new_event()
+        public void ActivateTodo_Todo_Activated_True()
         {
-            //Arrange
-            Person person = new Person("Kevin", "Park", new Address("Canada", "Waterloo", "ON", "n2l 4m2"), null);
-            var fakeTodo = Todo.Create(person, "fake Todo", "fake Description", "fake type", null);
-            // Act
-            fakeTodo.ActivateTodo("");
+            // Arrange
+            var todo = TodoFactory.Create();
+
+            //Act 
+            todo.ActivateTodo(todo.Id);
+
             //Assert
-            Assert.Equals(fakeTodo.DomainEvents.Count, expectedResult);
+            todo.IsActive.Should().BeTrue();
+        }
+
+        [Test]
+        public void DeactivateTodo_Todo_Is_Deactivated()
+        {
+            // Arrange
+            var todo = TodoFactory.Create();
+
+            // Act
+            todo.DeactivateTodo(todo.Id);
+
+            //Assert
+            todo.IsActive.Should().BeFalse();
         }
     }
 }
