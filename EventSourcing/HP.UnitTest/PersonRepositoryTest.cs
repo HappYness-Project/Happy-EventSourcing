@@ -1,8 +1,10 @@
+using FluentAssertions;
 using HP.Domain;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
+using System.Collections;
 
 namespace HP.test
 {
@@ -54,6 +56,11 @@ namespace HP.test
             var personObj = personRepository.UpdatePersonAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }
-
+        [Test]
+        public void GetListByRoleAsync_return_NormalRolePerson()
+        {
+            var personObj = personRepository.GetListByRoleAsync("normal").Result;
+            personObj.Should().NotBeNull();
+        }
     }
 }

@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using HP.Domain.Common;
 namespace HP.Domain
 {
-    public enum TodoStatus
+    public class TodoStatus : Enumeration
     {
-        Pending,
-        Accepted,
-        Started,
-        Completed,
+        public TodoStatus(int id, string name) : base(id, name){ }
+        public static TodoStatus Pending => new(0, "Pending");
+        public static TodoStatus Accepted => new(1, "Accepted");
+        public static TodoStatus Started => new(2, "Started");
+        public static TodoStatus Completed => new(3, "Completed");
+        public static TodoStatus Stopped => new(4, "Stopped");
+        public static TodoStatus WontDo => new(5, "WontDo");
+
     }
+
 }
