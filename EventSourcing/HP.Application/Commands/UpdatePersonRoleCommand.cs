@@ -12,7 +12,7 @@ namespace HP.Application.Commands
         }
         public async Task<Unit> Handle(UpdatePersonRoleCommand request, CancellationToken cancellationToken)
         {
-            var person = _repository.GetPersonByUserIdAsync(request.UserName).Result;
+            var person = _repository.GetPersonByUserIdAsync(request.UserName.ToUpper()).Result;
             if (person == null)
                 throw new ApplicationException($"UserId : {request.UserName} is not exist.");
 
