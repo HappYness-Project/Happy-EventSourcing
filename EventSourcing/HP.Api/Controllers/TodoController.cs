@@ -43,16 +43,13 @@ namespace HP.Controllers
 
             return Ok(todo);
         }
-        [HttpPost("{personId}/todos")]
-        public async Task<IActionResult> Create([FromRoute]string personId, [FromBody] CreateTodoRequest createTodoRequest, CancellationToken cancellationToken = default)
+        [HttpPost("{personId}")]
+        public async Task<IActionResult> Create([FromRoute]string personId, [FromBody] CreateTodoRequest request, CancellationToken cancellationToken = default)
         {
-            if (createTodoRequest == null)
+            if (request == null)
                 return BadRequest();
 
-            //TODO :  Should I check from here if person exists?
-
-
-            var cmd = new CreateTodoCommand(personId, createTodoRequest.Title, createTodoRequest.Description);
+            var cmd = new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.Tag);
             var todo = await _mediator.Send(cmd);
             return CreatedAtAction("GetTodo", new { Title = cmd.todoTitle }, cmd);// await _mediator.Publish(cmd, cancellationToken);
         }

@@ -1,22 +1,27 @@
 ﻿using HP.Application.Commands;
 using HP.Domain;
 using MediatR;
+using MongoDB.Driver;
 using System.Linq.Expressions;
 
 namespace HP.Application.Handlers
 {
-    public class CancelTodoCommandHandler : IRequestHandler<CancelTodoCommand, bool>
+    public class CancelTodoCommandHandler : IRequestHandler<CancelTodoCommand, Unit>
     {
-        private readonly ITodoRepository _repository;
+        private readonly ITodoRepository _todoRepository;
         public CancelTodoCommandHandler(ITodoRepository todoRepository)
         {
-            this._repository = todoRepository;
+            this._todoRepository = todoRepository;
         }
-        public async Task<bool> Handle(CancelTodoCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CancelTodoCommand request, CancellationToken cancellationToken)
         {
-            Expression<Func<Todo, bool>> expr = x => x.Id == request.todoId;
-            await _repository.DeleteOneAsync(expr);
-            return true;
+            var todo = await _todoRepository.GetByIdAsync(request.todoId);
+            if (todo == null)
+                throw new ApplicationException($"Todo ID: {request.todoId} does not exist.");
+
+            todo.SetStatus(request.todoId, TodoStatus.Stopped);
+            await _todoRepository.UpdateAsync(todo);
+            return Unit.Value;
         }
     }
 }

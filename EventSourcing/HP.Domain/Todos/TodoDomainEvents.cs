@@ -40,7 +40,7 @@ namespace HP.Domain
             }
             public string TodoId { get; }
         }
-        public class TodoStatusToPending : DomainEventBase 
+        public class TodoStatusToPending : DomainEventBase
         {
             public TodoStatusToPending(string todoId) : base(entityType: nameof(Todo))
             {
@@ -48,6 +48,16 @@ namespace HP.Domain
             }
             public string TodoId { get; }
         }
+        public class TodoStatusToAccepted : DomainEventBase
+        {
+            public TodoStatusToAccepted(string todoId) : base(entityType: nameof(Todo))
+            {
+                this.TodoId = todoId;
+            }
+            public string TodoId { get; }
+        }
+
+
         public class TodoActivated : DomainEventBase
         {
             public TodoActivated(string todoId) : base(entityType: nameof(Todo))

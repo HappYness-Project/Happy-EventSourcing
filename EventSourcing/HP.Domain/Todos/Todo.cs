@@ -107,22 +107,32 @@ namespace HP.Domain
 
         public void SetStatus(string todoId, TodoStatus status)
         {
-            switch(status)
+            switch(status.ToString())
             {
-                case TodoStatus.Completed:
-                    this.Status = status;
+                case "Pending":
+                    this.Status = TodoStatus.Pending;
                     this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is completed.";
                     AddDomainEvent(new TodoDomainEvents.TodoCompleted(todoId));
                     break;
 
-                case TodoStatus.Pending:
-                    this.Status = status;
-                    this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is pending.";
-                    AddDomainEvent(new TodoDomainEvents.TodoStatusToPending(todoId));
+                case "Accepted":
+                    this.Status = TodoStatus.Accepted;
+                    this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is accepted.";
+                    AddDomainEvent(new TodoDomainEvents.TodoStatusToAccepted(todoId));
                     break;
 
-                default:
+                case "Started":
+                    this.Status = TodoStatus.Started;
+                    this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is pending.";
+                    //AddDomainEvent(new TodoDomainEvents.TosoStatus(todoId));
+                    break;
 
+                case "Completed":
+
+                    break;
+
+
+                default:
                     break;
             }
         }
