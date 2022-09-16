@@ -48,10 +48,12 @@ namespace HP.Domain
             return new(person, title, description, type, tags);
         }
         //TODO I am not sure i am adding todoItems, or Just Todo from this method.
-        public void AddTodoItem(string todoId, string userId, string title, string type)
+        public TodoItem AddTodoItem(string title, string type, string desc)
         {
-            // I am not sure if it's just adding the todoItem Extra inside of Todo Object.
+            TodoItem todoItem = new TodoItem(title, type, desc);
             //this.AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(todoId, userId, title, type));
+            //SubTodos.Ap
+            return new TodoItem(title, type, desc);
         }
 
         public void DeleteTodoItems(string todoId, string subTodoId)
