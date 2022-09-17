@@ -39,7 +39,6 @@ namespace HP.Domain
         public string StatusDesc { get; private set; }
         public DateTime? Updated { get; private set; } 
         public DateTime? Completed { get; private set; }
-
         public static Todo Create(Person person, string title, string description, string type, string[] tags)
         {
             if(person is null)
@@ -47,15 +46,13 @@ namespace HP.Domain
 
             return new(person, title, description, type, tags);
         }
-        //TODO I am not sure i am adding todoItems, or Just Todo from this method.
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
             TodoItem todoItem = new TodoItem(title, type, desc);
+            SubTodos.Append(todoItem);
             //this.AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(todoId, userId, title, type));
-            //SubTodos.Ap
             return new TodoItem(title, type, desc);
         }
-
         public void DeleteTodoItems(string todoId, string subTodoId)
         {
             var todo = SubTodos.FirstOrDefault(x => x.Id == todoId);
@@ -91,7 +88,6 @@ namespace HP.Domain
             }
 
         }
-
         public void ActivateTodo(string todoId)
         {
             this.IsActive = true;
@@ -106,7 +102,6 @@ namespace HP.Domain
         {
             this.AddDomainEvent(new TodoDomainEvents.TodoRemoved(todoId));
         }
-
         public void SetStatus(string todoId, TodoStatus status)
         {
             switch(status.ToString())

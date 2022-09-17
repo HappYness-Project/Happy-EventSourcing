@@ -20,7 +20,7 @@ namespace HP.test
         {
 
             var mediator = new Mock<IMediator>();
-            var controller = new TodoController(mediator.Object);
+            var controller = new TodosController(mediator.Object);
             var result = await controller.GetTodosByUser("hyunbin7303");
             Assert.That(result, Is.Not.Null);    
         }

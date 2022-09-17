@@ -37,7 +37,8 @@ namespace HP.Application.Handlers
             if(todo == null)
                 throw new ApplicationException($"There is no Todo Id {request.TodoId}");
             
-            todo.AddTodoItem(request.TodoTitle, request.TodoType, request.Description);
+            var subTodo = todo.AddTodoItem(request.TodoTitle, request.TodoType, request.Description);
+            
             throw new NotImplementedException();
         }
     }

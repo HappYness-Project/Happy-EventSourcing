@@ -44,34 +44,34 @@ namespace HP.Controllers
             return Ok(todo);
         }
         [HttpPost("{personId}")]
-        public async Task<IActionResult> Create([FromRoute]string personId, [FromBody] CreateTodoRequest request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create([FromRoute]string personId, [FromBody] CreateTodoRequest request, CancellationToken token = default)
         {
             if (request == null)
                 return BadRequest();
 
-            var cmd = new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.Tag);
-            var todo = await _mediator.Send(cmd);
-            return CreatedAtAction("GetTodo", new { Title = cmd.TodoTitle }, cmd);// await _mediator.Publish(cmd, cancellationToken);
+            var todo = await _mediator.Send(new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.Tags), token);
+            return CreatedAtAction("GetTodo", new { Title = todo.TodoTitle }, todo);// await _mediator.Publish(cmd, cancellationToken);
         }
 
-        [HttpPost("{todoId}")]
-        public async Task<IActionResult> CreateTodoItem([FromRoute]string todoId, [FromBody] CreateTodoItemRequest request, CancellationToken cancellationToken = default)
+        [HttpPost("{todoId}/todoItem")]
+        public async Task<IActionResult> CreateTodoItem([FromRoute]string todoId, [FromBody] CreateTodoItemRequest request, CancellationToken token = default)
         {
             if (request == null)
                 return BadRequest();
             
-            return Ok();           
+            var todo = await _mediator.Send(new CreateTodoItemCommand(todoId, request.Title, request.TodoType, request.Description, request.Tags), token); 
+            return Ok(todo);           
         }
 
 
         [HttpPut("")]
-        public async Task<IActionResult> Update([FromBody]UpdateTodoRequest todoRequest, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Update([FromBody]UpdateTodoRequest todoRequest, CancellationToken token = default)
         {
             if (todoRequest == null)
                 return BadRequest();
 
             var cmd = new UpdateTodoCommand(todoRequest.TodoId, todoRequest.TodoTotle, todoRequest.TodoDescription, todoRequest.Tags);
-            return Ok(await _mediator.Send(cmd));
+            return Ok(await _mediator.Send(cmd, token));
         }
 
         [HttpPut("{todoId}/start")]
@@ -91,11 +91,7 @@ namespace HP.Controllers
             if (string.IsNullOrEmpty(todoId))
                 return BadRequest("Todo id is null");
 
-            var cmd = new DeleteTodoCommand(todoId);
-            return Ok(await _mediator.Send(cmd));
+            return Ok(await _mediator.Send(new DeleteTodoCommand(todoId),token));
         }
-
-
-
     }
 }

@@ -36,7 +36,6 @@ namespace HP.Domain
             Role = PersonRoleType.Normal.ToString(); // For now, Normal is the default Role.
             AddDomainEvent(new PersonEvents.PersonCreated(Id, firstName, lastName, email, address));
         }
-
         public void UpdateRole(string role)
         {
             if (role is null)
@@ -46,7 +45,6 @@ namespace HP.Domain
             this.Role = role;
             AddDomainEvent(new PersonEvents.PersonRoleUpdated(Id, preRole, role));
         }
-
         public static Person Create(string firstName, string lastName, Address address, string emailValue, string userId= null)
         {
             if (firstName is null || lastName is null)
@@ -58,7 +56,6 @@ namespace HP.Domain
             Email email = new Email(emailValue);
             return new Person(firstName.ToUpper(), lastName.ToUpper(), address, email, userId); 
         }
-
         public static Person UpdateBasicPerson(Person person, string firstName, string lastName, string emailAddr)
         {
             person.FirstName = firstName;
@@ -66,13 +63,10 @@ namespace HP.Domain
             person.Email = new Email(emailAddr);
             return person;
         }
-
-
         public static Address CreateAddress(string Country, string City, string Region, string PostalCode)
         {
             return new Address(Country, City, Region, PostalCode);
         }
-
         protected override void When(IDomainEvent @event)
         {
             switch(@event)
