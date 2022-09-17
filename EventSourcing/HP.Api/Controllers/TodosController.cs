@@ -50,18 +50,16 @@ namespace HP.Controllers
                 return BadRequest();
 
             var todo = await _mediator.Send(new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.Tags), token);
-            
-            
             return CreatedAtAction(nameof(GetTodo), new { Id = todo.TodoId }, todo);// await _mediator.Publish(cmd, cancellationToken);
         }
 
-        [HttpPost("{todoId}/todoItem")]
-        public async Task<IActionResult> CreateTodoItem([FromRoute]string todoId, [FromBody] CreateTodoItemRequest request, CancellationToken token = default)
+        [HttpPut("{todoId}/todoItem")]
+        public async Task<IActionResult> CreateTodoItem([FromRoute]string todoId, [FromBody]CreateTodoItemRequest request, CancellationToken token = default)
         {
             if (request == null)
                 return BadRequest();
             
-            var todo = await _mediator.Send(new CreateTodoItemCommand(todoId, request.Title, request.TodoType, request.Description, request.Tags), token); 
+            var todo = await _mediator.Send(new CreateTodoItemCommand(todoId, request.TodoTitle, request.TodoType, request.Description, request.Tags), token); 
             return Ok(todo);           
         }
 
@@ -79,14 +77,13 @@ namespace HP.Controllers
         [HttpPut("{todoId}/start")]
         public async Task<IActionResult> StartTodo([FromRoute]string todoId, CancellationToken cancellationToken = default)
         {
-            // Todo User Authentication required.
             if (string.IsNullOrEmpty(todoId))
                 return BadRequest($"TodoId is null.");
 
             return Ok(await _mediator.Send(new StartTodoCommand(todoId)));
         } 
 
-        [Route("/Todos/{todoId}")]
+        [Route("{todoId}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string todoId, CancellationToken token = default)
         {

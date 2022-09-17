@@ -19,6 +19,8 @@ namespace HP.Application.Mappers
                 .ForMember(dest => dest.TodoId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.TodoTitle, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.TodoType, opt => opt.MapFrom(src => src.Type));
+
+            CreateMap<TodoItem, TodoBasicInfoDto>();
         }
     }
 }

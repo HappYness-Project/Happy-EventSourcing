@@ -38,8 +38,8 @@ namespace HP.Application.Handlers
                 throw new ApplicationException($"There is no Todo Id {request.TodoId}");
             
             var subTodo = todo.AddTodoItem(request.TodoTitle, request.TodoType, request.Description);
-            
-            throw new NotImplementedException();
+            await _repository.UpdateAsync(todo);
+            return _mapper.Map<TodoBasicInfoDto>(subTodo);
         }
     }
     
