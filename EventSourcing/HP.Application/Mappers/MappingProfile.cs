@@ -15,7 +15,10 @@ namespace HP.Application.Mappers
         {
             CreateMap<Person, PersonDetailsDto>();
             CreateMap<Todo, TodoBasicInfoDto>();
-            CreateMap<Todo, TodoDetailsDto>();
+            CreateMap<Todo, TodoDetailsDto>()
+                .ForMember(dest => dest.TodoId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.TodoTitle, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.TodoType, opt => opt.MapFrom(src => src.Type));
         }
     }
 }

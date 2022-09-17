@@ -25,8 +25,8 @@ namespace HP.Controllers
             return Ok(await _mediator.Send(new GetTodos()));
         }
 
-        [HttpGet, Route("{id}", Name = "GetTodo")]
-        public async Task<IActionResult> Get(string id, CancellationToken token = default)
+        [HttpGet("id")]
+        public async Task<IActionResult> GetTodo(string id, CancellationToken token = default)
         {
             var todo = await _mediator.Send(new GetTodoById(id), token);
             if (todo == null)
@@ -50,7 +50,9 @@ namespace HP.Controllers
                 return BadRequest();
 
             var todo = await _mediator.Send(new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.Tags), token);
-            return CreatedAtAction("GetTodo", new { Title = todo.TodoTitle }, todo);// await _mediator.Publish(cmd, cancellationToken);
+            
+            
+            return CreatedAtAction(nameof(GetTodo), new { Id = todo.TodoId }, todo);// await _mediator.Publish(cmd, cancellationToken);
         }
 
         [HttpPost("{todoId}/todoItem")]

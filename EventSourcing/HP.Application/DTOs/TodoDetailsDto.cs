@@ -1,5 +1,4 @@
-﻿using HP.Domain;
-namespace HP.Application.DTOs
+﻿namespace HP.Application.DTOs
 {
     public record TodoDetailsDto
     {
@@ -7,6 +6,5 @@ namespace HP.Application.DTOs
         public string TodoId { get; set; }
         public string TodoTitle { get; set; }
         public string TodoType { get; set; }
-        public TodoStatus TodoStatus { get; set; }
     }
 }
