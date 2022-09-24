@@ -62,6 +62,16 @@ namespace HP.Controllers
             var todo = await _mediator.Send(new CreateTodoItemCommand(todoId, request.TodoTitle, request.TodoType, request.Description, request.Tags), token); 
             return Ok(todo);           
         }
+        [HttpPut("{todoId}/todoItem")]
+        public async Task<IActionResult> DeleteTodoItem([FromRoute]string todoId, [FromBody]CreateTodoItemRequest request, CancellationToken token = default)
+        {
+            if (request == null)
+                return BadRequest();
+            
+            var todo = await _mediator.Send(new CreateTodoItemCommand(todoId, request.TodoTitle, request.TodoType, request.Description, request.Tags), token); 
+            return Ok(todo);           
+        }
+
 
 
         [HttpPut("")]
@@ -74,7 +84,7 @@ namespace HP.Controllers
             return Ok(await _mediator.Send(cmd, token));
         }
 
-        [HttpPut("{todoId}/start")]
+        [HttpPatch("{todoId}/start")]
         public async Task<IActionResult> StartTodo([FromRoute]string todoId, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(todoId))
@@ -82,6 +92,28 @@ namespace HP.Controllers
 
             return Ok(await _mediator.Send(new StartTodoCommand(todoId)));
         } 
+
+
+        [HttpPatch("{todoId}/pending")]
+        public async Task<IActionResult> PendingTodo([FromRoute]string todoId, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrEmpty(todoId))
+                return BadRequest($"TodoId is null.");
+
+            return Ok(await _mediator.Send(new PendingTodoCommand(todoId)));
+        } 
+
+
+        [HttpPatch("{todoId}/stop")]
+        public async Task<IActionResult> StopTodo([FromRoute]string todoId, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrEmpty(todoId))
+                return BadRequest($"TodoId is null.");
+
+            return Ok(await _mediator.Send(new StartTodoCommand(todoId)));
+        } 
+
+
 
         [Route("{todoId}")]
         [HttpDelete]
