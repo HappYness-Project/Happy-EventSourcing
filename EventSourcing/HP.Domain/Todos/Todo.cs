@@ -60,7 +60,6 @@ namespace HP.Domain
             if (todo == null)
                 throw new Exception("Not Found SubTodo.");
             //todo.Delete
-            
         }
         protected override void When(IDomainEvent @event)
         {
@@ -121,13 +120,15 @@ namespace HP.Domain
 
                 case "Started":
                     this.Status = TodoStatus.Started;
-                    this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is pending.";
-                    //AddDomainEvent(new TodoDomainEvents.TosoStatus(todoId));
+                    this.IsStarted = true;
+                    this.StatusDesc = $"Todo Id:{todoId}, has been started at {DateTime.Now}";
+                    AddDomainEvent(new TodoDomainEvents.TodoStarted(todoId));
                     break;
 
                 case "Completed":
                     this.Status = TodoStatus.Completed;
                     this.StatusDesc = $"Todo Id:{todoId} is completed. ";
+                    AddDomainEvent(new TodoDomainEvents.TodoCompleted(todoId));
                     break;
 
                 case "Stopped":

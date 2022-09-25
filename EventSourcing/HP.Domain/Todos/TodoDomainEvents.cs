@@ -74,6 +74,17 @@ namespace HP.Domain
             }
             public string TodoId { get; }
         }
+        public class TodoStarted : DomainEventBase
+        {
+            public TodoStarted(string todoId) : base(entityType: nameof(Todo))
+            {
+                if(string.IsNullOrEmpty(todoId))
+                    throw new ArgumentNullException(nameof(todoId));
+
+                this.TodoId = todoId;
+            }
+            public string TodoId { get; }
+        } 
         public class TodoCompleted : DomainEventBase
         {
             public TodoCompleted(string todoId) : base(entityType: nameof(Todo))

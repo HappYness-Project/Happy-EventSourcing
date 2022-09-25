@@ -1,4 +1,4 @@
 ﻿namespace HP.Api.Requests
 {
-    public record StopTodoRequest(string reason);
+    public record TodoStatusChangeRequest(string reason);
 }

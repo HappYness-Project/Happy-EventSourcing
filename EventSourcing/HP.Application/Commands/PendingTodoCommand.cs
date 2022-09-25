@@ -3,7 +3,7 @@ using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands
 {
-    public record PendingTodoCommand(string TodoId) : CommandBase<Unit>;
+    public record PendingTodoCommand(string TodoId, string? reason = null) : CommandBase<Unit>;
     public class PendingTodoCommandHandler : IRequestHandler<PendingTodoCommand,Unit>
     {
         private readonly ITodoRepository _repository;
@@ -18,8 +18,7 @@ namespace HP.Application.Commands
             if(todo == null)
                 throw new ApplicationException($"Todo ID: {cmd.TodoId} does not exist.");
             
-            todo.ActivateTodo(todo.Id);
-            todo.SetStatus(todo.Id, TodoStatus.Pending);
+            todo.SetStatus(todo.Id, TodoStatus.Pending, cmd.reason);
             await _repository.UpdateAsync(todo);
             return Unit.Value;
         }

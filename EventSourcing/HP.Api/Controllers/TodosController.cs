@@ -83,8 +83,8 @@ namespace HP.Controllers
             var todo = await _mediator.Send(new CreateTodoItemCommand(todoId, request.TodoTitle, request.TodoType, request.Description, request.Tags), token); 
             return Ok(todo);           
         }
-        [HttpPut("{todoId}/todoItem")]
-        public async Task<IActionResult> DeleteTodoItem(string todoId, [FromBody]CreateTodoItemRequest request, CancellationToken token = default)
+        [HttpPut("{todoId}/todoItem/{todoItemId}")]
+        public async Task<IActionResult> DeleteTodoItem(string todoId, string todoItemId, CancellationToken token = default)
         {
             if (request == null)
                 return BadRequest();
@@ -104,28 +104,27 @@ namespace HP.Controllers
         }
 
         [HttpPatch("{todoId}/start")]
-        public async Task<IActionResult> StartTodo([FromRoute]string todoId, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> StartTodo([FromRoute]string todoId, CancellationToken token = default)
         {
             if (string.IsNullOrEmpty(todoId))
                 return BadRequest($"TodoId is null.");
 
-            return Ok(await _mediator.Send(new StartTodoCommand(todoId)));
+            return Ok(await _mediator.Send(new StartTodoCommand(todoId), token));
         } 
 
 
         [HttpPatch("{todoId}/pending")]
-        public async Task<IActionResult> PendingTodo(string todoId, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> PendingTodo(string todoId, [FromBody]TodoStatusChangeRequest request, CancellationToken token = default)
         {
             if (string.IsNullOrEmpty(todoId))
                 return BadRequest($"TodoId is null.");
 
-      //      return Ok(await _mediator.Send(new PendingTodoCommand(todoId)));
-            return Ok();
+            return Ok(await _mediator.Send(new PendingTodoCommand(todoId), token));
         } 
 
 
         [HttpPatch("{todoId}/stop")]
-        public async Task<IActionResult> StopTodo(string todoId, [FromBody]StopTodoRequest request, CancellationToken token = default)
+        public async Task<IActionResult> StopTodo(string todoId, [FromBody]TodoStatusChangeRequest request, CancellationToken token = default)
         {
             if (string.IsNullOrEmpty(todoId))
                 return BadRequest($"TodoId is null.");

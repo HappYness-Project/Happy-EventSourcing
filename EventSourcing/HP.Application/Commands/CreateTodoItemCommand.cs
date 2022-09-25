@@ -6,7 +6,7 @@ using MediatR;
 
 namespace HP.Application.Handlers
 {
-    public record CreateTodoItemCommand(string TodoId, string TodoTitle, string TodoType, string Description = null,  string[] Tag = null) : CommandBase<TodoBasicInfoDto>;
+    public record CreateTodoItemCommand(string TodoId, string TodoTitle, string TodoType, string? Description,  string[] Tag = null) : CommandBase<TodoBasicInfoDto>;
     public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, TodoBasicInfoDto>
     {
         private readonly IMapper _mapper;

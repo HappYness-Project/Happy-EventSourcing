@@ -19,6 +19,7 @@ namespace HP.Application.Handlers
                 throw new ApplicationException($"Todo ID: {cmd.TodoId} does not exist.");
             
             todo.ActivateTodo(todo.Id);
+            todo.IsStarted = true;
             todo.SetStatus(todo.Id, TodoStatus.Started);
             await _repository.UpdateAsync(todo);
             return Unit.Value;

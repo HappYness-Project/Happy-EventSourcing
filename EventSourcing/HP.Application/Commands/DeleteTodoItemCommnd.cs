@@ -3,7 +3,7 @@ using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands
 {
-    public record DeleteTodoItem(string Id) : IRequest<bool>;
+    public record DeleteTodoItem(string TodoId, string TodoItemId) : IRequest<bool>;
     public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItem, bool>
     {
         private readonly ITodoRepository _repository;
@@ -13,12 +13,16 @@ namespace HP.Application.Commands
         }
         public async Task<bool> Handle(DeleteTodoItem request, CancellationToken cancellationToken)
         {
-            var todo = await _repository.GetByIdAsync(request.Id);
+            var todo = await _repository.GetByIdAsync(request.TodoId);
             if(todo == null)
-                throw new ArgumentNullException(nameof(todo));
+                throw new ApplicationException($"TodoId:{todo.Id} doesn't exist. ");
 
-            Expression<Func<Todo, bool>> expr = x => x.Id == request.Id;
-            await _repository.DeleteOneAsync(expr);
+            var todoItem = todo.SubTodos.Where(x=> x.Id == request.TodoItemId).FirstOrDefault();
+            if(todoItem == null)
+                throw new ApplicationException($"{request.TodoItemId} does not exist in the TodoId: {todo.Id}");
+
+
+         //   await _repository.UpdateAsync(expr);
           //  var @event = new TodoDomainEvents.TodoItemRemoved(request.Id);
             return true;// Publish Remove event. 
         }
