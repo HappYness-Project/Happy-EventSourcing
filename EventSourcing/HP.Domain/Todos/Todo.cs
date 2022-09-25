@@ -103,7 +103,7 @@ namespace HP.Domain
         {
             this.AddDomainEvent(new TodoDomainEvents.TodoRemoved(todoId));
         }
-        public void SetStatus(string todoId, TodoStatus status)
+        public void SetStatus(string todoId, TodoStatus status, string? reason =null)
         {
             switch(status.ToString())
             {
@@ -126,10 +126,14 @@ namespace HP.Domain
                     break;
 
                 case "Completed":
-
+                    this.Status = TodoStatus.Completed;
+                    this.StatusDesc = $"Todo Id:{todoId} is completed. ";
                     break;
 
-
+                case "Stopped":
+                    this.Status = TodoStatus.Stopped;
+                    this.StatusDesc = $"Todo Id:{todoId}, has been stopped. Reason: {reason}";
+                    break;
                 default:
                     break;
             }

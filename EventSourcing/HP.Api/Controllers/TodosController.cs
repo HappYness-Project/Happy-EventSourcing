@@ -125,12 +125,12 @@ namespace HP.Controllers
 
 
         [HttpPatch("{todoId}/stop")]
-        public async Task<IActionResult> StopTodo(string todoId, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> StopTodo(string todoId, [FromBody]StopTodoRequest request, CancellationToken token = default)
         {
             if (string.IsNullOrEmpty(todoId))
                 return BadRequest($"TodoId is null.");
 
-            return Ok(await _mediator.Send(new StartTodoCommand(todoId)));
+            return Ok(await _mediator.Send(new StopTodoCommand(todoId, request.reason), token));
         } 
 
 
