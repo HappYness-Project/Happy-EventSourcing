@@ -22,7 +22,7 @@ namespace HP.Domain
             Type = type;
             Tag = tag;
             IsActive = true;
-
+            SubTodos = new HashSet<TodoItem>();
             AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, type));
         }
         public string UserId { get; private set; }
@@ -34,7 +34,7 @@ namespace HP.Domain
         public bool IsStarted { get; private set; }
         public bool IsActive { get; private set; }
         public double Score { get; private set; }
-        public IEnumerable<TodoItem> SubTodos { get; private set; } = Enumerable.Empty<TodoItem>();
+        public ICollection<TodoItem> SubTodos { get; private set; }
         public TodoStatus Status { get; private set; }  
         public string StatusDesc { get; private set; }
         public DateTime? Updated { get; private set; } 
@@ -50,16 +50,17 @@ namespace HP.Domain
         {
             TodoItem todoItem = new TodoItem(title, type, desc);
             var sub = SubTodos.Append(todoItem);
-            SubTodos = sub;
             //this.AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(todoId, userId, title, type));
             return new TodoItem(title, type, desc);
         }
-        public void DeleteTodoItems(string todoId, string subTodoId)
+        public void DeleteTodoItem(string todoItemId)
         {
-            var todo = SubTodos.FirstOrDefault(x => x.Id == todoId);
-            if (todo == null)
-                throw new Exception("Not Found SubTodo.");
-            //todo.Delete
+            var todoItem = SubTodos.FirstOrDefault(x => x.Id == todoItemId);
+            if (todoItem == null)
+                throw new Exception($"[Domain Excecption]Not Found TodoItem : {todoItemId}");
+
+            SubTodos.Remove(todoItem);
+            this.AddDomainEvent(new TodoDomainEvents.TodoItemRemoved(todoItemId));
         }
         protected override void When(IDomainEvent @event)
         {

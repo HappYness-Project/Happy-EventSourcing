@@ -21,7 +21,8 @@ namespace HP.Application.Commands
             if(todoItem == null)
                 throw new ApplicationException($"{request.TodoItemId} does not exist in the TodoId: {todo.Id}");
 
-
+            todo.DeleteTodoItem(request.TodoItemId);
+            await _repository.UpdateAsync(todo);
          //   await _repository.UpdateAsync(expr);
           //  var @event = new TodoDomainEvents.TodoItemRemoved(request.Id);
             return true;// Publish Remove event. 

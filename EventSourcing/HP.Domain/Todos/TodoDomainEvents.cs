@@ -96,5 +96,16 @@ namespace HP.Domain
             }
             public string TodoId { get; }
         } 
+        public class TodoItemRemoved : DomainEventBase
+        {
+            public TodoItemRemoved(string todoItemId) : base(entityType: nameof(TodoItem))
+            {
+                if(string.IsNullOrEmpty(todoItemId))
+                    throw new ArgumentNullException(nameof(todoItemId));
+
+                this.TodoItemId = todoItemId;
+            }
+            public string TodoItemId { get; }
+        }
     }
 }
