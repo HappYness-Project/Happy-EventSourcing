@@ -22,13 +22,33 @@ namespace HP.Application.Handlers
             if (person == null)
                 throw new ApplicationException($"There is no person for this person. User ID : {request.UserId}");
 
-            var todo = Todo.Create(person, request.TodoTitle, request.Description,request.TodoType, request.Tag);
+            TodoType type = null;
+            switch(request.TodoType.ToUpper())
+            {
+                case "STUDY":
+                    type = TodoType.Study;
+                    break;
+                case "RESEARCH":
+                    type = TodoType.Research;
+                    break;
+                case "WORK":
+                    type = TodoType.Work;
+                    break;
+                case "CHORE":
+                    type = TodoType.Chores;
+                    break;
+
+                default:
+                    type = TodoType.Others;
+                    break;
+            }
+            var todo = Todo.Create(person, request.TodoTitle, request.Description, type, request.Tag);
             var checkTodo = await _repository.CreateAsync(todo);
-         //   var @event = new TodoDomainEvents.TodoCreated(todo.Id, person.UserId, request.TodoTitle, request.Description,request.Type);
+            var @event = new TodoDomainEvents.TodoCreated(todo.Id, person.UserId, request.TodoTitle, type);
             return _mapper.Map<TodoDetailsDto>(checkTodo);
         }
     }
 }
 
-//https://chaitanyasuvarna.wordpress.com/2021/05/30/event-sourcing-pattern-in-net-core/
+//
 //https://devblogs.microsoft.com/cesardelatorre/using-domain-events-within-a-net-core-microservice/

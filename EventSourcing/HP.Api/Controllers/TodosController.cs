@@ -111,14 +111,13 @@ namespace HP.Controllers
             return Ok(await _mediator.Send(new ActivateTodoCommand(todoId), token));
         } 
         [HttpPatch("{todoId}/Deactivation")]
-        public async Task<IActionResult> Deactivation([FromRoute]string todoId, CancellationToken token = default)
+        public async Task<IActionResult> DeactivateTodo([FromRoute]string todoId, CancellationToken token = default)
         {
             if (string.IsNullOrEmpty(todoId))
                 return BadRequest($"TodoId is null.");
 
-            return Ok(await _mediator.Send(new DeactivateTodoCommand(todoId), token));
+            return Ok(await _mediator.Send(new DeavtivateTodoCommand(todoId), token));
         } 
-
 
         [HttpPatch("{todoId}/start")]
         public async Task<IActionResult> StartTodo([FromRoute]string todoId, CancellationToken token = default)
@@ -128,7 +127,6 @@ namespace HP.Controllers
 
             return Ok(await _mediator.Send(new StartTodoCommand(todoId), token));
         } 
-
 
         [HttpPatch("{todoId}/pending")]
         public async Task<IActionResult> PendingTodo(string todoId, [FromBody]TodoStatusChangeRequest request, CancellationToken token = default)

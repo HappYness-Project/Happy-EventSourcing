@@ -8,7 +8,7 @@ namespace HP.Domain
             IsActive = true;
             Tag = Array.Empty<string>();
         }
-        public Todo(Person person, string title, string description, string type, string[] tag) : this()
+        public Todo(Person person, string title, string description, TodoType todoType, string[] tag) : this()
         {
             // TODO : CheckPolicies
             if (person is null)
@@ -19,17 +19,17 @@ namespace HP.Domain
             UserId = person.UserId;
             Title = title;
             Description = description;
-            Type = type;
+            Type = todoType;
             Tag = tag;
             IsActive = true;
             SubTodos = new HashSet<TodoItem>();
-            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, type));
+            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, todoType));
         }
         public string UserId { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string ProjectId { get; private set; }
-        public string Type { get; private set; }
+        public TodoType Type { get; private set; }
         public string[] Tag { get; private set; }
         public bool IsStarted { get; private set; }
         public bool IsActive { get; private set; }
@@ -39,10 +39,13 @@ namespace HP.Domain
         public string StatusDesc { get; private set; }
         public DateTime? Updated { get; private set; } 
         public DateTime? Completed { get; private set; }
-        public static Todo Create(Person person, string title, string description, string type, string[] tags)
+        public static Todo Create(Person person, string title, string description, TodoType type, string[] tags)
         {
             if(person is null)
                 throw new ArgumentNullException(nameof(person));
+
+            // Get Todo Type
+
 
             return new(person, title, description, type, tags);
         }

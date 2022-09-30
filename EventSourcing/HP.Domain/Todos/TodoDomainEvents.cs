@@ -5,7 +5,7 @@ namespace HP.Domain
     {
         public class TodoCreated : DomainEventBase
         {
-            public TodoCreated(string todoId, string userId, string todoTitle, string type) 
+            public TodoCreated(string todoId, string userId, string todoTitle, TodoType type) 
                 : base(entityType:nameof(Todo))
             {
                 this.TodoId = todoId;
@@ -16,7 +16,7 @@ namespace HP.Domain
             public string TodoId { get; }
             public string UserId { get; }
             public string TodoTitle { get; }
-            public string Type { get; }
+            public TodoType Type { get; }
         }
         public class TodoUpdated : DomainEventBase
         {

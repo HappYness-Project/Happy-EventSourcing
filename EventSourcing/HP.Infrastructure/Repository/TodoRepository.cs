@@ -39,8 +39,21 @@ namespace HP.Infrastructure.Repository
             var filter = Builders<Todo>.Filter.Eq("UserId", userId);
             var test = _todos.Find(filter).ToList();
             //return await _todos.AsQueryable().Where(x => x.UserId == userId).ToListAsync();
+
+            
             return test;    
         }
+
+//         public async Task<IEnumerable<Todo>> GetListByScoreOfUser(string userId, string targetScore)
+//         {
+//             var highExamScoreFilter = Builders<BsonDocument>.Filter.ElemMatch<BsonValue>
+//             (
+//                 "scores", new BsonDocument { { "type", "exam" },
+//                 { "score", new BsonDocument { { "$gte", 95 } } }
+//             });
+//   //          _todos.Find(highExamScoreFilter);
+
+//         }
 
         public IEnumerable<Todo> Search(int page, int recordsPerPage, string TodoTitle, out int totalCount)
         {

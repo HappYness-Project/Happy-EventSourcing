@@ -23,7 +23,7 @@ namespace HP.test
             Person person= new Person("Kevin", "Park", addr, null);
 
             // Act
-            var fakeTodo = Todo.Create(person, "fake Todo", "fake Description", "fake type", faketags);
+            var fakeTodo = Todo.Create(person, "fake Todo", "fake Description", TodoType.Others, faketags);
 
             //Assert
             Assert.Equals(fakeTodo.DomainEvents.Count, expectedResult);
