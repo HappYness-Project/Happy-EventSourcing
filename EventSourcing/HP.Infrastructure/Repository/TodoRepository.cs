@@ -19,20 +19,21 @@ namespace HP.Infrastructure.Repository
         {
             _todos = dbContext.GetCollection<Todo>();
         }
-
+        public async Task<Todo> GetActiveTodoById(string todoId)
+        {
+            return await _todos.Find(x => x.Id == todoId && x.IsActive).FirstOrDefaultAsync();
+        }
         public Task<IEnumerable<Todo>> GetListByTags(string[] tags)
         {
-            // FilterDefinition.
             foreach (var tag in tags)
             {
                 var filter = Builders<Todo>.Filter.Eq("Tags.", tag);
                 var check = _todos.Find(filter);
             }
             //await _collection.InsertOneAsync(entity);
-            //return entity;
             throw new NotImplementedException();
         }
-        //https://www.mongodb.com/blog/post/quick-start-c-and-mongodb-read-operations
+        //
         public async Task<IEnumerable<Todo>> GetListByUserId(string userId)
         {
             var filter = Builders<Todo>.Filter.Eq("UserId", userId);

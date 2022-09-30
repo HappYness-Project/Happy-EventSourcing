@@ -102,6 +102,23 @@ namespace HP.Controllers
             var cmd = new UpdateTodoCommand(todoRequest.TodoId, todoRequest.TodoTotle, todoRequest.TodoDescription, todoRequest.Tags);
             return Ok(await _mediator.Send(cmd, token));
         }
+        [HttpPatch("{todoId}/Activation")]
+        public async Task<IActionResult> ActivateTodo([FromRoute]string todoId, CancellationToken token = default)
+        {
+            if (string.IsNullOrEmpty(todoId))
+                return BadRequest($"TodoId is null.");
+
+            return Ok(await _mediator.Send(new ActivateTodoCommand(todoId), token));
+        } 
+        [HttpPatch("{todoId}/Deactivation")]
+        public async Task<IActionResult> Deactivation([FromRoute]string todoId, CancellationToken token = default)
+        {
+            if (string.IsNullOrEmpty(todoId))
+                return BadRequest($"TodoId is null.");
+
+            return Ok(await _mediator.Send(new DeactivateTodoCommand(todoId), token));
+        } 
+
 
         [HttpPatch("{todoId}/start")]
         public async Task<IActionResult> StartTodo([FromRoute]string todoId, CancellationToken token = default)

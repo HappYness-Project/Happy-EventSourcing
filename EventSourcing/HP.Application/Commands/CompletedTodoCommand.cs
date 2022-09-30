@@ -13,9 +13,9 @@ namespace HP.Application.Handlers
 
         public async Task<bool> Handle(CompletedTodoCommand request, CancellationToken cancellationToken)
         {
-            var todo = _repository.GetByIdAsync(request.TodoId)?.Result;
+            var todo = _repository.GetActiveTodoById(request.TodoId)?.Result;
             if (todo == null)
-                return false;
+                throw new ApplicationException($"There is no active TodoId: {request.TodoId}");
 
             todo.SetStatus(request.TodoId, TodoStatus.Completed);
             await _repository.UpdateAsync(todo);
