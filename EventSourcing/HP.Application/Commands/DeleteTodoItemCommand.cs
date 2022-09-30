@@ -1,17 +1,16 @@
-﻿using System.Linq.Expressions;
-using HP.Domain;
+﻿using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands
 {
-    public record DeleteTodoItem(string TodoId, string TodoItemId) : IRequest<bool>;
-    public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItem, bool>
+    public record DeleteTodoItemCommand(string TodoId, string TodoItemId) : IRequest<bool>;
+    public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand, bool>
     {
         private readonly ITodoRepository _repository;
         public DeleteTodoItemCommandHandler(ITodoRepository todoRepository)
         {
             this._repository = todoRepository;
         }
-        public async Task<bool> Handle(DeleteTodoItem request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
         {
             var todo = await _repository.GetByIdAsync(request.TodoId);
             if(todo == null)
@@ -23,9 +22,8 @@ namespace HP.Application.Commands
 
             todo.DeleteTodoItem(request.TodoItemId);
             await _repository.UpdateAsync(todo);
-         //   await _repository.UpdateAsync(expr);
-          //  var @event = new TodoDomainEvents.TodoItemRemoved(request.Id);
-            return true;// Publish Remove event. 
+            var @event = new TodoDomainEvents.TodoItemRemoved(request.TodoItemId);
+            return true;
         }
     }
 }

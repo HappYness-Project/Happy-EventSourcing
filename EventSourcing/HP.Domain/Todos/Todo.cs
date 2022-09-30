@@ -46,11 +46,16 @@ namespace HP.Domain
 
             return new(person, title, description, type, tags);
         }
+        public void Update(string title, string desc, string[] Tags)
+        {
+            this.Title = title;
+            this.Description = desc;
+            this.Tag = Tags;
+        }
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
             TodoItem todoItem = new TodoItem(title, type, desc);
             var sub = SubTodos.Append(todoItem);
-            //this.AddDomainEvent(new TodoDomainEvents.TodoCreatedEvent(todoId, userId, title, type));
             return new TodoItem(title, type, desc);
         }
         public void DeleteTodoItem(string todoItemId)

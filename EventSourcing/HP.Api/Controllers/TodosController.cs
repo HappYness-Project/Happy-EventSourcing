@@ -83,13 +83,13 @@ namespace HP.Controllers
             var todo = await _mediator.Send(new CreateTodoItemCommand(todoId, request.TodoTitle, request.TodoType, request.Description, request.Tags), token); 
             return Ok(todo);           
         }
-        [HttpPut("{todoId}/todoItem/{todoItemId}")]
+        [HttpPut("{todoId}/todoItems/{todoItemId}")]
         public async Task<IActionResult> DeleteTodoItem(string todoId, string todoItemId, CancellationToken token = default)
         {
-            if (request == null)
-                return BadRequest();
+            if (todoId == null || todoItemId == null) 
+                return BadRequest("TodoId or TodoItemId is null");
             
-            var todo = await _mediator.Send(new CreateTodoItemCommand(todoId, request.TodoTitle, request.TodoType, request.Description, request.Tags), token); 
+            var todo = await _mediator.Send(new DeleteTodoItemCommand(todoId, todoItemId), token); 
             return Ok(todo);           
         }
 

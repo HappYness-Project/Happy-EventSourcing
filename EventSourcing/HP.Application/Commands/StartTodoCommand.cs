@@ -1,7 +1,6 @@
-﻿using HP.Application.Commands;
-using HP.Domain;
+﻿using HP.Domain;
 using MediatR;
-namespace HP.Application.Handlers
+namespace HP.Application.Commands
 {
     public record StartTodoCommand(string TodoId) : CommandBase<Unit>;
     public class StartTodoCommandHandler : IRequestHandler<StartTodoCommand,Unit>
@@ -19,7 +18,6 @@ namespace HP.Application.Handlers
                 throw new ApplicationException($"Todo ID: {cmd.TodoId} does not exist.");
             
             todo.ActivateTodo(todo.Id);
-            todo.IsStarted = true;
             todo.SetStatus(todo.Id, TodoStatus.Started);
             await _repository.UpdateAsync(todo);
             return Unit.Value;

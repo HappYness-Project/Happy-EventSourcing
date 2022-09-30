@@ -1,7 +1,7 @@
 ﻿using HP.Application.Commands;
 using HP.Domain;
 using MediatR;
-namespace HP.Application.Handlers
+namespace HP.Application.Commands
 {
     public record StopTodoCommand(string TodoId, string reason) : CommandBase<Unit>;
     public class StopTodoCommandHandler : IRequestHandler<StopTodoCommand,Unit>
