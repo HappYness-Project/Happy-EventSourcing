@@ -15,19 +15,19 @@ namespace HP.Application.Queries
         {
             _personRepository = personRepository;
         }
-        public Task<IEnumerable<PersonDetailsDto>> Handle(GetPersonList request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PersonDetailsDto>> Handle(GetPersonList request, CancellationToken cancellationToken)
         {
-            var check = _personRepository.GetAllAsync();
-            if (check == null)
+            var people = await _personRepository.GetAllAsync();
+            if (people == null)
                 throw new ApplicationException($"There is no person in the Person Collection.");
 
-            return Task.FromResult(_mapper.Map<IEnumerable<PersonDetailsDto>>(check));
+            return _mapper.Map<IEnumerable<PersonDetailsDto>>(people);
         }
 
         public async Task<PersonDetailsDto> Handle(GetPersonById request, CancellationToken cancellationToken)
         {
-            var check = _personRepository.GetByIdAsync(request.Id);
-            if (check is null)
+            var check = await _personRepository.GetByIdAsync(request.Id);
+            if (check == null)
                 throw new ApplicationException($"Person not exist. Person ID:{request.Id}");
 
             return _mapper.Map<PersonDetailsDto>(check);
