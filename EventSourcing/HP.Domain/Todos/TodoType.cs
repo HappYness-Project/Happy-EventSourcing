@@ -1,4 +1,6 @@
 using HP.Domain.Common;
+using HP.Domain.Exceptions;
+
 namespace HP.Domain
 {
     public class TodoType : Enumeration
@@ -12,6 +14,31 @@ namespace HP.Domain
 
         public static IEnumerable<TodoType> List() =>
             new[] { Others, Study, Research, Chores, Work };
+
+
+        public static TodoType FromName(string name)
+        {
+            var state = List()
+                .SingleOrDefault(s => String.Equals(s.Name, name, StringComparison.CurrentCultureIgnoreCase));
+
+            if (state == null)
+            {
+                throw new TodoDomainException($"Possible values for OrderStatus: {String.Join(",", List().Select(s => s.Name))}");
+            }
+
+            return state;
+        }
+        public static TodoType From(int id)
+        {
+            var state = List().SingleOrDefault(s => s.Id == id);
+
+            if (state == null)
+            {
+                throw new TodoDomainException($"Possible values for OrderStatus: {String.Join(",", List().Select(s => s.Name))}");
+            }
+
+            return state;
+        }
 
     }
 }
