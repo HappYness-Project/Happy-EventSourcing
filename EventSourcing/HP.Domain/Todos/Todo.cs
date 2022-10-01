@@ -113,34 +113,34 @@ namespace HP.Domain
         }
         public void SetStatus(string todoId, TodoStatus status, string? reason =null)
         {
-            switch(status.ToString())
+            switch(status.Name.ToUpper())
             {
-                case "Pending":
+                case "PENDING":
                     this.Status = TodoStatus.Pending;
                     this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is completed.";
                     AddDomainEvent(new TodoDomainEvents.TodoCompleted(todoId));
                     break;
 
-                case "Accepted":
+                case "ACCEPTED":
                     this.Status = TodoStatus.Accepted;
                     this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is accepted.";
                     AddDomainEvent(new TodoDomainEvents.TodoStatusToAccepted(todoId));
                     break;
 
-                case "Started":
+                case "STARTED":
                     this.Status = TodoStatus.Started;
                     this.IsStarted = true;
                     this.StatusDesc = $"Todo Id:{todoId}, has been started at {DateTime.Now}";
                     AddDomainEvent(new TodoDomainEvents.TodoStarted(todoId));
                     break;
 
-                case "Completed":
+                case "COMPLETED":
                     this.Status = TodoStatus.Completed;
                     this.StatusDesc = $"Todo Id:{todoId} is completed. ";
                     AddDomainEvent(new TodoDomainEvents.TodoCompleted(todoId));
                     break;
 
-                case "Stopped":
+                case "STOPPED":
                     this.Status = TodoStatus.Stopped;
                     this.StatusDesc = $"Todo Id:{todoId}, has been stopped. Reason: {reason}";
                     break;
