@@ -55,5 +55,15 @@ namespace HP.Domain
             }
             public string Id { get; }
         }
+        public class PersonGroupUpdated : DomainEventBase
+        {
+            public PersonGroupUpdated(string personId, int groupId) : base(entityType: nameof(Person))
+            {
+                this.Id = personId;
+                this.GroupId = groupId;
+            }
+            public string Id {get; }
+            public int GroupId {get;}
+        }
     }
 }

@@ -45,6 +45,11 @@ namespace HP.Domain
             this.Role = role;
             AddDomainEvent(new PersonEvents.PersonRoleUpdated(Id, preRole, role));
         }
+        public void UpdateGroupId(int groupId)
+        {
+            this.GroupId = groupId;
+            AddDomainEvent(new PersonEvents.PersonGroupUpdated(Id, this.GroupId));
+        }
         public static Person Create(string firstName, string lastName, Address address, string emailValue, string userId= null)
         {
             if (firstName is null || lastName is null)

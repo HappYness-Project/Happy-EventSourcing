@@ -51,10 +51,17 @@ namespace HP.Controllers
         {
             return await _mediator.Send(new UpdatePersonCommand(userid, request.FirstName, request.LastName,request.Email));
         }
-        [HttpPut("Role/{userid}")]
-        public async Task Update(string userid, [FromBody]UpdateRoleRequest request)
+        [HttpPut("{userid}/Role")]
+        public async Task UpdateRole(string userid, [FromBody]UpdateRoleRequest request)
         {
-            await _mediator.Send(new UpdatePersonRoleCommand(userid, request.Role));// Need to be updated to Publish.
+            await _mediator.Send(new UpdatePersonRoleCommand(userid, request.Role));
         }
+        [HttpPut("{userid}/Group")]
+        public async Task UpdateGroup(string userid, [FromBody]UpdateGroupIdRequest request)
+        {
+            await _mediator.Send(new UpdatePersonGroupCommand(userid, request.GroupId));
+        }
+
+
     }
 }
