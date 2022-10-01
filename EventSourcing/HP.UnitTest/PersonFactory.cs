@@ -6,7 +6,7 @@ namespace HP.test
     {
         public static Person Create()
         {
-            Address addr = new Address("Canada", "Waterloo","ON","N2L-4m2");
+            Address addr = new Address("Canada", "Waterloo","ON","N2L 4m2");
             return Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com");
         }
         public static Person Create(string fName, string lName, Address addr, string email)

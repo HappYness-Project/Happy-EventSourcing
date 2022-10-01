@@ -24,9 +24,6 @@ namespace HP.Infrastructure.Repository
             // check if the Event Store for the Evet exists in the Mongo DB?
             // Creating Mongo DB - database if there are any.
         }
-
-
-
         public void Save<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
         {
             var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);

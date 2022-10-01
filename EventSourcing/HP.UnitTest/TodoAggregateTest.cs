@@ -54,5 +54,39 @@ namespace HP.test
             //Assert
             todo.IsActive.Should().BeFalse();
         }
+        [Test]
+        public void AddTodoTiem_Return_1()
+        {
+            // Arrange
+            var todo = TodoFactory.Create();
+            string Title = "Sub Todo Item #1";
+            string Type = "Study";
+            string Desc = "Description todo Item #1";
+
+            // Act
+            var todoItem = todo.AddTodoItem(Title, Type, Desc);
+
+            //Assert
+            todo.SubTodos.Should().HaveCount(1);
+        }
+
+
+        [Test]
+        public void DeleteTodoItem_Return_0()
+        {
+            // Arrange
+            var todo = TodoFactory.Create();
+            string Title = "Sub Todo Item #1";
+            string Type = "Study";
+            string Desc = "Description todo Item #1";
+            var todoItem = todo.AddTodoItem(Title, Type, Desc);
+
+            // Act
+            todo.DeleteTodoItem(todoItem.Id);
+
+            //Assert
+            todo.SubTodos.Should().HaveCount(0);
+        }
+        
     }
 }
