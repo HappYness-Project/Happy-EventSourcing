@@ -66,5 +66,21 @@ namespace HP.Infrastructure
         {
             return _collection.AsQueryable<T>();
         }
+        public virtual async Task InsertManyAsync(ICollection<T> documents)
+        {
+            await _collection.InsertManyAsync(documents);
+        }
+        public Task DeleteByIdAsync(string id)
+        {
+            return Task.Run(() =>
+            {
+                var filter = Builders<T>.Filter.Eq(doc => doc.Id, id);
+                _collection.FindOneAndDeleteAsync(filter);
+            });
+        }
+        public virtual Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression)
+        {
+            return Task.Run(() => _collection.Find(filterExpression).FirstOrDefaultAsync());
+        }
     }
 }
