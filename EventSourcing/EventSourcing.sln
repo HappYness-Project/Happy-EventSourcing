@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.Domain", "HP.Domain\HP.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.UnitTest", "HP.UnitTest\HP.UnitTest.csproj", "{037E34F5-C62D-4F5F-AA76-FF7F541B2E44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP.IntegrationTest", "HP.IntegrationTest\HP.IntegrationTest.csproj", "{6CCCEAB2-DF95-43F1-9376-20D3E190117E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.IntegrationTest", "HP.IntegrationTest\HP.IntegrationTest.csproj", "{6CCCEAB2-DF95-43F1-9376-20D3E190117E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
