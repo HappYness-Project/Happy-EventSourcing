@@ -1,10 +1,10 @@
 ﻿@page "/signin"
 
 <div class="sign-form">
-    <p class="welcome-text">Hello user - Today is XXX!</p>
-    <input type="text" class="sign-input" placeholder="Username" />
-    <input type="password" class="sign-input" placeholder="Password" />
-    <button class="sign-button" type="submit">Sign In</button>
+    <p class="welcome-text">Hello @(string.IsNullOrEmpty(Username) ? "User" : Username) - Today is @Day!</p>
+    <input type="text" class="sign-input form-control" placeholder="Username" @onchange="HandleUserNameChanged" />
+    <input type="password" class="sign-input form-control" placeholder="Password" />
+    <button class="sign-button btn btn-primary" type="submit">Sign In</button>
 
     <div class="signup">
         <a href="/signup">Sign Up</a>
@@ -13,5 +13,11 @@
 
 
 @code {
+    private string Day { get; set; } = DateTime.Now.DayOfWeek.ToString();
+    private string Username { get; set; }
 
+    private void HandleUserNameChanged(ChangeEventArgs eventArgs)
+    {
+        Username = eventArgs.Value.ToString();
+    }
 }
