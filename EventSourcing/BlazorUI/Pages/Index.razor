@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using HP.Application.DTOs
 @using HP.Application.Queries
 @inject MediatR.IMediator _mediator
 
@@ -16,13 +17,14 @@ Welcome to your new app.
     {
         <li>@p.FirstName, @p.LastName</li>
     }
+
 </ul>
 
 
 @code {
-    IEnumerable<HP.Application.DTOs.PersonDetailsDto> people;
+    IEnumerable<PersonDetailsDto> people = new List<PersonDetailsDto>();
     protected override async Task OnInitializedAsync()
     {
-        people = await _mediator.Send(new GetPersonList());
+        people =  await _mediator.Send(new GetPersonList());
     }
 }
