@@ -5,12 +5,16 @@
 
 .validation-input {
     flex: 1 1 auto;
+/*    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;*/
 }
 
 .val-tooltip {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black;
+    flex: 0 0 20px;
+    background: red;
 }
 
     .val-tooltip .val-tooltiptext {
