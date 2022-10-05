@@ -6,10 +6,15 @@
 
     <EditForm Model="@User"> 
         <DataAnnotationsValidator/>
-        <input type="text" class="sign-input form-control" placeholder="Username" @bind-value="User.UserName" />
-        @*<ValidationInput ValueChangedCallBack="HandleUserNameValueChanged" Value="@Username"></ValidationInput>*@
-        <input type="password" class="sign-input form-control" placeholder="Password" @bind-value="User.Password" />
-        <ValidationSummary/>
+        <InputText type="text" class="sign-input form-control" placeholder="Username" @bind-Value="User.UserName" />
+        <ValidationMessage For="@(() => User.UserName)"></ValidationMessage>
+        
+        <ValidationInput @bind-Value="@Username"></ValidationInput>
+
+        <InputText type="password" class="sign-input form-control" placeholder="Password" @bind-Value="User.Password" />
+        <ValidationMessage For="@(() => User.Password)"></ValidationMessage>
+        
+        
         <button class="sign-button btn btn-primary" type="submit">Sign In</button>
 
     </EditForm>
