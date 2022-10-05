@@ -58,7 +58,7 @@ namespace HP.Domain
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
             TodoItem todoItem = new TodoItem(title, type, desc);
-            var sub = SubTodos.Append(todoItem);
+            SubTodos.Add(todoItem);
             return new TodoItem(title, type, desc);
         }
         public void DeleteTodoItem(string todoItemId)

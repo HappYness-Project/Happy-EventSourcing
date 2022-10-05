@@ -74,7 +74,7 @@ namespace HP.Controllers
             return CreatedAtAction(nameof(GetTodo), new { Id = todo.TodoId }, todo);// await _mediator.Publish(cmd, cancellationToken);
         }
 
-        [HttpPut("{todoId}/todoItem")]
+        [HttpPost("{todoId}/todoItem")]
         public async Task<IActionResult> CreateTodoItem(string todoId, [FromBody]CreateTodoItemRequest request, CancellationToken token = default)
         {
             if (request == null)

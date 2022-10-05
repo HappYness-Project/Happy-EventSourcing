@@ -88,8 +88,8 @@ namespace HP.Domain
 
                     break;
 
-                //case PersonEvents.PersonDeleted d:
-                //  break;
+                case PersonEvents.PersonGroupUpdated d:
+                    break;
             }
         }
     }

@@ -25,25 +25,22 @@ namespace HP.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id, CancellationToken token = default)
         {
-            var person = await _mediator.Send(new GetPersonList()); 
+            var person = await _mediator.Send(new GetPersonById(id)); 
             if(person == null)
-            {
                 return NotFound();
-            }
+            
             return Ok(person);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreatePersonRequest personDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create([FromBody]CreatePersonRequest personDto, CancellationToken token = default)
         {
             if (personDto == null)
                 return BadRequest();
             
             var cmd = new CreatePersonCommand(personDto.FirstName, personDto.LastName, personDto.Address, personDto.Email, personDto.UserId);
-            //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
-            //TODO: Since it is a Create, I think it's desirable to use Publish command .  
-            await _mediator.Send(cmd, cancellationToken);//await _mediator.Publish(cmd, cancellationToken);
-            return Ok();
+            //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);//TODO: Since it is a Create, I think it's desirable to use Publish command
+            return Ok(await _mediator.Send(cmd, token));
         }
 
         [HttpPut("{userid}")]
