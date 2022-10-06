@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.UnitTest", "HP.UnitTest\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.IntegrationTest", "HP.IntegrationTest\HP.IntegrationTest.csproj", "{6CCCEAB2-DF95-43F1-9376-20D3E190117E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP.Shared", "HP.Shared\HP.Shared.csproj", "{645D8EDC-4FCF-47E0-AEB9-FB42BCB72E1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.Shared", "HP.Shared\HP.Shared.csproj", "{645D8EDC-4FCF-47E0-AEB9-FB42BCB72E1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
