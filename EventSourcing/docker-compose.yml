@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  db:
+    image: mongo:5.0
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/apps/mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+  hp.api:
+    image: ${DOCKER_REGISTRY-}hpapi
+    build:
+      context: .
+      dockerfile: HP.Api/Dockerfile
+    depends_on:
+      - db
