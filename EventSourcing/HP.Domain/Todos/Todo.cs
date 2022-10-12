@@ -143,6 +143,7 @@ namespace HP.Domain
                 case "STOPPED":
                     this.Status = TodoStatus.Stopped;
                     this.StatusDesc = $"Todo Id:{todoId}, has been stopped. Reason: {reason}";
+                    //AddDomainEvent(new TodoDomainEvents.TodoStopped);
                     break;
                 default:
                     break;

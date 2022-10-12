@@ -6,8 +6,8 @@
 
     <EditForm Model="@User"> 
         <DataAnnotationsValidator/>
-        <InputText type="text" class="sign-input form-control" placeholder="Username" @bind-Value="User.UserName" />
-        <ValidationMessage For="@(() => User.UserName)"></ValidationMessage>
+@*        <InputText type="text" class="sign-input form-control" placeholder="Username" @bind-Value="User.UserName" />
+        <ValidationMessage For="@(() => User.UserName)"></ValidationMessage>*@
         
         <ValidationInput @bind-Value="@Username"></ValidationInput>
 

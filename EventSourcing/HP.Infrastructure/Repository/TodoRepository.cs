@@ -37,11 +37,8 @@ namespace HP.Infrastructure.Repository
         public async Task<IEnumerable<Todo>> GetListByUserId(string userId)
         {
             var filter = Builders<Todo>.Filter.Eq("UserId", userId);
-            var test = _todos.Find(filter).ToList();
-            //return await _todos.AsQueryable().Where(x => x.UserId == userId).ToListAsync();
-
-            
-            return test;    
+            var todos = _todos.Find(filter).ToList();
+            return todos;
         }
 
 //         public async Task<IEnumerable<Todo>> GetListByScoreOfUser(string userId, string targetScore)
