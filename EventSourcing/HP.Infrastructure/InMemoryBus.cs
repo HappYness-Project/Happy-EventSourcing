@@ -26,5 +26,4 @@ namespace HP.Infrastructure
             return await _mediator.Send(request);
         }
     }
-// Use this code https://github.com/EduardoPires/EquinoxProject/blob/master/src/Equinox.Infra.CrossCutting.Bus/InMemoryBus.cs
 }

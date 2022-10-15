@@ -19,7 +19,7 @@ namespace HP.Application.EventHandlers
         }
         public Task Handle(PersonCreated notification, CancellationToken cancellationToken)
         {
-            notification.FirstName;
+            return Task.CompletedTask;
         }
     }
 }

@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
-builder.Services.AddSingleton<IEventStore, EventStoreRepository>();
+builder.Services.AddSingleton<IEventStore, EventStore>();
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();
 builder.Services.AddTransient<ITodoRepository, TodoRepository>();
 

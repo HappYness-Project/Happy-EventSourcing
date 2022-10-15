@@ -12,13 +12,15 @@ using System.Threading.Tasks;
 //https://github.com/bolicd/eventstore/blob/1fd6faa1b4751d83e065c3df32c7a4a8b0e5ef7b/Infrastructure/Repositories/EventStoreRepository.cs
 namespace HP.Infrastructure.Repository
 {
-    public class EventStoreRepository : IEventStore
+    public class EventStore : IEventStore
     {
         private string EventStoreTableName = "EventStore";
         private readonly IConfiguration _configuration;
         private readonly IMongoDbContext _mongoDbContext;
-        public EventStoreRepository(IConfiguration configuration, IMongoDbContext mongoDbContext)
+        private readonly IEventStore _eventStore;
+        public EventStore(IEventStore eventStore, IConfiguration configuration, IMongoDbContext mongoDbContext)
         {
+            _eventStore = eventStore;
             _configuration = configuration;
             _mongoDbContext = mongoDbContext;   
             // check if the Event Store for the Evet exists in the Mongo DB?
@@ -36,7 +38,7 @@ namespace HP.Infrastructure.Repository
         }
         public Task<IReadOnlyCollection<TDomainEvent>> GetEvents<TDomainEvent>(int aggregateId) where TDomainEvent : IDomainEvent
         {
-            var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
+            var events = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
             //collection.FindAsync(aggregateId);
             return null;
         }
