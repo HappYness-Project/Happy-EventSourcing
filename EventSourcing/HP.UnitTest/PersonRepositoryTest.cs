@@ -1,5 +1,6 @@
 using FluentAssertions;
 using HP.Domain;
+using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +16,7 @@ namespace HP.test
         [SetUp]
         public void Setup()
         {
-            eventStore = new EventStoreRepository(_configuration, _mongoDbContext);
+            eventStore = new EventStore(_configuration, _mongoDbContext);
             personRepository = new PersonRepository(_mongoDbContext, eventStore);
         }
 

@@ -1,6 +1,7 @@
 ﻿using HP.Application.Commands;
 using HP.Domain;
 using HP.Domain.Common;
+using HP.Infrastructure;
 using HP.Infrastructure.Repository;
 using NUnit.Framework;
 using System;
@@ -16,7 +17,7 @@ namespace HP.test
         [SetUp]
         public void SetUp()
         {
-             eventStore = new EventStoreRepository(_configuration, _mongoDbContext);
+             eventStore = new EventStore(_configuration, _mongoDbContext);
         }
 
         [Test]

@@ -10,21 +10,17 @@ using System.Threading.Tasks;
 
 
 //https://github.com/bolicd/eventstore/blob/1fd6faa1b4751d83e065c3df32c7a4a8b0e5ef7b/Infrastructure/Repositories/EventStoreRepository.cs
-namespace HP.Infrastructure.Repository
+namespace HP.Infrastructure
 {
     public class EventStore : IEventStore
     {
         private string EventStoreTableName = "EventStore";
         private readonly IConfiguration _configuration;
         private readonly IMongoDbContext _mongoDbContext;
-        private readonly IEventStore _eventStore;
-        public EventStore(IEventStore eventStore, IConfiguration configuration, IMongoDbContext mongoDbContext)
+        public EventStore(IConfiguration configuration, IMongoDbContext mongoDbContext)
         {
-            _eventStore = eventStore;
             _configuration = configuration;
-            _mongoDbContext = mongoDbContext;   
-            // check if the Event Store for the Evet exists in the Mongo DB?
-            // Creating Mongo DB - database if there are any.
+            _mongoDbContext = mongoDbContext;
         }
         public void Save<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
         {
