@@ -1,6 +1,56 @@
 ﻿@page "/todo"
-<h3>Display All Todos</h3>
+@using HP.Application.DTOs
+@using HP.Application.Queries.Todos
+@inject MediatR.IMediator _mediator
+
+<h3>Display All Todos(basicInfo)</h3>
+<div class="container">
+    <h3 class="p-3 text-center">BasicInfo Todos</h3>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>TODO ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in todos)
+            {
+                <tr>
+                    <td>@t.UserId</td>
+                    <td>@t.TodoId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<input type="text" @bind="@input_todoId" @oninput="OnInputEvent" />
+
+@if(todoInfo != null)
+{
+    <li>
+            <span>@todoInfo.UserId</span>
+    </li>
+}
+
 
 @code {
+    private string input_todoId = "";
 
+    [Parameter]
+    public TodoBasicInfoDto todoInfo { get; set; }
+
+
+    IEnumerable<TodoBasicInfoDto> todos = new List<TodoBasicInfoDto>();
+    protected override async Task OnInitializedAsync()
+    {
+        todos =  await _mediator.Send(new GetTodos());
+    }
+
+
+    private void OnInputEvent(ChangeEventArgs changeEvent)
+    {
+        input_todoId = (string)changeEvent.Value;
+    }
 }
