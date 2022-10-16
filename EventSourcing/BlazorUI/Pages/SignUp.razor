@@ -4,6 +4,7 @@
 <div class="sign-form">
 
     <EditForm EditContext="@EditContext">
+        <DataAnnotationsValidator />
         <div class="sign-validation">
             <ValidationInput @bind-value="User.UserName"
                              placeholder="Username"
@@ -25,7 +26,7 @@
                              placeholder="Last Name"
                              Error="@GetError(() => User.LastName)" />
         </div>
-                <div class="sign-validation">
+        <div class="sign-validation">
             <ValidationInput @bind-value="User.Email"
                              placeholder="Email Address"
                              Error="@GetError(() => User.Email)" />

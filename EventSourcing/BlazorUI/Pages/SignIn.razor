@@ -1,6 +1,5 @@
 ﻿@page "/signin"
 @inherits SignInBase
-
 <form class="sign-form">
     <p class="welcome-text">Hello @(string.IsNullOrEmpty(User.UserName) ? "User" : User.UserName) - Today is @Day!</p>
 
@@ -13,7 +12,7 @@
             <ValidationInput 
                              placeholder="Username"
                              @bind-Value="@User.UserName"
-                             Error="@GetError(() => User.UserName)"></ValidationInput>
+                             Error="@GetError(() => User.UserName)"></ValidationInput >
 
         </div>
 

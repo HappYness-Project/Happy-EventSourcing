@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace BlazorUI.Controls
-{
+namespace HP.GeneralUI.Validation
+{ 
     public class ValidationInputBase : ComponentBase
     {
         [Parameter]
@@ -18,6 +18,6 @@ namespace BlazorUI.Controls
         {
             await ValueChanged.InvokeAsync(eventArgs.Value.ToString());
         }
-
+         
     }
 }

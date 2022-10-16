@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\HP.GeneralUI\HP.GeneralUI.csproj" />
     <ProjectReference Include="..\HP.Application\HP.Application.csproj" />
     <ProjectReference Include="..\HP.Shared\HP.Shared.csproj" />
   </ItemGroup>
