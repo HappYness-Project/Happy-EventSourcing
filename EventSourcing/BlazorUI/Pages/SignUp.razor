@@ -3,7 +3,7 @@
 
 <div class="sign-form">
 
-    <EditForm EditContext="@EditContext">
+    <EditForm EditContext="@EditContext" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
         <div class="sign-validation">
             <ValidationInput @bind-value="User.UserName"

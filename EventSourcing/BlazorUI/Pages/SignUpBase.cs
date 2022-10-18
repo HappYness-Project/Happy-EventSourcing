@@ -1,10 +1,13 @@
 ﻿using HP.GeneralUI.DropdownControl;
 using HP.Shared.Enums;
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorUI.Pages
 {
     public class SignUpBase : SignBase
     {
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
         protected IList<DropdownItem<GenderTypeEnum>> GenderTypeDropDownItems { get; } = new List<DropdownItem<GenderTypeEnum>>();
         protected DropdownItem<GenderTypeEnum> SelectedGenderTypeDropDownItem { get; set; }
         protected override void OnInitialized()
@@ -31,6 +34,10 @@ namespace BlazorUI.Pages
             GenderTypeDropDownItems.Add(neutral);
             SelectedGenderTypeDropDownItem = neutral;
 
+        }
+        protected void OnValidSubmit()
+        {
+            NavigationManager.NavigateTo("signin");
         }
     }
 }
