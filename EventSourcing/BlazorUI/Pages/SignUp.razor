@@ -31,6 +31,20 @@
                              placeholder="Email Address"
                              Error="@GetError(() => User.Email)" />
         </div>
+
+
+        <div class="sign-validation">
+            <Dropdown
+                TValue="HP.Shared.Enums.GenderTypeEnum"
+                @bind-SelectedItem="@SelectedGenderTypeDropDownItem"
+                SelectableItems="@GenderTypeDropDownItems">
+            
+            
+            </Dropdown>
+        </div>
+
+
+
         <button class="sign-button btn btn-primary" type="submit">Sign In</button>
     </EditForm>
 
@@ -39,7 +53,3 @@
     </div>
 
 </div>
-
-@code {
-
-}
