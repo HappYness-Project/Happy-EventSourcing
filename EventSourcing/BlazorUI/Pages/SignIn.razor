@@ -5,17 +5,12 @@
 
     <EditForm EditContext="@EditContext">
         <DataAnnotationsValidator />
-        @*        <InputText type="text" class="sign-input form-control" placeholder="Username" @bind-Value="User.UserName" />
-        <ValidationMessage For="@(() => User.UserName)"></ValidationMessage>*@
-
         <div class="sign-validation">
             <ValidationInput 
                              placeholder="Username"
                              @bind-Value="@User.UserName"
                              Error="@GetError(() => User.UserName)"></ValidationInput >
-
         </div>
-
         <div class="sign-validation">
             <ValidationInput 
                              type="password"
@@ -23,15 +18,12 @@
                              @bind-Value="@User.Password"
                              Error="@GetError(() => User.Password)"></ValidationInput>
         </div>
-
-        @* <InputText type="password" class="sign-input form-control" placeholder="Password" @bind-Value="User.Password" />
-        <ValidationMessage For="@(() => User.Password)"></ValidationMessage>*@
         <button class="sign-button btn btn-primary" type="submit">Sign In</button>
 
     </EditForm>
 
     <div class="signup">
-        <a href="/signup">Sign Up</a>
+        <a href="@(User.UserName != null ? "/signup?username=" + User.UserName : "/signup")">Sign Up</a>
     </div>
 </form>
 

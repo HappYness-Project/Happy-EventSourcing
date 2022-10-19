@@ -1,6 +1,8 @@
 ﻿using HP.GeneralUI.DropdownControl;
 using HP.Shared.Enums;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Primitives;
 
 namespace BlazorUI.Pages
 {
@@ -32,8 +34,22 @@ namespace BlazorUI.Pages
             GenderTypeDropDownItems.Add(male);
             GenderTypeDropDownItems.Add(female);
             GenderTypeDropDownItems.Add(neutral);
-            SelectedGenderTypeDropDownItem = neutral;
+            SelectedGenderTypeDropDownItem = male;
 
+            TryGetUserNameFromUri();
+
+
+        }
+
+
+        private void TryGetUserNameFromUri()
+        {
+            var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+            StringValues sv;
+            if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("userName", out sv))
+            {
+                User.UserName = sv;
+            }
         }
         protected void OnValidSubmit()
         {
