@@ -12,6 +12,7 @@ namespace BlazorUI.Pages
         private NavigationManager NavigationManager { get; set; }
         protected IList<DropdownItem<GenderTypeEnum>> GenderTypeDropDownItems { get; } = new List<DropdownItem<GenderTypeEnum>>();
         protected DropdownItem<GenderTypeEnum> SelectedGenderTypeDropDownItem { get; set; }
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -35,8 +36,6 @@ namespace BlazorUI.Pages
             GenderTypeDropDownItems.Add(female);
             GenderTypeDropDownItems.Add(neutral);
             SelectedGenderTypeDropDownItem = male;
-
-            TryGetUserNameFromUri();
 
 
         }

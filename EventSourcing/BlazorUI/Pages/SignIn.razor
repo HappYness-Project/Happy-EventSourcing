@@ -3,7 +3,7 @@
 <form class="sign-form">
     <p class="welcome-text">Hello @(string.IsNullOrEmpty(User.UserName) ? "User" : User.UserName) - Today is @Day!</p>
 
-    <EditForm EditContext="@EditContext">
+    <EditForm EditContext="@EditContext" OnSubmit="OnSubmit">
         <DataAnnotationsValidator />
         <div class="sign-validation">
             <ValidationInput 
@@ -23,7 +23,8 @@
     </EditForm>
 
     <div class="signup">
-        <a href="@(User.UserName != null ? "/signup?username=" + User.UserName : "/signup")">Sign Up</a>
+        @*<a href="@(User.UserName != null ? "/signup?username=" + User.UserName : "/signup")">Sign Up</a>*@
+        <a href="@(User.UserName != null ? "/signup/username=" + User.UserName : "/signup")">Sign Up</a>
     </div>
 </form>
 
