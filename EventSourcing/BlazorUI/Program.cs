@@ -4,6 +4,9 @@ using HP.Domain;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
+using HP.Shared.Contacts;
+using HP.UnitTest.UserManager;
+using HP.UserBusiness;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -13,8 +16,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+//builder.Services.AddSingleton<IUserManager, UserManagerFake>();
+builder.Services.AddSingleton<IUserManager, UserManager>();
 builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
 builder.Services.AddSingleton<IEventStore, EventStore>();
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();
