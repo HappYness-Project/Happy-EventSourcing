@@ -4,22 +4,24 @@
 @using HP.Application.Queries.Todos
 @inject MediatR.IMediator _mediator
 
-<h3>Display All Todos(basicInfo)</h3>
+<h3>Display All Todos</h3>
 <div class="container">
-    <h3 class="p-3 text-center">BasicInfo Todos</h3>
+    <h3 class="p-2 text-left">BasicInfo Todos</h3>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>User ID</th>
                 <th>TODO ID</th>
+                <th>User ID</th>
+                <th>Title</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var t in Todos)
             {
                 <tr>
-                    <td>@t.UserId</td>
                     <td>@t.TodoId</td>
+                    <td>@t.UserId</td>
+                    <td>@t.TodoTitle</td>
                 </tr>
             }
         </tbody>
@@ -27,8 +29,9 @@
 </div>
 
 
+<h3>Create new Todo</h3>
 
-<div class="todo-add-form">
+<div class="todo-form">
     <EditForm EditContext="@EditContext" OnSubmit="OnSubmit">
         <DataAnnotationsValidator />
         <InputText class="form-control mx-2" @bind-Value="CreateTodoModel.UserId"/>
@@ -47,27 +50,12 @@
 
 
 
-<input type="text" @bind="@input_todoId" @oninput="OnInputEvent" />
-@if(input_todoId != null)
-{
-    <li>
-            <span>@input_todoId</span>
-    </li>
-}
 
 
-@code {
-    private string input_todoId = "";
-    private void OnInputEvent(ChangeEventArgs changeEvent)
-    {
-        input_todoId = (string)changeEvent.Value;
-    }
 
-}
-@*
-https://www.youtube.com/watch?v=Sp2XYGqNeD8
+
+@*https://www.youtube.com/watch?v=Sp2XYGqNeD8
 practice this one tomorrow
 https://github.com/hyunbin7303/ThreadMaintain
 https://www.roundthecode.com/dotnet/blazor/how-to-use-button-onclick-event-blazor-webassembly
-
 *@
