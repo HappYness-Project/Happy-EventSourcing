@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HP.Domain;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HP.Shared
 {
@@ -6,9 +8,9 @@ namespace HP.Shared
     public class User
     {
         [Required]
-        [StringLength(15, ErrorMessage ="User name is too long.")]
+        [StringLength(15, ErrorMessage = "User name is too long.")]
         public string UserName { get; set; }
-        [Required(ErrorMessage ="The password is required.")]
+        [Required(ErrorMessage = "The password is required.")]
         public string Password { get; set; }
         [Required]
         public string FirstName { get; set; }
@@ -19,5 +21,9 @@ namespace HP.Shared
         [EmailAddress]
         public string Email { get; set; }
 
+        public ObservableCollection<Todo> TodoItems { get; set; }
+
     }
+
+
 }

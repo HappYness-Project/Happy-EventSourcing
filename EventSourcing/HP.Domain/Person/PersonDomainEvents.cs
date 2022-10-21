@@ -2,7 +2,7 @@
 
 namespace HP.Domain
 {
-    public static class PersonEvents
+    public static class PersonDomainEvents
     {
         public class PersonCreated : DomainEventBase
         {

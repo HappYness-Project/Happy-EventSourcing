@@ -34,7 +34,7 @@ namespace HP.Domain
             UserId = userId;
             IsActive = true;
             Role = PersonRoleType.Normal.ToString(); // For now, Normal is the default Role.
-            AddDomainEvent(new PersonEvents.PersonCreated(Id, firstName, lastName, email, address));
+            AddDomainEvent(new PersonDomainEvents.PersonCreated(Id, firstName, lastName, email, address));
         }
         public void UpdateRole(string role)
         {
@@ -43,12 +43,12 @@ namespace HP.Domain
 
             string preRole = this.Role;
             this.Role = role;
-            AddDomainEvent(new PersonEvents.PersonRoleUpdated(Id, preRole, role));
+            AddDomainEvent(new PersonDomainEvents.PersonRoleUpdated(Id, preRole, role));
         }
         public void UpdateGroupId(int groupId)
         {
             this.GroupId = groupId;
-            AddDomainEvent(new PersonEvents.PersonGroupUpdated(Id, this.GroupId));
+            AddDomainEvent(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
         }
         public static Person Create(string firstName, string lastName, Address address, string emailValue, string userId= null)
         {
@@ -76,19 +76,19 @@ namespace HP.Domain
         {
             switch(@event)
             {
-                case PersonEvents.PersonCreated created:
+                case PersonDomainEvents.PersonCreated created:
                     Id = created.AggregateId.ToString();
                     break;
 
-                case PersonEvents.PersonUpdated u:
+                case PersonDomainEvents.PersonUpdated u:
                     
                     break;
 
-                case PersonEvents.PersonRoleSetAdminAssigned a:
+                case PersonDomainEvents.PersonRoleSetAdminAssigned a:
 
                     break;
 
-                case PersonEvents.PersonGroupUpdated d:
+                case PersonDomainEvents.PersonGroupUpdated d:
                     break;
             }
         }

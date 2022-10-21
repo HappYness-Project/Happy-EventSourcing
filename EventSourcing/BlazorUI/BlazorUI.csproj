@@ -14,9 +14,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\HP.GeneralUI\HP.GeneralUI.csproj" />
-    <ProjectReference Include="..\..\HP.UserBusiness\HP.UserBusiness.csproj" />
     <ProjectReference Include="..\HP.Application\HP.Application.csproj" />
     <ProjectReference Include="..\HP.Shared\HP.Shared.csproj" />
+    <ProjectReference Include="..\HP.UnitTest\HP.UnitTest.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

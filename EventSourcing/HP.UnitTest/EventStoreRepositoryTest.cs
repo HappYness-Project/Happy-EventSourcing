@@ -7,7 +7,7 @@ using NUnit.Framework;
 using System;
 namespace HP.test
 {
-    using static HP.Domain.PersonEvents;
+    using static HP.Domain.PersonDomainEvents;
     using static HP.Domain.TodoDomainEvents;
 
     internal class EventStoreRepositoryTest : TestBase

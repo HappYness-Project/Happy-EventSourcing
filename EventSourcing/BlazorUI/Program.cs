@@ -1,4 +1,4 @@
-using BlazorUI.Data;
+using BlazorUI.Services;
 using HP.Application;
 using HP.Domain;
 using HP.Infrastructure;
@@ -6,7 +6,6 @@ using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using HP.Shared.Contacts;
 using HP.UnitTest.UserManager;
-using HP.UserBusiness;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;

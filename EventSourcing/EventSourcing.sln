@@ -23,8 +23,6 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.GeneralUI", "..\HP.GeneralUI\HP.GeneralUI.csproj", "{8C108F62-361A-4A5F-B269-BBFED9563778}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HP.UserBusiness", "..\HP.UserBusiness\HP.UserBusiness.csproj", "{E38AF5B6-ED7E-4F78-A2F4-AEBAD0E7C01A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,10 +69,6 @@ Global
 		{8C108F62-361A-4A5F-B269-BBFED9563778}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C108F62-361A-4A5F-B269-BBFED9563778}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C108F62-361A-4A5F-B269-BBFED9563778}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E38AF5B6-ED7E-4F78-A2F4-AEBAD0E7C01A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E38AF5B6-ED7E-4F78-A2F4-AEBAD0E7C01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E38AF5B6-ED7E-4F78-A2F4-AEBAD0E7C01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E38AF5B6-ED7E-4F78-A2F4-AEBAD0E7C01A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

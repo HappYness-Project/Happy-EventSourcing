@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -21,6 +21,7 @@
     <ProjectReference Include="..\HP.Domain\HP.Domain.csproj" />
     <ProjectReference Include="..\HP.Infrastructure\HP.Infrastructure.csproj" />
     <ProjectReference Include="..\HP.Api\HP.Api.csproj" />
+    <ProjectReference Include="..\HP.Shared\HP.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

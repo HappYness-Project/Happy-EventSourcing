@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HP.Application.EventHandlers
 {
-    using static HP.Domain.PersonEvents;
+    using static HP.Domain.PersonDomainEvents;
     public class PersonEventHandlers : INotificationHandler<PersonCreated>
 
     {
