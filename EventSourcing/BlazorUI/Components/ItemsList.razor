@@ -1,6 +1,7 @@
-﻿<div>
-    @foreach(var item in TodoItems)
+﻿@using HP.Shared
+<div>
+    @foreach(var item in UserItems)
     {
-        <div>@item.TodoTitle</div>
+        <ItemElement TItem="BaseItem" Item="@item"></ItemElement>
     }
 </div>

@@ -1,4 +1,5 @@
 ﻿using HP.Application.DTOs;
+using HP.Shared;
 using HP.Shared.Contacts;
 using Microsoft.AspNetCore.Components;
 using System.Collections.ObjectModel;
@@ -11,11 +12,12 @@ namespace BlazorUI.Components
         private ICurrentUserService CurrentUserService { get; set; }
 
         protected ObservableCollection<TodoBasicInfoDto> TodoItems { get; set; } = new ObservableCollection<TodoBasicInfoDto>();
+        protected ObservableCollection<BaseItem> UserItems { get; set; } = new ObservableCollection<BaseItem>();
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            TodoItems = CurrentUserService.CurrentUser.TodoItems;
+            UserItems = CurrentUserService.CurrentUser.TodoItems;
         }
     }
 }

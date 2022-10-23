@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace HP.Shared
 {
     // GOing to be used for the Identity service in the future.
-    public class User
+    public class User : BaseEntity
     {
         [Required]
         [StringLength(15, ErrorMessage = "User name is too long.")]
@@ -21,7 +21,7 @@ namespace HP.Shared
         [EmailAddress]
         public string Email { get; set; }
 
-        public ObservableCollection<TodoBasicInfoDto> TodoItems { get; set; }
+        public ObservableCollection<BaseItem> TodoItems { get; set; }
 
     }
 
