@@ -1,4 +1,4 @@
-﻿using HP.Domain;
+﻿using HP.Application.DTOs;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -16,12 +16,12 @@ namespace HP.Shared
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-
+        public string UserType { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
-        public ObservableCollection<Todo> TodoItems { get; set; }
+        public ObservableCollection<TodoBasicInfoDto> TodoItems { get; set; }
 
     }
 

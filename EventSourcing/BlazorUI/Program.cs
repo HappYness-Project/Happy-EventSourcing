@@ -5,6 +5,7 @@ using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using HP.Shared.Contacts;
+using HP.UnitTest;
 using HP.UnitTest.UserManager;
 using MediatR;
 using Microsoft.AspNetCore.Components;
@@ -19,7 +20,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 //builder.Services.AddSingleton<IUserManager, UserManagerFake>();
-builder.Services.AddSingleton<IUserManager, UserManager>();
+builder.Services.AddScoped<IUserManager, UserManager>();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
 builder.Services.AddSingleton<IEventStore, EventStore>();
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();
@@ -30,6 +32,10 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).Add
 
 
 var app = builder.Build();
+var currentUserService = app.Services.GetRequiredService<ICurrentUserService>();
+TestData.CreateTestUser();
+currentUserService.CurrentUser = TestData.TestUser;
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -45,4 +51,4 @@ app.UseRouting();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
-app.Run();
+await app.RunAsync();

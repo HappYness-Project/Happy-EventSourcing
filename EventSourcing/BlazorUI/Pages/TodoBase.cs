@@ -64,5 +64,12 @@ namespace BlazorUI.Pages
             TodoType todoType =SelectedTodoTypeDropDownItem.ItemObject;
             TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CreateTodoModel.UserId, CreateTodoModel.Title, todoType.Name,CreateTodoModel.Description));
         }
+
+
+        protected IOrderedEnumerable<IGrouping<string, TodoDetailsDto>> GetTodosByUserName()
+        {
+            return null;
+        }
+
     }
 }

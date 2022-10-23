@@ -4,6 +4,25 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.main {
+    padding-top: 54px;
+    height: 100%;
+}
+
+.navbar {
+    background: #00B0F0;
+    color: white;
+}
+.navbar-brand {
+    color: white;
+}
+.navbar-light .navbar-brand {
+    color: white;
+}
+.active-nav > button {
+    bakground : green;
+}
+
 h1:focus {
     outline: none;
 }
