@@ -1,5 +1,6 @@
-﻿<h3>ItemsList</h3>
-
-@code {
-
-}
+﻿<div>
+    @foreach(var item in TodoItems)
+    {
+        <div>@item.TodoTitle</div>
+    }
+</div>
