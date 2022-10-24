@@ -1,7 +1,51 @@
-﻿@using HP.Shared
-<div>
-    @foreach(var item in UserItems)
+﻿<div>
+    @foreach (var item in UserItems)
     {
-        <ItemElement TItem="BaseItem" Item="@item"></ItemElement>
+        switch (item)
+        {
+            case TextItem textItem:
+                <ItemElement TItem="BaseItem" Item="@item">
+                    <MainFragment>
+                        <div class="item-main-container">
+                            <div class="content-text-top">@textItem.Title</div>
+                            <div class="content-text-bottom">@textItem.SubTitle</div>
+                        </div>
+                    </MainFragment>
+                    <DetailFragment>
+                        <div class="detail-text">@textItem.Desc</div>
+                    </DetailFragment>
+                </ItemElement>
+                break;
+
+
+            case ParentItem parentItem:
+                <ItemElement TItem="BaseItem" Item="@item">
+                    <MainFragment>
+                        <div class="item-main-container">
+                            <div class="content-text-top">@parentItem.Title</div>
+                            <div class="content-text-bottom">Children count : @parentItem.ChildItems.Count</div>
+                            <div class="content-text-bottom">Done @parentItem.ChildItems.Count(i=> i.IsDone)</div>
+                        </div>
+                    </MainFragment>
+                    <DetailFragment>
+                        @foreach(var child in parentItem.ChildItems)
+                        {
+                            <div class="extended-child">
+                                <div class="check-container">
+                                    <div class="checkbox tertiary-border-color" style="border: 1px solid">
+                                        <ItemCheckBox Item="@child"></ItemCheckBox>
+                                    </div>
+                                </div>
+                                <div class="content-container">
+                                    <p class="child-title">@child.Title</p>
+                                </div>
+                            </div>
+                        }
+                    </DetailFragment>
+                </ItemElement>
+                break;
+        }
+
+
     }
 </div>

@@ -28,7 +28,7 @@ namespace HP.UnitTest
             textItem.Id = 1;
             textItem.Title = "Buy Apples";
             textItem.SubTitle = "Red | 5";
-            textItem.Desc = "From New Zealand preferred";
+            textItem.Desc = "From New Zealand preferred HEY YO";
             textItem.ItemTypeEnum = ItemTypeEnum.Text;
             textItem.Position = 1;
 
