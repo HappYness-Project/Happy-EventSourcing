@@ -2,7 +2,7 @@
 
 
 <div class="item-element">
-    <div class="item-element-main">
+    <div class="item-element-main @ColorPrefix-background">
         <div class="check-container">
             <div class="checkbox">
                 <ItemCheckBox Item="Item"></ItemCheckBox>
@@ -27,6 +27,9 @@
         </div>
     </div>
     <div class="collapse w-100" id="@DetailAreaId">
-        @DetailFragment
+        <div class="detail-fragment" @ColorPrefix-border-color">
+            @DetailFragment
+
+        </div>
     </div>
 </div>

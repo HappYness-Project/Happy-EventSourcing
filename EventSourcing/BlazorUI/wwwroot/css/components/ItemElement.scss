@@ -2,7 +2,6 @@
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
-    background: blue;
 }
 
 .item-element-main {
@@ -48,4 +47,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.detail-fragment {
+    border-width: 2px;
+    border-style: solid;
+    border-top: 0;
+    width: 100%;
+    padding: 10px 0;
 }

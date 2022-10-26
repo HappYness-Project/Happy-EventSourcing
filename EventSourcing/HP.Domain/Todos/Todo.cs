@@ -45,8 +45,6 @@ namespace HP.Domain
                 throw new ArgumentNullException(nameof(person));
 
             // Get Todo Type
-
-
             return new(person, title, description, type, tags);
         }
         public void Update(string title, string desc, string[] Tags)

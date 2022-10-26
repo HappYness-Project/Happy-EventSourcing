@@ -1,0 +1,26 @@
+﻿@page "/todo/create"
+@inherits TodoBase
+@using HP.Application.DTOs
+@using HP.Application.Queries.Todos
+@inject MediatR.IMediator _mediator
+
+<h3>Create new Todo</h3>
+<div class="todo-form">
+    <EditForm EditContext="@EditContext" OnSubmit="OnSubmit">
+        <DataAnnotationsValidator />
+        User ID 
+        <InputText class="form-control mx-2" @bind-Value="CreateTodoModel.UserId"/>
+        Todo Title
+        <InputText class="form-control mx-2" @bind-Value="CreateTodoModel.Title"/>
+        Description
+        <InputText class="form-control mx-2" @bind-Value="CreateTodoModel.Description"/>
+        Todo Type
+        <Dropdown
+                TValue="TodoType"
+                @bind-SelectedItem="@SelectedTodoTypeDropDownItem"
+                SelectableItems="@TodoTypeEnums">
+        </Dropdown>
+        <button class="sign-button btn btn-primary" type="submit">Add ToDo</button>
+    </EditForm>
+</div>
+

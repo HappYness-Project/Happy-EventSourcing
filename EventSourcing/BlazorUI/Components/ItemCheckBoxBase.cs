@@ -7,5 +7,7 @@ namespace BlazorUI.Components
     {
         [Parameter]
         public BaseItem Item { get; set; }
+        [CascadingParameter]
+        public string ColorPrefix { get; set; }
     }
 }

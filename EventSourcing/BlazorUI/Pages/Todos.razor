@@ -28,31 +28,8 @@
     </table>
 </div>
 
-
-<h3>Create new Todo</h3>
-
-<div class="todo-form">
-    <EditForm EditContext="@EditContext" OnSubmit="OnSubmit">
-        <DataAnnotationsValidator />
-        <InputText class="form-control mx-2" @bind-Value="CreateTodoModel.UserId"/>
-        <InputText class="form-control mx-2" @bind-Value="CreateTodoModel.Title"/>
-        <InputText class="form-control mx-2" @bind-Value="CreateTodoModel.Description"/>
-        <Dropdown
-                TValue="TodoType"
-                @bind-SelectedItem="@SelectedTodoTypeDropDownItem"
-                SelectableItems="@TodoTypeEnums">
-            
-            
-            </Dropdown>
-        <button class="sign-button btn btn-primary" type="submit">Add ToDo</button>
-    </EditForm>
-</div>
-
-
-
-
-
-
+<h3>Display All Todos</h3>
+<ItemsList></ItemsList>
 
 @*https://www.youtube.com/watch?v=Sp2XYGqNeD8
 practice this one tomorrow

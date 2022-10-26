@@ -4,6 +4,7 @@
         switch (item)
         {
             case TextItem textItem:
+                <CascadingValue Value="@("primary")">
                 <ItemElement TItem="BaseItem" Item="@item">
                     <MainFragment>
                         <div class="item-main-container">
@@ -15,10 +16,12 @@
                         <div class="detail-text">@textItem.Desc</div>
                     </DetailFragment>
                 </ItemElement>
+                </CascadingValue>
                 break;
 
 
             case ParentItem parentItem:
+                <CascadingValue Value="@("tertiary")">
                 <ItemElement TItem="BaseItem" Item="@item">
                     <MainFragment>
                         <div class="item-main-container">
@@ -43,6 +46,7 @@
                         }
                     </DetailFragment>
                 </ItemElement>
+                </CascadingValue>
                 break;
         }
 
