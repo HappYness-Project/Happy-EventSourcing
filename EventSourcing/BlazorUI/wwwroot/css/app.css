@@ -8,6 +8,30 @@ html, body {
   height: 100%;
 }
 
+.primary-background {
+  background: #00B0F0;
+}
+
+.secondary-background {
+  background: #C0A300;
+}
+
+.tertiary-background {
+  background: #8A00C0;
+}
+
+.primary-border-color {
+  border-color: #00B0F0;
+}
+
+.secondary-border-color {
+  border-color: #C0A300;
+}
+
+.tertiary-border-color {
+  border-color: #8A00C0;
+}
+
 .navbar {
   background: #00B0F0;
   color: white;

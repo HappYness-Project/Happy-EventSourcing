@@ -1,5 +1,5 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-
+@import '_variables.scss';
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -8,6 +8,28 @@ html, body {
     padding-top: 54px;
     height: 100%;
 }
+
+.primary-background {
+    background : $primary-color;
+}
+.secondary-background {
+    background : $secondary-color;
+}
+.tertiary-background {
+    background : $tertiary-color;
+}
+
+.primary-border-color {
+    border-color : $primary-color;
+}
+.secondary-border-color {
+    border-color : $secondary-color;
+}
+.tertiary-border-color {
+    border-color : $tertiary-color;
+}
+
+
 
 .navbar {
     background: #00B0F0;
