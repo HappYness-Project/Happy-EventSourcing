@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +28,6 @@
     <ProjectReference Include="..\..\HP.GeneralUI\HP.GeneralUI.csproj" />
     <ProjectReference Include="..\HP.Application\HP.Application.csproj" />
     <ProjectReference Include="..\HP.Shared\HP.Shared.csproj" />
-    <ProjectReference Include="..\HP.UnitTest\HP.UnitTest.csproj" />
   </ItemGroup>
 
   <ItemGroup>
