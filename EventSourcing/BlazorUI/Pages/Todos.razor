@@ -1,4 +1,4 @@
-﻿@page "/todo"
+﻿@page "/todos"
 @inherits TodoBase
 @using HP.Application.DTOs
 @using HP.Application.Queries.Todos
@@ -13,6 +13,8 @@
                 <th>TODO ID</th>
                 <th>User ID</th>
                 <th>Title</th>
+                <th>Button click</th>
+
             </tr>
         </thead>
         <tbody>
@@ -22,14 +24,22 @@
                     <td>@t.TodoId</td>
                     <td>@t.UserId</td>
                     <td>@t.TodoTitle</td>
+                    <td>
+                        <button @onclick="@OnClickViewDetails">View Details</button>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <div class="todocreate">
+        <button class="sign-button btn btn-primary" @onclick="@OnClickGoToCreateTodo">Create new Todo</button>
+    </div>
 </div>
 
-<h3>Display All Todos</h3>
-<ItemsList></ItemsList>
+@* <ItemsList></ItemsList> *@
 
 @*https://www.youtube.com/watch?v=Sp2XYGqNeD8
 practice this one tomorrow

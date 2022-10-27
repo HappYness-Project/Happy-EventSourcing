@@ -1,5 +1,4 @@
-﻿using HP.Api.Requests;
-using HP.Application.DTOs;
+﻿using HP.Application.DTOs;
 using HP.Application.Handlers;
 using HP.Application.Queries.Todos;
 using HP.Domain;
@@ -15,6 +14,13 @@ namespace BlazorUI.Pages
     {
         [Inject]
         public IMediator Mediator { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager {get; set; }
+
+        [Parameter]
+        public string TodoId {get; set;}
+
         public TodoDetailsDto TodoDetails { get; private set; }
         public string Result { get; set; }
         public IEnumerable<TodoBasicInfoDto> Todos { get; set; }
@@ -58,14 +64,21 @@ namespace BlazorUI.Pages
             Todos = new List<TodoBasicInfoDto>();
             EditContext = new EditContext(CreateTodoModel);
             Todos = await Mediator.Send(new GetTodos());
+            TodoId = string.Empty;
         }
         protected async void OnSubmit()
         {
             TodoType todoType =SelectedTodoTypeDropDownItem.ItemObject;
             TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CreateTodoModel.UserId, CreateTodoModel.Title, todoType.Name,CreateTodoModel.Description));
         }
-
-
+        protected void OnClickViewDetails()
+        {
+            NavigationManager.NavigateTo($"todos/{TodoId}");
+        }
+        protected void OnClickGoToCreateTodo()
+        {
+            NavigationManager.NavigateTo("todos/create");
+        }
         protected IOrderedEnumerable<IGrouping<string, TodoDetailsDto>> GetTodosByUserName()
         {
             return null;

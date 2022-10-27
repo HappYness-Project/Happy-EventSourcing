@@ -1,0 +1,16 @@
+﻿@page "/todos/{todoId}"
+@inherits TodoBase
+@using HP.Application.DTOs
+@using HP.Application.Queries.Todos
+@inject MediatR.IMediator _mediator
+
+<h3>Display All Todos</h3>
+
+@code {
+private string TodoId {get; set;}
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+}
