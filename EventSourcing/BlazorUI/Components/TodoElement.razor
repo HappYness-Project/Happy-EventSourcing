@@ -1,0 +1,27 @@
+﻿@using HP.Application.DTOs
+<div class="todo-element" onclick="@OnClickTodoElement">
+    <div class="todo-element-main">
+        <div class="item-main-container">
+            <div class="content-text-top">@TodoBasicInfoDto.UserId</div>
+            <div >TODO ID : @TodoBasicInfoDto.TodoId</div>
+            <div class="content-text-bottom">@TodoBasicInfoDto.TodoTitle</div>
+            <button>Details</button>
+            <button>Edit</button>
+            <button>Remove</button>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public TodoBasicInfoDto TodoBasicInfoDto { get; set; }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+    private void OnClickTodoElement()
+    {
+
+    }
+}

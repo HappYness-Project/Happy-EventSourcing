@@ -1,5 +1,4 @@
-﻿//using HP.Api.Requests;
-using HP.Application.DTOs;
+﻿using HP.Application.DTOs;
 using HP.Application.Handlers;
 using HP.Application.Queries.Todos;
 using HP.Domain;
@@ -30,6 +29,7 @@ namespace BlazorUI.Pages
         protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
         protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
 
+        private string parameter = "ParameterValue";
         public TodoBase()
         {
 
@@ -65,7 +65,6 @@ namespace BlazorUI.Pages
             Todos = new List<TodoBasicInfoDto>();
             EditContext = new EditContext(CreateTodoModel);
             Todos = await Mediator.Send(new GetTodos());
-            TodoId = string.Empty;
         }
         protected async void OnSubmit()
         {
@@ -83,6 +82,10 @@ namespace BlazorUI.Pages
         protected IOrderedEnumerable<IGrouping<string, TodoDetailsDto>> GetTodosByUserName()
         {
             return null;
+        }
+        protected void OnClickPassValue()
+        {
+            NavigationManager.NavigateTo($"Todos/details/{parameter}");
         }
 
     }

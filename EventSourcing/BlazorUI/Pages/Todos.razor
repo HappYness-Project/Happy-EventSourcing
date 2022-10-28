@@ -37,12 +37,15 @@
     <div class="todocreate">
         <button class="sign-button btn btn-primary" @onclick="@OnClickGoToCreateTodo">Create new Todo</button>
     </div>
+
+    <button class="btn btn-primary" @onclick="OnClickPassValue">Pass Value</button>
+
 </div>
 
-@* <ItemsList></ItemsList> *@
+@*<div>
+    @foreach(TodoBasicInfoDto t in Todos)
+    {
+        <TodoElement TodoBasicInfoDto="t"></TodoElement>
+    }
+</div>*@
 
-@*https://www.youtube.com/watch?v=Sp2XYGqNeD8
-practice this one tomorrow
-https://github.com/hyunbin7303/ThreadMaintain
-https://www.roundthecode.com/dotnet/blazor/how-to-use-button-onclick-event-blazor-webassembly
-*@

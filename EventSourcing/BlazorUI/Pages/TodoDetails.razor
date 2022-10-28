@@ -1,16 +1,31 @@
-﻿@page "/todos/{todoId}"
-@inherits TodoBase
+﻿@page "/todos/details/{TodoId}"
 @using HP.Application.DTOs
 @using HP.Application.Queries.Todos
 @inject MediatR.IMediator _mediator
 
-<h3>Display All Todos</h3>
+<h3>Display Todo Details</h3>
+<hr/>
+
+<div class="col-12 row">
+    @if(Todos != null)
+    {
+        <h5 class="col-12 row" style="font-weight:bold">USER ID : @Todos.UserId</h5>
+        <h5 class="col-12 row" style="font-weight:bold">@Todos.TodoId @Todos.TodoTitle</h5>
+        <h6 class="col-12 row">Todo Type: @Todos.TodoType</h6>
+        <h6 class="col-12 row">Status:</h6>
+    }
+</div>
+
+
 
 @code {
-private string TodoId {get; set;}
-    protected override void OnInitialized()
+    [Parameter]
+    public string TodoId { get; set; } = string.Empty;
+    public TodoDetailsDto Todos { get; set; } = new();
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        base.OnInitializedAsync();
+        Todos = await _mediator.Send(new GetTodoById(TodoId));
     }
 
 }

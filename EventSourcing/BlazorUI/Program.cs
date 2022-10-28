@@ -5,6 +5,7 @@ using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using HP.Shared.Contacts;
+using HP.UnitTest;
 //using HP.UnitTest;
 //using HP.UnitTest.UserManager;
 using MediatR;
@@ -33,8 +34,8 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).Add
 
 var app = builder.Build();
 var currentUserService = app.Services.GetRequiredService<ICurrentUserService>();
-/*TestData.CreateTestUser();
-currentUserService.CurrentUser = TestData.TestUser;*/
+TestData.CreateTestUser();
+currentUserService.CurrentUser = TestData.TestUser;
 
 
 // Configure the HTTP request pipeline.
