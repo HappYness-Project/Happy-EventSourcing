@@ -15,5 +15,10 @@ namespace BlazorUI.Services
         {
             await Task.FromResult(true);
         }
+
+        public Task<string> GetUserRole(string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

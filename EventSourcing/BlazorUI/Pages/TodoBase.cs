@@ -1,4 +1,5 @@
-﻿using HP.Application.DTOs;
+﻿using HP.Application.Commands;
+using HP.Application.DTOs;
 using HP.Application.Handlers;
 using HP.Application.Queries.Todos;
 using HP.Domain;
@@ -70,10 +71,11 @@ namespace BlazorUI.Pages
         {
             TodoType todoType =SelectedTodoTypeDropDownItem.ItemObject;
             TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CreateTodoModel.UserId, CreateTodoModel.Title, todoType.Name,CreateTodoModel.Description));
+            NavigationManager.NavigateTo("todos");
         }
-        protected void OnClickViewDetails()
+        protected void OnClickViewDetails(string todoId)
         {
-            NavigationManager.NavigateTo($"todos/{TodoId}");
+            NavigationManager.NavigateTo($"todos/details/{todoId}");
         }
         protected void OnClickGoToCreateTodo()
         {
@@ -87,6 +89,14 @@ namespace BlazorUI.Pages
         {
             NavigationManager.NavigateTo($"Todos/details/{parameter}");
         }
-
+        protected async void OnClickRemoveTodo(string todoId)
+        {
+            await Mediator.Send(new DeleteTodoCommand(todoId));
+        }
+        protected async void OnClickEditTodo(string todoId)
+        {
+            // TODO : Create Edit page for updating Todo Info.
+            NavigationManager.NavigateTo($"Todos/edit/{todoId}");
+        }
     }
 }

@@ -10,6 +10,11 @@ namespace HP.UnitTest.UserManager
 {
     public class UserManagerFake : IUserManager
     {
+        public Task<string> GetUserRole(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task InsertUserAsync(User user)
         {
             return Task.FromResult(true);

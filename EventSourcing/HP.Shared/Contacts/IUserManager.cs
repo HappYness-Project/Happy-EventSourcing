@@ -10,5 +10,6 @@ namespace HP.Shared.Contacts
     {
         Task<User> TrySignInAndGetUserAsync(User user);
         Task InsertUserAsync(User user);
+        Task<string> GetUserRole(string userId);
     }
 }

@@ -7,11 +7,17 @@
     <a class="navbar-brand" href="/items">
         <img src="/images/jerry.png" width="30" height="30" class="d-inline-block align-top" />
         Hi, @CurrentUserService.CurrentUser?.LastName
-        XXX    
+        XXX
     </a>
     <form class="form-inline">
-        <NavLink href="settings" ActiveClass="active-nav">
+@*        <NavLink href="settings" ActiveClass="active-nav">
             <button class="btn btn-outline-success my-2 my-sm-0">Settings</button>
+        </NavLink>*@
+        <NavLink href="signup" ActiveClass="active-nav">
+            <button class="btn btn-outline-success my-2 my-sm-0">Sign up</button>
+        </NavLink>
+        <NavLink href="signin" ActiveClass="active-nav">
+            <button class="btn btn-outline-success my-2 my-sm-0">Sign In</button>
         </NavLink>
         <NavLink href="about" ActiveClass="active-nav">
             <button class="btn btn-outline-success my-2 my-sm-0">About</button>

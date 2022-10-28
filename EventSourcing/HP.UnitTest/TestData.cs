@@ -32,7 +32,6 @@ namespace HP.UnitTest
             textItem.ItemTypeEnum = ItemTypeEnum.Text;
             textItem.Position = 1;
 
-
             var parentItem = new ParentItem();
             parentItem.ParentId = user.Id;
             user.TodoItems.Add(parentItem);

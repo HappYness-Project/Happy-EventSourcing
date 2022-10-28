@@ -21,25 +21,21 @@
             @foreach (var t in Todos)
             {
                 <tr>
-                    <td>@t.TodoId</td>
+                    <td style="text-underline-position:below; cursor:pointer; color:blue">@t.TodoId</td>
                     <td>@t.UserId</td>
                     <td>@t.TodoTitle</td>
                     <td>
-                        <button @onclick="@OnClickViewDetails">View Details</button>
-                        <button>Edit</button>
-                        <button>Delete</button>
+                        <button @onclick="@(() => OnClickViewDetails(@t.TodoId))">View Details</button>
+                        <button @onclick="@(() => OnClickEditTodo(@t.TodoId))">Edit</button>
+                        <button @onclick="@(() => OnClickRemoveTodo(@t.TodoId))">Delete</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
     <div class="todocreate">
         <button class="sign-button btn btn-primary" @onclick="@OnClickGoToCreateTodo">Create new Todo</button>
     </div>
-
-    <button class="btn btn-primary" @onclick="OnClickPassValue">Pass Value</button>
-
 </div>
 
 @*<div>
