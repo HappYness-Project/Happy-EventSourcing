@@ -6,10 +6,10 @@ using HP.Domain;
 namespace HP.Application.Queries.Todos
 {
     public class TodoQueryHandlers : BaseQueryHandler,
-                                     IRequestHandler<GetTodosByUserId, IEnumerable<TodoBasicInfoDto>>,
+                                     IRequestHandler<GetTodos, IEnumerable<TodoBasicInfoDto>>,
+                                     IRequestHandler<GetTodosByUserId, IEnumerable<TodoDetailsDto>>,
                                      IRequestHandler<GetTodoById, TodoDetailsDto>,
                                      IRequestHandler<GetTodosByProjectId, IEnumerable<TodoDetailsDto>>,
-                                     IRequestHandler<GetTodos, IEnumerable<TodoBasicInfoDto>>,
                                      IRequestHandler<GetTodoItemsByTodoId, IEnumerable<TodoItem>>,
                                      IRequestHandler<GetTodoItemByTodoItemId, TodoItem>
 
@@ -20,13 +20,13 @@ namespace HP.Application.Queries.Todos
             _todoRepository = todoRepository;
         }
 
-        public async Task<IEnumerable<TodoBasicInfoDto>> Handle(GetTodosByUserId request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByUserId request, CancellationToken cancellationToken)
         {
             var todos = await _todoRepository.GetListByUserId(request.UserId);
             if (todos == null)
                 throw new ApplicationException($"Todos not exist for this user ID:{request.UserId}");
 
-            return _mapper.Map<List<TodoBasicInfoDto>>(todos);
+            return _mapper.Map<List<TodoDetailsDto>>(todos);
         }
         public async Task<TodoDetailsDto> Handle(GetTodoById request, CancellationToken cancellationToken)
         {
