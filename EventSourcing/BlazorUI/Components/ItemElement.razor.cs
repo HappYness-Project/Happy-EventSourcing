@@ -12,6 +12,8 @@ namespace BlazorUI.Components
 
         [Parameter]
         public TItem Item { get; set; }
+
+
         [CascadingParameter]
         public string ColorPrefix { get; set; }
         private string DetailAreaId { get; set; }

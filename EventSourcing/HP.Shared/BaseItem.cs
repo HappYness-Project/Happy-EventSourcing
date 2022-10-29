@@ -19,6 +19,7 @@ namespace HP.Shared
         public bool IsDone { get; set; }
         public string Title { get; set; }
     }
+
     public class TextItem : BaseItem
     {
         public string SubTitle { get; set; }
