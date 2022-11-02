@@ -16,12 +16,14 @@
 @code {
     [Parameter]
     public TodoBasicInfoDto TodoBasicInfoDto { get; set; }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
     }
-    private void OnClickTodoElement()
+    private void OnClickTodoElement(string todoId)
     {
-
+        var clickedTodo = todoId;
+       // NavigationManager
     }
 }

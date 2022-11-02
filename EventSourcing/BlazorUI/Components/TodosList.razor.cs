@@ -1,4 +1,5 @@
 ﻿using HP.Application.DTOs;
+using HP.Application.Queries.Todos;
 using HP.Shared;
 using HP.Shared.Contacts;
 using MediatR;
@@ -12,9 +13,11 @@ namespace BlazorUI.Components
         [Inject]
         public IMediator Mediator { get; set; }
         protected ObservableCollection<TodoDetailsDto> Todos { get; set; } = new ObservableCollection<TodoDetailsDto>();
-        protected override void OnInitialized()
+        protected override async void OnInitialized()
         {
-            base.OnInitialized();
+            base.OnInitializedAsync();
+            var check =  Mediator.Send(new GetTodos());
         }
+
     }
 }

@@ -22,13 +22,15 @@ namespace BlazorUI.Pages
         [Parameter]
         public string TodoId {get; set;}
 
-        public TodoDetailsDto TodoDetails { get; private set; }
+        public TodoDetailsDto TodoDetails { get; private set; } = new();
+        public TodoDetailsDto TodoDetailsFromTodoSearch { get; private set; }
         public string Result { get; set; }
         public IEnumerable<TodoBasicInfoDto> Todos { get; set; }
         protected EditContext EditContext { get; set; }
         protected CreateTodoModel CreateTodoModel { get; set; } = new();
         protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
         protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
+        public string TodoIdInput { get; set; }
 
         private string parameter = "ParameterValue";
         public TodoBase()
@@ -59,14 +61,31 @@ namespace BlazorUI.Pages
             TodoTypeEnums.Add(todoInfo3);
             TodoTypeEnums.Add(todoInfo4);
             SelectedTodoTypeDropDownItem = todoInfo3;
+
         }
         protected override async Task OnInitializedAsync()
         {
             base.OnInitialized();
             Todos = new List<TodoBasicInfoDto>();
+
             EditContext = new EditContext(CreateTodoModel);
             Todos = await Mediator.Send(new GetTodos());
         }
+        public async void ChangeTodoInput(ChangeEventArgs args)
+        {
+            TodoIdInput = args.Value as string;
+            TodoDetailsFromTodoSearch = await Mediator.Send(new GetTodoById(TodoIdInput));
+
+
+        }
+        public async void SearchChanged(string value)
+        {
+            var getTodo= await Mediator.Send(new GetTodoById(value));
+            if (getTodo == null)
+                TodoDetailsFromTodoSearch = null;
+            TodoDetailsFromTodoSearch = getTodo;
+        }
+
         protected async void OnSubmit()
         {
             TodoType todoType =SelectedTodoTypeDropDownItem.ItemObject;

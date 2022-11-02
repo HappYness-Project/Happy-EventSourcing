@@ -6,13 +6,19 @@
 <h3>Display Todo Details</h3>
 <hr/>
 
-<div class="col-12 row">
+<div class="col-11 row">
+    <h5 class="col-12 row" style="font-weight:bold">USER ID : @Todos.UserId</h5>
     @if(Todos != null)
     {
-        <h5 class="col-12 row" style="font-weight:bold">USER ID : @Todos.UserId</h5>
-        <h5 class="col-12 row" style="font-weight:bold">@Todos.TodoId @Todos.TodoTitle</h5>
+        
+        <h3 class="col-12 row" style="font-weight:bold">@Todos.TodoTitle</h3>
+        <h5 class="col-12 row" style="font-weight:bold">@Todos.TodoId</h5>
         <h6 class="col-12 row">Todo Type: @Todos.TodoType</h6>
-        <h6 class="col-12 row">Status:</h6>
+        <h6 class="col-12 row">Status: @(Todos.TodoStatus != null ? @Todos.TodoStatus.Name  : "NotDefined")</h6>
+        <textarea  @bind="Desc" @bind:event="oninput">@Desc</textarea>
+        @*<select @onchange=@(handleChange)>*@
+
+        <button>Save Change</button>
     }
 </div>
 
@@ -22,10 +28,17 @@
     [Parameter]
     public string TodoId { get; set; } = string.Empty;
     public TodoDetailsDto Todos { get; set; } = new();
+    public List<TodoStatus> _StatusOptions = new();
+
+    public string Desc { get; set; } = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         base.OnInitializedAsync();
         Todos = await _mediator.Send(new GetTodoById(TodoId));
+        Desc = Todos.Description;
     }
-
+    public void handleChange(ChangeEventArgs args) {
+        //SelectedId = Int32.Parse(args.Value.ToString());
+    }
 }

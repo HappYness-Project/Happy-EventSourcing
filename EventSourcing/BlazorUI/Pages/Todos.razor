@@ -33,10 +33,64 @@
             }
         </tbody>
     </table>
+
+    @*<input type="text" class="form-control" @onchange="ChangeTodoInput" />*@
+
+
+    <div class="text-center bg-blue-100">
+    <input class="border-4 w-1/3 rounded m-6 p-6 h-8
+               border-blue-300" @bind-value="TodoIdInput"
+                @bind-value:event="oninput" placeholder="Search by Todo ID" @onkeyup="@(() => SearchChanged(TodoIdInput))" />
+    </div>
+
+
+    @if (TodoDetailsFromTodoSearch is null)
+    {
+        <p>Cannot find any Todo Details.</p>
+    }
+    else
+    {
+        <div class="p-2 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+            <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>TODO ID</th>
+                            <th>User ID</th>
+                            <th>Title</th>
+                            <th>Button click</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td style="text-underline-position:below; cursor:pointer; color:blue">@TodoDetailsFromTodoSearch.TodoId</td>
+                            <td>@TodoDetailsFromTodoSearch.UserId</td>
+                            <td>@TodoDetailsFromTodoSearch.TodoTitle</td>
+                            <td>
+                                <button @onclick="@(() => OnClickViewDetails(@TodoDetailsFromTodoSearch.TodoId))">View Details</button>
+                                <button @onclick="@(() => OnClickEditTodo(@TodoDetailsFromTodoSearch.TodoId))">Edit</button>
+                                <button @onclick="@(() => OnClickRemoveTodo(@TodoDetailsFromTodoSearch.TodoId))">Delete</button>
+                            </td>
+                        </tr>
+            
+                    </tbody>
+            </table>
+        </div>
+    }
+
+
+
+   
     <div class="todocreate">
         <button class="sign-button btn btn-primary" @onclick="@OnClickGoToCreateTodo">Create new Todo</button>
     </div>
 </div>
+
+
+
+
+
 
 @*<div>
     @foreach(TodoBasicInfoDto t in Todos)

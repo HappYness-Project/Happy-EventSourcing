@@ -116,7 +116,7 @@ namespace HP.Domain
                 case "PENDING":
                     this.Status = TodoStatus.Pending;
                     this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is completed.";
-                    AddDomainEvent(new TodoDomainEvents.TodoCompleted(todoId));
+                    AddDomainEvent(new TodoDomainEvents.TodoStatusToPending(todoId));
                     break;
 
                 case "ACCEPTED":
