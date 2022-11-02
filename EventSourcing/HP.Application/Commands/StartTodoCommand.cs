@@ -17,7 +17,7 @@ namespace HP.Application.Commands
             if(todo == null)
                 throw new ApplicationException($"There is not active Todo ID: {cmd.TodoId}.");
             
-            todo.SetStatus(todo.Id, TodoStatus.Started);
+            todo.SetStatus(TodoStatus.Started);
             await _repository.UpdateAsync(todo);
             return Unit.Value;
         }

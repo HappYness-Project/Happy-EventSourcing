@@ -29,6 +29,8 @@ namespace HP.Application.Handlers
             var todo = Todo.Create(person, request.TodoTitle, request.Description, type, request.Tag);
             var checkTodo = await _repository.CreateAsync(todo);
             var @event = new TodoDomainEvents.TodoCreated(todo.Id, person.UserId, request.TodoTitle, type);
+
+            checkTodo.SetStatus(TodoStatus.NotDefined);
             return _mapper.Map<TodoDetailsDto>(checkTodo);
         }
     }

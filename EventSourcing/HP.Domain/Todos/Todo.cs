@@ -109,38 +109,38 @@ namespace HP.Domain
         {
             this.AddDomainEvent(new TodoDomainEvents.TodoRemoved(todoId));
         }
-        public void SetStatus(string todoId, TodoStatus status, string? reason =null)
+        public void SetStatus(TodoStatus status, string? reason =null)
         {
             switch(status.Name.ToUpper())
             {
                 case "PENDING":
                     this.Status = TodoStatus.Pending;
-                    this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is completed.";
-                    AddDomainEvent(new TodoDomainEvents.TodoStatusToPending(todoId));
+                    this.StatusDesc = $"Todo Id:{Id} of Title: {Title} is completed.";
+                    AddDomainEvent(new TodoDomainEvents.TodoStatusToPending(Id));
                     break;
 
                 case "ACCEPTED":
                     this.Status = TodoStatus.Accepted;
-                    this.StatusDesc = $"Todo Id:{todoId} of Title: {Title} is accepted.";
-                    AddDomainEvent(new TodoDomainEvents.TodoStatusToAccepted(todoId));
+                    this.StatusDesc = $"Todo Id:{Id} of Title: {Title} is accepted.";
+                    AddDomainEvent(new TodoDomainEvents.TodoStatusToAccepted(Id));
                     break;
 
                 case "STARTED":
                     this.Status = TodoStatus.Started;
                     this.IsStarted = true;
-                    this.StatusDesc = $"Todo Id:{todoId}, has been started at {DateTime.Now}";
-                    AddDomainEvent(new TodoDomainEvents.TodoStarted(todoId));
+                    this.StatusDesc = $"Todo Id:{Id}, has been started at {DateTime.Now}";
+                    AddDomainEvent(new TodoDomainEvents.TodoStarted(Id));
                     break;
 
                 case "COMPLETED":
                     this.Status = TodoStatus.Completed;
-                    this.StatusDesc = $"Todo Id:{todoId} is completed. ";
-                    AddDomainEvent(new TodoDomainEvents.TodoCompleted(todoId));
+                    this.StatusDesc = $"Todo Id:{Id} is completed. ";
+                    AddDomainEvent(new TodoDomainEvents.TodoCompleted(Id));
                     break;
 
                 case "STOPPED":
                     this.Status = TodoStatus.Stopped;
-                    this.StatusDesc = $"Todo Id:{todoId}, has been stopped. Reason: {reason}";
+                    this.StatusDesc = $"Todo Id:{Id}, has been stopped. Reason: {reason}";
                     //AddDomainEvent(new TodoDomainEvents.TodoStopped);
                     break;
                 default:

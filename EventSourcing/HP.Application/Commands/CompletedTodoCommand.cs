@@ -17,7 +17,7 @@ namespace HP.Application.Handlers
             if (todo == null)
                 throw new ApplicationException($"There is no active TodoId: {request.TodoId}");
 
-            todo.SetStatus(request.TodoId, TodoStatus.Completed);
+            todo.SetStatus(TodoStatus.Completed);
             await _repository.UpdateAsync(todo);
             return true;
         }

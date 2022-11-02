@@ -3,23 +3,26 @@
 @using HP.Application.Queries.Todos
 @inject MediatR.IMediator _mediator
 
-<h3>Display Todo Details</h3>
-<hr/>
 
-<div class="col-11 row">
-    <h5 class="col-12 row" style="font-weight:bold">USER ID : @Todos.UserId</h5>
-    @if(Todos != null)
-    {
-        
+<div class="main">
+
+    <h3>Todo Details for Task </h3>
+    <hr />
+    <div class="col-11 row">
+        <h3 class="col-12 row" style="font-weight:bold">@Todos.TodoId</h3>
+        <h4 class="col-12 row" style="font-weight:bold">USER ID : @Todos.UserId</h4>
         <h3 class="col-12 row" style="font-weight:bold">@Todos.TodoTitle</h3>
-        <h5 class="col-12 row" style="font-weight:bold">@Todos.TodoId</h5>
         <h6 class="col-12 row">Todo Type: @Todos.TodoType</h6>
         <h6 class="col-12 row">Status: @(Todos.TodoStatus != null ? @Todos.TodoStatus.Name  : "NotDefined")</h6>
-        <textarea  @bind="Desc" @bind:event="oninput">@Desc</textarea>
-        @*<select @onchange=@(handleChange)>*@
+            <textarea @bind="Desc" @bind:event="oninput">@Desc</textarea>
+            @*<select @onchange=@(handleChange)>*@
+    
+        <select class="col-12 row" @onchange="StatusSelected">
+        </select>
 
-        <button>Save Change</button>
-    }
+        <button class="sign-button btn btn-primary" type="submit">Save</button>
+    </div>
+
 </div>
 
 
@@ -38,7 +41,16 @@
         Todos = await _mediator.Send(new GetTodoById(TodoId));
         Desc = Todos.Description;
     }
-    public void handleChange(ChangeEventArgs args) {
+    public void handleChange(ChangeEventArgs args)
+    {
         //SelectedId = Int32.Parse(args.Value.ToString());
+    }
+    void StatusSelected(ChangeEventArgs e)
+    {
+        var getStatus = e.Value as string;
+    }
+    void OnChangeForValues(ChangeEventArgs e)
+    {
+        
     }
 }

@@ -21,18 +21,16 @@ namespace BlazorUI.Pages
 
         [Parameter]
         public string TodoId {get; set;}
-
         public TodoDetailsDto TodoDetails { get; private set; } = new();
         public TodoDetailsDto TodoDetailsFromTodoSearch { get; private set; }
-        public string Result { get; set; }
-        public IEnumerable<TodoBasicInfoDto> Todos { get; set; }
+        public IEnumerable<TodoDetailsDto> Todos { get; set; } = new List<TodoDetailsDto>();
         protected EditContext EditContext { get; set; }
         protected CreateTodoModel CreateTodoModel { get; set; } = new();
         protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
         protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
-        public string TodoIdInput { get; set; }
+        protected IList<DropdownItem<TodoStatus>> TodoStatusEnums { get; } = new List<DropdownItem<TodoStatus>>();
 
-        private string parameter = "ParameterValue";
+        public string TodoIdInput { get; set; }
         public TodoBase()
         {
 
@@ -60,23 +58,25 @@ namespace BlazorUI.Pages
             TodoTypeEnums.Add(todoInfo2);
             TodoTypeEnums.Add(todoInfo3);
             TodoTypeEnums.Add(todoInfo4);
+
+            var todoStatusValue = new DropdownItem<TodoStatus>
+            {
+                ItemObject = TodoStatus.Started,
+                DisplayText = "Start"
+            };
+
+
+
             SelectedTodoTypeDropDownItem = todoInfo3;
 
         }
         protected override async Task OnInitializedAsync()
         {
             base.OnInitialized();
-            Todos = new List<TodoBasicInfoDto>();
-
             EditContext = new EditContext(CreateTodoModel);
-            Todos = await Mediator.Send(new GetTodos());
-        }
-        public async void ChangeTodoInput(ChangeEventArgs args)
-        {
-            TodoIdInput = args.Value as string;
-            TodoDetailsFromTodoSearch = await Mediator.Send(new GetTodoById(TodoIdInput));
 
-
+            // TODO : User Authentication sample create
+            Todos = await Mediator.Send(new GetTodosByUserId("hyunbin7303"));
         }
         public async void SearchChanged(string value)
         {
@@ -103,10 +103,6 @@ namespace BlazorUI.Pages
         protected IOrderedEnumerable<IGrouping<string, TodoDetailsDto>> GetTodosByUserName()
         {
             return null;
-        }
-        protected void OnClickPassValue()
-        {
-            NavigationManager.NavigateTo($"Todos/details/{parameter}");
         }
         protected async void OnClickRemoveTodo(string todoId)
         {
