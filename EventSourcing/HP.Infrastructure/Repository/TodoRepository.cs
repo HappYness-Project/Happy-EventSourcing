@@ -36,7 +36,7 @@ namespace HP.Infrastructure.Repository
         //
         public async Task<IEnumerable<Todo>> GetListByUserId(string userId)
         {
-            var filter = Builders<Todo>.Filter.Eq("UserId", userId);
+            var filter = Builders<Todo>.Filter.Eq("UserId", userId.ToUpper());
             var todos = _todos.Find(filter).ToList();
             return todos;
         }

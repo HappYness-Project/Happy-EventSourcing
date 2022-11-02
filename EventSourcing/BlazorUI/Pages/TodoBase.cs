@@ -5,6 +5,7 @@ using HP.Application.Queries.Todos;
 using HP.Domain;
 using HP.GeneralUI.DropdownControl;
 using HP.Shared;
+using HP.Shared.Contacts;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -18,7 +19,8 @@ namespace BlazorUI.Pages
 
         [Inject]
         public NavigationManager NavigationManager {get; set; }
-
+        [Inject]
+        private ICurrentUserService CurrentUserService { get; set; }
         [Parameter]
         public string TodoId {get; set;}
         public TodoDetailsDto TodoDetails { get; private set; } = new();
@@ -74,9 +76,8 @@ namespace BlazorUI.Pages
         {
             base.OnInitialized();
             EditContext = new EditContext(CreateTodoModel);
-
-            // TODO : User Authentication sample create
-            Todos = await Mediator.Send(new GetTodosByUserId("hyunbin7303"));
+            var temp_username = CurrentUserService.CurrentUser.UserName;
+            Todos = await Mediator.Send(new GetTodosByUserId(temp_username));
         }
         public async void SearchChanged(string value)
         {
