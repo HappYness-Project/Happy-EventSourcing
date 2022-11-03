@@ -8,3 +8,39 @@
 .todo-validation {
     margin-top : 25px;
 }
+
+
+
+
+
+.details {
+        border-bottom: 1px solid #b5bfd9;
+        &[open]
+
+    {
+        box-shadow: -3px 0 0 #b5bfd9;
+    }
+
+    &:first-of-type {
+        border-top: 1px solid #b5bfd9;
+    }
+
+    & > div {
+        padding: 2em 2em 0;
+        font-size: .875em;
+    }
+}
+
+.dl {
+    display: flex;
+    flex-wrap: wrap;
+    dt
+    {
+        font-weight: 700;
+    }
+
+    div {
+        margin-right: 4em;
+        margin-bottom: 2em;
+    }
+}

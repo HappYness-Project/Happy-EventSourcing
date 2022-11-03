@@ -5,40 +5,57 @@
 @inject MediatR.IMediator _mediator
 
 
-<div class="main">
+<div class="w-100">
     <h4 class="col-8 row" style="font-weight:bold">USER, @Todo.UserId</h4>
     <h3>Todo(@Todo.TodoId) Details</h3>
     <hr />
-
     <div class="col-8 row">
-        <h3  style="font-weight:bold">@Todo.TodoTitle</h3>
-        <input class="col-8 row" type="text"   @onchange="OnSelectTitleChanged" />
-        <h6 class="col-8 row">Todo Type: @Todo.TodoType</h6>
-        <h6 class="col-6 row">Status: @(Todo.TodoStatus != null ? Todo.TodoStatus.Name  : "NotDefined")</h6>
-        <textarea class="col-6 row"  @bind="@Todo.Description" @bind:event="oninput">@Todo.Description</textarea>   
-        <select class="col-8 row" @onchange="StatusSelected">
-            <option value="-1" disabled selected>(Select status)</option>
-            @for(var i=0; i < _StatusOptions.Count; i++)
-            {
-                <option value="@i"> @_StatusOptions[i].Name </option>
-            }
-        </select>
+        <div>
+            <label>Todo Title: </label>
+            <input style="font-weight:bold"  type="text" value="@Todo.TodoTitle" @onchange="OnSelectTitleChanged" />
+        </div>
+        <div>
+            <label>Todo Type: </label>
+            <input type="text" value ="@Todo.TodoType" />
+        </div>
+        <div>
+            <label>Todo Status: </label>
+            <input type="text" value="@(Todo.TodoStatus != null ? Todo.TodoStatus.Name  : "NotDefined")" />
+            <select class="col-8 row" @onchange="StatusSelected">
+                <option value="-1" disabled selected>(Select status)</option>
+                @for (var i = 0; i < _StatusOptions.Count; i++)
+                {
+                    <option value="@i"> @_StatusOptions[i].Name </option>
+                }
+            </select>
+        </div>
+        <div class="col-6 row">
+            <label>Description</label>
+            <textarea  @bind="@Todo.Description" @bind:event="oninput">@Todo.Description</textarea>
+        </div>
 
-        @if(Todo.SubTodos != null)
+        <button class="sign-button btn btn-primary" type="submit">Create SubTodo</button>
+
+        @if (Todo.SubTodos != null)
         {
-            @foreach(var check in Todo.SubTodos)
+            @foreach (var subtodo in Todo.SubTodos)
             {
-                <p>check?.TodoId</p>
+                <div class="card bg-light mt-3" style="width:25rem ">
+                    <div class="card-body">
+                        <h3 class="card-title">Title:@subtodo.Title </h3>
+                        <p class="card-text">
+                            <code>@subtodo.Description</code>:
+                        </p>
+                        <button>Update TodoItem</button>
+                    </div>
+                </div>
             }
         }
-        <button class="sign-button btn btn-primary" type="submit" onsubmit="@SaveTodoChanges">Save Changes</button>
+        <button class="btn btn-success ml-2" type="submit" onsubmit="@SaveTodoChanges">Save Changes</button>
     </div>
 
-@*    <EditForm Model="@Todo" OnValidSubmit="@SaveTodoChanges">
-        <div class="col-8 row">
 
-        </div>
-    </EditForm>*@
+
 
 </div>
 
@@ -51,7 +68,6 @@
     public string newTodoTitle { get; set; }
     public string newTodoDesc { get; set; }
     public string newTodoType { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         base.OnInitializedAsync();
@@ -85,7 +101,7 @@
     private async Task DeleteTodoSubItem(string todoId, string subTodoId)
     {
         bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(todoId, subTodoId));
-        if(isRemoved)
+        if (isRemoved)
             Todo = await _mediator.Send(new GetTodoById(TodoId));
     }
 
@@ -96,10 +112,21 @@
         Todo.TodoType = newTodoType;
 
         bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.Description, null));
-        if(isUpdated)
+        if (isUpdated)
         {
-            
+            Todo = await _mediator.Send(new GetTodoById(TodoId));
         }
         //await _mediator.Send(new UpdateTodo(TodoId));
     }
+
+    private async Task CreateNewTodoItem(string todoId, string title)
+    {
+        var newTodoItem = await _mediator.Send(new CreateTodoItemCommand(todoId, title, "", "Description Null for now."));
+
+    }
 }
+
+
+@*       # https://github.com/dotnet-architecture/eShopOnBlazor/blob/main/src/eShopOnBlazor/Pages/Catalog/Details.razor
+       # https://github.com/JBeni/BlazorShop
+       https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client/Pages/OrderDetails.razor *@

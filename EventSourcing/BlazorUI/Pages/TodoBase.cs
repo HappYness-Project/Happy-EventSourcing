@@ -109,10 +109,5 @@ namespace BlazorUI.Pages
         {
             await Mediator.Send(new DeleteTodoCommand(todoId));
         }
-        protected async void OnClickEditTodo(string todoId)
-        {
-            // TODO : Create Edit page for updating Todo Info.
-            NavigationManager.NavigateTo($"Todos/edit/{todoId}");
-        }
     }
 }
