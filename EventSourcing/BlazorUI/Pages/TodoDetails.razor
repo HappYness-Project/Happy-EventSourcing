@@ -1,4 +1,5 @@
 ﻿@page "/todos/details/{TodoId}"
+@using HP.Application.Commands
 @using HP.Application.DTOs
 @using HP.Application.Queries.Todos
 @inject MediatR.IMediator _mediator
@@ -10,10 +11,11 @@
     <hr />
 
     <div class="col-8 row">
-        <h3 class="col-8 row" style="font-weight:bold">@Todo.TodoTitle</h3>
+        <h3  style="font-weight:bold">@Todo.TodoTitle</h3>
+        <input class="col-8 row" type="text"   @onchange="OnSelectTitleChanged" />
         <h6 class="col-8 row">Todo Type: @Todo.TodoType</h6>
         <h6 class="col-6 row">Status: @(Todo.TodoStatus != null ? Todo.TodoStatus.Name  : "NotDefined")</h6>
-        <textarea class="col-6 row"  @bind="Desc" @bind:event="oninput">@Desc</textarea>   
+        <textarea class="col-6 row"  @bind="@Todo.Description" @bind:event="oninput">@Todo.Description</textarea>   
         <select class="col-8 row" @onchange="StatusSelected">
             <option value="-1" disabled selected>(Select status)</option>
             @for(var i=0; i < _StatusOptions.Count; i++)
@@ -21,27 +23,31 @@
                 <option value="@i"> @_StatusOptions[i].Name </option>
             }
         </select>
-        <button class="sign-button btn btn-primary" type="submit" onsubmit="@OnSubmitSaveChanges">Save Changes</button>
+
+        @if(Todo.SubTodos != null)
+        {
+            @foreach(var check in Todo.SubTodos)
+            {
+                <p>check?.TodoId</p>
+            }
+        }
+        <button class="sign-button btn btn-primary" type="submit" onsubmit="@SaveTodoChanges">Save Changes</button>
     </div>
 
-
-
-    <EditForm Model="@Todo" OnValidSubmit="@OnSubmitSaveChanges">
+@*    <EditForm Model="@Todo" OnValidSubmit="@SaveTodoChanges">
         <div class="col-8 row">
 
         </div>
-    </EditForm>
+    </EditForm>*@
 
 </div>
 
 
 
 @code {
-    [Parameter]
-    public string TodoId { get; set; } = string.Empty;
+    [Parameter] public string TodoId { get; set; } = string.Empty;
     public TodoDetailsDto Todo { get; set; } = new();
     public List<TodoStatus> _StatusOptions = new();
-    public string Desc { get; set; } = string.Empty;
     public string newTodoTitle { get; set; }
     public string newTodoDesc { get; set; }
     public string newTodoType { get; set; }
@@ -57,9 +63,7 @@
         _StatusOptions.Add(status2);
         _StatusOptions.Add(status3);
         _StatusOptions.Add(status4);
-
         Todo = await _mediator.Send(new GetTodoById(TodoId));
-        Desc = Todo.Description;
     }
     public void handleChange(ChangeEventArgs args)
     {
@@ -74,11 +78,28 @@
     {
         newTodoTitle = args.Value as string;
     }
+    private void OnSelectDescChanged(ChangeEventArgs args)
+    {
+        newTodoDesc = args.Value as string;
+    }
+    private async Task DeleteTodoSubItem(string todoId, string subTodoId)
+    {
+        bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(todoId, subTodoId));
+        if(isRemoved)
+            Todo = await _mediator.Send(new GetTodoById(TodoId));
+    }
+
     private async Task SaveTodoChanges()
     {
         Todo.TodoTitle = newTodoTitle;
         Todo.Description = newTodoDesc;
         Todo.TodoType = newTodoType;
+
+        bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.Description, null));
+        if(isUpdated)
+        {
+            
+        }
         //await _mediator.Send(new UpdateTodo(TodoId));
     }
 }
