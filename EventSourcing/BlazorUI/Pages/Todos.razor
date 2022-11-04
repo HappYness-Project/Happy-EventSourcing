@@ -68,6 +68,7 @@
                             <td>
                                 <button @onclick="@(() => OnClickViewDetails(@TodoDetailsFromTodoSearch.TodoId))">View Details</button>
                                 <button @onclick="@(() => OnClickRemoveTodo(@TodoDetailsFromTodoSearch.TodoId))">Delete</button>
+                                <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Delete Testing</button>
                             </td>
                         </tr>
             
@@ -81,6 +82,10 @@
     </div>
 </div>
 
+@if(DeleteDialogOpen)
+{
+    <DeleteTodoDialog Title="Are you sure?" Text="Do you want to delete this entry?" OnClose="@OnDeleteDialogClose"></DeleteTodoDialog>
+}
 
 
 @*<div>

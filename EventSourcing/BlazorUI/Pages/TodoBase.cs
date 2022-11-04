@@ -17,11 +17,11 @@ namespace BlazorUI.Pages
         [Inject]
         public IMediator Mediator { get; set; }
         [Inject]
-        public NavigationManager NavigationManager {get; set; }
+        public NavigationManager NavigationManager { get; set; }
         [Inject]
         private ICurrentUserService CurrentUserService { get; set; }
         [Parameter]
-        public string TodoId {get; set;}
+        public string TodoId { get; set; }
         public TodoDetailsDto TodoDetails { get; private set; } = new();
         public TodoDetailsDto TodoDetailsFromTodoSearch { get; private set; }
         public IEnumerable<TodoDetailsDto> Todos { get; set; } = new List<TodoDetailsDto>();
@@ -30,7 +30,7 @@ namespace BlazorUI.Pages
         protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
         protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
         protected IList<DropdownItem<TodoStatus>> TodoStatusEnums { get; } = new List<DropdownItem<TodoStatus>>();
-
+        public bool DeleteDialogOpen { get; set;}
         public string TodoIdInput { get; set; }
         public TodoBase()
         {
@@ -104,5 +104,18 @@ namespace BlazorUI.Pages
         {
             await Mediator.Send(new DeleteTodoCommand(todoId));
         }
+        protected void OnDeleteDialogClose(bool accepted)
+        {
+            DeleteDialogOpen = false;
+            StateHasChanged();
+        }
+        protected void OpenDeleteDialog()
+        {
+            DeleteDialogOpen = true;
+            StateHasChanged();
+        }
+
+
+
     }
 }

@@ -2,12 +2,14 @@
 @using HP.Application.Commands
 @using HP.Application.DTOs
 @using HP.Application.Queries.Todos
+@*@inject TodoState TodoState*@
 @inject MediatR.IMediator _mediator
 @inject IJSRuntime JS
 
 <div class="w-100">
     <h4 class="col-8 row" style="font-weight:bold">USER, @Todo.UserId</h4>
     <h3>Todo(@Todo.TodoId) Details</h3>
+    <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Dialog Delete Testing</button>
     <hr />
     <div class="col-8 row">
         <div>
@@ -34,7 +36,7 @@
             <textarea  @bind="@Todo.Description" @bind:event="oninput">@Todo.Description</textarea>
         </div>
 
-        <button class="sign-button btn btn-primary" type="submit">Create SubTodo</button>
+        @*<button class="sign-button btn btn-primary" @onclick="TodoState.ShowConfigureTodoItemDialog">Create SubTodo</button>*@
 
         @if (Todo.SubTodos != null)
         {
@@ -55,14 +57,24 @@
     </div>
 </div>
 
+<div>&npsp;</div>
+@if(DeleteTodoDialogOpen)
+{
+    <DeleteTodoDialog Title="Are you sure?" Text="Do you want to delete this entry?" OnClose="@OnDeleteDialogClose"></DeleteTodoDialog>
+}
+@if(AddTodoItemDialogOpen)
+{
+    @*<AddTodoItemDialog Title="Adding new todo Item" Text="Adding Todo Item for Todo:[]" @onclick="() => OpenAdd"></AddTodoItemDialog>*@
+}
 
-<HP.GeneralUI.Dialog.TemplatedDialog Show="true">
 
-
-
-
+@*https://chrissainty.com/understanding-cascading-values-and-cascading-parameters/
+https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client/Services/CartService/CartService.cs
+<HP.GeneralUI.Dialog.TemplatedDialog Show="TodoState.ShowingConfigureDialog">
 </HP.GeneralUI.Dialog.TemplatedDialog>
-
+      # https://github.com/dotnet-architecture/eShopOnBlazor/blob/main/src/eShopOnBlazor/Pages/Catalog/Details.razor
+       # https://github.com/JBeni/BlazorShop
+       *@
 @code {
     [Parameter] public string TodoId { get; set; } = string.Empty;
     public TodoDetailsDto Todo { get; set; } = new();
@@ -70,6 +82,19 @@
     public string newTodoTitle { get; set; }
     public string newTodoDesc { get; set; }
     public string newTodoType { get; set; }
+    public bool DeleteTodoDialogOpen { get; set; }
+    public bool AddTodoItemDialogOpen { get; set; }
+
+    private void OnDeleteDialogClose(bool accepted)
+    {
+        DeleteTodoDialogOpen = false;
+        StateHasChanged();
+    }
+    private void OpenDeleteDialog()
+    {
+        DeleteTodoDialogOpen = true;
+        StateHasChanged();
+    }
     protected override async Task OnInitializedAsync()
     {
         base.OnInitializedAsync();
@@ -127,6 +152,3 @@
 }
 
 
-@*       # https://github.com/dotnet-architecture/eShopOnBlazor/blob/main/src/eShopOnBlazor/Pages/Catalog/Details.razor
-       # https://github.com/JBeni/BlazorShop
-       *@
