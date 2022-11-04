@@ -44,3 +44,33 @@
         margin-bottom: 2em;
     }
 }
+
+.subtodo-dialog-title {
+    background-color: #444;
+    color: #fff2cc;
+    padding: 1.3rem 2rem;
+}
+
+    .subtodo-dialog-title h2 {
+        color: white;
+        font-size: 1.4rem;
+        margin: 0;
+        font-family: 'Bahnschrift', Arial, Helvetica, sans-serif;
+        text-transform: uppercase;
+        line-height: 1.3rem;
+    }
+
+
+.subtodo-dialog-body {
+    flex-grow: 1;
+    padding: 0.5rem 3rem 1rem 0;
+}
+
+.subtodo-dialog-buttons {
+    height: 4rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    background-color: #eee;
+    padding: 0 1rem;
+}

@@ -16,7 +16,6 @@ namespace BlazorUI.Pages
     {
         [Inject]
         public IMediator Mediator { get; set; }
-
         [Inject]
         public NavigationManager NavigationManager {get; set; }
         [Inject]
@@ -66,11 +65,7 @@ namespace BlazorUI.Pages
                 ItemObject = TodoStatus.Started,
                 DisplayText = "Start"
             };
-
-
-
             SelectedTodoTypeDropDownItem = todoInfo3;
-
         }
         protected override async Task OnInitializedAsync()
         {
