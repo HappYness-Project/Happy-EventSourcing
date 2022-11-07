@@ -16,7 +16,7 @@ namespace HP.Application.Commands
          if (todo == null)
                throw new ApplicationException($"Todo ID: {request.todoId} does not exist.");
 
-         todo.SetStatus(TodoStatus.Stopped);
+         todo.SetStatus(TodoStatus.Stop);
          await _todoRepository.UpdateAsync(todo);
          return Unit.Value;
       }

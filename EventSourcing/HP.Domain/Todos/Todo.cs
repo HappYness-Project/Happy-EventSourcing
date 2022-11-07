@@ -120,26 +120,26 @@ namespace HP.Domain
                     break;
 
                 case "ACCEPTED":
-                    this.Status = TodoStatus.Accepted;
+                    this.Status = TodoStatus.Accept;
                     this.StatusDesc = $"Todo Id:{Id} of Title: {Title} is accepted.";
                     AddDomainEvent(new TodoDomainEvents.TodoStatusToAccepted(Id));
                     break;
 
                 case "STARTED":
-                    this.Status = TodoStatus.Started;
+                    this.Status = TodoStatus.Start;
                     this.IsStarted = true;
                     this.StatusDesc = $"Todo Id:{Id}, has been started at {DateTime.Now}";
                     AddDomainEvent(new TodoDomainEvents.TodoStarted(Id));
                     break;
 
                 case "COMPLETED":
-                    this.Status = TodoStatus.Completed;
+                    this.Status = TodoStatus.Complete;
                     this.StatusDesc = $"Todo Id:{Id} is completed. ";
                     AddDomainEvent(new TodoDomainEvents.TodoCompleted(Id));
                     break;
 
                 case "STOPPED":
-                    this.Status = TodoStatus.Stopped;
+                    this.Status = TodoStatus.Stop;
                     this.StatusDesc = $"Todo Id:{Id}, has been stopped. Reason: {reason}";
                     //AddDomainEvent(new TodoDomainEvents.TodoStopped);
                     break;
