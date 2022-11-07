@@ -9,7 +9,7 @@
     <h4 class="col-8 row" style="font-weight:bold">USER, @Todo.UserId</h4>
     <h3>Todo(@Todo.TodoId) Details</h3>
     <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(Todo)">Create SubTodo</button>
-    <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Dialog Delete Testing</button>
+    <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Delete</button>
     <hr />
     <div class="col-8 row">
         <div>
@@ -22,13 +22,15 @@
         </div>
         <div>
             <label>Todo Status: </label>
-            <input type="text" value="@(Todo.TodoStatus != null ? Todo.TodoStatus.Name  : "NotDefined")" />
-            <select class="col-8 row" @onchange="StatusSelected">
-                <option value="-1" disabled selected>(Select status)</option>
-                @for (var i = 0; i < _StatusOptions.Count; i++)
-                {
-                    <option value="@i"> @_StatusOptions[i].Name </option>
+            <select class="col-8 row"  @onchange="StatusSelected">
+                @{
+                    <option value="-1" disabled selected>(Select status)</option>
+                    foreach(var status in TodoStatus.List())
+                    {
+                        <option value="@status">@status</option>
+                    }
                 }
+
             </select>
         </div>
         <div class="col-6 row">
@@ -75,29 +77,20 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
 @code {
     [Parameter] public string TodoId { get; set; } = string.Empty;
     public TodoDetailsDto Todo { get; set; } = new();
-    public List<TodoStatus> _StatusOptions = new();
     public string newTodoTitle { get; set; }
     public string newTodoDesc { get; set; }
     public string newTodoType { get; set; }
     public bool DeleteTodoDialogOpen { get; set; }
     public bool AddTodoItemDialogOpen { get; set; }
-
     [Parameter]
     public EventCallback OnSubmitCallback { get; set; }
 
-
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         base.OnInitializedAsync();
-        TodoStatus status1 = new(0, "NotDefined");
-        TodoStatus status2 = new(1, "Accepted");
-        TodoStatus status3 = new(2, "Started");
-        TodoStatus status4 = new(3, "Completed");
-        _StatusOptions.Add(status1);
-        _StatusOptions.Add(status2);
-        _StatusOptions.Add(status3);
-        _StatusOptions.Add(status4);
         await LoadTodoData();
     }
 
@@ -149,6 +142,7 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         }
         DeleteTodoDialogOpen = false;
         StateHasChanged();
+        NavigationManager.NavigateTo("todos");
     }
     private void OpenDeleteDialog()
     {

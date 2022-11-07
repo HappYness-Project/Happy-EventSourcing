@@ -10,7 +10,21 @@
                 <p>@Text</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @onclick="@ModalOk" >Ok</button>
+                @switch(DialogType)
+                {
+                    case DeleteDialogType.Ok:
+                        <button type="button" class="btn btn-primary" @onclick="@ModalOk" >Ok</button>
+                        break;
+
+                    case DeleteDialogType.OkCancel:
+                        <button type="button" class="btn" @onclick="@ModalCancel">Cancel</button>
+                        <button type="button" class="btn btn-primary" @onclick="@ModalOk">Cancel</button>
+                        break;
+                    case DeleteDialogType.DeleteCancel:
+                        <button type="button" class="btn" @onclick="@ModalCancel">Cancel</button>
+                        <button type="button" class="btn btn-danger" @onclick="@ModalOk">Delete</button>
+                        break;
+                }
             </div>
         </div>
     </div>
@@ -23,6 +37,8 @@
     public string Text { get; set; }
     [Parameter]
     public EventCallback<bool> OnClose { get; set; }
+    [Parameter]
+    public DeleteDialogType DialogType { get; set; }
 
     private Task ModalCancel()
     {
@@ -32,5 +48,10 @@
     {
         return OnClose.InvokeAsync(true);
     }
-
+    public enum DeleteDialogType
+    {
+        Ok, 
+        OkCancel,
+        DeleteCancel
+    }
 }

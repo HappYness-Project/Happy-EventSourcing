@@ -28,45 +28,36 @@ namespace BlazorUI.Pages
         private TodoDetailsDto _todoToDelete;
         protected EditContext EditContext { get; set; }
         protected CreateTodoModel CreateTodoModel { get; set; } = new();
+
         protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
         protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
         protected IList<DropdownItem<TodoStatus>> TodoStatusEnums { get; } = new List<DropdownItem<TodoStatus>>();
+        protected DropdownItem<TodoStatus> SelectedTodoStatusDropDownItem { get; set; }
         public bool DeleteDialogOpen { get; set;}
         public string TodoIdInput { get; set; }
         public TodoBase()
         {
+            foreach (TodoType type in TodoType.List())
+            {
+                var ddItem = new DropdownItem<TodoType>
+                {
+                    ItemObject = type,
+                    DisplayText = type.Name
+                };
+                TodoTypeEnums.Add(ddItem);
+            }
 
-            var todoInfo = new DropdownItem<TodoType>
+            foreach (TodoStatus type in TodoStatus.List())
             {
-                ItemObject = TodoType.Work,
-                DisplayText = "Work"
-            };
-            var todoInfo2 = new DropdownItem<TodoType>
-            {
-                ItemObject = TodoType.Research,
-                DisplayText = "Research"
-            };
-            var todoInfo3 = new DropdownItem<TodoType>
-            {
-                ItemObject = TodoType.Others,
-                DisplayText = "Others"
-            };
-            var todoInfo4 = new DropdownItem<TodoType>
-            {
-                ItemObject = TodoType.Chores,
-                DisplayText = "Chores"
-            };
-            TodoTypeEnums.Add(todoInfo);
-            TodoTypeEnums.Add(todoInfo2);
-            TodoTypeEnums.Add(todoInfo3);
-            TodoTypeEnums.Add(todoInfo4);
-
-            var todoStatusValue = new DropdownItem<TodoStatus>
-            {
-                ItemObject = TodoStatus.Started,
-                DisplayText = "Start"
-            };
-            SelectedTodoTypeDropDownItem = todoInfo3;
+                var ddStatus = new DropdownItem<TodoStatus>
+                {
+                    ItemObject = type,
+                    DisplayText = type.Name
+                };
+                TodoStatusEnums.Add(ddStatus);
+            }
+            SelectedTodoTypeDropDownItem = TodoTypeEnums[0];
+            SelectedTodoStatusDropDownItem = TodoStatusEnums[0];
         }
         protected override async Task OnInitializedAsync()
         {
