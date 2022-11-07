@@ -14,18 +14,18 @@
     <div class="col-8 row">
         <div>
             <label>Todo Title: </label>
-            <input style="font-weight:bold"  type="text" value="@Todo.TodoTitle" @onchange="OnSelectTitleChanged" />
+            <input style="font-weight:bold" type="text" value="@Todo.TodoTitle" @onchange="OnSelectTitleChanged" />
         </div>
         <div>
             <label>Todo Type: </label>
-            <input type="text" value ="@Todo.TodoType" />
+            <input type="text" value="@Todo.TodoType" />
         </div>
         <div>
             <label>Todo Status: </label>
-            <select class="col-8 row"  @onchange="StatusSelected">
+            <select @onchange="StatusSelected">
                 @{
                     <option value="-1" disabled selected>(Select status)</option>
-                    foreach(var status in TodoStatus.List())
+                    foreach (var status in TodoStatus.List())
                     {
                         <option value="@status">@status</option>
                     }
@@ -33,39 +33,43 @@
 
             </select>
         </div>
-        <div class="col-6 row">
+        <div class="col-8 row">
             <label>Description</label>
-            <textarea  @bind="@Todo.Description" @bind:event="oninput">@Todo.Description</textarea>
+            <textarea @bind="@Todo.Description" @bind:event="oninput">@Todo.Description</textarea>
+        </div>
+        <br><br>
+
+        <h4>Sub Items</h4>
+        <div class="col-8 row">
+            @if (Todo.SubTodos != null)
+            {
+                @foreach (var subtodo in Todo.SubTodos)
+                {
+                    <div class="card bg-light mt-3" style="width:22rem ">
+                        <div class="card-body">
+                            <h3 class="card-title">Title:@subtodo.Title </h3>
+                            <p class="card-text">
+                                <code>@subtodo.Description</code>:
+                            </p>
+                            <button>Update TodoItem</button>
+                            <button>Remove</button>
+                        </div>
+                    </div>
+                }
+            }
         </div>
 
-
-        @if (Todo.SubTodos != null)
-        {
-            @foreach (var subtodo in Todo.SubTodos)
-            {
-                <div class="card bg-light mt-3" style="width:25rem ">
-                    <div class="card-body">
-                        <h3 class="card-title">Title:@subtodo.Title </h3>
-                        <p class="card-text">
-                            <code>@subtodo.Description</code>:
-                        </p>
-                        <button>Update TodoItem</button>
-                    </div>
-                </div>
-            }
-        }
-        <button class="btn btn-success ml-2" type="submit" onsubmit="@SaveTodoChanges">Save Changes</button>
+        <button class="btn btn-success ml-2; col-8 row" type="submit" onsubmit="@SaveTodoChanges">Save Changes</button>
     </div>
 </div>
 
-<div>&npsp;</div>
-@if(DeleteTodoDialogOpen)
+@if (DeleteTodoDialogOpen)
 {
     <DeleteTodoDialog Title="Are you sure?" Text="Do you want to delete this entry?" OnClose="@OnDeleteDialogClose"></DeleteTodoDialog>
 }
-@if(AddTodoItemDialogOpen)
+@if (AddTodoItemDialogOpen)
 {
-    <AddTodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo = "@Todo" OnClose="@OnAddTodoItemDialogClose"></AddTodoItemDialog>
+    <AddTodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo="@Todo" OnClose="@OnAddTodoItemDialogClose"></AddTodoItemDialog>
 }
 
 @*
@@ -136,7 +140,7 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
     }
     private async void OnDeleteDialogClose(bool accepted)
     {
-        if(accepted)
+        if (accepted)
         {
             await _mediator.Send(new DeleteTodoCommand(Todo.TodoId));
         }
