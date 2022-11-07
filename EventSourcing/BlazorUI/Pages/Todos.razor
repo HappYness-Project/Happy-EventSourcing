@@ -18,16 +18,21 @@
             </tr>
         </thead>
         <tbody>
+
+            @if(Todos == null)
+            {
+                <tr><td><em>Loading...</em></td></tr>
+            }
+
             @foreach (var t in Todos)
             {
                 <tr>
-                    <td style="text-underline-position:below; cursor:pointer; color:blue" @onclick="@(() => OnClickViewDetails(@TodoDetailsFromTodoSearch.TodoId))">@t.TodoId</td>
+                    <td style="text-underline-position:below; cursor:pointer; color:blue" @onclick="@(() => OnClickViewDetails(t.TodoId))">@t.TodoId</td>
                     <td>@t.UserId</td>
                     <td>@t.TodoTitle</td>
                     <td>
                         <button @onclick="@(() => OnClickViewDetails(@t.TodoId))">View Details</button>
-                        <button @onclick="@(() => OnClickRemoveTodo(@t.TodoId))">Delete</button>
-                        <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog(t)">Delete Testing</button>
+                        <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog(t)">Delete</button>
                     </td>
                 </tr>
             }
@@ -68,8 +73,7 @@
                             <td>@TodoDetailsFromTodoSearch.TodoStatus</td>
                             <td>
                                 <button @onclick="@(() => OnClickViewDetails(@TodoDetailsFromTodoSearch.TodoId))">View Details</button>
-                                <button @onclick="@(() => OnClickRemoveTodo(@TodoDetailsFromTodoSearch.TodoId))">Delete</button>
-                                <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog(TodoDetailsFromTodoSearch)">Delete Testing</button>
+                                <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog(TodoDetailsFromTodoSearch)">Delete</button>
                             </td>
                         </tr>
             
@@ -87,7 +91,6 @@
 {
     <DeleteTodoDialog Title="Are you sure?" Text="Do you want to delete this entry?" OnClose="@OnDeleteDialogClose"></DeleteTodoDialog>
 }
-
 
 @*<div>
     @foreach(TodoBasicInfoDto t in Todos)

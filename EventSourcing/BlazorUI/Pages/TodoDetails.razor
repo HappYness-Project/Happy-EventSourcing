@@ -64,16 +64,16 @@
 }
 @if(AddTodoItemDialogOpen)
 {
-    <AddTodoItemDialog Title="Adding new todo Item" Text="Adding Todo Item for Todo:[]" @onclick="() => OpenAdd"></AddTodoItemDialog>
+    <AddTodoItemDialog Title="Adding new todo Item" Text="Adding Todo Item for Todo:[]" OnClose="@OnAddTodoItemDialogClose"></AddTodoItemDialog>
 }
 
 
-@*https://chrissainty.com/understanding-cascading-values-and-cascading-parameters/
+@*
 https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client/Services/CartService/CartService.cs
 <HP.GeneralUI.Dialog.TemplatedDialog Show="TodoState.ShowingConfigureDialog">
 </HP.GeneralUI.Dialog.TemplatedDialog>
       # https://github.com/dotnet-architecture/eShopOnBlazor/blob/main/src/eShopOnBlazor/Pages/Catalog/Details.razor
-       # https://github.com/JBeni/BlazorShop
+       # 
        *@
 @code {
     [Parameter] public string TodoId { get; set; } = string.Empty;
@@ -84,6 +84,9 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
     public string newTodoType { get; set; }
     public bool DeleteTodoDialogOpen { get; set; }
     public bool AddTodoItemDialogOpen { get; set; }
+
+    [Parameter]
+    public EventCallback OnSubmitCallback { get; set; }
 
     private void OnDeleteDialogClose(bool accepted)
     {
@@ -113,10 +116,7 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         _StatusOptions.Add(status3);
         _StatusOptions.Add(status4);
         Todo = await _mediator.Send(new GetTodoById(TodoId));
-    }
-    public void handleChange(ChangeEventArgs args)
-    {
-        //SelectedId = Int32.Parse(args.Value.ToString());
+        StateHasChanged();
     }
     void StatusSelected(ChangeEventArgs e)
     {
@@ -127,15 +127,17 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
     {
         newTodoTitle = args.Value as string;
     }
-    //private void OnSelectDescChanged(ChangeEventArgs args)
-    //{
-    //    newTodoDesc = args.Value as string;
-    //}
+    private void OnSelectDescChanged(ChangeEventArgs args)
+    {
+        newTodoDesc = args.Value as string;
+    }
     private async Task DeleteTodoSubItem(string todoId, string subTodoId)
     {
         bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(todoId, subTodoId));
         if (isRemoved)
             Todo = await _mediator.Send(new GetTodoById(TodoId));
+
+        StateHasChanged();
     }
     private async Task SaveTodoChanges()
     {
@@ -152,6 +154,11 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
     private async Task CreateNewTodoItem(string todoId, string title)
     {
         var newTodoItem = await _mediator.Send(new CreateTodoItemCommand(todoId, title, "", "Description Null for now."));
+    }
+    private void OnAddTodoItemDialogClose(bool accepted)
+    {
+        AddTodoItemDialogOpen = false;
+        StateHasChanged();
     }
 }
 

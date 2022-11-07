@@ -70,19 +70,23 @@ namespace BlazorUI.Pages
         }
         protected override async Task OnInitializedAsync()
         {
-            base.OnInitialized();
             EditContext = new EditContext(CreateTodoModel);
-            var temp_username = CurrentUserService.CurrentUser.UserName;
-            Todos = await Mediator.Send(new GetTodosByUserId(temp_username));
+            await LoadData();
         }
         public async void SearchChanged(string value)
-        {
+        { 
             var getTodo= await Mediator.Send(new GetTodoById(value));
             if (getTodo == null)
                 TodoDetailsFromTodoSearch = null;
             TodoDetailsFromTodoSearch = getTodo;
         }
 
+        private async Task LoadData()
+        {
+            var temp_username = CurrentUserService.CurrentUser.UserName;
+            Todos = await Mediator.Send(new GetTodosByUserId(temp_username));
+            StateHasChanged();
+        }
         protected async void OnSubmit()
         {
             TodoType todoType =SelectedTodoTypeDropDownItem.ItemObject;
@@ -105,14 +109,22 @@ namespace BlazorUI.Pages
         {
             await Mediator.Send(new DeleteTodoCommand(todoId));
         }
-        protected void OnDeleteDialogClose(bool accepted)
+        protected async Task OnDeleteDialogClose(bool accepted)
         {
+            if(accepted)
+            {
+                await Mediator.Send(new DeleteTodoCommand(_todoToDelete.TodoId));
+                //await LoadData();
+
+                _todoToDelete = null;
+            }
             DeleteDialogOpen = false;
             StateHasChanged();
         }
-        protected void OpenDeleteDialog()
+        protected void OpenDeleteDialog(TodoDetailsDto todo)
         {
             DeleteDialogOpen = true;
+            _todoToDelete = todo;
             StateHasChanged();
         }
 
