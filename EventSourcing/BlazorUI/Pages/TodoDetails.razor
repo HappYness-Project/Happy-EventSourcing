@@ -35,7 +35,7 @@
         </div>
         <div class="col-8 row">
             <label>Description</label>
-            <textarea @bind="@Todo.Description" @bind:event="oninput">@Todo.Description</textarea>
+            <textarea @onchange="OnSelectDescChanged">@Todo.Description</textarea>
         </div>
         <br><br>
 
@@ -59,9 +59,11 @@
             }
         </div>
 
-        <button class="btn btn-success ml-2; col-8 row" type="submit" onsubmit="@SaveTodoChanges">Save Changes</button>
+        <button class="btn btn-success ml-2; col-8 row" type="button" @onclick="()=> SaveTodoChanges()">Save Changes</button>
     </div>
 </div>
+
+
 
 @if (DeleteTodoDialogOpen)
 {
@@ -75,9 +77,8 @@
 @*
 https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client/Services/CartService/CartService.cs
 <HP.GeneralUI.Dialog.TemplatedDialog Show="TodoState.ShowingConfigureDialog">
-</HP.GeneralUI.Dialog.TemplatedDialog>
-      # https://github.com/dotnet-architecture/eShopOnBlazor/blob/main/src/eShopOnBlazor/Pages/Catalog/Details.razor
-       *@
+</HP.GeneralUI.Dialog.TemplatedDialog>*@
+
 @code {
     [Parameter] public string TodoId { get; set; } = string.Empty;
     public TodoDetailsDto Todo { get; set; } = new();
@@ -95,9 +96,20 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
     protected override async Task OnInitializedAsync()
     {
         base.OnInitializedAsync();
+        newTodoTitle = Todo.TodoTitle;
+        newTodoDesc = Todo.Description;
+        newTodoType = Todo.TodoType;
         await LoadTodoData();
     }
-
+    protected async Task SaveTodoChanges()
+    {
+        Todo.TodoTitle = newTodoTitle;
+        Todo.Description = newTodoDesc;
+        Todo.TodoType = newTodoType;
+        bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.Description, null));
+        if (isUpdated)
+            await LoadTodoData();
+    }
 
     private async Task LoadTodoData()
     {
@@ -124,15 +136,7 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         if (isRemoved)
             await LoadTodoData();
     }
-    private async Task SaveTodoChanges()
-    {
-        Todo.TodoTitle = newTodoTitle;
-        Todo.Description = newTodoDesc;
-        Todo.TodoType = newTodoType;
-        bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.Description, null));
-        if (isUpdated)
-            Todo = await _mediator.Send(new GetTodoById(TodoId));
-    }
+
     private void OnAddTodoItemDialogClose(bool accepted)
     {
         AddTodoItemDialogOpen = false;

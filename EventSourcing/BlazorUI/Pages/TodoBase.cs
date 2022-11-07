@@ -106,7 +106,6 @@ namespace BlazorUI.Pages
             {
                 await Mediator.Send(new DeleteTodoCommand(_todoToDelete.TodoId));
                 //await LoadData();
-
                 _todoToDelete = null;
             }
             DeleteDialogOpen = false;
