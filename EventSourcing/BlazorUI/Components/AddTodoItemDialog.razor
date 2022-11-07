@@ -15,7 +15,7 @@
                 <p>@Text</p>
             </div>
             <div class="card-body">
-                <EditForm Model="@Todoitem" OnValidSubmit="@HandleValidSubmit">
+                <EditForm Model="@Todoitem" OnValidSubmit="HandleValidSubmit">
                     <DataAnnotationsValidator />
                     <div class="form-group">
                         <label for="dateInput">Date</label>
@@ -72,10 +72,10 @@
     }
     private Task ModalOk()
     {
+        var newTodoItem = _mediator.Send(new CreateTodoItemCommand(ParentTodo.TodoId,Todoitem.Title, Todoitem.TodoType,Todoitem.Description));
         return OnClose.InvokeAsync(true);
     }
     public async Task HandleValidSubmit()
     {
-        var newTodoItem = await _mediator.Send(new CreateTodoItemCommand(ParentTodo.TodoId,Todoitem.Title, Todoitem.TodoType,Todoitem.Description));
     }
 }
