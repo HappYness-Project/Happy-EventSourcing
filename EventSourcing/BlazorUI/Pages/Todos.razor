@@ -27,6 +27,7 @@
                     <td>
                         <button @onclick="@(() => OnClickViewDetails(@t.TodoId))">View Details</button>
                         <button @onclick="@(() => OnClickRemoveTodo(@t.TodoId))">Delete</button>
+                        <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog(t)">Delete Testing</button>
                     </td>
                 </tr>
             }
@@ -68,7 +69,7 @@
                             <td>
                                 <button @onclick="@(() => OnClickViewDetails(@TodoDetailsFromTodoSearch.TodoId))">View Details</button>
                                 <button @onclick="@(() => OnClickRemoveTodo(@TodoDetailsFromTodoSearch.TodoId))">Delete</button>
-                                <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Delete Testing</button>
+                                <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog(TodoDetailsFromTodoSearch)">Delete Testing</button>
                             </td>
                         </tr>
             

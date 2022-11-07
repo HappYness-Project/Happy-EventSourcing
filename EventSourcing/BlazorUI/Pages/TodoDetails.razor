@@ -64,7 +64,7 @@
 }
 @if(AddTodoItemDialogOpen)
 {
-    @*<AddTodoItemDialog Title="Adding new todo Item" Text="Adding Todo Item for Todo:[]" @onclick="() => OpenAdd"></AddTodoItemDialog>*@
+    <AddTodoItemDialog Title="Adding new todo Item" Text="Adding Todo Item for Todo:[]" @onclick="() => OpenAdd"></AddTodoItemDialog>
 }
 
 
@@ -95,6 +95,12 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         DeleteTodoDialogOpen = true;
         StateHasChanged();
     }
+    private void OnAddTodoItemDialogOpen(bool accepted)
+    {
+        AddTodoItemDialogOpen = true;
+        StateHasChanged();
+    }
+
     protected override async Task OnInitializedAsync()
     {
         base.OnInitializedAsync();
@@ -131,7 +137,6 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         if (isRemoved)
             Todo = await _mediator.Send(new GetTodoById(TodoId));
     }
-
     private async Task SaveTodoChanges()
     {
         Todo.TodoTitle = newTodoTitle;
@@ -144,7 +149,6 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         }
         //await _mediator.Send(new UpdateTodo(TodoId));
     }
-
     private async Task CreateNewTodoItem(string todoId, string title)
     {
         var newTodoItem = await _mediator.Send(new CreateTodoItemCommand(todoId, title, "", "Description Null for now."));
