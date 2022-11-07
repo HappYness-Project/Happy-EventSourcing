@@ -2,13 +2,13 @@
 @using HP.Application.Commands
 @using HP.Application.DTOs
 @using HP.Application.Queries.Todos
-@*@inject TodoState TodoState*@
 @inject MediatR.IMediator _mediator
 @inject IJSRuntime JS
 
 <div class="w-100">
     <h4 class="col-8 row" style="font-weight:bold">USER, @Todo.UserId</h4>
     <h3>Todo(@Todo.TodoId) Details</h3>
+    <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(Todo)">Create SubTodo</button>
     <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Dialog Delete Testing</button>
     <hr />
     <div class="col-8 row">
@@ -36,7 +36,6 @@
             <textarea  @bind="@Todo.Description" @bind:event="oninput">@Todo.Description</textarea>
         </div>
 
-        @*<button class="sign-button btn btn-primary" @onclick="TodoState.ShowConfigureTodoItemDialog">Create SubTodo</button>*@
 
         @if (Todo.SubTodos != null)
         {
@@ -64,16 +63,14 @@
 }
 @if(AddTodoItemDialogOpen)
 {
-    <AddTodoItemDialog Title="Adding new todo Item" Text="Adding Todo Item for Todo:[]" OnClose="@OnAddTodoItemDialogClose"></AddTodoItemDialog>
+    <AddTodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo = "@Todo" OnClose="@OnAddTodoItemDialogClose"></AddTodoItemDialog>
 }
-
 
 @*
 https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client/Services/CartService/CartService.cs
 <HP.GeneralUI.Dialog.TemplatedDialog Show="TodoState.ShowingConfigureDialog">
 </HP.GeneralUI.Dialog.TemplatedDialog>
       # https://github.com/dotnet-architecture/eShopOnBlazor/blob/main/src/eShopOnBlazor/Pages/Catalog/Details.razor
-       # 
        *@
 @code {
     [Parameter] public string TodoId { get; set; } = string.Empty;
@@ -88,21 +85,7 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
     [Parameter]
     public EventCallback OnSubmitCallback { get; set; }
 
-    private void OnDeleteDialogClose(bool accepted)
-    {
-        DeleteTodoDialogOpen = false;
-        StateHasChanged();
-    }
-    private void OpenDeleteDialog()
-    {
-        DeleteTodoDialogOpen = true;
-        StateHasChanged();
-    }
-    private void OnAddTodoItemDialogOpen(bool accepted)
-    {
-        AddTodoItemDialogOpen = true;
-        StateHasChanged();
-    }
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -115,9 +98,16 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         _StatusOptions.Add(status2);
         _StatusOptions.Add(status3);
         _StatusOptions.Add(status4);
+        await LoadTodoData();
+    }
+
+
+    private async Task LoadTodoData()
+    {
         Todo = await _mediator.Send(new GetTodoById(TodoId));
         StateHasChanged();
     }
+
     void StatusSelected(ChangeEventArgs e)
     {
         var getStatus = e.Value as string;
@@ -135,9 +125,7 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
     {
         bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(todoId, subTodoId));
         if (isRemoved)
-            Todo = await _mediator.Send(new GetTodoById(TodoId));
-
-        StateHasChanged();
+            await LoadTodoData();
     }
     private async Task SaveTodoChanges()
     {
@@ -146,18 +134,36 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         Todo.TodoType = newTodoType;
         bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.Description, null));
         if (isUpdated)
-        {
             Todo = await _mediator.Send(new GetTodoById(TodoId));
-        }
-        //await _mediator.Send(new UpdateTodo(TodoId));
-    }
-    private async Task CreateNewTodoItem(string todoId, string title)
-    {
-        var newTodoItem = await _mediator.Send(new CreateTodoItemCommand(todoId, title, "", "Description Null for now."));
     }
     private void OnAddTodoItemDialogClose(bool accepted)
     {
         AddTodoItemDialogOpen = false;
+        StateHasChanged();
+    }
+    private async void OnDeleteDialogClose(bool accepted)
+    {
+        if(accepted)
+        {
+            await _mediator.Send(new DeleteTodoCommand(Todo.TodoId));
+        }
+        DeleteTodoDialogOpen = false;
+        StateHasChanged();
+    }
+    private void OpenDeleteDialog()
+    {
+        DeleteTodoDialogOpen = true;
+        StateHasChanged();
+    }
+    private void OpenAddTodoItemDialog(TodoDetailsDto todo)
+    {
+        AddTodoItemDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private void OnAddTodoItemDialogOpen(bool accepted)
+    {
+        AddTodoItemDialogOpen = true;
         StateHasChanged();
     }
 }
