@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres
+
+  identity:
+    image: ${DOCKER_REGISTRY-}identity
+    build:
+      context: .
+      dockerfile: Identity/Dockerfile
+    depends_on:
+      - db
