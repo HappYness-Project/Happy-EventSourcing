@@ -3,52 +3,17 @@
 @using HP.Application.Queries
 @inject MediatR.IMediator _mediator
 
-<PageTitle>
-</PageTitle>
-<h1>Person List Displaying.</h1>
-<div class="container">
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in people)
-            {
-                <tr>
-                    <td>@p.FirstName</td>
-                    <td>@p.LastName</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+<PageTitle>Index Page Title</PageTitle>
 
 <div class="container">
-    <label>Person Information</label>
-    <input type="text" class="form-control" @onchange="OnChangedAsync" />
-    <h3 class="bg-secondary text-white">@UserNameInput</h3>
+    <BlazorUI.Components.Person.DisplayPersonList></BlazorUI.Components.Person.DisplayPersonList>
 </div>
 
+<div class="col-lg-4">
+    <BlazorUI.Components.Person.EditPersonForm></BlazorUI.Components.Person.EditPersonForm>
+</div>
 
+<div>&nbsp;</div>
 @code {
 
-    [Parameter]
-    public EventCallback<string> ValueChanged { get; set; }
-
-    public string UserNameInput { get; set; }
-    public async Task OnChangedAsync(ChangeEventArgs args)
-    {
-        UserNameInput = args.Value as string;
-        //StateHasChanged();
-    }
-
-
-    IEnumerable<PersonDetailsDto> people = new List<PersonDetailsDto>();
-    protected override async Task OnInitializedAsync()
-    {
-        people =  await _mediator.Send(new GetPersonList());
-    }
 }

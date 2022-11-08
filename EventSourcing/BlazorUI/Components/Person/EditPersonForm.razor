@@ -1,0 +1,37 @@
+﻿@using HP.Application.DTOs
+@inject MediatR.IMediator _mediator
+
+<div class="card">
+    <div class="card-header">
+        Testing
+    </div>
+    <div class="card-body">
+        <EditForm Model="@person" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <label for="dateInput">Date</label>
+            </div>
+            <div class="form-group">
+                <label for="dateInput">FirstName</label>
+            </div>
+            <div class="form-group">
+                <label for="dateInput">LastName</label>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+@code {
+    private PersonDetailsDto person { get; set; } = new();
+    public void HandleValidSubmit()
+    {
+        //person = await _mediator.Send(new GetPersonById(id));
+    }
+
+}
