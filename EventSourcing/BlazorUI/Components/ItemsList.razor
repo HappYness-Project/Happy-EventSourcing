@@ -1,4 +1,6 @@
-﻿<div>
+﻿<div class="w-100">
+
+    <CascadingValue Value="UserItems.Count">
     @foreach (var item in UserItems)
     {
         switch (item)
@@ -49,7 +51,6 @@
                 </CascadingValue>
                 break;
         }
-
-
     }
+    </CascadingValue>
 </div>

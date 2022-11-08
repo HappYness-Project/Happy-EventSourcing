@@ -1,0 +1,33 @@
+﻿@using HP.Application.DTOs
+
+
+<div class="subtodo-dialog-title">
+    <h2>@Todo.TodoId, @Todo.TodoTitle </h2>
+</div>
+<form class="subtodo-dialog-body">
+    <div>
+        <label>Sub Todo Create</label>
+        <div>
+            <label>Sub Todo Title Name : </label>
+            <input />
+        </div>
+        <label>Description</label>
+        <textarea></textarea>
+        <label>Todo Type: </label>
+    </div>
+</form>
+
+
+<div class="subtodo-dialog-buttons">
+    <button class="btn btn-secondary mr-auto" @onclick="OnCancel">Cancel</button>
+    <span class="mr-center">
+    </span>
+    <button class="btn btn-success ml-auto" @onclick="OnConfirm">Order ></button>
+</div>
+
+@code {
+    [Parameter] public TodoDetailsDto Todo { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set;}
+    [Parameter] public EventCallback OnConfirm { get; set; }
+
+}

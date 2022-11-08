@@ -2,14 +2,14 @@
 
 
 <div class="item-element">
-    <div class="item-element-main @ColorPrefix-background">
+    <div class="item-element-main @(Item.IsDone ? ColorPrefix+"-background-disabled" : ColorPrefix+"-background")">
         <div class="check-container">
             <div class="checkbox">
                 <ItemCheckBox Item="Item"></ItemCheckBox>
             </div>
         </div>
         <div class="main-container">
-            <div class="main-fragment">
+            <div class="main-fragment @(Item.IsDone ? "crossed-out" : "")">
                 @MainFragment
 
             </div>
@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="collapse w-100" id="@DetailAreaId">
-        <div class="detail-fragment" @ColorPrefix-border-color">
+        <div class="detail-fragment @(Item.IsDone ? ColorPrefix+"border-color-disabled" : ColorPrefix+"-border-color")">
             @DetailFragment
 
         </div>

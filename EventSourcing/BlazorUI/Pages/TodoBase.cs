@@ -1,10 +1,11 @@
-﻿//using HP.Api.Requests;
+﻿using HP.Application.Commands;
 using HP.Application.DTOs;
 using HP.Application.Handlers;
 using HP.Application.Queries.Todos;
 using HP.Domain;
 using HP.GeneralUI.DropdownControl;
 using HP.Shared;
+using HP.Shared.Contacts;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -15,66 +16,77 @@ namespace BlazorUI.Pages
     {
         [Inject]
         public IMediator Mediator { get; set; }
-
         [Inject]
-        public NavigationManager NavigationManager {get; set; }
-
+        public NavigationManager NavigationManager { get; set; }
+        [Inject]
+        private ICurrentUserService CurrentUserService { get; set; }
         [Parameter]
-        public string TodoId {get; set;}
-
-        public TodoDetailsDto TodoDetails { get; private set; }
-        public string Result { get; set; }
-        public IEnumerable<TodoBasicInfoDto> Todos { get; set; }
+        public string TodoId { get; set; }
+        public TodoDetailsDto TodoDetails { get; private set; } = new();
+        public TodoDetailsDto TodoDetailsFromTodoSearch { get; private set; }
+        public IEnumerable<TodoDetailsDto> Todos { get; set; } = new List<TodoDetailsDto>();
+        private TodoDetailsDto _todoToDelete;
         protected EditContext EditContext { get; set; }
         protected CreateTodoModel CreateTodoModel { get; set; } = new();
+
         protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
         protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
-
+        protected IList<DropdownItem<TodoStatus>> TodoStatusEnums { get; } = new List<DropdownItem<TodoStatus>>();
+        protected DropdownItem<TodoStatus> SelectedTodoStatusDropDownItem { get; set; }
+        public bool DeleteDialogOpen { get; set;}
+        public string TodoIdInput { get; set; }
         public TodoBase()
         {
+            foreach (TodoType type in TodoType.List())
+            {
+                var ddItem = new DropdownItem<TodoType>
+                {
+                    ItemObject = type,
+                    DisplayText = type.Name
+                };
+                TodoTypeEnums.Add(ddItem);
+            }
 
-            var todoInfo = new DropdownItem<TodoType>
+            foreach (TodoStatus type in TodoStatus.List())
             {
-                ItemObject = TodoType.Work,
-                DisplayText = "Work"
-            };
-            var todoInfo2 = new DropdownItem<TodoType>
-            {
-                ItemObject = TodoType.Research,
-                DisplayText = "Research"
-            };
-            var todoInfo3 = new DropdownItem<TodoType>
-            {
-                ItemObject = TodoType.Others,
-                DisplayText = "Others"
-            };
-            var todoInfo4 = new DropdownItem<TodoType>
-            {
-                ItemObject = TodoType.Chores,
-                DisplayText = "Chores"
-            };
-            TodoTypeEnums.Add(todoInfo);
-            TodoTypeEnums.Add(todoInfo2);
-            TodoTypeEnums.Add(todoInfo3);
-            TodoTypeEnums.Add(todoInfo4);
-            SelectedTodoTypeDropDownItem = todoInfo3;
+                var ddStatus = new DropdownItem<TodoStatus>
+                {
+                    ItemObject = type,
+                    DisplayText = type.Name
+                };
+                TodoStatusEnums.Add(ddStatus);
+            }
+            SelectedTodoTypeDropDownItem = TodoTypeEnums[0];
+            SelectedTodoStatusDropDownItem = TodoStatusEnums[0];
         }
         protected override async Task OnInitializedAsync()
         {
-            base.OnInitialized();
-            Todos = new List<TodoBasicInfoDto>();
             EditContext = new EditContext(CreateTodoModel);
-            Todos = await Mediator.Send(new GetTodos());
-            TodoId = string.Empty;
+            await LoadData();
+        }
+        public async void SearchChanged(string value)
+        { 
+            var getTodo= await Mediator.Send(new GetTodoById(value));
+            if (getTodo == null)
+                TodoDetailsFromTodoSearch = null;
+            TodoDetailsFromTodoSearch = getTodo;
+        }
+
+        private async Task LoadData()
+        {
+            var temp_username = CurrentUserService.CurrentUser.UserName;
+            Todos = await Mediator.Send(new GetTodosByUserId(temp_username));
+            StateHasChanged();
         }
         protected async void OnSubmit()
         {
             TodoType todoType =SelectedTodoTypeDropDownItem.ItemObject;
             TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CreateTodoModel.UserId, CreateTodoModel.Title, todoType.Name,CreateTodoModel.Description));
+            NavigationManager.NavigateTo("todos");
         }
-        protected void OnClickViewDetails()
+        protected void OnClickViewDetails(string todoId)
         {
-            NavigationManager.NavigateTo($"todos/{TodoId}");
+            NavigationManager.NavigateTo($"todos/details/{todoId}");
         }
         protected void OnClickGoToCreateTodo()
         {
@@ -84,6 +96,29 @@ namespace BlazorUI.Pages
         {
             return null;
         }
+        protected async void OnClickRemoveTodo(string todoId)
+        {
+            await Mediator.Send(new DeleteTodoCommand(todoId));
+        }
+        protected async Task OnDeleteDialogClose(bool accepted)
+        {
+            if(accepted)
+            {
+                await Mediator.Send(new DeleteTodoCommand(_todoToDelete.TodoId));
+                //await LoadData();
+                _todoToDelete = null;
+            }
+            DeleteDialogOpen = false;
+            StateHasChanged();
+        }
+        protected void OpenDeleteDialog(TodoDetailsDto todo)
+        {
+            DeleteDialogOpen = true;
+            _todoToDelete = todo;
+            StateHasChanged();
+        }
+
+
 
     }
 }

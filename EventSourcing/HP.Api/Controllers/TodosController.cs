@@ -24,7 +24,6 @@ namespace HP.Controllers
         {
             return Ok(await _mediator.Send(new GetTodos()));
         }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTodo(string id, CancellationToken token = default)
         {
@@ -55,10 +54,10 @@ namespace HP.Controllers
             return Ok(todo);
         }
 
-        [HttpGet, Route("users/{id}", Name = "GetTodosByUser")]
+        [HttpGet("users/{id}")]
         public async Task<IActionResult> GetTodosByUser([FromRoute]string id, CancellationToken token = default)
         {
-            var todo = await _mediator.Send(new GetTodoById(id), token);
+            var todo = await _mediator.Send(new GetTodosByUserId(id), token);
             if (todo == null)
                 return NotFound();
 

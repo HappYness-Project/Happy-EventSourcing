@@ -1,0 +1,25 @@
+﻿@import '../_bootstrap-global.scss';
+@import '../../bootstrap/scss/_forms.scss';
+
+
+
+.item-edit-info{
+    display: flex;
+    flex-direction: row;
+    margin-bottom:24px;
+}
+
+.item-edit-info-text {
+    flex: 1 1 auto
+}
+
+.item-edit-info-count {
+    flex: 1 1 auto;
+    text-align: right
+}
+
+.item-edit-input {
+    @extend .form-control;
+    width: 100%;
+    margin-bottom : 12px;
+}

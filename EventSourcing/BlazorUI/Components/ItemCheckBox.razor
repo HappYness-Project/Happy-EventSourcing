@@ -5,7 +5,7 @@
     <div class="outer-container" @onclick="@(() => Item.IsDone = !Item.IsDone)">
         @if(Item.IsDone)
         {
-            <div class="inner-container"></div>
+            <div class="inner-container @ColorPrefix-background"></div>
         }
     </div>
 </div>

@@ -13,6 +13,22 @@
     border-radius: 0;
 }
 
+.todo-element {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.todo-element-main {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 80px;
+    color: black;
+    border-radius: 0;
+}
+
+
+
 .check-container {
     flex: 0 0 80px;
     display: flex;

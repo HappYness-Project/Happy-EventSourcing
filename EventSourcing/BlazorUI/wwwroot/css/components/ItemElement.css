@@ -2,7 +2,6 @@
   margin-top: 20px;
   margin-bottom: 20px;
   width: 100%;
-  background: blue;
 }
 
 .item-element-main {
@@ -11,6 +10,21 @@
   flex-direction: row;
   height: 80px;
   color: white;
+  border-radius: 0;
+}
+
+.todo-element {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.todo-element-main {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 80px;
+  color: black;
   border-radius: 0;
 }
 
@@ -51,4 +65,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.detail-fragment {
+  border-width: 2px;
+  border-style: solid;
+  border-top: 0;
+  width: 100%;
+  padding: 10px 0;
 }
