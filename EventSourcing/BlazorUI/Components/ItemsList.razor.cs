@@ -10,7 +10,6 @@ namespace BlazorUI.Components
     {
         [Inject]
         private ICurrentUserService CurrentUserService { get; set; }
-
         //protected ObservableCollection<TodoBasicInfoDto> TodoItems { get; set; } = new ObservableCollection<TodoBasicInfoDto>();
         protected ObservableCollection<BaseItem> UserItems { get; set; } = new ObservableCollection<BaseItem>();
 

@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace HP.Shared
 {
     public class BaseEntity
@@ -19,16 +18,12 @@ namespace HP.Shared
         public bool IsDone { get; set; }
         public string Title { get; set; }
     }
-
     public class TextItem : BaseItem
     {
         public string SubTitle { get; set; }
         public string Desc { get; set; }
     }
-    public class ChildItem : BaseItem
-    {
-
-    }
+    public class ChildItem : BaseItem { }
     public class ParentItem : BaseItem
     {
         public ObservableCollection<ChildItem> ChildItems { get; set; }
