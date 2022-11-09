@@ -60,7 +60,6 @@
     [Parameter] public string Text { get; set; }
     [Parameter] public TodoDetailsDto ParentTodo { get; set; } = new();
     [Parameter] public EventCallback<bool> OnClose { get; set; }
-    [Parameter] public EventCallback OnSubmitCallback { get; set; }
     public CreateTodoItemModel Todoitem { get; set; } = new();
 
     private Task ModalCancel()
@@ -76,4 +75,5 @@
     {
         var newTodoItem = _mediator.Send(new CreateTodoItemCommand(ParentTodo.TodoId,Todoitem.Title, Todoitem.TodoType,Todoitem.Description));
     }
+
 }
