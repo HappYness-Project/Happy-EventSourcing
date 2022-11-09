@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace HP.Shared
 {
-    public class CreateTodoItemModel
+    public class CreateTodoItemModel : BaseEntity
     {
         [Required]
         public string TodoId { get; set; }
@@ -10,6 +10,9 @@ namespace HP.Shared
         public string Title { get; set; }
         public string Description { get; set; }
         public string TodoType { get; set; }
-        
+        public string TodoStatus { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime CompletedDate { get; set; }
+        public DateTime TargetDate { get; set; }
     }
 }

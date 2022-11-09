@@ -20,14 +20,17 @@
         </div>
         <div style="margin-bottom: 0.5rem;">
             <label>Todo Type: </label>
-            <select @onchange="TypeSelected">
-                @{
-                    foreach (var type in TodoType.List())
-                    {
-                        <option value="@type">@type</option>
+            <div class="todo-select" style="width:200px;">
+                <select  @onchange="TypeSelected">
+                    @{
+                        foreach (var type in TodoType.List())
+                        {
+                            <option value="@type">@type</option>
+                        }
                     }
-                }
-            </select>
+                </select>
+            </div>
+
         </div>
         <div style="margin-bottom: 1rem;">
             <label>Todo Status: </label>

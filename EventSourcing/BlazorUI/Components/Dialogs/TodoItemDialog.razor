@@ -1,9 +1,10 @@
-﻿@using HP.Application.DTOs
+﻿@using HP.Application.Commands
+@using HP.Application.DTOs
 @using HP.Shared
 @inject MediatR.IMediator _mediator
 
 
-<div class="modal fade show" id="myModal" style="display:block; background-color: rgba(10,10,10,.8);" arial-modal="true" role="dialog" >
+<div class="modal fade show" id="myModal" style="display:block; background-color: rgba(10,10,10,.8);" arial-modal="true" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,37 +17,69 @@
             </div>
 
             <div class="subtodo-dialog-body">
-                <EditForm Model="@Todoitem" OnValidSubmit="HandleValidSubmit">
-                    <DataAnnotationsValidator />
-                    <div class="form-group">
-                        <label for="dateInput">Date</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="Title">Title</label>
-                        <InputText class="form-control" id="titleInput" @bind-Value = "Todoitem.Title" />
-                    </div>
-                    <div class="form-group">
-                        <label for="Description">Description</label>
-                        <InputText class="form-control" id="titleInput" @bind-Value = "Todoitem.Description" />
-                    </div>
-                    <div class="form-group">
-                        <label for="typeInput">Type</label>
-                        <InputSelect class="form-control" id="typeInput" @bind-Value="Todoitem.TodoType">
-                            @{
-                                foreach(var type in TodoType.List())
-                                {
+                @if (TodoItemDialogType == DialogType.Create)
+                {
+                    <EditForm Model="@Todoitem">
+                        <DataAnnotationsValidator />
+                        <div class="form-group">
+                            <label for="Title">Title</label>
+                            <InputText class="form-control" id="titleInput" @bind-Value="Todoitem.Title" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Description">Description</label>
+                            <InputText class="form-control" id="titleInput" @bind-Value="Todoitem.Description" />
+                        </div>
+                        <div class="form-group">
+                            <label for="typeInput">Type</label>
+                            <InputSelect class="form-control" id="typeInput" @bind-Value="Todoitem.TodoType">
+                                @{
+                                    foreach (var type in TodoType.List())
+                                    {
                                     <option value="@type">@type</option>
-                                }
+                                    }
                             }
                         </InputSelect>
                     </div>
-
+                    <div class="form-group">
+                        <label for="dateInput">Start Date</label>
+                        <InputDate class="form-control" id="dateInput" @bind-Value="Todoitem.StartDate"></InputDate>
+                    </div>
                 </EditForm>
+                }
+                else if (TodoItemDialogType == DialogType.Update)
+                {
+                    <EditForm Model="@SelectedTodoItem">
+                        <DataAnnotationsValidator />
+                        <div class="form-group">
+                            <label for="Title">Title</label>
+                            <InputText class="form-control" id="titleInput" @bind-Value="SelectedTodoItem.Title" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Description">Description</label>
+                            <InputText class="form-control" id="titleInput" @bind-Value="SelectedTodoItem.Description" />
+                        </div>
+                        <div class="form-group">
+                            <label for="typeInput">Type</label>
+                            <InputSelect class="form-control" id="typeInput" @bind-Value="SelectedTodoItem.TodoType">
+                                @{
+                                    foreach (var type in TodoType.List())
+                                    {
+                                    <option value="@type">@type</option>
+                                    }
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateInput">Start Date</label>
+                        <InputDate class="form-control" id="dateInput" @bind-Value="Todoitem.StartDate"></InputDate>
+                    </div>
+                </EditForm>
+                }
             </div>
 
-
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @onclick="@ModalOk" >Ok</button>
+                <button type="submit" class="btn btn-primary" @onclick="@OnClickTodoItem">@(TodoItemDialogType == DialogType.Create ? "Create" : "Update")</button>
+                <button type="submit" class="btn btn-warning" @onclick="@ModalCancel">Cancel</button>
             </div>
         </div>
     </div>
@@ -59,22 +92,45 @@
 @code {
     [Parameter] public string Title { get; set; }
     [Parameter] public string Text { get; set; }
+    [Parameter] public DialogType TodoItemDialogType { get; set; }
     [Parameter] public TodoDetailsDto ParentTodo { get; set; } = new();
     [Parameter] public EventCallback<bool> OnClose { get; set; }
+    [Parameter] public TodoItem SelectedTodoItem { get; set; }
     public CreateTodoItemModel Todoitem { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (TodoItemDialogType == DialogType.Create)
+        {
+            SelectedTodoItem = new(null, null, null);
+        }
+    }
 
     private Task ModalCancel()
     {
         return OnClose.InvokeAsync(false);
     }
-    private Task ModalOk()
+    private Task CreateTodoItem()
     {
-        var newTodoItem = _mediator.Send(new CreateTodoItemCommand(ParentTodo.TodoId,Todoitem.Title, Todoitem.TodoType,Todoitem.Description));
         return OnClose.InvokeAsync(true);
     }
-    public async Task HandleValidSubmit()
+    private async Task OnClickTodoItem()
     {
-        var newTodoItem = _mediator.Send(new CreateTodoItemCommand(ParentTodo.TodoId,Todoitem.Title, Todoitem.TodoType,Todoitem.Description));
+        if(TodoItemDialogType == DialogType.Create)
+        {
+            await _mediator.Send(new CreateTodoItemCommand(ParentTodo.TodoId, Todoitem.Title, Todoitem.TodoType, Todoitem.Description));
+        }
+        else if(TodoItemDialogType == DialogType.Update)
+        {
+            await _mediator.Send(new UpdateTodoItemCommand(ParentTodo.TodoId, SelectedTodoItem.Id, SelectedTodoItem.Title, SelectedTodoItem.Description, SelectedTodoItem.TodoType));
+        }
+        await OnClose.InvokeAsync(true);
+    }
+
+    public enum DialogType
+    {
+        Create,
+        Update,
     }
 
 }

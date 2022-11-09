@@ -17,7 +17,7 @@
                     <p class="card-text">
                         <code>@subtodo.Description</code>:
                     </p>
-                    <button class="btn btn-primary" @onclick="() => OpenUpdateTodoItemDialog(Todo)">Update</button>
+                    <button class="btn btn-primary" @onclick="() => OpenUpdateTodoItemDialog(Todo, subtodo)">Update</button>
                     <button class="btn btn-danger" @onclick="() => DeleteTodoSubItem(Todo.TodoId, subtodo.Id)">Remove</button>
                 </div>
             </div>
@@ -28,12 +28,15 @@
 
 @if (UpdateTodoItemDialogOpen)
 {
-    <TodoItemDialog Title="Update TodoItem" Text="SubTodoItem" ParentTodo="@Todo" OnClose="@OnUpdateTodoItemDialogClose"></TodoItemDialog>
+    <TodoItemDialog Title="Update TodoItem" Text="@SelectTodoItem.Id" ParentTodo="@Todo" SelectedTodoItem="@SelectTodoItem" OnClose="@OnUpdateTodoItemDialogClose" TodoItemDialogType=TodoItemDialog.DialogType.Update></TodoItemDialog>
     @*<TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo="@Todo" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>*@
 }
+
 @code {
     [Parameter] public TodoDetailsDto Todo { get; set; }
+    public TodoItem SelectTodoItem { get; set; }
     public bool UpdateTodoItemDialogOpen { get; set; } = false;
+
     private async Task DeleteTodoSubItem(string todoId, string subTodoId)
     {
         bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(todoId, subTodoId));
@@ -43,20 +46,22 @@
     private async Task UpdateTodoSubItem(string subTodoId)
     {
         // Update Todo Item Popup screen.
-    //    var check = await _mediator.Send(new UpdateTodoItemCommand())
+        //    var check = await _mediator.Send(new UpdateTodoItemCommand())
     }
     private async Task LoadTodoData()
     {
         Todo = await _mediator.Send(new GetTodoById(Todo.TodoId));
         StateHasChanged();
     }
-    private void OpenUpdateTodoItemDialog(TodoDetailsDto todo)
+    private void OpenUpdateTodoItemDialog(TodoDetailsDto todo, TodoItem todoItem)
     {
+        SelectTodoItem = todoItem;
         UpdateTodoItemDialogOpen = true;
         StateHasChanged();
     }
     private void OnUpdateTodoItemDialogClose(bool accepted)
     {
+        SelectTodoItem = null;
         UpdateTodoItemDialogOpen = false;
         StateHasChanged();
     }
