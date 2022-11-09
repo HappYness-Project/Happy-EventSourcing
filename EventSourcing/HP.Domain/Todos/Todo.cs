@@ -68,6 +68,17 @@ namespace HP.Domain
             SubTodos.Remove(todoItem);
             this.AddDomainEvent(new TodoDomainEvents.TodoItemRemoved(todoItemId));
         }
+        public void UpdateTodoItem(string todoItemId, string newTitle, string newDesc, string newType)
+        {
+            var todoItem = SubTodos.FirstOrDefault(x => x.Id == todoItemId);
+            if (todoItem == null)
+                throw new Exception($"[Domain Excecption]Not Found TodoItem : {todoItemId}");
+
+            todoItem.Title = newTitle;
+            todoItem.Description = newDesc;
+            todoItem.TodoType = newType;
+            this.AddDomainEvent(new TodoDomainEvents.TodoItemUpdated(todoItemId));
+        }
         protected override void When(IDomainEvent @event)
         {
             switch(@event)
