@@ -1,22 +1,25 @@
-﻿@using HP.Application.DTOs
+﻿@using HP.Application.Commands
+@using HP.Application.DTOs
 @inject MediatR.IMediator _mediator
 
 <div class="card">
     <div class="card-header">
-        Testing
+        Update Person.
     </div>
     <div class="card-body">
         <EditForm Model="@person" OnValidSubmit="@HandleValidSubmit">
             <DataAnnotationsValidator />
             <ValidationSummary />
             <div class="form-group">
-                <label for="dateInput">Date</label>
+                <label for="dateInput">User ID: @person.UserId</label>
             </div>
             <div class="form-group">
                 <label for="dateInput">FirstName</label>
+                <InputText class="form-check control mx-2" @bind-Value="person.FirstName"/>
             </div>
             <div class="form-group">
                 <label for="dateInput">LastName</label>
+                <InputText class="form-check control mx-2" @bind-Value="person.LastName"/>
             </div>
 
             <div>
@@ -28,10 +31,15 @@
 
 
 @code {
-    private PersonDetailsDto person { get; set; } = new();
-    public void HandleValidSubmit()
+    [Parameter] public PersonDetailsDto person { get; set; } = new();
+    [Parameter] public EventCallback OnSubmitCallback { get; set; }
+
+    public async void HandleValidSubmit()
     {
-        //person = await _mediator.Send(new GetPersonById(id));
+        var check = await _mediator.Send(new UpdatePersonCommand(person.UserId, person.FirstName, person.LastName, person.Email));
+        await OnSubmitCallback.InvokeAsync();
     }
+
+
 
 }

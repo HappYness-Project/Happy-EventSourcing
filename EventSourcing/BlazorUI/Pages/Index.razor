@@ -10,10 +10,26 @@
 </div>
 
 <div class="col-lg-4">
-    <BlazorUI.Components.Person.EditPersonForm></BlazorUI.Components.Person.EditPersonForm>
+    <BlazorUI.Components.Person.EditPersonForm OnSubmitCallback="@Refresh" ></BlazorUI.Components.Person.EditPersonForm>
 </div>
 
-<div>&nbsp;</div>
 @code {
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public PersonDetailsDto MainUser { get; set; }
+    IEnumerable<PersonDetailsDto> people = new List<PersonDetailsDto>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+        MainUser = await _mediator.Send(new GetPersonUserId("hyunbin7303"));
+    }
+    private async Task LoadData()
+    {
+        people =  await _mediator.Send(new GetPersonList());
+        StateHasChanged();
+    }
+    public async void Refresh()
+    {
+        await LoadData();
+    }
 }
