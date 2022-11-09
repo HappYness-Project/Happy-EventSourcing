@@ -1,6 +1,6 @@
 ﻿using HP.Domain;
 using MediatR;
-namespace HP.Application.Handlers
+namespace HP.Application.Commands
 {
     public record CompletedTodoCommand(string TodoId) : IRequest<bool>;
     public class CompletedTodoCommandHandler : IRequestHandler<CompletedTodoCommand, bool>

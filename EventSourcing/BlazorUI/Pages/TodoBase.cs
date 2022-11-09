@@ -1,6 +1,5 @@
 ﻿using HP.Application.Commands;
 using HP.Application.DTOs;
-using HP.Application.Handlers;
 using HP.Application.Queries.Todos;
 using HP.Domain;
 using HP.GeneralUI.DropdownControl;

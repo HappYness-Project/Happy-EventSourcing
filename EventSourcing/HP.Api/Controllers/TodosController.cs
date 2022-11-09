@@ -1,6 +1,5 @@
 ﻿using HP.Api.Requests;
 using HP.Application.Commands;
-using HP.Application.Handlers;
 using HP.Application.Queries.Todos;
 using HP.Domain;
 using MediatR;

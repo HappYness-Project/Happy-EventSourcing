@@ -4,7 +4,7 @@ using HP.Application.DTOs;
 using HP.Domain;
 using MediatR;
 
-namespace HP.Application.Handlers
+namespace HP.Application.Commands
 {
     public record CreateTodoCommand(string UserId, string TodoTitle, string TodoType, string Description = null,  string[] Tag = null) : CommandBase<TodoDetailsDto>;
     public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, TodoDetailsDto>
