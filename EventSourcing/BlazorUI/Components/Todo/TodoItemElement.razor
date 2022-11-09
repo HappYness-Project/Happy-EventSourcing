@@ -1,0 +1,40 @@
+﻿@using HP.Application.Commands
+@using HP.Application.DTOs
+@using HP.Application.Queries.Todos
+@inject MediatR.IMediator _mediator
+<h4>Sub Items</h4>
+<div class="col-8 row">
+    @if (Todo.SubTodos != null)
+    {
+        @foreach (var subtodo in Todo.SubTodos)
+        {
+            <div class="card bg-light mt-3" style="width:22rem ">
+                <div class="card-body">
+                    <h3 class="card-title">Title:@subtodo.Title </h3>
+                    <p class="card-text">
+                        <code>@subtodo.Description</code>:
+                    </p>
+                    <button>Update TodoItem</button>
+                    <button @onclick="() => DeleteTodoSubItem(Todo.TodoId, subtodo.Id)">Remove</button>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+@code {
+    [Parameter] public TodoDetailsDto Todo { get; set; }
+
+    private async Task DeleteTodoSubItem(string todoId, string subTodoId)
+    {
+        bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(todoId, subTodoId));
+        if (isRemoved)
+            await LoadTodoData();
+    }
+    private async Task LoadTodoData()
+    {
+        Todo = await _mediator.Send(new GetTodoById(Todo.TodoId));
+        StateHasChanged();
+    }
+}

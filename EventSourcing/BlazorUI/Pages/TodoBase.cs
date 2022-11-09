@@ -110,7 +110,6 @@ namespace BlazorUI.Pages
             DeleteDialogOpen = true;
             _todoToDelete = todo;
             await LoadData();
-            StateHasChanged();
         }
     }
 }

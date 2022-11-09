@@ -38,27 +38,10 @@
             <textarea @onchange="OnSelectDescChanged">@Todo.Description</textarea>
         </div>
         <br><br>
-
-        <h4>Sub Items</h4>
-        <div class="col-8 row">
-            @if (Todo.SubTodos != null)
-            {
-                @foreach (var subtodo in Todo.SubTodos)
-                {
-                    <div class="card bg-light mt-3" style="width:22rem ">
-                        <div class="card-body">
-                            <h3 class="card-title">Title:@subtodo.Title </h3>
-                            <p class="card-text">
-                                <code>@subtodo.Description</code>:
-                            </p>
-                            <button>Update TodoItem</button>
-                            <button @onclick="() => DeleteTodoSubItem(Todo.TodoId, subtodo.Id)">Remove</button>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-
+        @if (Todo.SubTodos != null)
+        {
+            <TodoItemElement Todo = "@Todo"></TodoItemElement>
+        }
         <button class="btn btn-success ml-2; col-8 row" type="button" @onclick="()=> SaveTodoChanges()">Save Changes</button>
     </div>
 </div>
