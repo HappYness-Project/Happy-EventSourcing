@@ -11,12 +11,15 @@ namespace BlazorUI.Components
     public partial class TodosList : ComponentBase
     {
         [Inject]
+        private ICurrentUserService CurrentUserService { get; set; }
+
+        [Inject]
         public IMediator Mediator { get; set; }
         protected ObservableCollection<TodoDetailsDto> Todos { get; set; } = new ObservableCollection<TodoDetailsDto>();
         protected override async void OnInitialized()
         {
             base.OnInitializedAsync();
-            var check =  Mediator.Send(new GetTodos());
+            //Todos = CurrentUserService.CurrentUser.TodoItems;
         }
 
     }

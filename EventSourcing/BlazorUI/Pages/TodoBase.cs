@@ -28,7 +28,6 @@ namespace BlazorUI.Pages
         private TodoDetailsDto _todoToDelete;
         protected EditContext EditContext { get; set; }
         protected CreateTodoModel CreateTodoModel { get; set; } = new();
-
         protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
         protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
         protected IList<DropdownItem<TodoStatus>> TodoStatusEnums { get; } = new List<DropdownItem<TodoStatus>>();
@@ -71,7 +70,6 @@ namespace BlazorUI.Pages
                 TodoDetailsFromTodoSearch = null;
             TodoDetailsFromTodoSearch = getTodo;
         }
-
         private async Task LoadData()
         {
             var temp_username = CurrentUserService.CurrentUser.UserName;
@@ -96,10 +94,6 @@ namespace BlazorUI.Pages
         {
             return null;
         }
-        protected async void OnClickRemoveTodo(string todoId)
-        {
-            await Mediator.Send(new DeleteTodoCommand(todoId));
-        }
         protected async Task OnDeleteDialogClose(bool accepted)
         {
             if(accepted)
@@ -111,14 +105,12 @@ namespace BlazorUI.Pages
             DeleteDialogOpen = false;
             StateHasChanged();
         }
-        protected void OpenDeleteDialog(TodoDetailsDto todo)
+        protected async void OpenDeleteDialog(TodoDetailsDto todo)
         {
             DeleteDialogOpen = true;
             _todoToDelete = todo;
+            await LoadData();
             StateHasChanged();
         }
-
-
-
     }
 }

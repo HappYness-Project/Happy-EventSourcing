@@ -52,7 +52,7 @@
                                 <code>@subtodo.Description</code>:
                             </p>
                             <button>Update TodoItem</button>
-                            <button>Remove</button>
+                            <button @onclick="() => DeleteTodoSubItem(Todo.TodoId, subtodo.Id)">Remove</button>
                         </div>
                     </div>
                 }
@@ -75,31 +75,26 @@
 }
 
 @*
-https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client/Services/CartService/CartService.cs
+
 <HP.GeneralUI.Dialog.TemplatedDialog Show="TodoState.ShowingConfigureDialog">
 </HP.GeneralUI.Dialog.TemplatedDialog>*@
 
 @code {
+    [Inject] private NavigationManager NavigationManager { get; set; }
     [Parameter] public string TodoId { get; set; } = string.Empty;
+    [Parameter] public EventCallback OnSubmitCallback { get; set; }
     public TodoDetailsDto Todo { get; set; } = new();
     public string newTodoTitle { get; set; }
     public string newTodoDesc { get; set; }
     public string newTodoType { get; set; }
     public bool DeleteTodoDialogOpen { get; set; }
     public bool AddTodoItemDialogOpen { get; set; }
-    [Parameter]
-    public EventCallback OnSubmitCallback { get; set; }
-
-    [Inject]
-    private NavigationManager NavigationManager { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
-        base.OnInitializedAsync();
+        await LoadTodoData();
         newTodoTitle = Todo.TodoTitle;
         newTodoDesc = Todo.Description;
         newTodoType = Todo.TodoType;
-        await LoadTodoData();
     }
     protected async Task SaveTodoChanges()
     {
@@ -110,18 +105,15 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         if (isUpdated)
             await LoadTodoData();
     }
-
     private async Task LoadTodoData()
     {
         Todo = await _mediator.Send(new GetTodoById(TodoId));
         StateHasChanged();
     }
-
-    void StatusSelected(ChangeEventArgs e)
+    private void StatusSelected(ChangeEventArgs e)
     {
         var getStatus = e.Value as string;
     }
-
     private void OnSelectTitleChanged(ChangeEventArgs args)
     {
         newTodoTitle = args.Value as string;
@@ -136,7 +128,6 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         if (isRemoved)
             await LoadTodoData();
     }
-
     private void OnAddTodoItemDialogClose(bool accepted)
     {
         AddTodoItemDialogOpen = false;
@@ -162,7 +153,6 @@ https://github.com/patrickgod/BlazorEcommerce/blob/master/BlazorEcommerce/Client
         AddTodoItemDialogOpen = true;
         StateHasChanged();
     }
-
     private void OnAddTodoItemDialogOpen(bool accepted)
     {
         AddTodoItemDialogOpen = true;

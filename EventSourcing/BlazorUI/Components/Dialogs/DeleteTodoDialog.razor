@@ -31,15 +31,10 @@
 </div>
 
 @code {
-    [Parameter]
-    public string Title { get; set; }
-    [Parameter]
-    public string Text { get; set; }
-    [Parameter]
-    public EventCallback<bool> OnClose { get; set; }
-    [Parameter]
-    public DeleteDialogType DialogType { get; set; }
-
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string Text { get; set; }
+    [Parameter] public EventCallback<bool> OnClose { get; set; }
+    [Parameter] public DeleteDialogType DialogType { get; set; }
     private Task ModalCancel()
     {
         return OnClose.InvokeAsync(false);
