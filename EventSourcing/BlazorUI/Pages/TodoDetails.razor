@@ -6,21 +6,30 @@
 @inject IJSRuntime JS
 
 <div class="w-100">
+
+    <button type="button" class="previous"></button>
     <h4 class="col-8 row" style="font-weight:bold">USER, @Todo.UserId</h4>
     <h3>Todo(@Todo.TodoId) Details</h3>
     <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(Todo)">Create SubTodo</button>
     <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Delete</button>
     <hr />
     <div class="col-8 row">
-        <div>
+        <div style="margin-bottom: 0.5rem;">
             <label>Todo Title: </label>
             <input style="font-weight:bold" type="text" value="@Todo.TodoTitle" @onchange="OnSelectTitleChanged" />
         </div>
-        <div>
+        <div style="margin-bottom: 0.5rem;">
             <label>Todo Type: </label>
-            <input type="text" value="@Todo.TodoType" />
+            <select @onchange="TypeSelected">
+                @{
+                    foreach (var type in TodoType.List())
+                    {
+                        <option value="@type">@type</option>
+                    }
+                }
+            </select>
         </div>
-        <div>
+        <div style="margin-bottom: 1rem;">
             <label>Todo Status: </label>
             <select @onchange="StatusSelected">
                 @{
@@ -30,18 +39,19 @@
                         <option value="@status">@status</option>
                     }
                 }
-
             </select>
         </div>
-        <div class="col-8 row">
+        <div class="col-8 row" style="margin-bottom: 2rem;">
             <label>Description</label>
             <textarea @onchange="OnSelectDescChanged">@Todo.Description</textarea>
         </div>
         <br><br>
         @if (Todo.SubTodos != null)
         {
-            <TodoItemElement Todo = "@Todo"></TodoItemElement>
+            <TodoItemElement Todo="@Todo"></TodoItemElement>
         }
+        <p>&nbsp;&nbsp;</p>
+
         <button class="btn btn-success ml-2; col-8 row" type="button" @onclick="()=> SaveTodoChanges()">Save Changes</button>
     </div>
 </div>
@@ -97,6 +107,10 @@
     private void StatusSelected(ChangeEventArgs args)
     {
         newStatus = args.Value as string;
+    }
+    private void TypeSelected(ChangeEventArgs args)
+    {
+        newTodoType = args.Value as string;
     }
     private void OnSelectTitleChanged(ChangeEventArgs args)
     {

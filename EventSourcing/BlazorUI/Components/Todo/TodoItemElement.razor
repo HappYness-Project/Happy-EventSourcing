@@ -8,17 +8,17 @@
     {
         @foreach (var subtodo in Todo.SubTodos)
         {
-            <div class="card bg-light mt-3" style="width:22rem ">
+            <div class="card bg-light mt-3" style="width:25rem;">
+                <div class="card-header">
+                    SubTodoItem
+                </div>
                 <div class="card-body">
                     <h3 class="card-title">Title:@subtodo.Title </h3>
                     <p class="card-text">
                         <code>@subtodo.Description</code>:
                     </p>
-                    <button @onclick="() => OpenUpdateTodoItemDialog(Todo)">
-
-                    Update TodoItem
-                    </button>
-                    <button @onclick="() => DeleteTodoSubItem(Todo.TodoId, subtodo.Id)">Remove</button>
+                    <button class="btn btn-primary" @onclick="() => OpenUpdateTodoItemDialog(Todo)">Update</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteTodoSubItem(Todo.TodoId, subtodo.Id)">Remove</button>
                 </div>
             </div>
         }
