@@ -54,7 +54,7 @@
 }
 @if (AddTodoItemDialogOpen)
 {
-    <AddTodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo="@Todo" OnClose="@OnAddTodoItemDialogClose"></AddTodoItemDialog>
+    <TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo="@Todo" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>
 }
 
 @*
@@ -70,6 +70,7 @@
     public string newTodoTitle { get; set; }
     public string newTodoDesc { get; set; }
     public string newTodoType { get; set; }
+    public string newStatus { get; set; }
     public bool DeleteTodoDialogOpen { get; set; }
     public bool AddTodoItemDialogOpen { get; set; }
     protected override async Task OnInitializedAsync()
@@ -93,9 +94,9 @@
         Todo = await _mediator.Send(new GetTodoById(TodoId));
         StateHasChanged();
     }
-    private void StatusSelected(ChangeEventArgs e)
+    private void StatusSelected(ChangeEventArgs args)
     {
-        var getStatus = e.Value as string;
+        newStatus = args.Value as string;
     }
     private void OnSelectTitleChanged(ChangeEventArgs args)
     {
@@ -104,12 +105,6 @@
     private void OnSelectDescChanged(ChangeEventArgs args)
     {
         newTodoDesc = args.Value as string;
-    }
-    private async Task DeleteTodoSubItem(string todoId, string subTodoId)
-    {
-        bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(todoId, subTodoId));
-        if (isRemoved)
-            await LoadTodoData();
     }
     private void OnAddTodoItemDialogClose(bool accepted)
     {
@@ -121,10 +116,10 @@
         if (accepted)
         {
             await _mediator.Send(new DeleteTodoCommand(Todo.TodoId));
+            NavigationManager.NavigateTo("todos");
         }
         DeleteTodoDialogOpen = false;
         StateHasChanged();
-        NavigationManager.NavigateTo("todos");
     }
     private void OpenDeleteDialog()
     {
