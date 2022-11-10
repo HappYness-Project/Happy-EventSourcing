@@ -5,13 +5,18 @@
 
 <PageTitle>Index Page Title</PageTitle>
 
-<div class="container">
-    <BlazorUI.Components.Person.DisplayPersonList></BlazorUI.Components.Person.DisplayPersonList>
+
+
+<div class="items-container">
+    <div class="col-lg-7">
+        <BlazorUI.Components.Person.DisplayPersonList></BlazorUI.Components.Person.DisplayPersonList>
+    </div>
+    <div class="col-lg-7">
+        <BlazorUI.Components.Person.EditPersonForm OnSubmitCallback="@Refresh"></BlazorUI.Components.Person.EditPersonForm>
+    </div>
+
 </div>
 
-<div class="col-lg-4">
-    <BlazorUI.Components.Person.EditPersonForm OnSubmitCallback="@Refresh" ></BlazorUI.Components.Person.EditPersonForm>
-</div>
 
 @code {
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
@@ -25,7 +30,7 @@
     }
     private async Task LoadData()
     {
-        people =  await _mediator.Send(new GetPersonList());
+        people = await _mediator.Send(new GetPersonList());
         StateHasChanged();
     }
     public async void Refresh()
