@@ -26,7 +26,7 @@ namespace HP.Application.Queries.Todos
             if (todos == null)
                 throw new ApplicationException($"Todos not exist for this user ID:{request.UserId}");
 
-            return _mapper.Map<List<TodoDetailsDto>>(todos);
+            return _mapper.Map<IEnumerable<TodoDetailsDto>>(todos);
         }
         public async Task<TodoDetailsDto> Handle(GetTodoById request, CancellationToken cancellationToken)
         {

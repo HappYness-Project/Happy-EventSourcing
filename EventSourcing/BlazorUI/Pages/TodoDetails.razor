@@ -10,7 +10,18 @@
     <button type="button" class="previous"></button>
     <h4 class="col-8 row" style="font-weight:bold">USER, @Todo.UserId</h4>
     <h3>Todo(@Todo.TodoId) Details</h3>
-    <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(Todo)">Create SubTodo</button>
+    <div style="margin-bottom: 1rem;">
+        <label>Todo Status: </label>
+        <select @onchange="StatusSelected">
+            @{
+                <option>@Todo.TodoStatus</option>
+                foreach (var status in TodoStatus.List())
+                {
+                    <option value="@status">@status</option>
+                }
+            }
+        </select>
+    </div>
     <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Delete</button>
     <hr />
     <div class="col-8 row">
@@ -21,7 +32,7 @@
         <div style="margin-bottom: 0.5rem;">
             <label>Todo Type: </label>
             <div class="todo-select" style="width:200px;">
-                <select  @onchange="TypeSelected">
+                <select @onchange="TypeSelected">
                     @{
                         foreach (var type in TodoType.List())
                         {
@@ -30,25 +41,13 @@
                     }
                 </select>
             </div>
-
-        </div>
-        <div style="margin-bottom: 1rem;">
-            <label>Todo Status: </label>
-            <select @onchange="StatusSelected">
-                @{
-                    <option value="-1" disabled selected>(Select status)</option>
-                    foreach (var status in TodoStatus.List())
-                    {
-                        <option value="@status">@status</option>
-                    }
-                }
-            </select>
         </div>
         <div class="col-8 row" style="margin-bottom: 2rem;">
             <label>Description</label>
             <textarea @onchange="OnSelectDescChanged">@Todo.Description</textarea>
         </div>
-        <br><br>
+        <h4>Sub Items</h4>
+        <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(Todo)">Create SubTodo</button>
         @if (Todo.SubTodos != null)
         {
             <TodoItemElement Todo="@Todo"></TodoItemElement>
@@ -58,7 +57,6 @@
         <button class="btn btn-success ml-2; col-8 row" type="button" @onclick="()=> SaveTodoChanges()">Save Changes</button>
     </div>
 </div>
-
 
 
 @if (DeleteTodoDialogOpen)
@@ -71,10 +69,8 @@
 }
 
 @*
-
 <HP.GeneralUI.Dialog.TemplatedDialog Show="TodoState.ShowingConfigureDialog">
 </HP.GeneralUI.Dialog.TemplatedDialog>*@
-
 @code {
     [Inject] private NavigationManager NavigationManager { get; set; }
     [Parameter] public string TodoId { get; set; } = string.Empty;
@@ -83,7 +79,7 @@
     public string newTodoTitle { get; set; }
     public string newTodoDesc { get; set; }
     public string newTodoType { get; set; }
-    public string newStatus { get; set; }
+    public string newTodoStatus { get; set; }
     public bool DeleteTodoDialogOpen { get; set; }
     public bool AddTodoItemDialogOpen { get; set; }
     protected override async Task OnInitializedAsync()
@@ -92,6 +88,8 @@
         newTodoTitle = Todo.TodoTitle;
         newTodoDesc = Todo.Description;
         newTodoType = Todo.TodoType;
+        if(Todo.TodoStatus !=null)
+            newTodoStatus = Todo.TodoStatus.Name;
     }
     protected async Task SaveTodoChanges()
     {
@@ -107,9 +105,20 @@
         Todo = await _mediator.Send(new GetTodoById(TodoId));
         StateHasChanged();
     }
+
+    public async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
+    {
+        "start"    => await _mediator.Send(new StartTodoCommand(Todo.TodoId)),
+        //"accept" =>_mediator.Send(new AcceptTodoCommand(Todo.TodoId));
+        "pending"  => await _mediator.Send(new PendingTodoCommand(Todo.TodoId)),
+        "complete" => await _mediator.Send(new CompleteTodoCommand(Todo.TodoId)),
+               _ => throw new ArgumentException("Invalid string value for command", nameof(command)),
+    };
+
     private void StatusSelected(ChangeEventArgs args)
     {
-        newStatus = args.Value as string;
+        newTodoStatus = args.Value as string;
+        PerformStatusOperation(newTodoStatus);
     }
     private void TypeSelected(ChangeEventArgs args)
     {
