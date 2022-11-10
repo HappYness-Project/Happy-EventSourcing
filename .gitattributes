@@ -5,3 +5,5 @@
 *.csx      text diff=csharp
 *.sln      text eol=crlf
 *.csproj   text eol=crlf
+*.html linguist-detectable=false
+*.scss linguist-detectable=false
