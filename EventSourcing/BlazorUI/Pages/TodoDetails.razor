@@ -109,7 +109,8 @@
     public async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
     {
         "start"    => await _mediator.Send(new StartTodoCommand(Todo.TodoId)),
-        //"accept" =>_mediator.Send(new AcceptTodoCommand(Todo.TodoId));
+        "stop"     => await _mediator.Send(new StopTodoCommand(Todo.TodoId, "Reason needs to be updated.")),
+        "accept"   => await _mediator.Send(new AcceptTodoCommand(Todo.TodoId)),
         "pending"  => await _mediator.Send(new PendingTodoCommand(Todo.TodoId)),
         "complete" => await _mediator.Send(new CompleteTodoCommand(Todo.TodoId)),
                _ => throw new ArgumentException("Invalid string value for command", nameof(command)),
