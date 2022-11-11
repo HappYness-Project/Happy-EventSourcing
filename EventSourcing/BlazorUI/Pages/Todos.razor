@@ -11,9 +11,9 @@
                border-blue-300" @bind-value="TodoIdInput"
            @bind-value:event="oninput" placeholder="Search by Todo ID" @onkeyup="@(() => SearchChanged(TodoIdInput))" />
 </div>
-@if (TodoDetailsFromTodoSearch is null)
-{
 
+@if (string.IsNullOrEmpty(TodoIdInput))
+{
     <div class="w-100">
         <table class="table table-striped table-bordered">
             <thead>
@@ -50,34 +50,13 @@
 }
 else
 {
-    <div class="p-2 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>TODO ID</th>
-                    <th>User ID</th>
-                    <th>Title</th>
-                    <th>Todo Status</th>
-                    <th>Button click</th>
-
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                    <td style="text-underline-position:below; cursor:pointer; color:blue" @onclick="@(() => OnClickViewDetails(@TodoDetailsFromTodoSearch.TodoId))">@TodoDetailsFromTodoSearch.TodoId</td>
-                    <td>@TodoDetailsFromTodoSearch.UserId</td>
-                    <td>@TodoDetailsFromTodoSearch.TodoTitle</td>
-                    <td>@TodoDetailsFromTodoSearch.TodoStatus</td>
-                    <td>
-                        <button type="button" class="btn btn-primary" @onclick="@(() => OnClickViewDetails(@TodoDetailsFromTodoSearch.TodoId))">View Details</button>
-                        <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog(TodoDetailsFromTodoSearch)">Delete</button>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-    </div>
+    @if (TodoDetailsFromTodoSearch is null)
+    {
+    }
+    else
+    {
+        <SearchTodo SearchedTodo="@TodoDetailsFromTodoSearch"></SearchTodo>
+    }
 }
 
 <div>

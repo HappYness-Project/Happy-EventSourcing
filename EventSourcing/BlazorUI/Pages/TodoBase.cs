@@ -60,9 +60,14 @@ namespace BlazorUI.Pages
         }
         public async void SearchChanged(string value)
         {
+            if (string.IsNullOrEmpty(value))
+                return;
             var getTodo = await Mediator.Send(new GetTodoById(value));
             if (getTodo == null)
+            {
                 TodoDetailsFromTodoSearch = null;
+                return;
+            }
             TodoDetailsFromTodoSearch = getTodo;
         }
         private async Task LoadData()
@@ -94,7 +99,6 @@ namespace BlazorUI.Pages
             if (accepted)
             {
                 await Mediator.Send(new DeleteTodoCommand(_todoToDelete.TodoId));
-                //await LoadData();
                 _todoToDelete = null;
             }
             DeleteDialogOpen = false;
