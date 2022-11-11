@@ -92,12 +92,12 @@ namespace HP.Controllers
         }
 
         [HttpPut("{todoId}")]
-        public async Task<IActionResult> Update(string todoId, [FromBody]UpdateTodoRequest todoRequest, CancellationToken token = default)
+        public async Task<IActionResult> Update(string todoId, [FromBody]UpdateTodoRequest request, CancellationToken token = default)
         {
-            if (todoRequest == null)
+            if (request == null)
                 return BadRequest();
 
-            var cmd = new UpdateTodoCommand(todoRequest.TodoId, todoRequest.TodoTotle, todoRequest.TodoDescription, todoRequest.Tags);
+            var cmd = new UpdateTodoCommand(request.TodoId, request.Title, request.Type, request.Description, request.Tags);
             return Ok(await _mediator.Send(cmd, token));
         }
         [HttpPatch("{todoId}/Activation")]

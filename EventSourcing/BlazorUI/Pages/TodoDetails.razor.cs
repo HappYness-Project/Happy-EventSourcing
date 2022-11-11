@@ -1,12 +1,14 @@
 ﻿using HP.Application.Commands;
 using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorUI.Pages
 {
     public partial class TodoDetails : ComponentBase
     {
+        [Inject] public IMediator _mediator { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Parameter] public string TodoId { get; set; } = string.Empty;
         [Parameter] public EventCallback OnSubmitCallback { get; set; }
@@ -28,10 +30,7 @@ namespace BlazorUI.Pages
         }
         protected async Task SaveTodoChanges()
         {
-            Todo.TodoTitle = newTodoTitle;
-            Todo.Description = newTodoDesc;
-            Todo.TodoType = newTodoType;
-            bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.Description, null));
+            bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, newTodoTitle, newTodoType, newTodoDesc, null));
             if (isUpdated)
                 await LoadTodoData();
         }
@@ -90,11 +89,6 @@ namespace BlazorUI.Pages
             StateHasChanged();
         }
         private void OpenAddTodoItemDialog(TodoDetailsDto todo)
-        {
-            AddTodoItemDialogOpen = true;
-            StateHasChanged();
-        }
-        private void OnAddTodoItemDialogOpen(bool accepted)
         {
             AddTodoItemDialogOpen = true;
             StateHasChanged();

@@ -1,6 +1,4 @@
 ﻿@page "/todos/details/{TodoId}"
-@using HP.Application.Commands
-@inject MediatR.IMediator _mediator
 @inject IJSRuntime JS
 
 <div class="w-100">
@@ -63,11 +61,8 @@
 {
     <TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo="@Todo" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>
 }
+
 @*
 <HP.GeneralUI.Dialog.TemplatedDialog Show="TodoState.ShowingConfigureDialog">
 </HP.GeneralUI.Dialog.TemplatedDialog>*@
-@code {
-  
-}
-
 

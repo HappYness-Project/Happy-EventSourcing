@@ -1,20 +1,27 @@
-﻿@using HP.Application.Commands
-@using HP.Application.DTOs
-@using HP.Application.Queries.Todos
-@inject MediatR.IMediator _mediator
-<div class="col-8 row">
+﻿<div class="col-8 row">
     @if (Todo.SubTodos != null)
     {
         @foreach (var subtodo in Todo.SubTodos)
         {
             <div class="card bg-light mt-3" style="width:25rem;">
                 <div class="card-header">
-                    SubTodoItem
+                    Sub Todo Item:@subtodo.Id
                 </div>
                 <div class="card-body">
-                    <h3 class="card-title">Title:@subtodo.Title </h3>
+                    <h3 class="card-title">@subtodo.Title </h3>
                     <p class="card-text">
                         <code>@subtodo.Description</code>:
+                    </p>
+                    <p>
+                        <select @onchange="StatusSelected">
+                            @{
+                                <option>@subtodo.TodoStatus</option>
+                                foreach (var status in TodoStatus.List())
+                                {
+                                    <option value="@status">@status</option>
+                                }
+                            }
+                        </select>
                     </p>
                     <button class="btn btn-primary" @onclick="() => OpenUpdateTodoItemDialog(Todo, subtodo)">Update</button>
                     <button class="btn btn-danger" @onclick="() => DeleteTodoSubItem(Todo.TodoId, subtodo.Id)">Remove</button>
@@ -24,40 +31,8 @@
     }
 </div>
 
-
 @if (UpdateTodoItemDialogOpen)
 {
     <TodoItemDialog Title="Update TodoItem" Text="@SelectTodoItem.Id" ParentTodo="@Todo" SelectedTodoItem="@SelectTodoItem" OnClose="@OnUpdateTodoItemDialogClose" TodoItemDialogType=TodoItemDialog.DialogType.Update></TodoItemDialog>
-    @*<TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo="@Todo" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>*@
 }
 
-@code {
-    [Parameter] public TodoDetailsDto Todo { get; set; }
-    public TodoItem SelectTodoItem { get; set; }
-    public bool UpdateTodoItemDialogOpen { get; set; } = false;
-
-    private async Task DeleteTodoSubItem(string todoId, string subTodoId)
-    {
-        bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(todoId, subTodoId));
-        if (isRemoved)
-            await LoadTodoData();
-    }
-
-    private async Task LoadTodoData()
-    {
-        Todo = await _mediator.Send(new GetTodoById(Todo.TodoId));
-        StateHasChanged();
-    }
-    private void OpenUpdateTodoItemDialog(TodoDetailsDto todo, TodoItem todoItem)
-    {
-        SelectTodoItem = todoItem;
-        UpdateTodoItemDialogOpen = true;
-        StateHasChanged();
-    }
-    private void OnUpdateTodoItemDialogClose(bool accepted)
-    {
-        SelectTodoItem = null;
-        UpdateTodoItemDialogOpen = false;
-        StateHasChanged();
-    }
-}
