@@ -20,7 +20,7 @@ namespace BlazorUI.Pages
         public TodoDetailsDto TodoDetails { get; private set; } = new();
         public TodoDetailsDto TodoDetailsFromTodoSearch { get; private set; }
         public IEnumerable<TodoDetailsDto> Todos { get; set; } = new List<TodoDetailsDto>();
-        private TodoDetailsDto _todoToDelete;
+        private string _deleteTodoId { get; set; } = string.Empty;
         protected EditContext EditContext { get; set; }
         protected CreateTodoModel CreateTodoModel { get; set; } = new();
         protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
@@ -98,16 +98,16 @@ namespace BlazorUI.Pages
         {
             if (accepted)
             {
-                await Mediator.Send(new DeleteTodoCommand(_todoToDelete.TodoId));
-                _todoToDelete = null;
+                await Mediator.Send(new DeleteTodoCommand(_deleteTodoId));
+                _deleteTodoId = string.Empty;
             }
             DeleteDialogOpen = false;
             StateHasChanged();
         }
-        protected async void OpenDeleteDialog(TodoDetailsDto todo)
+        protected async void OpenDeleteDialog(string todoId)
         {
             DeleteDialogOpen = true;
-            _todoToDelete = todo;
+            _deleteTodoId = todoId;
             await LoadData();
         }
     }
