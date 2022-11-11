@@ -27,6 +27,7 @@
             <label>Todo Type: </label>
             <select class="todo-select" @onchange="TypeSelected">
                 @{
+                    <option>@Todo.TodoType</option>
                     foreach (var type in TodoType.List())
                     {
                         <option value="@type">@type</option>

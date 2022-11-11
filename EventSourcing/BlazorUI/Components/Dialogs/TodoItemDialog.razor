@@ -16,7 +16,7 @@
                 <p>@Text</p>
             </div>
 
-            <div class="subtodo-dialog-body">
+            <div class="subtodo-dialog-body" >
                 @if (TodoItemDialogType == DialogType.Create)
                 {
                     <EditForm Model="@Todoitem">
@@ -116,11 +116,11 @@
     }
     private async Task OnClickTodoItem()
     {
-        if(TodoItemDialogType == DialogType.Create)
+        if (TodoItemDialogType == DialogType.Create)
         {
             await _mediator.Send(new CreateTodoItemCommand(ParentTodo.TodoId, Todoitem.Title, Todoitem.TodoType, Todoitem.Description));
         }
-        else if(TodoItemDialogType == DialogType.Update)
+        else if (TodoItemDialogType == DialogType.Update)
         {
             await _mediator.Send(new UpdateTodoItemCommand(ParentTodo.TodoId, SelectedTodoItem.Id, SelectedTodoItem.Title, SelectedTodoItem.Description, SelectedTodoItem.TodoType));
         }

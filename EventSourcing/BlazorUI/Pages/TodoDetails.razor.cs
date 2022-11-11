@@ -39,7 +39,6 @@ namespace BlazorUI.Pages
             Todo = await _mediator.Send(new GetTodoById(TodoId));
             StateHasChanged();
         }
-
         private async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
         {
             "start" => await _mediator.Send(new StartTodoCommand(Todo.TodoId)),
@@ -49,7 +48,6 @@ namespace BlazorUI.Pages
             "complete" => await _mediator.Send(new CompleteTodoCommand(Todo.TodoId)),
             _ => throw new ArgumentException("Invalid string value for command", nameof(command)),
         };
-
         private void StatusSelected(ChangeEventArgs args)
         {
             newTodoStatus = args.Value as string;

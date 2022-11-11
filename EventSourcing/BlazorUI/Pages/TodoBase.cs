@@ -13,14 +13,10 @@ namespace BlazorUI.Pages
 {
     public class TodoBase : ComponentBase
     {
-        [Inject]
-        public IMediator Mediator { get; set; }
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
-        [Inject]
-        private ICurrentUserService CurrentUserService { get; set; }
-        [Parameter]
-        public string TodoId { get; set; }
+        [Inject] public IMediator Mediator { get; set; }
+        [Inject] public NavigationManager NavigationManager { get; set; }
+        [Inject] private ICurrentUserService CurrentUserService { get; set; }
+        [Parameter] public string TodoId { get; set; }
         public TodoDetailsDto TodoDetails { get; private set; } = new();
         public TodoDetailsDto TodoDetailsFromTodoSearch { get; private set; }
         public IEnumerable<TodoDetailsDto> Todos { get; set; } = new List<TodoDetailsDto>();
@@ -31,7 +27,7 @@ namespace BlazorUI.Pages
         protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
         protected IList<DropdownItem<TodoStatus>> TodoStatusEnums { get; } = new List<DropdownItem<TodoStatus>>();
         protected DropdownItem<TodoStatus> SelectedTodoStatusDropDownItem { get; set; }
-        public bool DeleteDialogOpen { get; set;}
+        public bool DeleteDialogOpen { get; set; }
         public string TodoIdInput { get; set; }
         public TodoBase()
         {
@@ -63,8 +59,8 @@ namespace BlazorUI.Pages
             await LoadData();
         }
         public async void SearchChanged(string value)
-        { 
-            var getTodo= await Mediator.Send(new GetTodoById(value));
+        {
+            var getTodo = await Mediator.Send(new GetTodoById(value));
             if (getTodo == null)
                 TodoDetailsFromTodoSearch = null;
             TodoDetailsFromTodoSearch = getTodo;
@@ -77,8 +73,8 @@ namespace BlazorUI.Pages
         }
         protected async void OnSubmit()
         {
-            TodoType todoType =SelectedTodoTypeDropDownItem.ItemObject;
-            TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CreateTodoModel.UserId, CreateTodoModel.Title, todoType.Name,CreateTodoModel.Description));
+            TodoType todoType = SelectedTodoTypeDropDownItem.ItemObject;
+            TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CreateTodoModel.UserId, CreateTodoModel.Title, todoType.Name, CreateTodoModel.Description));
             NavigationManager.NavigateTo("todos");
         }
         protected void OnClickViewDetails(string todoId)
@@ -95,7 +91,7 @@ namespace BlazorUI.Pages
         }
         protected async Task OnDeleteDialogClose(bool accepted)
         {
-            if(accepted)
+            if (accepted)
             {
                 await Mediator.Send(new DeleteTodoCommand(_todoToDelete.TodoId));
                 //await LoadData();
