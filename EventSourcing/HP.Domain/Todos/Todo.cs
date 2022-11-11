@@ -47,10 +47,11 @@ namespace HP.Domain
             // Get Todo Type
             return new(person, title, description, type, tags);
         }
-        public void Update(string title, string desc, string[] Tags)
+        public void Update(string title, string type, string desc, string[] Tags)
         {
             this.Title = title;
             this.Description = desc;
+            this.Type = TodoType.FromName(type);
             this.Tag = Tags;
         }
         public TodoItem AddTodoItem(string title, string type, string desc)
