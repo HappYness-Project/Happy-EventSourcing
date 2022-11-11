@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace HP.Shared
 {
-    public class CreateTodoItemModel : BaseEntity
+    public class CreateTodoItemModel 
     {
         [Required]
         public string TodoId { get; set; }

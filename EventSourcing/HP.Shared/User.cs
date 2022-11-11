@@ -5,8 +5,9 @@ using System.ComponentModel.DataAnnotations;
 namespace HP.Shared
 {
     // GOing to be used for the Identity service in the future.
-    public class User : BaseEntity
+    public class User 
     {
+        public int Id { get; set; }
         [Required]
         [StringLength(15, ErrorMessage = "User name is too long.")]
         public string UserName { get; set; }

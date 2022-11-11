@@ -2,7 +2,8 @@
 
 namespace HP.Domain.Common
 {
-    public abstract class Entity
+
+    public abstract class Entity // This is for Domain Model such as Person and Todo.
     {
         public string Id { get; protected set; }
         public DateTime CreatedDate { get; private set; }

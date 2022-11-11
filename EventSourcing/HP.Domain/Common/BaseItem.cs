@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace HP.Shared
+namespace HP.Domain.Common
 {
 
     public class BaseItem 
