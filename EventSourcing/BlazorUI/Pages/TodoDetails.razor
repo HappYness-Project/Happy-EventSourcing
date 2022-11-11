@@ -1,13 +1,9 @@
 ﻿@page "/todos/details/{TodoId}"
 @using HP.Application.Commands
-@using HP.Application.DTOs
-@using HP.Application.Queries.Todos
 @inject MediatR.IMediator _mediator
 @inject IJSRuntime JS
 
 <div class="w-100">
-
-    <button type="button" class="previous"></button>
     <h4 class="col-8 row" style="font-weight:bold">USER, @Todo.UserId</h4>
     <h3>Todo(@Todo.TodoId) Details</h3>
     <div style="margin-bottom: 1rem;">
@@ -31,30 +27,30 @@
         </div>
         <div style="margin-bottom: 0.5rem;">
             <label>Todo Type: </label>
-            <div class="todo-select" style="width:200px;">
-                <select @onchange="TypeSelected">
-                    @{
-                        foreach (var type in TodoType.List())
-                        {
-                            <option value="@type">@type</option>
-                        }
+            <select class="todo-select" @onchange="TypeSelected">
+                @{
+                    foreach (var type in TodoType.List())
+                    {
+                        <option value="@type">@type</option>
                     }
-                </select>
-            </div>
+                }
+            </select>
         </div>
         <div class="col-8 row" style="margin-bottom: 2rem;">
             <label>Description</label>
             <textarea @onchange="OnSelectDescChanged">@Todo.Description</textarea>
         </div>
+        <button class="btn btn-success ml-1; col-8 row" type="button" @onclick="()=> SaveTodoChanges()">Save Changes</button>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+
+
         <h4>Sub Items</h4>
-        <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(Todo)">Create SubTodo</button>
+        <button type="button" class="btn btn-primary col-8 row" @onclick="() => OpenAddTodoItemDialog(Todo)">Create SubTodo</button>
         @if (Todo.SubTodos != null)
         {
             <TodoItemElement Todo="@Todo"></TodoItemElement>
         }
         <p>&nbsp;&nbsp;</p>
-
-        <button class="btn btn-success ml-2; col-8 row" type="button" @onclick="()=> SaveTodoChanges()">Save Changes</button>
     </div>
 </div>
 
@@ -67,102 +63,11 @@
 {
     <TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo="@Todo" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>
 }
-
 @*
 <HP.GeneralUI.Dialog.TemplatedDialog Show="TodoState.ShowingConfigureDialog">
 </HP.GeneralUI.Dialog.TemplatedDialog>*@
 @code {
-    [Inject] private NavigationManager NavigationManager { get; set; }
-    [Parameter] public string TodoId { get; set; } = string.Empty;
-    [Parameter] public EventCallback OnSubmitCallback { get; set; }
-    public TodoDetailsDto Todo { get; set; } = new();
-    public string newTodoTitle { get; set; }
-    public string newTodoDesc { get; set; }
-    public string newTodoType { get; set; }
-    public string newTodoStatus { get; set; }
-    public bool DeleteTodoDialogOpen { get; set; }
-    public bool AddTodoItemDialogOpen { get; set; }
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadTodoData();
-        newTodoTitle = Todo.TodoTitle;
-        newTodoDesc = Todo.Description;
-        newTodoType = Todo.TodoType;
-        if(Todo.TodoStatus !=null)
-            newTodoStatus = Todo.TodoStatus.Name;
-    }
-    protected async Task SaveTodoChanges()
-    {
-        Todo.TodoTitle = newTodoTitle;
-        Todo.Description = newTodoDesc;
-        Todo.TodoType = newTodoType;
-        bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.Description, null));
-        if (isUpdated)
-            await LoadTodoData();
-    }
-    private async Task LoadTodoData()
-    {
-        Todo = await _mediator.Send(new GetTodoById(TodoId));
-        StateHasChanged();
-    }
-
-    public async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
-    {
-        "start"    => await _mediator.Send(new StartTodoCommand(Todo.TodoId)),
-        "stop"     => await _mediator.Send(new StopTodoCommand(Todo.TodoId, "Reason needs to be updated.")),
-        "accept"   => await _mediator.Send(new AcceptTodoCommand(Todo.TodoId)),
-        "pending"  => await _mediator.Send(new PendingTodoCommand(Todo.TodoId)),
-        "complete" => await _mediator.Send(new CompleteTodoCommand(Todo.TodoId)),
-               _ => throw new ArgumentException("Invalid string value for command", nameof(command)),
-    };
-
-    private void StatusSelected(ChangeEventArgs args)
-    {
-        newTodoStatus = args.Value as string;
-        PerformStatusOperation(newTodoStatus);
-    }
-    private void TypeSelected(ChangeEventArgs args)
-    {
-        newTodoType = args.Value as string;
-    }
-    private void OnSelectTitleChanged(ChangeEventArgs args)
-    {
-        newTodoTitle = args.Value as string;
-    }
-    private void OnSelectDescChanged(ChangeEventArgs args)
-    {
-        newTodoDesc = args.Value as string;
-    }
-    private void OnAddTodoItemDialogClose(bool accepted)
-    {
-        AddTodoItemDialogOpen = false;
-        StateHasChanged();
-    }
-    private async void OnDeleteDialogClose(bool accepted)
-    {
-        if (accepted)
-        {
-            await _mediator.Send(new DeleteTodoCommand(Todo.TodoId));
-            NavigationManager.NavigateTo("todos");
-        }
-        DeleteTodoDialogOpen = false;
-        StateHasChanged();
-    }
-    private void OpenDeleteDialog()
-    {
-        DeleteTodoDialogOpen = true;
-        StateHasChanged();
-    }
-    private void OpenAddTodoItemDialog(TodoDetailsDto todo)
-    {
-        AddTodoItemDialogOpen = true;
-        StateHasChanged();
-    }
-    private void OnAddTodoItemDialogOpen(bool accepted)
-    {
-        AddTodoItemDialogOpen = true;
-        StateHasChanged();
-    }
+  
 }
 
 

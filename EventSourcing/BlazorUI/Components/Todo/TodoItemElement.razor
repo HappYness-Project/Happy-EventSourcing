@@ -42,11 +42,7 @@
         if (isRemoved)
             await LoadTodoData();
     }
-    private async Task UpdateTodoSubItem(string subTodoId)
-    {
-        // Update Todo Item Popup screen.
-        //    var check = await _mediator.Send(new UpdateTodoItemCommand())
-    }
+
     private async Task LoadTodoData()
     {
         Todo = await _mediator.Send(new GetTodoById(Todo.TodoId));
