@@ -11,5 +11,12 @@ namespace HP.Shared.Contacts
         Task<User> TrySignInAndGetUserAsync(User user);
         Task InsertUserAsync(User user);
         Task<string> GetUserRole(string userId);
+        Task<User> GetUserByAccessTokenAsync(string accessToken);
+        Task<User> RefreshTokenAsync(RefreshRequest request);
+    }
+    public class RefreshRequest
+    {
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

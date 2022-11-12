@@ -21,7 +21,7 @@
                 <td>@SearchedTodo.TodoStatus</td>
                 <td>
                     <button type="button" class="btn btn-primary" @onclick="@(() => OnClickViewDetails(@SearchedTodo.TodoId))">View Details</button>
-                    <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog(SearchedTodo)">Delete</button>
+                    <button type="button" class="btn btn-danger btn-sm" @onclick="@(()=> OpenDeleteDialog(@SearchedTodo.TodoId))">Delete</button>
                 </td>
             </tr>
 

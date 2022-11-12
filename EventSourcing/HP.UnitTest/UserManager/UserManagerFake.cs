@@ -10,6 +10,11 @@ namespace HP.UnitTest.UserManager
 {
     public class UserManagerFake : IUserManager
     {
+        public Task<User> GetUserByAccessTokenAsync(string accessToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<string> GetUserRole(string userId)
         {
             throw new NotImplementedException();
@@ -18,6 +23,11 @@ namespace HP.UnitTest.UserManager
         public Task InsertUserAsync(User user)
         {
             return Task.FromResult(true);
+        }
+
+        public Task<User> RefreshTokenAsync(RefreshRequest request)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<User> TrySignInAndGetUserAsync(User user)

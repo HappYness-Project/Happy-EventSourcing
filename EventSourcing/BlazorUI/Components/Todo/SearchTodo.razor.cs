@@ -14,7 +14,7 @@ namespace BlazorUI.Components.Todo
         [Inject] private ICurrentUserService CurrentUserService { get; set; }
         [Parameter] public TodoDetailsDto SearchedTodo { get; set; }
         public bool DeleteDialogOpen { get; set; }
-        private TodoDetailsDto _todoToDelete;
+        private string DeleteTodoId { get; set; } = string.Empty;
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
@@ -23,18 +23,18 @@ namespace BlazorUI.Components.Todo
         {
             NavigationManager.NavigateTo($"todos/details/{todoId}");
         }
-        protected async void OpenDeleteDialog(TodoDetailsDto todo)
+        protected async void OpenDeleteDialog(string todoId)
         {
             DeleteDialogOpen = true;
-            _todoToDelete = todo;
+            DeleteTodoId = todoId;
             await LoadData();
         }
         protected async Task OnDeleteDialogClose(bool accepted)
         {
             if (accepted)
             {
-                await _mediator.Send(new DeleteTodoCommand(_todoToDelete.TodoId));
-                _todoToDelete = null;
+                await _mediator.Send(new DeleteTodoCommand(DeleteTodoId));
+                DeleteTodoId = null;
             }
             DeleteDialogOpen = false;
             StateHasChanged();
