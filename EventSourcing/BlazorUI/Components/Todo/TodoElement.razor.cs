@@ -1,7 +1,7 @@
 ﻿using HP.Application.DTOs;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorUI.Components
+namespace BlazorUI.Components.Todo
 {
     public partial class TodoElement : ComponentBase
     {
