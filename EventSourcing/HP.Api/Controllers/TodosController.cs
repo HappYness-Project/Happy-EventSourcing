@@ -68,7 +68,7 @@ namespace HP.Controllers
             if (request == null)
                 return BadRequest();
 
-            var todo = await _mediator.Send(new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.Tags), token);
+            var todo = await _mediator.Send(new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.StartDate, request.TargetEndDate, request.Tags), token);
             return CreatedAtAction(nameof(GetTodo), new { Id = todo.TodoId }, todo);// await _mediator.Publish(cmd, cancellationToken);
         }
 

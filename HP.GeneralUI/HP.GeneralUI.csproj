@@ -15,4 +15,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EventSourcing\HP.Domain\HP.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

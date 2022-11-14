@@ -1,9 +1,9 @@
-﻿using HP.Application.Commands;
+﻿using HP.Api.Requests;
+using HP.Application.Commands;
 using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
 using HP.Domain;
 using HP.GeneralUI.DropdownControl;
-using HP.Shared;
 using HP.Shared.Contacts;
 using MediatR;
 using Microsoft.AspNetCore.Components;
@@ -22,13 +22,14 @@ namespace BlazorUI.Pages
         public IEnumerable<TodoDetailsDto> Todos { get; set; } = new List<TodoDetailsDto>();
         private string _deleteTodoId { get; set; } = string.Empty;
         protected EditContext EditContext { get; set; }
-        protected CreateTodoModel CreateTodoModel { get; set; } = new();
+        protected CreateTodoRequest CreateTodoRequest { get; set; } = new();
         protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
         protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
         protected IList<DropdownItem<TodoStatus>> TodoStatusEnums { get; } = new List<DropdownItem<TodoStatus>>();
         protected DropdownItem<TodoStatus> SelectedTodoStatusDropDownItem { get; set; }
         public bool DeleteDialogOpen { get; set; }
         public string TodoIdInput { get; set; }
+        public string CurrentUserName { get; set; }
         public TodoBase()
         {
             foreach (TodoType type in TodoType.List())
@@ -55,7 +56,8 @@ namespace BlazorUI.Pages
         }
         protected override async Task OnInitializedAsync()
         {
-            EditContext = new EditContext(CreateTodoModel);
+            CurrentUserName = CurrentUserService.CurrentUser.UserName;
+            EditContext = new EditContext(CreateTodoRequest);
             await LoadData();
         }
         public async void SearchChanged(string value)
@@ -79,7 +81,7 @@ namespace BlazorUI.Pages
         protected async void OnSubmit()
         {
             TodoType todoType = SelectedTodoTypeDropDownItem.ItemObject;
-            TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CreateTodoModel.UserId, CreateTodoModel.Title, todoType.Name, CreateTodoModel.Description));
+            TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CurrentUserName, CreateTodoRequest.Title, todoType.Name, CreateTodoRequest.Description));
             NavigationManager.NavigateTo("todos");
         }
         protected void OnClickViewDetails(string todoId)

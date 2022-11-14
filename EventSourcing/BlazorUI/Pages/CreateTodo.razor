@@ -8,12 +8,10 @@
 <div class="todo-form">
     <EditForm EditContext="@EditContext" OnSubmit="OnSubmit">
         <DataAnnotationsValidator />
-        User ID 
-        <InputText class="form-control mx-2" @bind-Value="CreateTodoModel.UserId"/>
         Todo Title
-        <InputText class="form-control mx-2" @bind-Value="CreateTodoModel.Title"/>
+        <InputText class="form-control mx-2" @bind-Value="CreateTodoRequest.Title"/>
         Description
-        <InputText class="form-control mx-2" @bind-Value="CreateTodoModel.Description"/>
+        <InputText class="form-control mx-2" @bind-Value="CreateTodoRequest.Description"/>
         Todo Type
         <Dropdown
                 TValue="TodoType"
