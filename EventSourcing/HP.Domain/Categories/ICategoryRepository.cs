@@ -11,5 +11,7 @@ namespace HP.Domain
     {
         Task<IEnumerable<Category>> GetCategories();
         Task<IEnumerable<Category>> GetCategoriesByUserId(string userId);
+        Task CreateCategory(Category category);
     }
 }
+ 

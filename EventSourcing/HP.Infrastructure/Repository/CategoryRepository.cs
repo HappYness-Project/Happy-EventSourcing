@@ -20,12 +20,17 @@ namespace HP.Infrastructure.Repository
         {
             _categories = dbContext.GetCollection<Category>();
         }
+
         public Task<IEnumerable<Category>> GetCategories()
         {
             throw new NotImplementedException();
         }
 
         public Task<IEnumerable<Category>> GetCategoriesByUserId(string userId)
+        {
+            throw new NotImplementedException();
+        }
+        public Task CreateCategory(Category category)
         {
             throw new NotImplementedException();
         }
