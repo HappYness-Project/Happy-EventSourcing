@@ -2,23 +2,23 @@
 @inject IJSRuntime JS
 
 <div class="w-100">
-    <h4 class="col-8 row" style="font-weight:bold">USER, @Todo.UserId</h4>
+    <h4 class="col-8 row" style="font-weight:bold">USER, @SelectedTodo.UserId</h4>
 
 
-    <EditForm Model="@Todo">
+    <EditForm Model="@SelectedTodo">
         <DataAnnotationsValidator/>
         <div class="form-group">
             <div style="margin-bottom: 0.5rem;">
                 <label>Todo Title: </label>
-                <InputText style="font-weight:bold" type="text" @bind-Value="Todo.TodoTitle" />
+                <InputText style="font-weight:bold" type="text" @bind-Value="SelectedTodo.TodoTitle" />
             </div>
         </div>
-        <h3>Todo(@Todo.TodoId) Details</h3>
+        <h3>Todo(@SelectedTodo.TodoId) Details</h3>
         <div class="form-group" style="margin-bottom: 1rem;">
             <label>Todo Status: </label>
             <select @onchange="StatusSelected">
                 @{
-                    <option>@Todo.TodoStatus</option>
+                    <option>@SelectedTodo.TodoStatus</option>
                     foreach (var status in TodoStatus.List())
                     {
                         <option value="@status">@status</option>
@@ -31,7 +31,7 @@
         <div class="col-8 row">
             <div style="margin-bottom: 0.5rem;">
                 <label>Todo Type: </label>
-                <InputSelect @bind-Value="Todo.TodoType" >
+                <InputSelect @bind-Value="SelectedTodo.TodoType" >
                     @{
                         foreach (var type in TodoType.List())
                         {
@@ -40,44 +40,25 @@
                     }
                 </InputSelect>
             </div>
-            <label>Todo Created Datetime : @Todo.CreatedDateTime</label>
+            <label>Todo Created Datetime : @SelectedTodo.CreatedDateTime</label>
             <label>Target StartDatetime</label>
-            <InputDate class="form-control" id="dateInput" @bind-Value="Todo.TargetStartDate"></InputDate>
-            <InputDate class="form-control" id="dateInput" @bind-Value="Todo.TargetEndDate"></InputDate>
+            <InputDate class="form-control" id="dateInput" @bind-Value="SelectedTodo.TargetStartDate"></InputDate>
+            <InputDate class="form-control" id="dateInput" @bind-Value="SelectedTodo.TargetEndDate"></InputDate>
             <div class="col-8 row" style="margin-bottom: 2rem;">
                 <label>Description</label>
-                <InputTextArea @bind-Value="Todo.Description" />
+                <InputTextArea @bind-Value="SelectedTodo.Description" />
             </div>
         </div>
         <button class="btn btn-success ml-1" type="submit" @onclick="()=> SaveTodoChanges()">Save Changes</button>
     </EditForm>
 
-
-
-    <div class="col-8 row">
-@*        <div style="margin-bottom: 2rem;">
-            <input type="date"   />
-        </div>
-        <div style="margin-bottom: 2rem;">
-            <label>Todo Start Date</label>
-            <input type="date" value="@Todo.StartDateTime"  />
-        </div>
-         <div style="margin-bottom: 2rem;">
-            <label>Target Date</label>
-            <input type="date" value="@Todo.TargetEndDate"  />
-        </div>
-        <div style="margin-bottom: 2rem;">
-            <label>Start Date</label>
-        </div>
-*@
-
-
+    <div>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         <h4>Sub Items</h4>
-        <button type="button" class="btn btn-primary col-8 row" @onclick="() => OpenAddTodoItemDialog(Todo)">Create SubTodo</button>
-        @if (Todo.SubTodos != null)
+        <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(SelectedTodo)">Create SubTodo</button>
+        @if (SelectedTodo.SubTodos != null)
         {
-            <TodoItemElement Todo="@Todo"></TodoItemElement>
+            <TodoItemElement Todo="@SelectedTodo"></TodoItemElement>
         }
         <p>&nbsp;&nbsp;</p>
     </div>
@@ -90,7 +71,7 @@
 }
 @if (AddTodoItemDialogOpen)
 {
-    <TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo="@Todo" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>
+    <TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo="@SelectedTodo" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>
 }
 
 @*

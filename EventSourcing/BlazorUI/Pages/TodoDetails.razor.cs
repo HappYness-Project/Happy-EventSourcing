@@ -12,34 +12,34 @@ namespace BlazorUI.Pages
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Parameter] public string TodoId { get; set; } = string.Empty;
         [Parameter] public EventCallback OnSubmitCallback { get; set; }
-        public TodoDetailsDto Todo { get; set; } = new();
+        public TodoDetailsDto SelectedTodo { get; set; } = new();
         public string newTodoStatus { get; set; }
         public bool DeleteTodoDialogOpen { get; set; }
         public bool AddTodoItemDialogOpen { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadTodoData();
-            if (Todo.TodoStatus != null)
-                newTodoStatus = Todo.TodoStatus.Name;
+            if (SelectedTodo.TodoStatus != null)
+                newTodoStatus = SelectedTodo.TodoStatus.Name;
         }
         protected async Task SaveTodoChanges()
         {
-            bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.TodoType, Todo.Description, null, Todo.TargetStartDate, Todo.TargetEndDate));
+            bool isUpdated = await _mediator.Send(new UpdateTodoCommand(SelectedTodo.TodoId, SelectedTodo.TodoTitle, SelectedTodo.TodoType, SelectedTodo.Description, null, SelectedTodo.TargetStartDate, SelectedTodo.TargetEndDate));
             if (isUpdated)
                 await LoadTodoData();
         }
         private async Task LoadTodoData()
         {
-            Todo = await _mediator.Send(new GetTodoById(TodoId));
+            SelectedTodo = await _mediator.Send(new GetTodoById(TodoId));
             StateHasChanged();
         }
         private async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
         {
-            "start" => await _mediator.Send(new StartTodoCommand(Todo.TodoId)),
-            "stop" => await _mediator.Send(new StopTodoCommand(Todo.TodoId, "Reason needs to be updated.")),
-            "accept" => await _mediator.Send(new AcceptTodoCommand(Todo.TodoId)),
-            "pending" => await _mediator.Send(new PendingTodoCommand(Todo.TodoId)),
-            "complete" => await _mediator.Send(new CompleteTodoCommand(Todo.TodoId)),
+            "start" => await _mediator.Send(new StartTodoCommand(SelectedTodo.TodoId)),
+            "stop" => await _mediator.Send(new StopTodoCommand(SelectedTodo.TodoId, "Reason needs to be updated.")),
+            "accept" => await _mediator.Send(new AcceptTodoCommand(SelectedTodo.TodoId)),
+            "pending" => await _mediator.Send(new PendingTodoCommand(SelectedTodo.TodoId)),
+            "complete" => await _mediator.Send(new CompleteTodoCommand(SelectedTodo.TodoId)),
             _ => throw new ArgumentException("Invalid string value for command", nameof(command)),
         };
         private void StatusSelected(ChangeEventArgs args)
@@ -57,7 +57,7 @@ namespace BlazorUI.Pages
         {
             if (accepted)
             {
-                await _mediator.Send(new DeleteTodoCommand(Todo.TodoId));
+                await _mediator.Send(new DeleteTodoCommand(SelectedTodo.TodoId));
                 NavigationManager.NavigateTo("todos");
             }
             DeleteTodoDialogOpen = false;
