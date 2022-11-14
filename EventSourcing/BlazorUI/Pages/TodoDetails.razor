@@ -3,46 +3,76 @@
 
 <div class="w-100">
     <h4 class="col-8 row" style="font-weight:bold">USER, @Todo.UserId</h4>
-    <h3>Todo(@Todo.TodoId) Details</h3>
-    <div style="margin-bottom: 1rem;">
-        <label>Todo Status: </label>
-        <select @onchange="StatusSelected">
-            @{
-                <option>@Todo.TodoStatus</option>
-                foreach (var status in TodoStatus.List())
-                {
-                    <option value="@status">@status</option>
-                }
-            }
-        </select>
-    </div>
-    <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Delete</button>
-    <hr />
-    <div class="col-8 row">
-        <div style="margin-bottom: 0.5rem;">
-            <label>Todo Title: </label>
-            <input style="font-weight:bold" type="text" value="@Todo.TodoTitle" @onchange="OnSelectTitleChanged" />
+
+
+    <EditForm Model="@Todo">
+        <DataAnnotationsValidator/>
+        <div class="form-group">
+            <div style="margin-bottom: 0.5rem;">
+                <label>Todo Title: </label>
+                <InputText style="font-weight:bold" type="text" @bind-Value="Todo.TodoTitle" />
+            </div>
         </div>
-        <div style="margin-bottom: 0.5rem;">
-            <label>Todo Type: </label>
-            <select class="todo-select" @onchange="TypeSelected">
+        <h3>Todo(@Todo.TodoId) Details</h3>
+        <div class="form-group" style="margin-bottom: 1rem;">
+            <label>Todo Status: </label>
+            <select @onchange="StatusSelected">
                 @{
-                    <option>@Todo.TodoType</option>
-                    foreach (var type in TodoType.List())
+                    <option>@Todo.TodoStatus</option>
+                    foreach (var status in TodoStatus.List())
                     {
-                        <option value="@type">@type</option>
+                        <option value="@status">@status</option>
                     }
                 }
             </select>
         </div>
-        <div class="col-8 row" style="margin-bottom: 2rem;">
-            <label>Description</label>
-            <textarea @onchange="OnSelectDescChanged">@Todo.Description</textarea>
+        <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Delete</button>
+        <hr />
+        <div class="col-8 row">
+            <div style="margin-bottom: 0.5rem;">
+                <label>Todo Type: </label>
+                <InputSelect @bind-Value="Todo.TodoType" >
+                    @{
+                        foreach (var type in TodoType.List())
+                        {
+                            <option value="@type">@type</option>
+                        }
+                    }
+                </InputSelect>
+            </div>
+            <label>Todo Created Datetime : @Todo.CreatedDateTime</label>
+            <label>Target StartDatetime</label>
+            <InputDate class="form-control" id="dateInput" @bind-Value="Todo.StartDateTime"></InputDate>
+            <InputDate class="form-control" id="dateInput" @bind-Value="Todo.TargetEndDate"></InputDate>
+            <div class="col-8 row" style="margin-bottom: 2rem;">
+                <label>Description</label>
+                <InputTextArea @bind-Value="Todo.Description" />
+            </div>
         </div>
-        <button class="btn btn-success ml-1; col-8 row" type="button" @onclick="()=> SaveTodoChanges()">Save Changes</button>
+        <button class="btn btn-success ml-1" type="submit" @onclick="()=> SaveTodoChanges()">Save Changes</button>
+    </EditForm>
+
+
+
+    <div class="col-8 row">
+@*        <div style="margin-bottom: 2rem;">
+            <input type="date"   />
+        </div>
+        <div style="margin-bottom: 2rem;">
+            <label>Todo Start Date</label>
+            <input type="date" value="@Todo.StartDateTime"  />
+        </div>
+         <div style="margin-bottom: 2rem;">
+            <label>Target Date</label>
+            <input type="date" value="@Todo.TargetEndDate"  />
+        </div>
+        <div style="margin-bottom: 2rem;">
+            <label>Start Date</label>
+        </div>
+*@
+
+
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-
-
         <h4>Sub Items</h4>
         <button type="button" class="btn btn-primary col-8 row" @onclick="() => OpenAddTodoItemDialog(Todo)">Create SubTodo</button>
         @if (Todo.SubTodos != null)

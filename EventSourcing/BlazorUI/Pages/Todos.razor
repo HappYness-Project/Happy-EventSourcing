@@ -48,10 +48,7 @@
 }
 else
 {
-    @if (TodoDetailsFromTodoSearch is null)
-    {
-    }
-    else
+    @if (TodoDetailsFromTodoSearch != null)
     {
         <SearchTodo SearchedTodo="@TodoDetailsFromTodoSearch"></SearchTodo>
     }

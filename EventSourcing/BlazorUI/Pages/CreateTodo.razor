@@ -18,6 +18,12 @@
                 @bind-SelectedItem="@SelectedTodoTypeDropDownItem"
                 SelectableItems="@TodoTypeEnums">
         </Dropdown>
+
+        Start Date
+        <InputDate class="form-control mx-2"  @bind-Value="CreateTodoRequest.StartDate"></InputDate>
+        Target End Date
+        <InputDate class="form-control mx-2"  @bind-Value="CreateTodoRequest.TargetEndDate"></InputDate>
+
         <button class="sign-button btn btn-primary" type="submit">Add ToDo</button>
     </EditForm>
 </div>

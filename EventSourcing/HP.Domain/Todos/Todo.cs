@@ -37,6 +37,8 @@ namespace HP.Domain
         public ICollection<TodoItem> SubTodos { get; private set; }
         public TodoStatus Status { get; private set; }  
         public string StatusDesc { get; private set; }
+        public DateTime? TargetStartDate { get; private set; }
+        public DateTime? TargetEndDate { get; private set; }
         public DateTime? Updated { get; private set; } 
         public DateTime? Completed { get; private set; }
         public static Todo Create(Person person, string title, string description, TodoType type, string[] tags)

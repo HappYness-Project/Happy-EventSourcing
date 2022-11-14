@@ -13,24 +13,18 @@ namespace BlazorUI.Pages
         [Parameter] public string TodoId { get; set; } = string.Empty;
         [Parameter] public EventCallback OnSubmitCallback { get; set; }
         public TodoDetailsDto Todo { get; set; } = new();
-        public string newTodoTitle { get; set; }
-        public string newTodoDesc { get; set; }
-        public string newTodoType { get; set; }
         public string newTodoStatus { get; set; }
         public bool DeleteTodoDialogOpen { get; set; }
         public bool AddTodoItemDialogOpen { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadTodoData();
-            newTodoTitle = Todo.TodoTitle;
-            newTodoDesc = Todo.Description;
-            newTodoType = Todo.TodoType;
             if (Todo.TodoStatus != null)
                 newTodoStatus = Todo.TodoStatus.Name;
         }
         protected async Task SaveTodoChanges()
         {
-            bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, newTodoTitle, newTodoType, newTodoDesc, null));
+            bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.TodoType, Todo.Description, null));
             if (isUpdated)
                 await LoadTodoData();
         }
@@ -52,18 +46,6 @@ namespace BlazorUI.Pages
         {
             newTodoStatus = args.Value as string;
             PerformStatusOperation(newTodoStatus);
-        }
-        private void TypeSelected(ChangeEventArgs args)
-        {
-            newTodoType = args.Value as string;
-        }
-        private void OnSelectTitleChanged(ChangeEventArgs args)
-        {
-            newTodoTitle = args.Value as string;
-        }
-        private void OnSelectDescChanged(ChangeEventArgs args)
-        {
-            newTodoDesc = args.Value as string;
         }
         private async Task OnAddTodoItemDialogClose(bool accepted)
         {

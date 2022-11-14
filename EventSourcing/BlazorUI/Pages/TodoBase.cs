@@ -81,7 +81,7 @@ namespace BlazorUI.Pages
         protected async void OnSubmit()
         {
             TodoType todoType = SelectedTodoTypeDropDownItem.ItemObject;
-            TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CurrentUserName, CreateTodoRequest.Title, todoType.Name, CreateTodoRequest.Description));
+            TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CurrentUserName, CreateTodoRequest.Title, todoType.Name, CreateTodoRequest.Description, CreateTodoRequest.StartDate, CreateTodoRequest.TargetEndDate, null));
             NavigationManager.NavigateTo("todos");
         }
         protected void OnClickViewDetails(string todoId)
