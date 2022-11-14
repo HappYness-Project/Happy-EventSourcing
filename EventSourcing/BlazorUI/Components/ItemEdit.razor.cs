@@ -19,7 +19,7 @@ namespace BlazorUI.Components
         private void HandleEditItemChanged(object? sender, ItemEditEventArgs e)
         {
             Item = e.Item;
-            StateHasChanged();
+            InvokeAsync(StateHasChanged);
         }
     }
 }
