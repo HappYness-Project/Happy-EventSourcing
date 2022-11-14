@@ -22,6 +22,7 @@ namespace HP.Domain
             Type = todoType;
             Tag = tag;
             IsActive = true;
+            IsDone = false;
             SubTodos = new HashSet<TodoItem>();
             AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, todoType));
         }
@@ -31,7 +32,7 @@ namespace HP.Domain
         public string ProjectId { get; private set; }
         public TodoType Type { get; private set; }
         public string[] Tag { get; private set; }
-        public bool IsStarted { get; private set; }
+        public bool IsDone { get; private set; }
         public bool IsActive { get; private set; }
         public double Score { get; private set; }
         public ICollection<TodoItem> SubTodos { get; private set; }
@@ -39,7 +40,7 @@ namespace HP.Domain
         public string StatusDesc { get; private set; }
         public DateTime? TargetStartDate { get; private set; }
         public DateTime? TargetEndDate { get; private set; }
-        public DateTime? Updated { get; private set; } 
+        public DateTime? Updated { get; private set; }  
         public DateTime? Completed { get; private set; }
         public static Todo Create(Person person, string title, string description, TodoType type, string[] tags)
         {
@@ -49,12 +50,16 @@ namespace HP.Domain
             // Get Todo Type
             return new(person, title, description, type, tags);
         }
-        public void Update(string title, string type, string desc, string[] Tags)
+        public void Update(string title, string type, string desc, string[] Tags, DateTime? targetStartDate = null, DateTime? targetEndDate = null)
         {
             this.Title = title;
             this.Description = desc;
             this.Type = TodoType.FromName(type);
+            this.TargetStartDate = targetStartDate ?? null;
+            this.TargetEndDate = targetEndDate ?? null;
             this.Tag = Tags;
+            this.Updated = DateTime.Now;
+            this.AddDomainEvent(new TodoDomainEvents.TodoUpdated(UserId, Id, Title, Type.Name));
         }
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
@@ -141,7 +146,6 @@ namespace HP.Domain
 
                 case "start":
                     this.Status = TodoStatus.Start;
-                    this.IsStarted = true;
                     this.StatusDesc = $"Todo Id:{Id}, has been started at {DateTime.Now}";
                     AddDomainEvent(new TodoDomainEvents.TodoStarted(Id));
                     break;
@@ -149,6 +153,7 @@ namespace HP.Domain
                 case "complete":
                     this.Status = TodoStatus.Complete;
                     this.StatusDesc = $"Todo Id:{Id} is completed. ";
+                    this.IsDone = true;
                     AddDomainEvent(new TodoDomainEvents.TodoCompleted(Id));
                     break;
 

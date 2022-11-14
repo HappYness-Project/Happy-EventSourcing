@@ -24,7 +24,7 @@ namespace BlazorUI.Pages
         }
         protected async Task SaveTodoChanges()
         {
-            bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.TodoType, Todo.Description, null));
+            bool isUpdated = await _mediator.Send(new UpdateTodoCommand(Todo.TodoId, Todo.TodoTitle, Todo.TodoType, Todo.Description, null, Todo.TargetStartDate, Todo.TargetEndDate));
             if (isUpdated)
                 await LoadTodoData();
         }
