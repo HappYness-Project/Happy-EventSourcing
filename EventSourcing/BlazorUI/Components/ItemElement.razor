@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="main-container">
-            <div class="main-fragment @(Item.IsDone ? "crossed-out" : "")" @onclick="OpenItemInEditMode">
+            <div class="main-fragment @(Item.IsDone ? "crossed-out" : "")" @onclick="OpenItemInEditMode" @onclick:stopPropagation>
                 @MainFragment
 
             </div>

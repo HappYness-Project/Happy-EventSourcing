@@ -16,7 +16,8 @@ namespace BlazorUI.Pages
         private void HandlerEditItemChanged(object? sender, ItemEditEventArgs e)
         {
             ShowEdit = e.Item != null;
-            StateHasChanged();
+            InvokeAsync(StateHasChanged);
         }
+
     }
 }

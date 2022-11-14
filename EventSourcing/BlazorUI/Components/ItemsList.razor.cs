@@ -1,4 +1,5 @@
-﻿using HP.Application.DTOs;
+﻿using BlazorUI.Services.ItemEdit;
+using HP.Application.DTOs;
 using HP.Shared;
 using HP.Shared.Contacts;
 using Microsoft.AspNetCore.Components;
@@ -8,8 +9,8 @@ namespace BlazorUI.Components
 {
     public partial class ItemsList : ComponentBase
     {
-        [Inject]
-        private ICurrentUserService CurrentUserService { get; set; }
+        [Inject] private ICurrentUserService CurrentUserService { get; set; }
+        [Inject] private ItemEditService ItemEditService { get; set; }
         //protected ObservableCollection<TodoBasicInfoDto> TodoItems { get; set; } = new ObservableCollection<TodoBasicInfoDto>();
         protected ObservableCollection<BaseItem> UserItems { get; set; } = new ObservableCollection<BaseItem>();
 
@@ -17,6 +18,10 @@ namespace BlazorUI.Components
         {
             base.OnInitialized();
             UserItems = CurrentUserService.CurrentUser.TodoItems;
+        }
+        private void OnBackgroundClicked() 
+        {
+            ItemEditService.EditItem = null;
         }
     }
 }
