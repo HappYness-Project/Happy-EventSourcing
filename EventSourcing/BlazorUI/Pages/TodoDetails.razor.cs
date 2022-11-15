@@ -14,6 +14,7 @@ namespace BlazorUI.Pages
         [Parameter] public EventCallback OnSubmitCallback { get; set; }
         public TodoDetailsDto SelectedTodo { get; set; } = new();
         public string newTodoStatus { get; set; }
+
         public bool DeleteTodoDialogOpen { get; set; }
         public bool AddTodoItemDialogOpen { get; set; }
         protected override async Task OnInitializedAsync()
@@ -33,7 +34,7 @@ namespace BlazorUI.Pages
             SelectedTodo = await _mediator.Send(new GetTodoById(TodoId));
             StateHasChanged();
         }
-        private async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
+        public async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
         {
             "start" => await _mediator.Send(new StartTodoCommand(SelectedTodo.TodoId)),
             "stop" => await _mediator.Send(new StopTodoCommand(SelectedTodo.TodoId, "Reason needs to be updated.")),
