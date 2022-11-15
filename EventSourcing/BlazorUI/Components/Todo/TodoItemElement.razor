@@ -25,6 +25,7 @@
                     </p>
                     <button class="btn btn-primary" @onclick="() => OpenUpdateTodoItemDialog(Todo, subtodo)">Update</button>
                     <button class="btn btn-danger" @onclick="() => DeleteTodoSubItem(Todo.TodoId, subtodo.Id)">Remove</button>
+                    <EditTodoItemButton IsActive=true SelectedTodo ="@Todo" TodoItem ="@subtodo"></EditTodoItemButton>
                 </div>
             </div>
         }

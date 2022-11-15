@@ -1,13 +1,13 @@
 ﻿@using HP.Application.DTOs
-<div class="todo-element" onclick="@OnClickTodoElement">
-    <div class="todo-element-main">
+<div onclick="@OnClickTodoElement">
+    <div class="check-container">
+    </div>
+    <div>
         <div class="item-main-container">
-            <div class="content-text-top">@TodoBasicInfoDto.UserId</div>
-            <div >TODO ID : @TodoBasicInfoDto.TodoId</div>
-            <div class="content-text-bottom">@TodoBasicInfoDto.TodoTitle</div>
-            <button>Details</button>
-            <button>Edit</button>
-            <button>Remove</button>
+            <div class="content-text-top">@Todo.UserId</div>
+            <div >TODO ID : @Todo.TodoId</div>
+            <div class="content-text-bottom">@Todo.TodoTitle</div>
+            <EditTodoItemButton IsActive=true></EditTodoItemButton>
         </div>
     </div>
 </div>

@@ -5,8 +5,7 @@ namespace BlazorUI.Components.Todo
 {
     public partial class TodoElement : ComponentBase
     {
-        [Parameter]
-        public TodoBasicInfoDto TodoBasicInfoDto { get; set; }
+        [Parameter] public TodoDetailsDto Todo { get; set; } = new();
         protected override void OnInitialized()
         {
             base.OnInitialized();

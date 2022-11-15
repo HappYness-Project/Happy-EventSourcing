@@ -19,4 +19,8 @@
     <ProjectReference Include="..\EventSourcing\HP.Domain\HP.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Templates\" />
+  </ItemGroup>
+
 </Project>

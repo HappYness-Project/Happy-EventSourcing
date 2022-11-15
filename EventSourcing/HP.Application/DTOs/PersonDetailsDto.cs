@@ -9,5 +9,6 @@
         public string AddressStr { get; set; }
         public string Email { get; set; }
         public string GoalType { get; set; }
+        public int ProjectId { get; set; }
     }
 }

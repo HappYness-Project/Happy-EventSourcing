@@ -10,6 +10,7 @@ namespace HP.Domain
         public Email Email { get; private set; }
         public string Description { get; private set; }
         public int GroupId { get; private set; }
+        public int ProjectId { get; private set; }
         public string Role { get; private set; }
         public GoalType GoalType { get; private set; }
         public bool IsActive { get; private set; }
