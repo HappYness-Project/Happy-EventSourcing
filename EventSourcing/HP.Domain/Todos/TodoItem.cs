@@ -15,7 +15,7 @@ namespace HP.Domain
             TodoType = todoType;
             Description = desc;
             IsActive = true;
-            TodoStatus = TodoStatus.Pending;
+            TodoStatus = TodoStatus.NotDefined;
         }
         protected override void When(IDomainEvent @event) 
         {
