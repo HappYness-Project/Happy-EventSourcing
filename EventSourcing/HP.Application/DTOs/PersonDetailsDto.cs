@@ -8,5 +8,6 @@
         public string LastName { get; set; }
         public string AddressStr { get; set; }
         public string Email { get; set; }
+        public string GoalType { get; set; }
     }
 }

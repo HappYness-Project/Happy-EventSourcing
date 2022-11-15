@@ -11,6 +11,7 @@ namespace HP.Domain
         public string Description { get; private set; }
         public int GroupId { get; private set; }
         public string Role { get; private set; }
+        public GoalType GoalType { get; private set; }
         public bool IsActive { get; private set; }
         public decimal CurrentScore { get; private set; }
         public DateTime UpdateDate { get; private set; }
@@ -33,6 +34,7 @@ namespace HP.Domain
             Email = email ?? throw new ArgumentNullException(nameof(email));
             UserId = userId;
             IsActive = true;
+            GoalType = GoalType.NotDefined;
             Role = PersonRoleType.Normal.ToString(); // For now, Normal is the default Role.
             AddDomainEvent(new PersonDomainEvents.PersonCreated(Id, firstName, lastName, email, address));
         }
