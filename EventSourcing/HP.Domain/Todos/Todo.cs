@@ -24,7 +24,7 @@ namespace HP.Domain
             IsActive = true;
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
-            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, todoType));
+            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, todoType.Name));
         }
         public string UserId { get; private set; }
         public string Title { get; private set; }
@@ -94,7 +94,7 @@ namespace HP.Domain
                 case TodoDomainEvents.TodoCreated c:
                     this.Id = c.AggregateId.ToString();
                     this.Title = c.TodoTitle;
-                    this.Type = c.Type;
+                    this.Type = TodoType.FromName(c.Type);
                     this.UserId = c.UserId;
                     break;
 

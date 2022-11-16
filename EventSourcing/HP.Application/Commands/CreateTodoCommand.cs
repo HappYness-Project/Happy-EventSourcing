@@ -25,12 +25,10 @@ namespace HP.Application.Commands
             if (person == null)
                 throw new ApplicationException($"There is no person for this person. User ID : {request.UserId}");
 
-            var type = TodoType.FromName(request.TodoType);
-            var todo = Todo.Create(person, request.TodoTitle, request.Description, type, request.Tag);
+            var todo = Todo.Create(person, request.TodoTitle, request.Description, TodoType.FromName(request.TodoType), request.Tag);
+            todo.SetStatus(TodoStatus.NotDefined);
             var checkTodo = await _repository.CreateAsync(todo);
-            var @event = new TodoDomainEvents.TodoCreated(todo.Id, person.UserId, request.TodoTitle, type);
-
-            checkTodo.SetStatus(TodoStatus.NotDefined);
+            var @event = new TodoDomainEvents.TodoCreated(todo.Id, person.UserId, request.TodoTitle, request.TodoType);
             return _mapper.Map<TodoDetailsDto>(checkTodo);
         }
     }

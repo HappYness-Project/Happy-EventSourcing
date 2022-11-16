@@ -5,18 +5,18 @@ namespace HP.Domain
     {
         public class TodoCreated : DomainEventBase
         {
-            public TodoCreated(string todoId, string userId, string todoTitle, TodoType type) 
+            public TodoCreated(string todoId, string userId, string todoTitle, string todoType) 
                 : base(entityType:nameof(Todo))
             {
                 this.TodoId = todoId;
                 this.UserId = userId;
                 this.TodoTitle = todoTitle;
-                this.Type = type;
+                this.Type = todoType;
             }
             public string TodoId { get; }
             public string UserId { get; }
             public string TodoTitle { get; }
-            public TodoType Type { get; }
+            public string Type { get; }
         }
         public class TodoUpdated : DomainEventBase
         {
