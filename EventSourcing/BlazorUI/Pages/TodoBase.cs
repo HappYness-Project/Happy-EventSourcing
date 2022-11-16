@@ -84,17 +84,9 @@ namespace BlazorUI.Pages
             TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CurrentUserName, CreateTodoRequest.Title, todoType.Name, CreateTodoRequest.Description, CreateTodoRequest.StartDate, CreateTodoRequest.TargetEndDate, null));
             NavigationManager.NavigateTo("todos");
         }
-        public void OnClickViewDetails(string todoId)
-        {
-            NavigationManager.NavigateTo($"todos/details/{todoId}");
-        }
         protected void OnClickGoToCreateTodo()
         {
             NavigationManager.NavigateTo("todos/create");
-        }
-        protected IOrderedEnumerable<IGrouping<string, TodoDetailsDto>> GetTodosByUserName()
-        {
-            return null;
         }
         protected async Task OnDeleteDialogClose(bool accepted)
         {
@@ -105,12 +97,6 @@ namespace BlazorUI.Pages
             }
             DeleteDialogOpen = false;
             StateHasChanged();
-        }
-        protected async void OpenDeleteDialog(string todoId)
-        {
-            DeleteDialogOpen = true;
-            _deleteTodoId = todoId;
-            await LoadData();
         }
     }
 }

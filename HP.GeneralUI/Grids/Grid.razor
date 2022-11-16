@@ -5,14 +5,14 @@
 <table class="table table-striped table-bordered">
     <thead class="thead-dark">
         <tr>
-            @Columns
+            @Header
         </tr>
     </thead>
     <tbody>
         @foreach(var item in Items)
         {
             <tr>
-            @Row(item)
+                @Row(item)
             </tr>
         }
     </tbody>
@@ -29,7 +29,7 @@
 @code {
     [Parameter] public string GridName { get; set; }
     [Parameter] public RenderFragment<TItem> Row { get; set;  }
-    [Parameter] public RenderFragment? Columns { get; set; }
+    [Parameter] public RenderFragment Header { get; set; }
     [Parameter] public RenderFragment Footer { get; set; }
     [Parameter] public IReadOnlyList<TItem> Items { get; set; }
 }

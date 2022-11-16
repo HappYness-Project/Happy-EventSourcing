@@ -2,32 +2,29 @@
 @inject MediatR.IMediator _mediator
 <h1>Showing all valid users</h1>
 <div class="container">
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>User name</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in people)
-            {
-                <tr>
-                    <td>@p.UserId</td>
-                    <td>@p.FirstName</td>
-                    <td>@p.LastName</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+
+    <Grid GridName="Person Information" Items="people">
+        <Header>
+            <th scope="col">User name</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+        </Header>
+        <Row>
+            <td>@context.UserId</td>
+            <td>@context.FirstName</td>
+            <td>@context.LastName</td>
+        </Row>
+    </Grid>
 </div>
 
 
 @code {
-    IEnumerable<PersonDetailsDto> people = new List<PersonDetailsDto>();
+    List<PersonDetailsDto> people = new List<PersonDetailsDto>();
     protected override async Task OnInitializedAsync()
     {
-        people =  await _mediator.Send(new GetPersonList());
+        var test =  await _mediator.Send(new GetPersonList());
+        if (test != null)
+            people = test.ToList();
     }
 }

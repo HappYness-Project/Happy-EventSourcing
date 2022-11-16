@@ -9,12 +9,16 @@
 
 
 <div class="items-container">
-    <div class="col-lg-7">
+    <div class="items-list-container">
         <BlazorUI.Components.Person.DisplayPersonList></BlazorUI.Components.Person.DisplayPersonList>
     </div>
-    <div class="col-lg-7">
-        <BlazorUI.Components.Person.EditPersonForm OnSubmitCallback="@Refresh"></BlazorUI.Components.Person.EditPersonForm>
-    </div>
+
+    @if(ShowEdit)
+    {
+        <div class="item-edit-container">
+            <BlazorUI.Components.Person.EditPersonForm OnSubmitCallback="@Refresh"></BlazorUI.Components.Person.EditPersonForm>
+        </div>
+    }
 </div>
 
 
@@ -23,7 +27,7 @@
     [Parameter] public PersonDetailsDto MainUser { get; set; } 
     IEnumerable<PersonDetailsDto> PeopleDtos { get; set; } 
     [Inject] private ICurrentUserService CurrentUserService { get; set; }
-
+    [Parameter] public bool ShowEdit { get; set; }
     protected override async Task OnInitializedAsync()
     {
         PeopleDtos = new List<PersonDetailsDto>();
