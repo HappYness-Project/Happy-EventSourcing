@@ -1,6 +1,7 @@
-﻿@*@page "/"*@
+﻿@page "/People"
 @using HP.Application.DTOs
 @using HP.Application.Queries
+@using HP.Shared.Contacts
 @inject MediatR.IMediator _mediator
 
 <PageTitle>Index Page Title</PageTitle>
@@ -14,23 +15,25 @@
     <div class="col-lg-7">
         <BlazorUI.Components.Person.EditPersonForm OnSubmitCallback="@Refresh"></BlazorUI.Components.Person.EditPersonForm>
     </div>
-
 </div>
 
 
 @code {
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
-    [Parameter] public PersonDetailsDto MainUser { get; set; }
-    IEnumerable<PersonDetailsDto> people = new List<PersonDetailsDto>();
+    //[Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public PersonDetailsDto MainUser { get; set; } 
+    IEnumerable<PersonDetailsDto> PeopleDtos { get; set; } 
+    [Inject] private ICurrentUserService CurrentUserService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        PeopleDtos = new List<PersonDetailsDto>();
+        var userName = CurrentUserService.CurrentUser.UserName;
+        MainUser = await _mediator.Send(new GetPersonUserId(userName));
         await LoadData();
-        MainUser = await _mediator.Send(new GetPersonUserId("hyunbin7303"));
     }
     private async Task LoadData()
     {
-        people = await _mediator.Send(new GetPersonList());
+        PeopleDtos = await _mediator.Send(new GetPersonList());
         StateHasChanged();
     }
     public async void Refresh()

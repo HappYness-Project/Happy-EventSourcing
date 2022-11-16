@@ -40,15 +40,15 @@
 
 @code {
     [Parameter] public PersonDetailsDto person { get; set; } = new();
-    [Parameter] public IList<Project> Projects { get; set; }
+    [Parameter] public IList<Project> Projects { get; set; } = new List<Project>();
     [Parameter] public EventCallback OnSubmitCallback { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Project p1 = new Project { ProjectId = 1, ProjectName = "Programming", ProjectType = "Programming" };
+        Project p1 = new Project { ProjectId = 1, ProjectName = "Programming",     ProjectType = "Programming" };
         Project p2 = new Project { ProjectId = 2, ProjectName = "Dotnet Research", ProjectType = "Study" };
-        Project p3 = new Project { ProjectId = 3, ProjectName = "English Study", ProjectType = "Study" };
+        Project p3 = new Project { ProjectId = 3, ProjectName = "English Study",   ProjectType = "Study" };
         Projects.Add(p1);
         Projects.Add(p2);
         Projects.Add(p3);
