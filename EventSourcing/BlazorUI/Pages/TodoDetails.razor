@@ -6,32 +6,31 @@
 
 
     <EditForm Model="@SelectedTodo">
-        <DataAnnotationsValidator/>
+        <DataAnnotationsValidator />
         <div class="form-group">
             <div style="margin-bottom: 0.5rem;">
                 <label>Todo Title: </label>
-                <InputText style="font-weight:bold" type="text" @bind-Value="SelectedTodo.TodoTitle" />
+                <InputText style="font-weight:bold" type="text"  @bind-Value="SelectedTodo.TodoTitle" />
             </div>
         </div>
         <h3>Todo(@SelectedTodo.TodoId) Details</h3>
         <div class="form-group" style="margin-bottom: 1rem;">
             <label>Todo Status: </label>
-            <select @onchange="StatusSelected">
+            <InputSelect ValueChanged="@((string value) => StatusSelected(value))" Value="@SelectedTodo.TodoStatus" ValueExpression="@(()=>SelectedTodo.TodoStatus)" >
                 @{
-                    <option>@SelectedTodo.TodoStatus</option>
                     foreach (var status in TodoStatus.List())
                     {
                         <option value="@status">@status</option>
                     }
                 }
-            </select>
+            </InputSelect>
         </div>
         <button type="button" class="btn btn-danger btn-sm" @onclick="()=> OpenDeleteDialog()">Delete</button>
         <hr />
         <div class="col-8 row">
             <div style="margin-bottom: 0.5rem;">
                 <label>Todo Type: </label>
-                <InputSelect @bind-Value="SelectedTodo.TodoType" >
+                <InputSelect @bind-Value="SelectedTodo.TodoType">
                     @{
                         foreach (var type in TodoType.List())
                         {

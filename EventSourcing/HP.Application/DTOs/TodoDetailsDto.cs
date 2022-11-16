@@ -11,7 +11,7 @@ namespace HP.Application.DTOs
         public string TodoType { get; set; }
         public bool IsActive { get; set; }
         public bool IsDone { get; set; }
-        public TodoStatus TodoStatus { get; set; }
+        public string TodoStatus { get; set; }
         public ICollection<TodoItem> SubTodos { get; set; }
         public DateTime? CreatedDateTime { get; set; }
         public DateTime? CompletedDateTime { get; set; }

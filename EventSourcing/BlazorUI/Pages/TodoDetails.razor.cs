@@ -11,17 +11,12 @@ namespace BlazorUI.Pages
         [Inject] public IMediator _mediator { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Parameter] public string TodoId { get; set; } = string.Empty;
-        [Parameter] public EventCallback OnSubmitCallback { get; set; }
         public TodoDetailsDto SelectedTodo { get; set; } = new();
-        public string newTodoStatus { get; set; }
-
         public bool DeleteTodoDialogOpen { get; set; }
         public bool AddTodoItemDialogOpen { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadTodoData();
-            if (SelectedTodo.TodoStatus != null)
-                newTodoStatus = SelectedTodo.TodoStatus.Name;
         }
         protected async Task SaveTodoChanges()
         {
@@ -43,10 +38,10 @@ namespace BlazorUI.Pages
             "complete" => await _mediator.Send(new CompleteTodoCommand(SelectedTodo.TodoId)),
             _ => throw new ArgumentException("Invalid string value for command", nameof(command)),
         };
-        private void StatusSelected(ChangeEventArgs args)
+        private async Task StatusSelected(string value)
         {
-            newTodoStatus = args.Value as string;
-            PerformStatusOperation(newTodoStatus);
+            await PerformStatusOperation(value);
+            await LoadTodoData();
         }
         private async Task OnAddTodoItemDialogClose(bool accepted)
         {
