@@ -13,12 +13,11 @@
                         <code>@subtodo.Description</code>:
                     </p>
                     <p>
-                        <select @onchange="StatusSelected">
+                        <select @onchange="StatusSelected" value = "@subtodo.TodoStatus" >
                             @{
-                                <option>@subtodo.TodoStatus</option>
                                 foreach (var status in TodoStatus.List())
                                 {
-                                    <option value="@status">@status</option>
+                                        <option value="@status">@status</option>
                                 }
                             }
                         </select>
