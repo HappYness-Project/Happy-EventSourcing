@@ -12,39 +12,14 @@
 
 @if (string.IsNullOrEmpty(TodoIdInput))
 {
-    <div class="w-100">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>TODO ID</th>
-                    <th>User ID</th>
-                    <th>Title</th>
-                    <th>Options</th>
-
-                </tr>
-            </thead>
-            <tbody>
-
-                @if (Todos == null)
-                {
-                    <tr><td><em>Loading...</em></td></tr>
-                }
-
-                @foreach (var t in Todos)
-                {
-                    <tr>
-                        <td style="text-underline-position:below; cursor:pointer; color:blue" @onclick="@(() => OnClickViewDetails(t.TodoId))">@t.TodoId</td>
-                        <td>@t.UserId</td>
-                        <td>@t.TodoTitle</td>
-                        <td>
-                            <button type="button" class="btn btn-primary" @onclick="@(() => OnClickViewDetails(@t.TodoId))">View Details</button>
-                            <button type="button" class="btn btn-danger btn-sm" @onclick="@(() => OpenDeleteDialog(@t.TodoId))">Delete</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+    <DisplayTodoList></DisplayTodoList>
+    @if(Todos == null)
+    {
+        @foreach(TodoDetailsDto t in Todos)
+        {
+            <TodoElement Todo = "@t"></TodoElement>
+        }
+    }
 }
 else
 {

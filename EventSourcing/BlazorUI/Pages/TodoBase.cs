@@ -15,7 +15,7 @@ namespace BlazorUI.Pages
     {
         [Inject] public IMediator Mediator { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
-        [Inject] private ICurrentUserService CurrentUserService { get; set; }
+        [Inject] public ICurrentUserService CurrentUserService { get; set; }
         [Parameter] public string TodoId { get; set; }
         public TodoDetailsDto TodoDetails { get; private set; } = new();
         public TodoDetailsDto TodoDetailsFromTodoSearch { get; private set; }
@@ -84,7 +84,7 @@ namespace BlazorUI.Pages
             TodoDetailsDto newTodo = await Mediator.Send(new CreateTodoCommand(CurrentUserName, CreateTodoRequest.Title, todoType.Name, CreateTodoRequest.Description, CreateTodoRequest.StartDate, CreateTodoRequest.TargetEndDate, null));
             NavigationManager.NavigateTo("todos");
         }
-        protected void OnClickViewDetails(string todoId)
+        public void OnClickViewDetails(string todoId)
         {
             NavigationManager.NavigateTo($"todos/details/{todoId}");
         }
