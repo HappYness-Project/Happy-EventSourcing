@@ -1,7 +1,7 @@
 ﻿using HP.Domain.Common;
 namespace HP.Domain
 {
-    public class Todo : Entity, IAggregateRoot
+    public class Todo : Entity
     {
         protected Todo()
         {

@@ -2,13 +2,9 @@
 
 namespace HP.Domain.Common
 {
-
-    public abstract class Entity // This is for Domain Model such as Person and Todo.
+    public abstract class Entity : BaseEntity
     {
-        public string Id { get; protected set; }
         public DateTime CreatedDate { get; private set; }
-        public long Version { get; private set; }
-
         public Entity()
         {
             Id = ObjectId.GenerateNewId().ToString();
@@ -19,18 +15,8 @@ namespace HP.Domain.Common
         public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
         protected void AddDomainEvent(IDomainEvent domainEvent)
         {
-            // TODO : Check Invriants??
-            // TODO L: Update Aggregate?? 
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();
             _domainEvents.Add(domainEvent);
-        }
-        public void ClearDomainEvents()
-        {
-            _domainEvents?.Clear();
-        }
-        public void RemoveEvent(IDomainEvent domainEvent)
-        {
-            _domainEvents?.Remove(domainEvent);
         }
         protected static void CheckRule(IBusinessRule rule)
         {

@@ -1,7 +1,7 @@
 ﻿using HP.Domain.Common;
 namespace HP.Domain
 {
-    public class Person : Entity, IAggregateRoot
+    public class Person : Entity
     {
         public string UserId { get; private set; }
         public string FirstName { get; private set; }

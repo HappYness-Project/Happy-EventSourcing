@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace HP.Domain
 {
-    public interface IAggregateRoot { }
+    public interface IAggregateRoot<T> { }
+
+    public abstract class Aggregate<T>: IAggregateRoot<T> where T : notnull
+    {
+
+    }
 }
 
 
