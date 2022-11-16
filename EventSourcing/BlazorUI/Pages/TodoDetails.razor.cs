@@ -36,10 +36,10 @@ namespace BlazorUI.Pages
         }
         public async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
         {
-            "start" => await _mediator.Send(new StartTodoCommand(SelectedTodo.TodoId)),
-            "stop" => await _mediator.Send(new StopTodoCommand(SelectedTodo.TodoId, "Reason needs to be updated.")),
-            "accept" => await _mediator.Send(new AcceptTodoCommand(SelectedTodo.TodoId)),
-            "pending" => await _mediator.Send(new PendingTodoCommand(SelectedTodo.TodoId)),
+            "start" =>    await _mediator.Send(new StartTodoCommand(SelectedTodo.TodoId)),
+            "stop" =>     await _mediator.Send(new StopTodoCommand(SelectedTodo.TodoId, "Reason needs to be updated.")),
+            "accept" =>   await _mediator.Send(new AcceptTodoCommand(SelectedTodo.TodoId)),
+            "pending" =>  await _mediator.Send(new PendingTodoCommand(SelectedTodo.TodoId)),
             "complete" => await _mediator.Send(new CompleteTodoCommand(SelectedTodo.TodoId)),
             _ => throw new ArgumentException("Invalid string value for command", nameof(command)),
         };
