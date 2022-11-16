@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace HP.Domain
 {
-    public interface IBaseRepository<T> : IDisposable where T : Entity
+    public interface IBaseRepository<T> where T : Entity
     {
         Task<T> CreateAsync(T entity);
         Task InsertManyAsync(ICollection<T> documents);

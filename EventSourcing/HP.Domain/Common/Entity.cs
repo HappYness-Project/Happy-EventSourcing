@@ -3,10 +3,12 @@
 namespace HP.Domain.Common
 {
     public abstract class Entity : BaseEntity
-    {
+    { 
         public DateTime CreatedDate { get; private set; }
-        public Entity()
+        public Entity(){}
+        public Entity(string id)
         {
+
             Id = ObjectId.GenerateNewId().ToString();
             CreatedDate = DateTime.Now;
         }
@@ -17,13 +19,6 @@ namespace HP.Domain.Common
         {
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();
             _domainEvents.Add(domainEvent);
-        }
-        protected static void CheckRule(IBusinessRule rule)
-        {
-            if (rule.IsBroken())
-            {
-                throw new BusinessRuleValidationException(rule);
-            }
         }
         protected abstract void When(IDomainEvent @event);
     }

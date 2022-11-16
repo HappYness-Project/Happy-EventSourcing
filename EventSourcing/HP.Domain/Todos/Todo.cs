@@ -3,12 +3,12 @@ namespace HP.Domain
 {
     public class Todo : Entity
     {
-        protected Todo()
+        protected Todo(string id) : base(id)
         {
             IsActive = true;
             Tag = Array.Empty<string>();
         }
-        public Todo(Person person, string title, string description, TodoType todoType, string[] tag) : this()
+        public Todo(Person person, string title, string description, TodoType todoType, string[] tag) 
         {
             // TODO : CheckPolicies
             if (person is null)
