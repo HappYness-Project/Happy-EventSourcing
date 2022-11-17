@@ -5,11 +5,14 @@ namespace HP.Domain.Common
     public abstract class Entity : BaseEntity
     { 
         public DateTime CreatedDate { get; private set; }
-        public Entity(){}
+        public Entity()
+        {
+            Id = ObjectId.GenerateNewId().ToString();
+            CreatedDate = DateTime.Now;
+        }
         public Entity(string id)
         {
-
-            Id = ObjectId.GenerateNewId().ToString();
+            Id = id;
             CreatedDate = DateTime.Now;
         }
 
