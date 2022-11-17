@@ -13,13 +13,13 @@
 @if (string.IsNullOrEmpty(TodoIdInput))
 {
     <DisplayTodoList></DisplayTodoList>
-    @if(Todos == null)
+@*    @if(Todos == null)
     {
         @foreach(TodoDetailsDto t in Todos)
         {
             <TodoElement Todo = "@t"></TodoElement>
         }
-    }
+    }*@
 }
 else
 {

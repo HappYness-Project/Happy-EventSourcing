@@ -16,7 +16,7 @@ namespace BlazorUI.Components.Todo
         [Inject] public ICurrentUserService CurrentUserService { get; set; }
         public TodoDetailsDto SelectedTodo { get; set; }
         public Type DynamicComponentType { get; set; }
-        public IEnumerable<TodoDetailsDto> TodoDetailsDtos { get; set; } = new List<TodoDetailsDto>();
+        public List<TodoDetailsDto> TodoDetailsDtos { get; set; } = new List<TodoDetailsDto>();
         public Dictionary<string, object> DynamicComponentParams { get; set; }
         public bool DeleteTodoDialogOpen { get; set; } = false;
         public string _deleteTodoId { get; set; }
@@ -26,7 +26,8 @@ namespace BlazorUI.Components.Todo
         {
             base.OnInitializedAsync();
             var username = CurrentUserService.CurrentUser.UserName;
-            TodoDetailsDtos = await _mediator.Send(new GetTodosByUserId(username));
+            var todos = await _mediator.Send(new GetTodosByUserId(username));
+            TodoDetailsDtos = todos.ToList();
             //Todos = CurrentUserService.CurrentUser.TodoItems;
         }
         public void OnClickViewDetails(string todoId)
@@ -52,7 +53,8 @@ namespace BlazorUI.Components.Todo
         private async Task LoadData()
         {
             var temp_username = CurrentUserService.CurrentUser.UserName;
-            TodoDetailsDtos = await _mediator.Send(new GetTodosByUserId(temp_username));
+            var todos = await _mediator.Send(new GetTodosByUserId(temp_username));
+            TodoDetailsDtos = todos.ToList();
             StateHasChanged();
         }
     }

@@ -4,42 +4,25 @@
 
     @if (TodoDetailsDtos != null)
     {
-        <div class="w-100">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>TODO ID</th>
-                        <th>Title</th>
-                        <th>Todo Status</th>
-                        <th>Created Date Time</th>
-                        <th>Options</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @if (TodoDetailsDtos == null)
-                    {
-                        <tr><td><em>Loading...</em></td></tr>
-                    }
-
-                    @foreach (var t in TodoDetailsDtos)
-                    {
-                        <tr>
-                            <td style="text-underline-position:below; cursor:pointer; color:blue" @onclick="@(() => OnClickViewDetails(t.TodoId))">@t.TodoId</td>
-                            <td>@t.TodoTitle</td>
-                            <td>@t.TodoStatus</td>
-                            <td>@t.CreatedDateTime</td>
-                            <td>
-                                <button type="button" class="btn btn-primary" @onclick="@(() => OnClickViewDetails(@t.TodoId))">View Details</button>
-                                <button type="button" class="btn btn-danger btn-sm" @onclick="@(() => OpenDeleteDialog(@t.TodoId))">Delete</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
+        <Grid GridName="Todo Information" Items="TodoDetailsDtos">
+            <Header>
+                <th scope="col">TODO ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Todo Status</th>
+                <th scope="col">Created Date Time</th>
+                <th scope="col">Options</th>
+            </Header>
+            <Row>
+                <td style="text-underline-position:below; cursor:pointer; color:blue" @onclick="@(() => OnClickViewDetails(context.TodoId))">@context.TodoId</td>
+                <td>@context.TodoTitle</td>
+                <td>@context.TodoStatus</td>
+                <td>@context.CreatedDateTime</td>
+                <td>
+                    <button type="button" class="btn btn-primary" @onclick="@(() => OnClickViewDetails(@context.TodoId))">View Details</button>
+                    <button type="button" class="btn btn-danger btn-sm" @onclick="@(() => OpenDeleteDialog(@context.TodoId))">Delete</button>
+                </td>
+            </Row>
+        </Grid>
     }
 </div>
 
