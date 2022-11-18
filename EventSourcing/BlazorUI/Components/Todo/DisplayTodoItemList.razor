@@ -1,0 +1,15 @@
+﻿<div class="col-8 row">
+    @if (Todo.SubTodos != null)
+    {
+        @foreach (TodoItem todoItem in Todo.SubTodos)
+        {
+            <TodoItemElement TodoItem="@todoItem" ParentTodo="@Todo"></TodoItemElement>
+        }
+    }
+</div>
+
+@if (UpdateTodoItemDialogOpen)
+{
+    <TodoItemDialog Title="Update TodoItem" Text="@SelectTodoItem.Id" ParentTodo="@Todo" SelectedTodoItem="@SelectTodoItem" OnClose="@OnUpdateTodoItemDialogClose" TodoItemDialogType=TodoItemDialog.DialogType.Update></TodoItemDialog>
+}
+

@@ -1,38 +1,29 @@
-﻿<div class="col-8 row">
-    @if (Todo.SubTodos != null)
-    {
-        @foreach (var subtodo in Todo.SubTodos)
-        {
-            <div class="card bg-light mt-3" style="width:25rem;">
-                <div class="card-header">
-                    Sub Todo Item:@subtodo.Id
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">@subtodo.Title </h3>
-                    <p class="card-text">
-                        <code>@subtodo.Description</code>:
-                    </p>
-                    <p>
-                        <select @onchange="StatusSelected" value = "@subtodo.TodoStatus" >
-                            @{
-                                foreach (var status in TodoStatus.List())
-                                {
-                                        <option value="@status">@status</option>
-                                }
-                            }
-                        </select>
-                    </p>
-                    <button class="btn btn-primary" @onclick="() => OpenUpdateTodoItemDialog(Todo, subtodo)">Update</button>
-                    <button class="btn btn-danger" @onclick="() => DeleteTodoSubItem(Todo.TodoId, subtodo.Id)">Remove</button>
-                    <EditTodoItemButton IsActive=true SelectedTodo ="@Todo" TodoItem ="@subtodo"></EditTodoItemButton>
-                </div>
-            </div>
-        }
-    }
+﻿<div class="card bg-light mt-3" style="width:25rem;">
+    <div class="card-header">
+        Sub Todo Item:@TodoItem.Id
+    </div>
+    <div class="card-body">
+        <h3 class="card-title">@TodoItem.Title </h3>
+        <p class="card-text">
+            <code>@TodoItem.Description</code>:
+        </p>
+        <p>
+            <select @onchange="StatusSelected" value = "@TodoItem.TodoStatus" >
+                @{
+                    foreach (var status in TodoStatus.List())
+                    {
+                        <option value="@status">@status</option>
+                    }
+                }
+            </select>
+        </p>
+        <button class="btn btn-primary" @onclick="() => OpenUpdateTodoItemDialog(TodoItem)">Update</button>
+        <button class="btn btn-danger" @onclick="() => DeleteTodoSubItem(ParentTodo.TodoId, TodoItem.Id)">Remove</button>
+    </div>
 </div>
+
 
 @if (UpdateTodoItemDialogOpen)
 {
-    <TodoItemDialog Title="Update TodoItem" Text="@SelectTodoItem.Id" ParentTodo="@Todo" SelectedTodoItem="@SelectTodoItem" OnClose="@OnUpdateTodoItemDialogClose" TodoItemDialogType=TodoItemDialog.DialogType.Update></TodoItemDialog>
+    <TodoItemDialog Title="Update TodoItem" Text="@TodoItem.Id" ParentTodoId="@ParentTodo.TodoId" SelectedTodoItem="@TodoItem" OnClose="@OnUpdateTodoItemDialogClose" TodoItemDialogType=TodoItemDialog.DialogType.Update></TodoItemDialog>
 }
-

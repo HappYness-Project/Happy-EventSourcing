@@ -57,10 +57,18 @@
         <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(SelectedTodo)">Create SubTodo</button>
         @if (SelectedTodo.SubTodos != null)
         {
-            <TodoItemElement Todo="@SelectedTodo"></TodoItemElement>
+            <DisplayTodoItemList Todo = "@SelectedTodo"></DisplayTodoItemList>
         }
         <p>&nbsp;&nbsp;</p>
     </div>
+
+
+    <hr />
+    <div>
+        <h4>Completed Sub Items</h4>
+
+    </div>
+
 </div>
 
 
@@ -69,5 +77,5 @@
 </TemplatedDialog>
 
 <TemplatedDialog Show="AddTodoItemDialogOpen">
-    <TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodo="@SelectedTodo" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>
+    <TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodoId="@SelectedTodo.TodoId" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>
 </TemplatedDialog>

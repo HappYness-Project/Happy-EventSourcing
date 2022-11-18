@@ -93,7 +93,7 @@
     [Parameter] public string Title { get; set; }
     [Parameter] public string Text { get; set; }
     [Parameter] public DialogType TodoItemDialogType { get; set; }
-    [Parameter] public TodoDetailsDto ParentTodo { get; set; } = new();
+    [Parameter] public string ParentTodoId { get; set; } = string.Empty;
     [Parameter] public EventCallback<bool> OnClose { get; set; }
     [Parameter] public TodoItem SelectedTodoItem { get; set; }
     public CreateTodoItemModel Todoitem { get; set; } = new();
@@ -118,11 +118,11 @@
     {
         if (TodoItemDialogType == DialogType.Create)
         {
-            await _mediator.Send(new CreateTodoItemCommand(ParentTodo.TodoId, Todoitem.Title, Todoitem.TodoType, Todoitem.Description));
+            await _mediator.Send(new CreateTodoItemCommand(ParentTodoId, Todoitem.Title, Todoitem.TodoType, Todoitem.Description));
         }
         else if (TodoItemDialogType == DialogType.Update)
         {
-            await _mediator.Send(new UpdateTodoItemCommand(ParentTodo.TodoId, SelectedTodoItem.Id, SelectedTodoItem.Title, SelectedTodoItem.Description, SelectedTodoItem.TodoType));
+            await _mediator.Send(new UpdateTodoItemCommand(ParentTodoId, SelectedTodoItem.Id, SelectedTodoItem.Title, SelectedTodoItem.Description, SelectedTodoItem.TodoType));
         }
         await OnClose.InvokeAsync(true);
     }
