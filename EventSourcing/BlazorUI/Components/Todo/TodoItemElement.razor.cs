@@ -44,7 +44,8 @@ namespace BlazorUI.Components.Todo
         }
         private async Task StatusSelected(ChangeEventArgs args)
         {
-            newTodoStatus = args.Value as string;
+            var IsUpdated = await _mediator.Send(new UpdateStatusTodoItemCommand(ParentTodo.TodoId, TodoItem.Id, args.Value as string));
+            StateHasChanged();
         }
 
     }

@@ -13,7 +13,6 @@ namespace BlazorUI.Components.Todo
         [Parameter] public TodoDetailsDto Todo { get; set; }
         public TodoItem SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
-        public string newTodoStatus { get; set; } = string.Empty;
         protected bool IsSelected { get; set; }
         public string todoItemId { get; set; } = string.Empty;
         protected override void OnInitialized()
@@ -25,10 +24,6 @@ namespace BlazorUI.Components.Todo
             SelectTodoItem = null;
             UpdateTodoItemDialogOpen = false;
             StateHasChanged();
-        }
-        private async Task StatusSelected(ChangeEventArgs args)
-        {
-            newTodoStatus = args.Value as string;
         }
 
         private async Task DeleteTodoSubItem(string subTodoId)

@@ -2,15 +2,15 @@
 using MediatR;
 namespace HP.Application.Commands
 {
-    public record UpdateTodoItemCommand(string TodoId, string TodoItemId, string Title, string Desc, string Type) : IRequest<bool>;
-    public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemCommand, bool>
+    public record UpdateStatusTodoItemCommand(string TodoId, string TodoItemId, string Status) : IRequest<bool>;
+    public class UpdateStatusTodoItemCommandHandler : IRequestHandler<UpdateStatusTodoItemCommand, bool>
     {
         private readonly ITodoRepository _repository;
-        public UpdateTodoItemCommandHandler(ITodoRepository todoRepository)
+        public UpdateStatusTodoItemCommandHandler(ITodoRepository todoRepository)
         {
             this._repository = todoRepository;
         }
-        public async Task<bool> Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateStatusTodoItemCommand request, CancellationToken cancellationToken)
         {
             var todo = await _repository.GetByIdAsync(request.TodoId);
             if (todo == null)
@@ -20,9 +20,8 @@ namespace HP.Application.Commands
             if (todoItem == null)
                 throw new ApplicationException($"{request.TodoItemId} does not exist in the TodoId: {todo.Id}");
 
-            todo.UpdateTodoItem(request.TodoItemId, request.Title, request.Desc, request.Type);
+            todoItem.TodoStatus = TodoStatus.FromName(request.Status);
             await _repository.UpdateAsync(todo);
-            var @event = new TodoDomainEvents.TodoItemRemoved(request.TodoItemId);
             return true;
         }
     }
