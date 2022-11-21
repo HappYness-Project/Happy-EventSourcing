@@ -29,11 +29,7 @@ namespace BlazorUI.Components.Todo
         {
             await TodoItemChanged.InvokeAsync(removeTodoItemId);
         }
-        private async Task LoadTodoData()
-        {
-            ParentTodo = await _mediator.Send(new GetTodoById(ParentTodo.TodoId));
-            StateHasChanged();
-        }
+
         private void OpenUpdateTodoItemDialog(TodoItem todoItem)
         {
             SelectTodoItem = todoItem;

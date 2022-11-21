@@ -11,7 +11,8 @@ namespace HP.Application.Queries.Todos
                                      IRequestHandler<GetTodoById, TodoDetailsDto>,
                                      IRequestHandler<GetTodosByProjectId, IEnumerable<TodoDetailsDto>>,
                                      IRequestHandler<GetTodoItemsByTodoId, IEnumerable<TodoItem>>,
-                                     IRequestHandler<GetTodoItemByTodoItemId, TodoItem>
+                                     IRequestHandler<GetTodoItemByTodoItemId, TodoItem>,
+                                     IRequestHandler<GetCompletedTodoItemsByTodoId, IEnumerable<TodoItem>>
 
     {
         private readonly ITodoRepository _todoRepository;
@@ -76,6 +77,16 @@ namespace HP.Application.Queries.Todos
                 throw new ApplicationException($"Cannot find the todo Item: {request.todoItemId}, from todo ID: {request.todoId}");
 
             return todoItem;
+        }
+
+        public async Task<IEnumerable<TodoItem>> Handle(GetCompletedTodoItemsByTodoId request, CancellationToken cancellationToken)
+        {
+            var todo = await _todoRepository.GetByIdAsync(request.todoId);
+            if (todo == null)
+                throw new ApplicationException($"Cannot find the Todo ID:{request.todoId}");
+
+            var completedItems = todo.SubTodos.Where(x => x.TodoStatus == TodoStatus.Complete);
+            return completedItems;
         }
     }
 }
