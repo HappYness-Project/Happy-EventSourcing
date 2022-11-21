@@ -13,22 +13,26 @@ namespace BlazorUI.Components.Todo
         [Parameter] public TodoItem TodoItem { get; set; }
         [Parameter] public TodoDetailsDto ParentTodo { get; set; }
         [Parameter] public EventCallback<bool> OnTodoItemSelection { get; set; }
+        [Parameter] public EventCallback<string> TodoItemChanged { get; set; }
         public TodoItem SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         public string newTodoStatus { get; set; } = string.Empty;
         protected bool IsSelected { get; set; }
+        [Parameter]public string TodoItemId { get; set; } = string.Empty;
 
         protected async Task CheckBoxChanged(ChangeEventArgs e)
         {
             IsSelected = (bool)e.Value;
             await OnTodoItemSelection.InvokeAsync(IsSelected);
         }
-        private async Task DeleteTodoSubItem(string todoId, string subTodoId)
+        protected async Task DeleteButtonClicked(string removeTodoItemId)
         {
-            bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(todoId, subTodoId));
-            if (isRemoved)
-                await LoadTodoData();
-
+            await TodoItemChanged.InvokeAsync(removeTodoItemId);
+        }
+        private async Task LoadTodoData()
+        {
+            ParentTodo = await _mediator.Send(new GetTodoById(ParentTodo.TodoId));
+            StateHasChanged();
         }
         private void OpenUpdateTodoItemDialog(TodoItem todoItem)
         {
@@ -46,10 +50,6 @@ namespace BlazorUI.Components.Todo
         {
             newTodoStatus = args.Value as string;
         }
-        private async Task LoadTodoData()
-        {
-            ParentTodo = await _mediator.Send(new GetTodoById(ParentTodo.TodoId));
-            StateHasChanged();
-        }
+
     }
 }

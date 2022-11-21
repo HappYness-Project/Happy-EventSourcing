@@ -15,11 +15,10 @@ namespace BlazorUI.Components.Todo
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         public string newTodoStatus { get; set; } = string.Empty;
         protected bool IsSelected { get; set; }
-        private void OpenUpdateTodoItemDialog(TodoDetailsDto todo, TodoItem todoItem)
+        public string todoItemId { get; set; } = string.Empty;
+        protected override void OnInitialized()
         {
-            SelectTodoItem = todoItem;
-            UpdateTodoItemDialogOpen = true;
-            StateHasChanged();
+            base.OnInitialized();
         }
         private void OnUpdateTodoItemDialogClose(bool accepted)
         {
@@ -30,6 +29,19 @@ namespace BlazorUI.Components.Todo
         private async Task StatusSelected(ChangeEventArgs args)
         {
             newTodoStatus = args.Value as string;
+        }
+
+        private async Task DeleteTodoSubItem(string subTodoId)
+        {
+            todoItemId = subTodoId;
+            bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(Todo.TodoId, subTodoId));
+            if (isRemoved)
+                await LoadTodoData();
+        }
+        private async Task LoadTodoData()
+        {
+            Todo = await _mediator.Send(new GetTodoById(Todo.TodoId));
+            StateHasChanged();
         }
     }
 }

@@ -18,7 +18,8 @@
             </select>
         </p>
         <button class="btn btn-primary" @onclick="() => OpenUpdateTodoItemDialog(TodoItem)">Update</button>
-        <button class="btn btn-danger" @onclick="() => DeleteTodoSubItem(ParentTodo.TodoId, TodoItem.Id)">Remove</button>
+        <button class="btn btn-danger" @onclick="() => DeleteButtonClicked(TodoItem.Id)" >Remove</button>
+   @* @onclick="() => DeleteTodoSubItem(ParentTodo.TodoId, TodoItem.Id)"*@
     </div>
 </div>
 
