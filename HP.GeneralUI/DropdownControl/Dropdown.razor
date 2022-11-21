@@ -8,7 +8,7 @@
             aria-haspopup="true"
             aria-expanded="false">
 
-            @(SelectableItems == null ? "Please select your gender" : SelectedItem.DisplayText)
+            @(SelectableItems == null ? "Please select" : SelectedItem.DisplayText)
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         @foreach (var item in SelectableItems)
