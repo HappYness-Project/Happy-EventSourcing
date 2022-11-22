@@ -9,17 +9,9 @@
 <div class="text-left bg-blue-100">
     <input class="border-4 w-1/3 rounded m-6 p-6 h-8 border-blue-300" @bind-value="TodoIdInput" @bind-value:event="oninput" placeholder="Search by Todo ID" @onkeyup="@(() => SearchChanged(TodoIdInput))" />
 </div>
-
 @if (string.IsNullOrEmpty(TodoIdInput))
 {
     <DisplayTodoList></DisplayTodoList>
-@*    @if(Todos == null)
-    {
-        @foreach(TodoDetailsDto t in Todos)
-        {
-            <TodoElement Todo = "@t"></TodoElement>
-        }
-    }*@
 }
 else
 {

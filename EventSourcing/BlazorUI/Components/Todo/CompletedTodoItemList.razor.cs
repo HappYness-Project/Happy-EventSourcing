@@ -40,8 +40,11 @@ namespace BlazorUI.Components.Todo
         }
         private async Task LoadCompletedTodoItemData()
         {
-            CompletedTodoItems = await _mediator.Send(new GetCompletedTodoItemsByTodoId(Todo.TodoId));
-            StateHasChanged();
+            if(Todo.TodoId != null)
+            {
+                CompletedTodoItems = await _mediator.Send(new GetCompletedTodoItemsByTodoId(Todo.TodoId));
+                StateHasChanged();
+            }
         }
     }
 }

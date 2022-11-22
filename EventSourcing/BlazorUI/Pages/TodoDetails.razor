@@ -58,22 +58,24 @@
             <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(SelectedTodo)">Create SubTodo</button>
             @if (SelectedTodo.SubTodos != null)
             {
-                <DisplayTodoItemList ></DisplayTodoItemList>
+                <DisplayTodoItemList></DisplayTodoItemList>
             }
+
             <p>&nbsp;&nbsp;</p>
+
         </div>
 
         <hr />
+
         <div>
-            <h4>Completed Sub Items</h4>
             @if (SelectedTodo.SubTodos != null)
             {
-                <CompletedTodoItemList ></CompletedTodoItemList>
+                <TemplatedCollapsible Title="Completed Task" ActionText="Display Completed Task" UrlString="@("/todos/details/" + SelectedTodo.TodoId)">
+                    <CompletedTodoItemList></CompletedTodoItemList>
+                </TemplatedCollapsible>
             }
         </div>
     </CascadingValue>
-
-
 </div>
 
 
