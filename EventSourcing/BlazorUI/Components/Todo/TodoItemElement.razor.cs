@@ -11,6 +11,7 @@ namespace BlazorUI.Components.Todo
     {
         [Inject] public IMediator _mediator { get; set; }
         [Parameter] public TodoItem TodoItem { get; set; }
+        [CascadingParameter(Name = "ParentTodoDto")]
         [Parameter] public TodoDetailsDto ParentTodo { get; set; }
         [Parameter] public EventCallback<bool> OnTodoItemSelection { get; set; }
         [Parameter] public EventCallback<string> TodoItemRemoved { get; set; }
