@@ -10,13 +10,13 @@
         <div class="form-group">
             <div style="margin-bottom: 0.5rem;">
                 <label>Todo Title: </label>
-                <InputText style="font-weight:bold" type="text"  @bind-Value="SelectedTodo.TodoTitle" />
+                <InputText style="font-weight:bold" type="text" @bind-Value="SelectedTodo.TodoTitle" />
             </div>
         </div>
         <h3>Todo(@SelectedTodo.TodoId) Details</h3>
         <div class="form-group" style="margin-bottom: 1rem;">
             <label>Todo Status: </label>
-            <InputSelect ValueChanged="@((string value) => StatusSelected(value))" Value="@SelectedTodo.TodoStatus" ValueExpression="@(()=>SelectedTodo.TodoStatus)" >
+            <InputSelect ValueChanged="@((string value) => StatusSelected(value))" Value="@SelectedTodo.TodoStatus" ValueExpression="@(()=>SelectedTodo.TodoStatus)">
                 @{
                     foreach (var status in TodoStatus.List())
                     {
@@ -51,26 +51,28 @@
         <button class="btn btn-success ml-1" type="submit" @onclick="()=> SaveTodoChanges()">Save Changes</button>
     </EditForm>
 
-    <div>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-        <h4>Sub Items</h4>
-        <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(SelectedTodo)">Create SubTodo</button>
-        @if (SelectedTodo.SubTodos != null)
-        {
-            <DisplayTodoItemList Todo = "@SelectedTodo"></DisplayTodoItemList>
-        }
-        <p>&nbsp;&nbsp;</p>
-    </div>
+    <CascadingValue Value="@SelectedTodo" Name="ParentTodoDto">
+        <div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <h4>Sub Items</h4>
+            <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(SelectedTodo)">Create SubTodo</button>
+            @if (SelectedTodo.SubTodos != null)
+            {
+                <DisplayTodoItemList ></DisplayTodoItemList>
+            }
+            <p>&nbsp;&nbsp;</p>
+        </div>
 
+        <hr />
+        <div>
+            <h4>Completed Sub Items</h4>
+            @if (SelectedTodo.SubTodos != null)
+            {
+                <CompletedTodoItemList ></CompletedTodoItemList>
+            }
+        </div>
+    </CascadingValue>
 
-    <hr />
-    <div>
-        <h4>Completed Sub Items</h4>
-        @if (SelectedTodo.SubTodos != null)
-        {
-            <CompletedTodoItemList Todo = "@SelectedTodo"></CompletedTodoItemList>
-        }
-    </div>
 
 </div>
 

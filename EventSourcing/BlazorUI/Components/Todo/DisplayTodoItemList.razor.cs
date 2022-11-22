@@ -10,7 +10,9 @@ namespace BlazorUI.Components.Todo
     public partial class DisplayTodoItemList : ComponentBase
     {
         [Inject] public IMediator _mediator { get; set; }
-        [Parameter] public TodoDetailsDto Todo { get; set; }
+
+        [CascadingParameter(Name = "ParentTodoDto")] 
+        public TodoDetailsDto Todo { get; set; }
         public TodoItem SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         protected bool IsSelected { get; set; }
