@@ -3,13 +3,13 @@
     {
         @foreach (TodoItem todoItem in CompletedTodoItems)
         {
-            <TodoItemElement TodoItem="@todoItem" ParentTodo="@Todo" TodoItemRemoved="DeleteTodoSubItem"></TodoItemElement>
+            <TodoItemElement TodoItem="@todoItem"  TodoItemRemoved="DeleteTodoSubItem"></TodoItemElement>
         }
     }
 </div>
 
 @if (UpdateTodoItemDialogOpen)
 {
-    <TodoItemDialog Title="Update TodoItem" Text="@SelectTodoItem.Id" ParentTodo="@Todo" SelectedTodoItem="@SelectTodoItem" OnClose="@OnUpdateTodoItemDialogClose" TodoItemDialogType=TodoItemDialog.DialogType.Update></TodoItemDialog>
+    <TodoItemDialog Title="Update TodoItem" Text="@SelectTodoItem.Id"  SelectedTodoItem="@SelectTodoItem" OnClose="@OnUpdateTodoItemDialogClose" TodoItemDialogType=TodoItemDialog.DialogType.Update></TodoItemDialog>
 }
 
