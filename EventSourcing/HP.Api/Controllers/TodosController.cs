@@ -53,6 +53,17 @@ namespace HP.Controllers
             return Ok(todo);
         }
 
+        [HttpGet("{todoId}/TodoItems/{TodoItemId}")]
+        public async Task<IActionResult> GetCompletedTodoItemsByTodoId(string todoId, CancellationToken token = default)
+        {
+            var todo = await _mediator.Send(new GetCompletedTodoItemsByTodoId(todoId), token);
+            if (todo == null)
+                return NotFound();
+
+            return Ok(todo);
+        }
+
+
         [HttpGet("users/{id}")]
         public async Task<IActionResult> GetTodosByUser([FromRoute]string id, CancellationToken token = default)
         {

@@ -3,7 +3,7 @@
     {
         @foreach (TodoItem todoItem in Todo.SubTodos)
         {
-            <TodoItemElement TodoItem="@todoItem" ParentTodo="@Todo" TodoItemId="@todoItemId" TodoItemChanged="DeleteTodoSubItem"></TodoItemElement>
+            <TodoItemElement TodoItem="@todoItem" ParentTodo="@Todo"  TodoItemRemoved="DeleteTodoSubItem"></TodoItemElement>
         }
     }
 </div>

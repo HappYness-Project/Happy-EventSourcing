@@ -13,12 +13,11 @@ namespace BlazorUI.Components.Todo
         [Parameter] public TodoItem TodoItem { get; set; }
         [Parameter] public TodoDetailsDto ParentTodo { get; set; }
         [Parameter] public EventCallback<bool> OnTodoItemSelection { get; set; }
-        [Parameter] public EventCallback<string> TodoItemChanged { get; set; }
+        [Parameter] public EventCallback<string> TodoItemRemoved { get; set; }
         public TodoItem SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         public string newTodoStatus { get; set; } = string.Empty;
         protected bool IsSelected { get; set; }
-        [Parameter]public string TodoItemId { get; set; } = string.Empty;
 
         protected async Task CheckBoxChanged(ChangeEventArgs e)
         {
@@ -27,7 +26,7 @@ namespace BlazorUI.Components.Todo
         }
         protected async Task DeleteButtonClicked(string removeTodoItemId)
         {
-            await TodoItemChanged.InvokeAsync(removeTodoItemId);
+            await TodoItemRemoved.InvokeAsync(removeTodoItemId);
         }
 
         private void OpenUpdateTodoItemDialog(TodoItem todoItem)
