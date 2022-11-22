@@ -7,7 +7,9 @@ namespace HP.Domain
         public string TodoType {get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; }
+        public bool IsDone { get; set; }
         public TodoStatus TodoStatus { get; set; }
+        public DateTime Completed { get; set; }
 
         public TodoItem(string title, string todoType, string desc)
         {
@@ -15,7 +17,15 @@ namespace HP.Domain
             TodoType = todoType;
             Description = desc;
             IsActive = true;
+            IsDone = false;
             TodoStatus = TodoStatus.NotDefined;
+        }
+
+        public void MarkCompleted()
+        {
+            this.IsDone = true;
+            this.Completed = DateTime.Now;
+            TodoStatus = TodoStatus.Complete;
         }
         protected override void When(IDomainEvent @event) 
         {

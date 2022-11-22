@@ -147,6 +147,7 @@ namespace HP.Domain
                 case "start":
                     this.Status = TodoStatus.Start;
                     this.StatusDesc = $"Todo Id:{Id}, has been started at {DateTime.Now}";
+                    this.Started
                     AddDomainEvent(new TodoDomainEvents.TodoStarted(Id));
                     break;
 
@@ -154,6 +155,7 @@ namespace HP.Domain
                     this.Status = TodoStatus.Complete;
                     this.StatusDesc = $"Todo Id:{Id} is completed. ";
                     this.IsDone = true;
+                    this.Completed = DateTime.Now;
                     AddDomainEvent(new TodoDomainEvents.TodoCompleted(Id));
                     break;
 

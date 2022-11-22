@@ -59,16 +59,16 @@ namespace HP.Application.Queries.Todos
 
         public async Task<IEnumerable<TodoItem>> Handle(GetTodoItemsByTodoId request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetByIdAsync(request.todoId);
+            Todo todo = await _todoRepository.GetActiveTodoById(request.todoId);
             if (todo == null)
                 throw new ApplicationException($"Cannot find the Todo ID:{request.todoId}");
 
-            return todo.SubTodos;
+            return todo.SubTodos.Where(x => x.IsDone);
         }
 
         public async Task<TodoItem> Handle(GetTodoItemByTodoItemId request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetByIdAsync(request.todoId);
+            var todo = await _todoRepository.GetActiveTodoById(request.todoId);
             if (todo == null)
                 throw new ApplicationException($"Cannot find the Todo ID:{request.todoId}");
 
@@ -81,11 +81,11 @@ namespace HP.Application.Queries.Todos
 
         public async Task<IEnumerable<TodoItem>> Handle(GetCompletedTodoItemsByTodoId request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetByIdAsync(request.todoId);
+            var todo = await _todoRepository.GetActiveTodoById(request.todoId);
             if (todo == null)
                 throw new ApplicationException($"Cannot find the Todo ID:{request.todoId}");
 
-            var completedItems = todo.SubTodos.Where(x => x.TodoStatus == TodoStatus.Complete);
+            var completedItems = todo.SubTodos.Where(x => x.TodoStatus.Name == TodoStatus.Complete.Name && x.IsDone);
             return completedItems;
         }
     }
