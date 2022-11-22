@@ -14,6 +14,7 @@ namespace BlazorUI.Components.Todo
         [Parameter] public TodoDetailsDto ParentTodo { get; set; }
         [Parameter] public EventCallback<bool> OnTodoItemSelection { get; set; }
         [Parameter] public EventCallback<string> TodoItemRemoved { get; set; }
+        [Parameter] public EventCallback ItemMarkedCompleted { get; set; }
         public TodoItem SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         public string newTodoStatus { get; set; } = string.Empty;

@@ -21,11 +21,33 @@ namespace HP.Domain
             TodoStatus = TodoStatus.NotDefined;
         }
 
-        public void MarkCompleted()
+        private void MarkCompleted()
         {
             this.IsDone = true;
             this.Completed = DateTime.Now;
-            TodoStatus = TodoStatus.Complete;
+            this.TodoStatus = TodoStatus.Complete;
+        }
+        public void SetStatus(string status)
+        {
+            switch(status)
+            {
+                case "pending":
+                    this.TodoStatus = TodoStatus.Pending;
+                    break;
+
+                case "accept":
+                    this.TodoStatus = TodoStatus.Accept;
+                    break;
+                case "start":
+                    this.TodoStatus = TodoStatus.Start;
+                    break;
+                case "complete":
+                    MarkCompleted();
+                    break;
+                case "stop":
+                    this.TodoStatus = TodoStatus.Stop;
+                    break;
+            }
         }
         protected override void When(IDomainEvent @event) 
         {

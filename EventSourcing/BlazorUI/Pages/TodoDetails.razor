@@ -65,7 +65,11 @@
 
     <hr />
     <div>
-        <CompletedTodoItemList></CompletedTodoItemList>
+        <h4>Completed Sub Items</h4>
+        @if (SelectedTodo.SubTodos != null)
+        {
+            <CompletedTodoItemList Todo = "@SelectedTodo"></CompletedTodoItemList>
+        }
     </div>
 
 </div>
