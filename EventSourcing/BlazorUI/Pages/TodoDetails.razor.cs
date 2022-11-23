@@ -29,7 +29,7 @@ namespace BlazorUI.Pages
             SelectedTodo = await _mediator.Send(new GetTodoById(TodoId));
             StateHasChanged();
         }
-        public async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
+        private async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
         {
             "start" =>    await _mediator.Send(new StartTodoCommand(SelectedTodo.TodoId)),
             "stop" =>     await _mediator.Send(new StopTodoCommand(SelectedTodo.TodoId, "Reason needs to be updated.")),

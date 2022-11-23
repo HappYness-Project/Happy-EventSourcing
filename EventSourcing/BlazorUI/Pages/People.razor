@@ -23,7 +23,6 @@
 
 
 @code {
-    //[Parameter] public EventCallback<string> ValueChanged { get; set; }
     [Parameter] public PersonDetailsDto MainUser { get; set; } 
     IEnumerable<PersonDetailsDto> PeopleDtos { get; set; } 
     [Inject] private ICurrentUserService CurrentUserService { get; set; }

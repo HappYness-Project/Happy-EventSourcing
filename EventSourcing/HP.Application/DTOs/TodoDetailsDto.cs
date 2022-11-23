@@ -13,7 +13,7 @@ namespace HP.Application.DTOs
         public bool IsDone { get; set; }
         public string TodoStatus { get; set; }
         public ICollection<TodoItem> SubTodos { get; set; }
-        public DateTime? CreatedDateTime { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public DateTime? CompletedDateTime { get; set; }
         public DateTime? TargetStartDate { get; set; }
         public DateTime? TargetEndDate { get; set; }

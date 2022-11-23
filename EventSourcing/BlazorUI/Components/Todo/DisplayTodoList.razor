@@ -16,7 +16,7 @@
                 <td style="text-underline-position:below; cursor:pointer; color:blue" @onclick="@(() => OnClickViewDetails(context.TodoId))">@context.TodoId</td>
                 <td>@context.TodoTitle</td>
                 <td>@context.TodoStatus</td>
-                <td>@context.CreatedDateTime</td>
+                <td>@context.CreatedDate</td>
                 <td>
                     <button type="button" class="btn btn-primary" @onclick="@(() => OnClickViewDetails(@context.TodoId))">View Details</button>
                     <button type="button" class="btn btn-danger btn-sm" @onclick="@(() => OpenDeleteDialog(@context.TodoId))">Delete</button>
