@@ -1,4 +1,6 @@
-﻿using HP.Infrastructure.DbAccess;
+﻿using AutoMapper;
+using HP.Application.Mappers;
+using HP.Infrastructure.DbAccess;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System;
@@ -14,11 +16,21 @@ namespace HP.test
     {
         protected IConfiguration _configuration;
         protected IMongoDbContext _mongoDbContext;
+        protected IMapper _mapper;
         [SetUp]
         public async Task BeforeTestStart()
         {
             _configuration = new ConfigurationBuilder().AddJsonFile(@"appsettings.json", optional:false, true).Build();
             _mongoDbContext = new MongoDbContext(_configuration);
+            if(_mapper == null)
+            {
+                var mappingConfig = new MapperConfiguration(mc =>
+                {
+                    mc.AddProfile(new MappingProfile());
+                });
+                IMapper mapper = mappingConfig.CreateMapper();
+                _mapper = mapper;
+            }
         }
     }
 }
