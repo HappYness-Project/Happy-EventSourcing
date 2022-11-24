@@ -1,0 +1,25 @@
+﻿@page "/category"
+
+@using HP.Domain.Categories
+<h3>CategoryList</h3>
+@inject MediatR.IMediator _mediator
+
+<HP.GeneralUI.Grids.Grid Items="Categories">
+    <Columns>
+        <th></th>
+        <th>Name</th>
+        <th>Description</th>
+    </Columns>
+
+</HP.GeneralUI.Grids.Grid>
+
+@code {
+    [Parameter] public string PersonId { get; set; }
+    private List<Category> Categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Categories = null;
+    }
+
+}

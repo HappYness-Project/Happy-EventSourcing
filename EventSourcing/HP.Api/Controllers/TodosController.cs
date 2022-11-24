@@ -43,7 +43,7 @@ namespace HP.Controllers
             return Ok(todo);
         }
 
-        [HttpGet("{todoId}/TodoItems/{TodoItemId}")]
+        [HttpGet("{todoId}/TodoItems/{todoItemId}")]
         public async Task<IActionResult> GetTodoItemsByTodoItemId(string todoId, string todoItemId, CancellationToken token = default)
         {
             var todo = await _mediator.Send(new GetTodoItemByTodoItemId(todoId, todoItemId), token);
