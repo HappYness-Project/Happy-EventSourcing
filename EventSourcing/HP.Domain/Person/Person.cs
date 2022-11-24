@@ -80,7 +80,6 @@ namespace HP.Domain
             switch(@event)
             {
                 case PersonDomainEvents.PersonCreated created:
-                    Id = created.AggregateId.ToString();
                     break;
 
                 case PersonDomainEvents.PersonUpdated u:

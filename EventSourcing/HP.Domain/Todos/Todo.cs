@@ -92,19 +92,16 @@ namespace HP.Domain
             switch(@event)
             {
                 case TodoDomainEvents.TodoCreated c:
-                    this.Id = c.AggregateId.ToString();
                     this.Title = c.TodoTitle;
                     this.Type = TodoType.FromName(c.Type);
                     this.UserId = c.UserId;
                     break;
 
                 case TodoDomainEvents.TodoUpdated u:
-                    this.Id = u.AggregateId.ToString();
                     this.UserId = u.UserId;
                     break;
 
                 case TodoDomainEvents.TodoActivated a:
-                    this.Id = a.TodoId;
                     this.IsActive = true;
                     break;
 
