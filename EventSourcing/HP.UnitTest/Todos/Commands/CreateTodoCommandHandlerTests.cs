@@ -14,18 +14,24 @@ namespace HP.UnitTest.Todos.Commands
         private readonly Mock<ITodoRepository> _todoRepositoryMock;
         private readonly Mock<IPersonRepository> _personRepositoryMock;
 
+        public CreateTodoCommandHandlerTests()
+        {
+            _todoRepositoryMock = new();
+            _personRepositoryMock = new();
+        }
+
         [Test]
-        public async Task Handle_Should_ReturnFailureResult_WhenTitleIsEmpty()
+        public async Task Handle_Should_ReturnFailureResult_UserNotExist()
         {
             // Arrange
-            var cmd = new CreateTodoCommand("hyunbin7303", null, "Valid");
+            var cmd = new CreateTodoCommand("asdf", null, "Valid");
             var handler = new CreateTodoCommandHandler(_mapper, _todoRepositoryMock.Object, _personRepositoryMock.Object);
 
             // Act
-            TodoDetailsDto result = await handler.Handle(cmd, default);
+            var result = await handler.Handle(cmd, default);
 
             // Asset
-            result.TodoTitle.Should().BeNull();
+            result.Should().BeNull();
         }
     }
 }

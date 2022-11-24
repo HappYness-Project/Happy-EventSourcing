@@ -6,8 +6,8 @@ using MediatR;
 
 namespace HP.Application.Commands
 {
-    public record CreateTodoCommand(string UserId, string TodoTitle, string TodoType, string? Description = null, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null, string[] Tag = null) : CommandBase<TodoDetailsDto>;
-    public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, TodoDetailsDto>
+    public record CreateTodoCommand(string UserId, string TodoTitle, string TodoType, string? Description = null, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null, string[] Tag = null) : CommandBase<CommandResult>;
+    public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, CommandResult>
     {
         private readonly IMapper _mapper;
         private readonly ITodoRepository _repository;
@@ -19,7 +19,7 @@ namespace HP.Application.Commands
             _personRepository = personRepository;
         }
 
-        public async Task<TodoDetailsDto> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
         {
             var person = await _personRepository.GetPersonByUserIdAsync(request.UserId.ToUpper());
             if (person == null)
@@ -28,8 +28,7 @@ namespace HP.Application.Commands
             var todo = Todo.Create(person, request.TodoTitle, request.Description, TodoType.FromName(request.TodoType), request.Tag);
             todo.SetStatus(TodoStatus.NotDefined);
             var checkTodo = await _repository.CreateAsync(todo);
-            var @event = new TodoDomainEvents.TodoCreated(todo.Id, person.UserId, request.TodoTitle, request.TodoType);
-            return _mapper.Map<TodoDetailsDto>(checkTodo);
+            return new CommandResult("Todo is created.", todo.Id);
         }
     }
 }

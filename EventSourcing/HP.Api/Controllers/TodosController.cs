@@ -80,7 +80,8 @@ namespace HP.Controllers
                 return BadRequest();
 
             var todo = await _mediator.Send(new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.StartDate, request.TargetEndDate, request.Tags), token);
-            return CreatedAtAction(nameof(GetTodo), new { Id = todo.TodoId }, todo);// await _mediator.Publish(cmd, cancellationToken);
+            //return CreatedAtAction(nameof(GetTodo), new { Id = todo.TodoId }, todo);
+            return Ok(todo);
         }
 
         [HttpPost("{todoId}/todoItem")]
