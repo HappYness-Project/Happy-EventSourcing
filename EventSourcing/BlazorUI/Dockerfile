@@ -9,8 +9,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["BlazorUI/BlazorUI.csproj", "BlazorUI/"]
 COPY ["HP.Application/HP.Application.csproj", "HP.Application/"]
-COPY ["HP.Shard.csproj", "HP.Shard/"]
-COPY ["HP.GeneralUI.csproj", "HP.GeneralUI/"]
+COPY ["HP.Shared/HP.Shared.csproj", "HP.Shared/"]
+COPY ["HP.GeneralUI/HP.GeneralUI.csproj", "HP.GeneralUI/"]
 RUN dotnet restore "BlazorUI/BlazorUI.csproj"
 COPY . .
 WORKDIR "/src/BlazorUI"
