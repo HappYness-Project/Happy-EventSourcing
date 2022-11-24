@@ -30,7 +30,6 @@ namespace HP.Infrastructure.Repository
                 var filter = Builders<Todo>.Filter.Eq("Tags.", tag);
                 var check = _todos.Find(filter);
             }
-            //await _collection.InsertOneAsync(entity);
             throw new NotImplementedException();
         }
         //

@@ -24,7 +24,7 @@ namespace BlazorUI.Components.Todo
             if (!value)
                 await _mediator.Send(new DeactivateTodoItemCommand(ParentTodo.TodoId, TodoItem.Id));
             else
-                //await _mediator.Send(new ActivateTodoItemCommand(ParentTodo.TodoId, TodoItem.Id));
+                await _mediator.Send(new ActivateTodoItemCommand(ParentTodo.TodoId, TodoItem.Id));
         }
         protected async Task DeleteButtonClicked(string removeTodoItemId)
         {

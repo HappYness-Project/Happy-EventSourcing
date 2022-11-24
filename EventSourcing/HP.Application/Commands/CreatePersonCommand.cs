@@ -5,7 +5,6 @@ using MediatR;
 namespace HP.Application.Commands
 {
     public record CreatePersonCommand(string FirstName, string LastName, Address Address, string emailAddr, string UserName = null) : CommandBase<PersonDetailsDto>;
-
     public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, PersonDetailsDto>
     {
         private readonly IPersonRepository _repository;
