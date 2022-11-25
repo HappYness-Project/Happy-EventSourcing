@@ -165,7 +165,15 @@ namespace HP.Controllers
                 return BadRequest($"TodoId is null.");
 
             return Ok(await _mediator.Send(new StopTodoCommand(todoId, request.reason), token));
-        } 
+        }
+        [HttpPatch("{todoId}/complete")]
+        public async Task<IActionResult> CompleteTodo(string todoId, [FromBody] TodoStatusChangeRequest request, CancellationToken token = default)
+        {
+            if (string.IsNullOrEmpty(todoId))
+                return BadRequest($"TodoId is null.");
+
+            return Ok(await _mediator.Send(new CompleteTodoCommand(todoId), token));
+        }
 
 
         [HttpDelete("{todoId}")]

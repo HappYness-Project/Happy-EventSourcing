@@ -3,15 +3,15 @@ using MediatR;
 
 namespace HP.Application.Commands
 {
-    public record UpdateTodoCommand(string TodoId, string Title, string type, string Description, string[] Tags, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null) : CommandBase<bool>;
-    public class UpdateTodoCommandHandler : IRequestHandler<UpdateTodoCommand, bool>
+    public record UpdateTodoCommand(string TodoId, string Title, string type, string Description, string[] Tags, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null) : BaseCommand;
+    public class UpdateTodoCommandHandler : IRequestHandler<UpdateTodoCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
         public UpdateTodoCommandHandler(ITodoRepository todoRepository)
         {
             this._repository = todoRepository;
         }
-        public async Task<bool> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
         {
             var todo = await _repository.GetByIdAsync(request.TodoId);
             if(todo == null)
@@ -19,7 +19,7 @@ namespace HP.Application.Commands
 
             todo.Update(request.Title, request.type, request.Description, request.Tags, request.TargetStartDate,request.TargetEndDate);
             await _repository.UpdateAsync(todo);
-            return true;
+            return new CommandResult(true, "Todo information has been changed", todo.Id);
         }
     }
 }

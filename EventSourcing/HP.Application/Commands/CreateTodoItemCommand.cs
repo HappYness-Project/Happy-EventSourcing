@@ -6,8 +6,8 @@ using MediatR;
 
 namespace HP.Application.Commands
 {
-    public record CreateTodoItemCommand(string TodoId, string TodoTitle, string TodoType, string? Description,  string[] Tag = null) : CommandBase<TodoBasicInfoDto>;
-    public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, TodoBasicInfoDto>
+    public record CreateTodoItemCommand(string TodoId, string TodoTitle, string TodoType, string? Description,  string[] Tag = null) : BaseCommand;
+    public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, CommandResult>
     {
         private readonly IMapper _mapper;
         private readonly ITodoRepository _repository;
@@ -18,7 +18,7 @@ namespace HP.Application.Commands
             _repository = repository;
             _personRepository = personRepository;
         }
-        public async Task<TodoBasicInfoDto> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
         {
             var todo = await _repository.GetByIdAsync(request.TodoId);
             if(todo == null)
@@ -26,7 +26,7 @@ namespace HP.Application.Commands
             
             var subTodo = todo.AddTodoItem(request.TodoTitle, request.TodoType, request.Description);
             await _repository.UpdateAsync(todo);
-            return _mapper.Map<TodoBasicInfoDto>(subTodo);
+            return new CommandResult(true, $"TodoItem has been created within TodoId: {todo.Id}", subTodo.Id);
         }
     }
     

@@ -27,6 +27,8 @@ namespace HP.UnitTest.Todos.Commands
             var cmd = new CreateTodoCommand("asdf", null, "Valid");
             var handler = new CreateTodoCommandHandler(_mapper, _todoRepositoryMock.Object, _personRepositoryMock.Object);
 
+            //_todoRepositoryMock.Setup(x => x.Find(x=> x.))
+
             // Act
             var result = await handler.Handle(cmd, default);
 

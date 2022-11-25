@@ -3,8 +3,8 @@ using MediatR;
 
 namespace HP.Application.Commands
 {
-    public record DeactivateTodoItemCommand(string TodoId, string TodoItemId) : CommandBase<Unit>;
-    public class DeactivateTodoItemCommandHandler : IRequestHandler<DeactivateTodoItemCommand, Unit>
+    public record DeactivateTodoItemCommand(string TodoId, string TodoItemId) : BaseCommand;
+    public class DeactivateTodoItemCommandHandler : IRequestHandler<DeactivateTodoItemCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
         public DeactivateTodoItemCommandHandler(ITodoRepository repository)
@@ -12,7 +12,7 @@ namespace HP.Application.Commands
             _repository = repository;
         }
 
-        public async Task<Unit> Handle(DeactivateTodoItemCommand cmd, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(DeactivateTodoItemCommand cmd, CancellationToken cancellationToken)
         {
             var todo = await _repository.GetByIdAsync(cmd.TodoId);
             if (todo == null)
@@ -24,7 +24,7 @@ namespace HP.Application.Commands
 
             todoItem.IsActive = false;
             await _repository.UpdateAsync(todo);
-            return Unit.Value;
+            return new CommandResult(true,$"Parent TodoID:{todo.Id}, todoItem:{todoItem.Id} Deactivated.", todoItem.Id);
         }
     }
 }

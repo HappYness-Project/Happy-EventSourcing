@@ -44,9 +44,10 @@ namespace HP.Controllers
         }
 
         [HttpPut("{userid}")]
-        public async Task<bool> Update(string userid, [FromBody]UpdatePersonRequest request)
+        public async Task<CommandResult> Update(string userid, [FromBody]UpdatePersonRequest request)
         {
-            return await _mediator.Send(new UpdatePersonCommand(userid, request.FirstName, request.LastName,request.Email));
+            var result = await _mediator.Send(new UpdatePersonCommand(userid, request.FirstName, request.LastName, request.Email));
+            return result;
         }
         [HttpPut("{userid}/Role")]
         public async Task UpdateRole(string userid, [FromBody]UpdateRoleRequest request)

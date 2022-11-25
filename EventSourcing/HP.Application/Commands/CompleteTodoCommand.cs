@@ -2,8 +2,8 @@
 using MediatR;
 namespace HP.Application.Commands
 {
-    public record CompleteTodoCommand(string TodoId) : CommandBase<Unit>;
-    public class CompleteTodoCommandHandler : IRequestHandler<CompleteTodoCommand, Unit>
+    public record CompleteTodoCommand(string TodoId) : BaseCommand;
+    public class CompleteTodoCommandHandler : IRequestHandler<CompleteTodoCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
         public CompleteTodoCommandHandler(ITodoRepository repository)
@@ -11,7 +11,7 @@ namespace HP.Application.Commands
             _repository = repository;
         }
 
-        public async Task<Unit> Handle(CompleteTodoCommand cmd, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(CompleteTodoCommand cmd, CancellationToken cancellationToken)
         {
             var todo = await _repository.GetActiveTodoById(cmd.TodoId);
             if (todo == null)
@@ -19,7 +19,7 @@ namespace HP.Application.Commands
 
             todo.SetStatus(TodoStatus.Complete);
             await _repository.UpdateAsync(todo);
-            return Unit.Value;
+            return new CommandResult(true, "Successful", todo.Id);
 
         }
     }

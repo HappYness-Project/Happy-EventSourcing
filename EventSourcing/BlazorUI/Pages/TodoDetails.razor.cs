@@ -20,8 +20,8 @@ namespace BlazorUI.Pages
         }
         protected async Task SaveTodoChanges()
         {
-            bool isUpdated = await _mediator.Send(new UpdateTodoCommand(SelectedTodo.TodoId, SelectedTodo.TodoTitle, SelectedTodo.TodoType, SelectedTodo.Description, null, SelectedTodo.TargetStartDate, SelectedTodo.TargetEndDate));
-            if (isUpdated)
+            var result = await _mediator.Send(new UpdateTodoCommand(SelectedTodo.TodoId, SelectedTodo.TodoTitle, SelectedTodo.TodoType, SelectedTodo.Description, null, SelectedTodo.TargetStartDate, SelectedTodo.TargetEndDate));
+            if (result.IsSuccess)
                 await LoadTodoData();
         }
         private async Task LoadTodoData()
@@ -29,7 +29,7 @@ namespace BlazorUI.Pages
             SelectedTodo = await _mediator.Send(new GetTodoById(TodoId));
             StateHasChanged();
         }
-        private async Task<MediatR.Unit> PerformStatusOperation(string command) => command switch
+        private async Task<CommandResult> PerformStatusOperation(string command) => command switch
         {
             "start" =>    await _mediator.Send(new StartTodoCommand(SelectedTodo.TodoId)),
             "stop" =>     await _mediator.Send(new StopTodoCommand(SelectedTodo.TodoId, "Reason needs to be updated.")),

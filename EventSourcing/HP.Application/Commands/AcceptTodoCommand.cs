@@ -2,16 +2,16 @@
 using MediatR;
 namespace HP.Application.Commands
 {
-    public record AcceptTodoCommand(string TodoId) : CommandBase<Unit>;
-    public class AcceptTodoCommandHandler : IRequestHandler<AcceptTodoCommand, Unit>
+    public record AcceptTodoCommand(string TodoId) : BaseCommand;
+    public class AcceptTodoCommandHandler : IRequestHandler<AcceptTodoCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
-        public AcceptTodoCommandHandler(ITodoRepository   repository)
+        public AcceptTodoCommandHandler(ITodoRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<Unit> Handle(AcceptTodoCommand cmd, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(AcceptTodoCommand cmd, CancellationToken cancellationToken)
         {
             var todo =  await _repository.GetActiveTodoById(cmd.TodoId);
             if(todo == null)
@@ -19,7 +19,7 @@ namespace HP.Application.Commands
             
             todo.SetStatus(TodoStatus.Accept);
             await _repository.UpdateAsync(todo);
-            return Unit.Value;
+            return new CommandResult(true, "Success", todo.Id);
         }
     }
 }

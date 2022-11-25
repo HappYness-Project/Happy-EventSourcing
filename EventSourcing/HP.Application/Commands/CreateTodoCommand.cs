@@ -6,7 +6,7 @@ using MediatR;
 
 namespace HP.Application.Commands
 {
-    public record CreateTodoCommand(string UserId, string TodoTitle, string TodoType, string? Description = null, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null, string[] Tag = null) : CommandBase<CommandResult>;
+    public record CreateTodoCommand(string UserId, string TodoTitle, string TodoType, string? Description = null, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null, string[] Tag = null) : BaseCommand;
     public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, CommandResult>
     {
         private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ namespace HP.Application.Commands
             var todo = Todo.Create(person, request.TodoTitle, request.Description, TodoType.FromName(request.TodoType), request.Tag);
             todo.SetStatus(TodoStatus.NotDefined);
             var checkTodo = await _repository.CreateAsync(todo);
-            return new CommandResult("Todo is created.", todo.Id);
+            return new CommandResult(true, "Todo is created.", todo.Id);
         }
     }
 }
