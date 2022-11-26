@@ -16,7 +16,6 @@ namespace BlazorUI.Components.Todo
         public TodoItem SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         protected bool IsSelected { get; set; }
-        public string todoItemId { get; set; } = string.Empty;
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -30,7 +29,6 @@ namespace BlazorUI.Components.Todo
 
         private async Task DeleteTodoSubItem(string subTodoId)
         {
-            todoItemId = subTodoId;
             bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(Todo.TodoId, subTodoId));
             if (isRemoved)
                 await LoadTodoData();

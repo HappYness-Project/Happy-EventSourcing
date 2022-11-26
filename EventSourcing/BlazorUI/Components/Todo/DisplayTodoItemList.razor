@@ -3,6 +3,10 @@
     {
         @foreach (TodoItem todoItem in Todo.SubTodos)
         {
+            if (todoItem.IsDone)
+            {
+                continue;
+            }
             <TodoItemElement TodoItem="@todoItem"  TodoItemRemoved="DeleteTodoSubItem"></TodoItemElement>
         }
     }

@@ -35,6 +35,7 @@ namespace HP.Application.Queries.Todos
             if (todo is null)
                 throw new ApplicationException($"TodoId:{request.Id} does not exist.");
 
+            todo.SubTodos.Where(x => x.IsActive);
             return _mapper.Map<TodoDetailsDto>(todo);
         }
 
