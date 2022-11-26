@@ -36,7 +36,7 @@ namespace HP.Controllers
         [HttpGet("{todoId}/TodoItems")]
         public async Task<IActionResult> GetTodoItemsByTodoId(string todoId, CancellationToken token = default)
         {
-            var todo = await _mediator.Send(new GetTodoItemsByTodoId(todoId), token);
+            var todo = await _mediator.Send(new GetActiveTodoItemsByTodoId(todoId), token);
             if (todo == null)
                 return NotFound();
 

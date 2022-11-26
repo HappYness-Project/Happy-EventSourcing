@@ -10,7 +10,7 @@ namespace HP.Application.Queries.Todos
                                      IRequestHandler<GetTodosByUserId, IEnumerable<TodoDetailsDto>>,
                                      IRequestHandler<GetTodoById, TodoDetailsDto>,
                                      IRequestHandler<GetTodosByProjectId, IEnumerable<TodoDetailsDto>>,
-                                     IRequestHandler<GetTodoItemsByTodoId, IEnumerable<TodoItem>>,
+                                     IRequestHandler<GetActiveTodoItemsByTodoId, IEnumerable<TodoItem>>,
                                      IRequestHandler<GetTodoItemByTodoItemId, TodoItem>,
                                      IRequestHandler<GetCompletedTodoItemsByTodoId, IEnumerable<TodoItem>>
 
@@ -57,7 +57,7 @@ namespace HP.Application.Queries.Todos
             return _mapper.Map<List<TodoBasicInfoDto>>(todos);
         }
 
-        public async Task<IEnumerable<TodoItem>> Handle(GetTodoItemsByTodoId request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TodoItem>> Handle(GetActiveTodoItemsByTodoId request, CancellationToken cancellationToken)
         {
             Todo todo = await _todoRepository.GetActiveTodoById(request.todoId);
             if (todo == null)

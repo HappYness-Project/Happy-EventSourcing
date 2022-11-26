@@ -2,5 +2,5 @@
 using MediatR;
 namespace HP.Application.Queries.Todos
 {
-    public record GetTodoItemsByTodoId(string todoId) : IRequest<IEnumerable<TodoItem>>;
+    public record GetActiveTodoItemsByTodoId(string todoId) : IRequest<IEnumerable<TodoItem>>;
 }
