@@ -15,8 +15,6 @@ namespace BlazorUI.Components.Todo
         public TodoItem SelectTodoItem { get; set; }
         public IEnumerable<TodoItem> CompletedTodoItems { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
-        protected bool IsSelected { get; set; }
-        public string todoItemId { get; set; } = string.Empty;
         protected override async void OnInitialized()
         {
             await LoadCompletedTodoItemData();
