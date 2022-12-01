@@ -21,7 +21,6 @@ namespace HP.Controllers
         {
             return await _mediator.Send(new GetPersonList());
         }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id, CancellationToken token = default)
         {
@@ -31,7 +30,6 @@ namespace HP.Controllers
             
             return Ok(person);
         }
-
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]CreatePersonRequest personDto, CancellationToken token = default)
         {
@@ -42,7 +40,6 @@ namespace HP.Controllers
             //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);//TODO: Since it is a Create, I think it's desirable to use Publish command
             return Ok(_mediator.Send(cmd));
         }
-
         [HttpPut("{userid}")]
         public async Task<CommandResult> Update(string userid, [FromBody]UpdatePersonRequest request)
         {
@@ -59,7 +56,5 @@ namespace HP.Controllers
         {
             await _mediator.Send(new UpdatePersonGroupCommand(userid, request.GroupId));
         }
-
-
     }
 }

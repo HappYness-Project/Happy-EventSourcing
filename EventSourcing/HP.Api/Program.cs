@@ -5,6 +5,7 @@ using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Kafka;
 using HP.Infrastructure.Repository;
+using HP.Shared.Contacts;
 using MediatR;
 using System.Reflection;
 

@@ -1,8 +1,11 @@
 ﻿using BlazorUI.Data;
 using HP.Application.DTOs;
+using HP.Domain;
 using HP.Shared;
 using HP.Shared.Contacts;
 using Microsoft.Extensions.Options;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace BlazorUI.Services.Todo
 {
@@ -15,15 +18,17 @@ namespace BlazorUI.Services.Todo
         public TodoService(HttpClient httpClient, IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
-            this._httpClient.BaseAddress = new Uri(_appSettings.HpApiBaseAddress);
-            this._httpClient = httpClient;
+            httpClient.BaseAddress = new Uri(_appSettings.HpApiBaseAddress);
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient = httpClient;
         }
-
         public async Task<ServiceResult<TodoDetailsDto>> GetTodoDetails(string TodoId)
         {
-            var result = await _httpClient.GetFromJsonAsync<TodoDetailsDto>($"api/todos/{TodoId}");
-            //return result;
-            return null;
+            var todo = await _httpClient.GetFromJsonAsync<TodoDetailsDto>($"Todos/{TodoId}");
+            ServiceResult<TodoDetailsDto> result = new();
+            result.IsSuccess = true;
+            result.Result = todo;
+            return result;
         }
 
         public async Task<ServiceResult<int>> GetTodoItemsCount(bool OnlyActive = true)

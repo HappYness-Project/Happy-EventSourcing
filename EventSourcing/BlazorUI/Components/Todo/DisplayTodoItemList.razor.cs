@@ -13,9 +13,11 @@ namespace BlazorUI.Components.Todo
 
         [CascadingParameter(Name = "ParentTodoDto")] 
         public TodoDetailsDto Todo { get; set; }
-        public TodoItem SelectTodoItem { get; set; }
+        public TodoItemDto SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         protected bool IsSelected { get; set; }
+        [Parameter] public EventCallback<string> ItemStatusUpdated { get; set; }
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -32,6 +34,10 @@ namespace BlazorUI.Components.Todo
             bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(Todo.TodoId, subTodoId));
             if (isRemoved)
                 await LoadTodoData();
+        }
+        private async Task StatusCompleteTodoItem()
+        {
+            await LoadTodoData();
         }
         private async Task LoadTodoData()
         {

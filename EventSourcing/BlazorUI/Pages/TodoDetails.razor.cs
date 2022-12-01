@@ -1,6 +1,7 @@
 ﻿using HP.Application.Commands;
 using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
+using HP.Shared.Contacts;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 
@@ -9,6 +10,7 @@ namespace BlazorUI.Pages
     public partial class TodoDetails : ComponentBase
     {
         [Inject] public IMediator _mediator { get; set; }
+        [Inject] public ITodoService _todoService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Parameter] public string TodoId { get; set; } = string.Empty;
         public TodoDetailsDto SelectedTodo { get; set; } = new();
@@ -26,8 +28,12 @@ namespace BlazorUI.Pages
         }
         private async Task LoadTodoData()
         {
-            SelectedTodo = await _mediator.Send(new GetTodoById(TodoId));
-            StateHasChanged();
+            var check = await _todoService.GetTodoDetails(TodoId);
+            if (check.IsSuccess)
+            {
+                SelectedTodo = check.Result;
+                StateHasChanged();
+            }
         }
         private async Task<CommandResult> PerformStatusOperation(string command) => command switch
         {
@@ -68,6 +74,10 @@ namespace BlazorUI.Pages
         {
             AddTodoItemDialogOpen = true;
             StateHasChanged();
+        }
+        private async Task UpdateLocationOfItems(string itemId)
+        {
+
         }
     }
 }

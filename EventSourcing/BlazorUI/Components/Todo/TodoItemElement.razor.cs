@@ -10,12 +10,13 @@ namespace BlazorUI.Components.Todo
     public partial class TodoItemElement : ComponentBase
     {
         [Inject] public IMediator _mediator { get; set; }
-        [Parameter] public TodoItem TodoItem { get; set; }
+        [Parameter] public TodoItemDto TodoItem { get; set; }
         [CascadingParameter(Name = "ParentTodoDto")]
         [Parameter] public TodoDetailsDto ParentTodo { get; set; }
         [Parameter] public EventCallback<string> TodoItemRemoved { get; set; }
-        [Parameter] public EventCallback ItemMarkedCompleted { get; set; }
-        public TodoItem SelectTodoItem { get; set; }
+        [Parameter] public EventCallback<string> ItemMarkedCompleted { get; set; }
+        
+        public TodoItemDto SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
 
         protected async Task CheckBoxChanged(ChangeEventArgs e)
@@ -31,7 +32,7 @@ namespace BlazorUI.Components.Todo
             await TodoItemRemoved.InvokeAsync(removeTodoItemId);
         }
 
-        private void OpenUpdateTodoItemDialog(TodoItem todoItem)
+        private void OpenUpdateTodoItemDialog(TodoItemDto todoItem)
         {
             SelectTodoItem = todoItem;
             UpdateTodoItemDialogOpen = true;
@@ -45,7 +46,11 @@ namespace BlazorUI.Components.Todo
         }
         private async Task StatusSelected(ChangeEventArgs args)
         {
+
             var IsUpdated = await _mediator.Send(new UpdateStatusTodoItemCommand(ParentTodo.TodoId, TodoItem.Id, args.Value as string));
+            if (IsUpdated && (string)args.Value == "complete")
+                await ItemMarkedCompleted.InvokeAsync(TodoItem.Id);
+
             StateHasChanged();
         }
 

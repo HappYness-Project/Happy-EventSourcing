@@ -19,19 +19,19 @@
             <div class="subtodo-dialog-body" >
                 @if (TodoItemDialogType == DialogType.Create)
                 {
-                    <EditForm Model="@Todoitem">
+                    <EditForm Model="@NewTodoItem">
                         <DataAnnotationsValidator />
                         <div class="form-group">
                             <label for="Title">Title</label>
-                            <InputText class="form-control" id="titleInput" @bind-Value="Todoitem.Title" />
+                            <InputText class="form-control" id="titleInput" @bind-Value="NewTodoItem.Title" />
                         </div>
                         <div class="form-group">
                             <label for="Description">Description</label>
-                            <InputText class="form-control" id="titleInput" @bind-Value="Todoitem.Description" />
+                            <InputText class="form-control" id="titleInput" @bind-Value="NewTodoItem.Description" />
                         </div>
                         <div class="form-group">
                             <label for="typeInput">Type</label>
-                            <InputSelect class="form-control" id="typeInput" @bind-Value="Todoitem.TodoType">
+                            <InputSelect class="form-control" id="typeInput" @bind-Value="NewTodoItem.TodoType">
                                 @{
                                     foreach (var type in TodoType.List())
                                     {
@@ -42,7 +42,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dateInput">Start Date</label>
-                        <InputDate class="form-control" id="dateInput" @bind-Value="Todoitem.StartDate"></InputDate>
+                        <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.StartDate"></InputDate>
                     </div>
                 </EditForm>
                 }
@@ -71,7 +71,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dateInput">Start Date</label>
-                        <InputDate class="form-control" id="dateInput" @bind-Value="Todoitem.StartDate"></InputDate>
+                        <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.StartDate"></InputDate>
                     </div>
                 </EditForm>
                 }
@@ -95,14 +95,14 @@
     [Parameter] public DialogType TodoItemDialogType { get; set; }
     [Parameter] public string ParentTodoId { get; set; } = string.Empty;
     [Parameter] public EventCallback<bool> OnClose { get; set; }
-    [Parameter] public TodoItem SelectedTodoItem { get; set; }
-    public CreateTodoItemModel Todoitem { get; set; } = new();
+    [Parameter] public TodoItemDto SelectedTodoItem { get; set; }
+    public CreateTodoItemModel NewTodoItem { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         if (TodoItemDialogType == DialogType.Create)
         {
-            SelectedTodoItem = new(null, null, null);
+            SelectedTodoItem = new();
         }
     }
 
@@ -118,7 +118,7 @@
     {
         if (TodoItemDialogType == DialogType.Create)
         {
-            await _mediator.Send(new CreateTodoItemCommand(ParentTodoId, Todoitem.Title, Todoitem.TodoType, Todoitem.Description));
+            await _mediator.Send(new CreateTodoItemCommand(ParentTodoId, NewTodoItem.Title, NewTodoItem.TodoType, NewTodoItem.Description));
         }
         else if (TodoItemDialogType == DialogType.Update)
         {

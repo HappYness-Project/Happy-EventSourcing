@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HP.Application\HP.Application.csproj" />
+    <ProjectReference Include="..\HP.Shared\HP.Shared.csproj" />
   </ItemGroup>
 
 </Project>

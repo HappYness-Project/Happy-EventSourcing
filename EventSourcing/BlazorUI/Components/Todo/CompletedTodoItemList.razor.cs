@@ -1,7 +1,6 @@
 ﻿using HP.Application.Commands;
 using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
-using HP.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 
@@ -12,8 +11,8 @@ namespace BlazorUI.Components.Todo
         [Inject] public IMediator _mediator { get; set; }
         [CascadingParameter(Name = "ParentTodoDto")]
         public TodoDetailsDto Todo { get; set; }
-        public TodoItem SelectTodoItem { get; set; }
-        public IEnumerable<TodoItem> CompletedTodoItems { get; set; }
+        public TodoItemDto SelectTodoItem { get; set; }
+        public IEnumerable<TodoItemDto> CompletedTodoItems { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         protected override async void OnInitialized()
         {

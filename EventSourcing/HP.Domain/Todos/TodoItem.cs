@@ -1,4 +1,6 @@
 ﻿using HP.Domain.Common;
+using System.Text.Json.Serialization;
+
 namespace HP.Domain
 {
     public class TodoItem : Entity
@@ -11,6 +13,7 @@ namespace HP.Domain
         public TodoStatus TodoStatus { get; set; }
         public DateTime Completed { get; set; }
 
+        public TodoItem(){}
         public TodoItem(string title, string todoType, string desc)
         {
             Title = title;

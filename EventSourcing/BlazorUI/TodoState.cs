@@ -3,11 +3,7 @@ using HP.Domain;
 
 namespace BlazorUI
 {
-    public interface ITodoState
-    {
-
-    }
-    public class TodoState : ITodoState
+    public class TodoState 
     {
         public bool ShowingConfigureDialog { get; private set; }
         public TodoDetailsDto ConfiguringTodo { get; private set; }
@@ -28,9 +24,9 @@ namespace BlazorUI
         {
             ShowingConfigureDialog = false;
         }
-        public void RemoveConfiguredTodoItem(TodoItem todoItem)
-        {
-            ConfiguringTodo.SubTodos.Remove(todoItem);
-        }
+        //public void RemoveConfiguredTodoItem(TodoD todoItem)
+        //{
+        //    ConfiguringTodo.SubTodos.Remove(todoItem);
+        //}
     }
 }

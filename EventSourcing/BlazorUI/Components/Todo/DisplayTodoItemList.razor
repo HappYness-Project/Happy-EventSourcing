@@ -1,13 +1,14 @@
-﻿<div class="col-8 row">
+﻿@using HP.Application.DTOs
+<div class="col-8 row">
     @if (Todo.SubTodos != null)
     {
-        @foreach (TodoItem todoItem in Todo.SubTodos)
+        @foreach (TodoItemDto todoItem in Todo.SubTodos)
         {
             if (todoItem.IsDone)
             {
                 continue;
             }
-            <TodoItemElement TodoItem="@todoItem"  TodoItemRemoved="DeleteTodoSubItem"></TodoItemElement>
+            <TodoItemElement TodoItem="@todoItem"  TodoItemRemoved="DeleteTodoSubItem" ItemMarkedCompleted="StatusCompleteTodoItem"></TodoItemElement>
         }
     }
 </div>
