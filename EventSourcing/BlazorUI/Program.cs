@@ -1,5 +1,7 @@
+using BlazorUI.Data;
 using BlazorUI.Services;
 using BlazorUI.Services.ItemEdit;
+using BlazorUI.Services.Todo;
 using HP.Application;
 using HP.Domain;
 using HP.Infrastructure;
@@ -15,11 +17,13 @@ using Microsoft.AspNetCore.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 //builder.Services.AddSingleton<IUserManager, UserManagerFake>();
 builder.Services.AddScoped<IUserManager, UserManager>();
@@ -31,10 +35,10 @@ builder.Services.AddSingleton<IEventStore, EventStore>();
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();
 builder.Services.AddTransient<ITodoRepository, TodoRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddHttpClient<ITodoService, TodoService>();
 builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).AddEnvironmentVariables();
-
 
 var app = builder.Build();
 var currentUserService = app.Services.GetRequiredService<ICurrentUserService>();

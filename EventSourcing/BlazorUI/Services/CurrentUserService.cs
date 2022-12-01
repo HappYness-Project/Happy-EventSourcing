@@ -6,5 +6,7 @@ namespace BlazorUI.Services
     public class CurrentUserService : ICurrentUserService
     {
         public User CurrentUser { get; set; }
+        public event Action OnChange;
+
     }
 }
