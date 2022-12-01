@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using HP.Application.Commands;
-using HP.Application.DTOs;
+using HP.Core.Commands;
 using HP.Domain;
 using MediatR;
 
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Todo
 {
     public record CreateTodoCommand(string UserId, string TodoTitle, string TodoType, string? Description = null, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null, string[] Tag = null) : BaseCommand;
     public class CreateTodoCommandHandler : IRequestHandler<CreateTodoCommand, CommandResult>
@@ -25,7 +24,7 @@ namespace HP.Application.Commands
             if (person == null)
                 throw new ApplicationException($"There is no person for this person. User ID : {request.UserId}");
 
-            var todo = Todo.Create(person, request.TodoTitle, request.Description, TodoType.FromName(request.TodoType), request.Tag);
+            var todo = Domain.Todo.Create(person, request.TodoTitle, request.Description, TodoType.FromName(request.TodoType), request.Tag);
             todo.SetStatus(TodoStatus.NotDefined);
             var checkTodo = await _repository.CreateAsync(todo);
             return new CommandResult(true, "Todo is created.", todo.Id);

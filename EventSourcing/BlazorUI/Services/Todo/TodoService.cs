@@ -1,11 +1,12 @@
 ﻿using BlazorUI.Data;
+using HP.Application.Commands;
 using HP.Application.DTOs;
-using HP.Domain;
+using HP.Core.Commands;
 using HP.Shared;
 using HP.Shared.Contacts;
+using HP.Shared.Requests.Todos;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace BlazorUI.Services.Todo
 {
@@ -22,16 +23,20 @@ namespace BlazorUI.Services.Todo
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient = httpClient;
         }
-        public async Task<ServiceResult<TodoDetailsDto>> GetTodoDetails(string TodoId)
+        public async Task<Result<TodoDetailsDto>> GetTodoDetails(string TodoId)
         {
             var todo = await _httpClient.GetFromJsonAsync<TodoDetailsDto>($"Todos/{TodoId}");
-            ServiceResult<TodoDetailsDto> result = new();
+            Result<TodoDetailsDto> result = new();
             result.IsSuccess = true;
-            result.Result = todo;
+            result.Data = todo;
             return result;
         }
+        public async Task<Result<int>> GetTodoItemsCount(bool OnlyActive = true)
+        {
+            throw new NotImplementedException();
+        }
 
-        public async Task<ServiceResult<int>> GetTodoItemsCount(bool OnlyActive = true)
+        public Task<Result<CommandResult>> CreateAsync(CreateTodoItemModel createTodoItemModel)
         {
             throw new NotImplementedException();
         }

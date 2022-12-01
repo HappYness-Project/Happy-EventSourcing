@@ -1,7 +1,7 @@
 ﻿using HP.Domain;
 using MediatR;
 
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Todo
 {
     public record UpdateTodoItemStatusCommand(string TodoId, string TodoItemId, string NewStatus) : IRequest<bool>;
     public class UpdateTodoItemStatusCommandHandler : IRequestHandler<UpdateTodoItemStatusCommand, bool>
@@ -9,7 +9,7 @@ namespace HP.Application.Commands
         private readonly ITodoRepository _repository;
         public UpdateTodoItemStatusCommandHandler(ITodoRepository todoRepository)
         {
-            this._repository = todoRepository;
+            _repository = todoRepository;
         }
         public async Task<bool> Handle(UpdateTodoItemStatusCommand request, CancellationToken cancellationToken)
         {

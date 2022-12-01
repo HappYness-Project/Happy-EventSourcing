@@ -1,7 +1,8 @@
-﻿using HP.Domain;
+﻿using HP.Core.Commands;
+using HP.Domain;
 using MediatR;
 
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Person
 {
     public record DeletePersonCommand(string PersonId) : BaseCommand
     {
@@ -15,12 +16,12 @@ namespace HP.Application.Commands
         private readonly IPersonRepository _repository;
         public DeletePersonCommandHandler(IPersonRepository personRepository)
         {
-            this._repository = personRepository;
+            _repository = personRepository;
         }
         public async Task<CommandResult> Handle(DeletePersonCommand request, CancellationToken cancellationToken)
         {
             var person = await _repository.GetByIdAsync(request.PersonId);
-            if(person == null)
+            if (person == null)
                 throw new ApplicationException("Person doesn't exist in the database. ");
 
             await _repository.DeletePersonAsync(request.PersonId);

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-namespace HP.Application.Commands
+namespace HP.Core.Commands
 {
     public abstract record BaseCommand : IRequest<CommandResult> { }
 

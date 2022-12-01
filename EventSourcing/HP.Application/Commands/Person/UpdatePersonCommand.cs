@@ -1,7 +1,8 @@
-﻿using HP.Domain;
+﻿using HP.Core.Commands;
+using HP.Domain;
 using MediatR;
 
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Person
 {
     public record UpdatePersonCommand(string UserId, string FirstName, string LastName, string Email) : BaseCommand;
     public class UpdatePersonCommandHandler : IRequestHandler<UpdatePersonCommand, CommandResult>
@@ -9,7 +10,7 @@ namespace HP.Application.Commands
         private readonly IPersonRepository _repository;
         public UpdatePersonCommandHandler(IPersonRepository personRepository)
         {
-            this._repository = personRepository;
+            _repository = personRepository;
         }
         public async Task<CommandResult> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
         {
@@ -17,7 +18,7 @@ namespace HP.Application.Commands
             if (person == null)
                 throw new ApplicationException($"UserId : {request.UserId} is not exist.");
 
-            person = Person.UpdateBasicPerson(person, request.FirstName, request.LastName, request.Email);
+            person = Domain.Person.UpdateBasicPerson(person, request.FirstName, request.LastName, request.Email);
             var check = await _repository.UpdatePersonAsync(person);
             if (check != null)
                 return new CommandResult(false, "Updated failure. ", person.Id);

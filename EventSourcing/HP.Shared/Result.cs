@@ -1,8 +1,8 @@
 ﻿namespace HP.Shared
 {
-    public class ServiceResult<T>
+    public class Result<T>
     {
-        public T? Result { get; set; }
+        public T? Data { get; set; }
         public bool IsSuccess { get; set; } = true;
         public string Msg { get; set; } = string.Empty;
     }

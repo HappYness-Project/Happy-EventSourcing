@@ -1,7 +1,7 @@
-﻿using HP.Application.Commands;
+﻿using HP.Core.Commands;
 using HP.Domain;
 using MediatR;
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Todo
 {
     public record StopTodoCommand(string TodoId, string reason) : BaseCommand;
     public class StopTodoCommandHandler : IRequestHandler<StopTodoCommand, CommandResult>
@@ -20,7 +20,7 @@ namespace HP.Application.Commands
 
             todo.SetStatus(TodoStatus.Stop, cmd.reason);
             await _repository.UpdateAsync(todo);
-            return new CommandResult(true,"Todo status is changed.", todo.Id);
+            return new CommandResult(true, "Todo status is changed.", todo.Id);
         }
     }
 }

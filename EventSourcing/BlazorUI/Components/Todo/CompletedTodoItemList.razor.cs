@@ -1,6 +1,8 @@
 ﻿using HP.Application.Commands;
+using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
+using HP.Shared.Contacts;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 
@@ -9,6 +11,7 @@ namespace BlazorUI.Components.Todo
     public partial class CompletedTodoItemList : ComponentBase
     {
         [Inject] public IMediator _mediator { get; set; }
+        [Inject] public ITodoService _todoService { get; set; }
         [CascadingParameter(Name = "ParentTodoDto")]
         public TodoDetailsDto Todo { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }

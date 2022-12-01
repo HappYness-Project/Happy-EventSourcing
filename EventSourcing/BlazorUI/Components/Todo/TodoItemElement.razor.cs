@@ -1,10 +1,8 @@
 ﻿using HP.Application.Commands;
+using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
-using HP.Application.Queries.Todos;
-using HP.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Components;
-
 namespace BlazorUI.Components.Todo
 {
     public partial class TodoItemElement : ComponentBase
@@ -23,7 +21,9 @@ namespace BlazorUI.Components.Todo
         {
             var value = (bool)e.Value;
             if (!value)
+            {
                 await _mediator.Send(new DeactivateTodoItemCommand(ParentTodo.TodoId, TodoItem.Id));
+            }
             else
                 await _mediator.Send(new ActivateTodoItemCommand(ParentTodo.TodoId, TodoItem.Id));
         }

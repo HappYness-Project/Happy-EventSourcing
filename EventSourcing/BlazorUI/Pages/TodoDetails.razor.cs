@@ -1,6 +1,8 @@
 ﻿using HP.Application.Commands;
+using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
+using HP.Core.Commands;
 using HP.Shared.Contacts;
 using MediatR;
 using Microsoft.AspNetCore.Components;
@@ -31,7 +33,7 @@ namespace BlazorUI.Pages
             var check = await _todoService.GetTodoDetails(TodoId);
             if (check.IsSuccess)
             {
-                SelectedTodo = check.Result;
+                SelectedTodo = check.Data;
                 StateHasChanged();
             }
         }

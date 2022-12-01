@@ -1,6 +1,6 @@
 ﻿using HP.Domain;
 using MediatR;
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Person
 {
     public record UpdatePersonRoleCommand(string UserName, string Role) : IRequest<Unit>;
     public class UpdatePersonRoleCommandHandler : IRequestHandler<UpdatePersonRoleCommand>
@@ -8,7 +8,7 @@ namespace HP.Application.Commands
         private readonly IPersonRepository _repository;
         public UpdatePersonRoleCommandHandler(IPersonRepository personRepository)
         {
-            this._repository = personRepository;
+            _repository = personRepository;
         }
         public async Task<Unit> Handle(UpdatePersonRoleCommand request, CancellationToken cancellationToken)
         {

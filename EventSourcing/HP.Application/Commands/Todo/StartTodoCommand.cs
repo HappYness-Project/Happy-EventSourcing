@@ -1,6 +1,7 @@
-﻿using HP.Domain;
+﻿using HP.Core.Commands;
+using HP.Domain;
 using MediatR;
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Todo
 {
     public record StartTodoCommand(string TodoId) : BaseCommand;
     public class StartTodoCommandHandler : IRequestHandler<StartTodoCommand, CommandResult>

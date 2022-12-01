@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System.Threading.Tasks;
 using FluentAssertions;
 using HP.Application.DTOs;
+using HP.Application.Commands.Todo;
 
 namespace HP.UnitTest.Todos.Commands
 {

@@ -1,7 +1,8 @@
-﻿using HP.Domain;
+﻿using HP.Core.Commands;
+using HP.Domain;
 using MediatR;
 
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Todo
 {
     public record DeactivateTodoItemCommand(string TodoId, string TodoItemId) : BaseCommand;
     public class DeactivateTodoItemCommandHandler : IRequestHandler<DeactivateTodoItemCommand, CommandResult>

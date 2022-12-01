@@ -1,6 +1,7 @@
+using HP.Core.Commands;
 using HP.Domain;
 using MediatR;
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Todo
 {
     public record PendingTodoCommand(string TodoId, string? reason = null) : BaseCommand;
     public class PendingTodoCommandHandler : IRequestHandler<PendingTodoCommand, CommandResult>

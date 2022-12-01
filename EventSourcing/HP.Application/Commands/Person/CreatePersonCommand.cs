@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using HP.Application.DTOs;
+using HP.Core.Commands;
 using HP.Domain;
 using MediatR;
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Person
 {
     public record CreatePersonCommand(string FirstName, string LastName, Address Address, string emailAddr, string UserName = null) : BaseCommand;
     public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, CommandResult>
@@ -20,7 +20,7 @@ namespace HP.Application.Commands
             if(person != null)
                 throw new ApplicationException($"The username : {request.UserName} Already exists.");
 
-            var check = await _repository.CreateAsync(Person.Create(request.FirstName, request.LastName, request.Address, request.emailAddr, request.UserName.ToUpper()));
+            var check = await _repository.CreateAsync(Domain.Person.Create(request.FirstName, request.LastName, request.Address, request.emailAddr, request.UserName.ToUpper()));
             return new CommandResult(true, "Successfully person has been created.", person.Id);
         }
     }

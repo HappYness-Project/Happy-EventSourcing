@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace HP.Shared
+namespace HP.Shared.Requests.Todos
 {
-    public class CreateTodoItemModel 
+    public class CreateTodoItemModel
     {
         [Required]
         public string TodoId { get; set; }

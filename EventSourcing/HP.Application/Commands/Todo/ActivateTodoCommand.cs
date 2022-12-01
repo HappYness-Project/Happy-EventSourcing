@@ -1,6 +1,7 @@
-﻿using HP.Domain;
+﻿using HP.Core.Commands;
+using HP.Domain;
 using MediatR;
-namespace HP.Application.Commands
+namespace HP.Application.Commands.Todo
 {
     public record ActivateTodoCommand(string TodoId) : BaseCommand;
     public class ActivateTodoCommandHandler : IRequestHandler<ActivateTodoCommand, CommandResult>
@@ -13,10 +14,10 @@ namespace HP.Application.Commands
 
         public async Task<CommandResult> Handle(ActivateTodoCommand cmd, CancellationToken cancellationToken)
         {
-            var todo =  await _repository.GetByIdAsync(cmd.TodoId);
-            if(todo == null)
+            var todo = await _repository.GetByIdAsync(cmd.TodoId);
+            if (todo == null)
                 throw new ApplicationException($"There is no Todo ID: {cmd.TodoId}.");
-            
+
             todo.ActivateTodo(todo.Id);
             await _repository.UpdateAsync(todo);
             return new CommandResult(true, "Successful", todo.Id);

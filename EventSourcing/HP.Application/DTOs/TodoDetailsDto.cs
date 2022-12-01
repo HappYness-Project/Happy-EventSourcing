@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace HP.Application.DTOs
+﻿namespace HP.Application.DTOs
 {
     public record TodoItemDto
     {
