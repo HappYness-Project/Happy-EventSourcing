@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
-
-namespace HP.Domain.Common
+namespace HP.Core.Models
 {
     public abstract class Entity : BaseEntity
     { 

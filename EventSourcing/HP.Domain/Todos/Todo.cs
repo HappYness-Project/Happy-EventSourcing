@@ -1,4 +1,5 @@
-﻿using HP.Domain.Common;
+﻿using HP.Core.Models;
+using HP.Domain.Common;
 namespace HP.Domain
 {
     public class Todo : Entity

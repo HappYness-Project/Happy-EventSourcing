@@ -1,4 +1,5 @@
 ﻿using Confluent.Kafka;
+using HP.Core.Models;
 using HP.Domain.Common;
 using Microsoft.Extensions.Options;
 using System;

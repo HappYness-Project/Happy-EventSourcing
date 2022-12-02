@@ -1,5 +1,4 @@
-﻿using HP.Domain;
-namespace HP.Domain.Common
+﻿namespace HP.Core.Models
 {
     public abstract class DomainEventBase : IDomainEvent
     {

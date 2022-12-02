@@ -1,4 +1,4 @@
-﻿using HP.Domain.Common;
+﻿using HP.Core.Models;
 namespace HP.Domain
 {
     public class Person : Entity

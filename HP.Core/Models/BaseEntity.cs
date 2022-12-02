@@ -1,4 +1,4 @@
-﻿namespace HP.Domain.Common
+﻿namespace HP.Core.Models
 {
     public abstract partial class BaseEntity
     {

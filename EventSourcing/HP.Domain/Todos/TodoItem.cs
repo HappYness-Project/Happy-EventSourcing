@@ -1,6 +1,4 @@
-﻿using HP.Domain.Common;
-using System.Text.Json.Serialization;
-
+﻿using HP.Core.Models;
 namespace HP.Domain
 {
     public class TodoItem : Entity

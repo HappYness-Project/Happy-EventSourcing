@@ -1,4 +1,5 @@
-﻿using HP.Domain;
+﻿using HP.Core.Models;
+using HP.Domain;
 using HP.Domain.Common;
 using HP.Infrastructure.DbAccess;
 using Microsoft.Extensions.Configuration;

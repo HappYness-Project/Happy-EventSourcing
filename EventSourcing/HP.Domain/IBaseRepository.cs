@@ -1,5 +1,5 @@
-﻿using HP.Domain.Common;
-using MongoDB.Bson;
+﻿using HP.Core.Models;
+using HP.Domain.Common;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 

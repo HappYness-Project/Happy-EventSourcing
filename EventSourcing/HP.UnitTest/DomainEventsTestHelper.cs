@@ -1,10 +1,7 @@
-﻿using HP.Domain.Common;
-using System;
+﻿using HP.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HP.test
 {
