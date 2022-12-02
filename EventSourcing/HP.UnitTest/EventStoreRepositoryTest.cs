@@ -1,9 +1,7 @@
-﻿using HP.Application.Commands;
+﻿using HP.Core.Events;
 using HP.Core.Models;
 using HP.Domain;
-using HP.Domain.Common;
 using HP.Infrastructure;
-using HP.Infrastructure.Repository;
 using NUnit.Framework;
 using System;
 namespace HP.test

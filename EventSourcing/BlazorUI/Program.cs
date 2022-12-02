@@ -3,6 +3,7 @@ using BlazorUI.Services;
 using BlazorUI.Services.ItemEdit;
 using BlazorUI.Services.Todo;
 using HP.Application;
+using HP.Core.Events;
 using HP.Domain;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
@@ -12,8 +13,6 @@ using HP.UnitTest;
 //using HP.UnitTest;
 //using HP.UnitTest.UserManager;
 using MediatR;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 

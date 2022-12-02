@@ -1,9 +1,7 @@
 ﻿using HP.Core.Models;
-using HP.Domain.Common;
 using MongoDB.Driver;
 using System.Linq.Expressions;
-
-namespace HP.Domain
+namespace HP.Core.Common
 {
     public interface IBaseRepository<T> where T : Entity
     {

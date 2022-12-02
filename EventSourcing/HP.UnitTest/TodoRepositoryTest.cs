@@ -1,12 +1,11 @@
 using FluentAssertions;
+using HP.Core.Events;
 using HP.Domain;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
-using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System.IO;
-
 namespace HP.test
 {
 

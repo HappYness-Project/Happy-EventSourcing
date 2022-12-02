@@ -1,13 +1,12 @@
 using Confluent.Kafka;
 using HP.Application;
+using HP.Core.Events;
 using HP.Domain;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Kafka;
 using HP.Infrastructure.Repository;
-using HP.Shared.Contacts;
 using MediatR;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace HP.Domain
+﻿namespace HP.Domain
 {
     [Serializable]
     internal class BusinessRuleValidationException : Exception

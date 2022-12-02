@@ -1,6 +1,5 @@
 ﻿using HP.Core.Models;
-using HP.Domain.Common;
-namespace HP.Domain
+namespace HP.Core.Events
 {
     public interface IEventStore
     {

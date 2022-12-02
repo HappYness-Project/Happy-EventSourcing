@@ -1,4 +1,5 @@
-﻿namespace HP.Domain
+﻿using HP.Core.Common;
+namespace HP.Domain
 {
     public interface ITodoRepository : IBaseRepository<Todo>
     {
