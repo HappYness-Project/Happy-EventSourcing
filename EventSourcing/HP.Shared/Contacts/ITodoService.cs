@@ -7,6 +7,7 @@ namespace HP.Shared.Contacts
 {
     public interface ITodoService
     {
+        Task<Result<IEnumerable<TodoDetailsDto>>> GetTodos();
         Task<Result<TodoDetailsDto>> GetTodoDetails(string TodoId);
         Task<Result<int>> GetTodoItemsCount(bool OnlyActive = true);
         Task<Result<CommandResult>> CreateAsync(CreateTodoItemModel createTodoItemModel);

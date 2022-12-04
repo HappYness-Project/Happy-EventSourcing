@@ -23,12 +23,34 @@ namespace BlazorUI.Services.Todo
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient = httpClient;
         }
+        public async Task<Result<IEnumerable<TodoDetailsDto>>> GetTodos()
+        {
+            string tmp_username = "hyunbin7303";
+            IEnumerable<TodoDetailsDto> todos = await _httpClient.GetFromJsonAsync<IEnumerable<TodoDetailsDto>>($"Todos/users/{tmp_username}");
+            return new()
+            {
+                IsSuccess = true,
+                Data = todos,
+                Msg = "Return Todos"
+            };
+        }
         public async Task<Result<TodoDetailsDto>> GetTodoDetails(string TodoId)
         {
             var todo = await _httpClient.GetFromJsonAsync<TodoDetailsDto>($"Todos/{TodoId}");
-            Result<TodoDetailsDto> result = new();
-            result.IsSuccess = true;
-            result.Data = todo;
+            if(todo == null)
+            {
+                return new()
+                {
+                    IsSuccess = true,
+                    Data = null,
+                    Msg = "Request was successful "
+                };
+            }
+            Result<TodoDetailsDto> result = new()
+            {
+                IsSuccess = true,
+                Data = todo,
+            };
             return result;
         }
         public async Task<Result<int>> GetTodoItemsCount(bool OnlyActive = true)
@@ -40,5 +62,7 @@ namespace BlazorUI.Services.Todo
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

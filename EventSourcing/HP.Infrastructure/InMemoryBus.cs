@@ -1,4 +1,5 @@
-﻿using HP.Domain;
+﻿using HP.Core.Events;
+using HP.Domain;
 using MediatR;
 using System;
 

@@ -1,4 +1,5 @@
 using FluentAssertions;
+using HP.Core.Events;
 using HP.Domain;
 using HP.Domain.Categories;
 using HP.Infrastructure;
