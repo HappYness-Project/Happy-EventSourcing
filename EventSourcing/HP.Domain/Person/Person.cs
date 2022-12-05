@@ -3,11 +3,8 @@ namespace HP.Domain
 {
     public class Person : Entity
     {
-        public string UserId { get; private set; }
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
+        public string UserId { get; private set; } 
         public Address Address { get; private set; }
-        public Email Email { get; private set; }
         public string Description { get; private set; }
         public int GroupId { get; private set; }
         public int ProjectId { get; private set; }
@@ -21,7 +18,7 @@ namespace HP.Domain
             IsActive = false;
             CurrentScore = 0;
         }
-        public Person(string firstName, string lastName, Address address, Email email, string userId = null)
+        public Person(string firstName, string lastName, Address address, string userId = null)
         {
             if (string.IsNullOrWhiteSpace(firstName))
                 throw new ArgumentNullException(nameof(firstName));
@@ -29,15 +26,12 @@ namespace HP.Domain
             if (string.IsNullOrWhiteSpace(lastName))
                 throw new ArgumentNullException(nameof(lastName));
 
-            FirstName = firstName;
-            LastName = lastName;
             Address = address ?? throw new ArgumentNullException(nameof(address));
-            Email = email ?? throw new ArgumentNullException(nameof(email));
             UserId = userId;
             IsActive = true;
             GoalType = GoalType.NotDefined;
             Role = PersonRoleType.Normal.ToString(); // For now, Normal is the default Role.
-            AddDomainEvent(new PersonDomainEvents.PersonCreated(Id, firstName, lastName, email, address));
+            AddDomainEvent(new PersonDomainEvents.PersonCreated(Id, firstName, lastName, address));
         }
         public void UpdateRole(string role)
         {
@@ -61,14 +55,11 @@ namespace HP.Domain
             if (address is null)
                 throw new ArgumentNullException(nameof(address));
 
-            Email email = new Email(emailValue);
-            return new Person(firstName.ToUpper(), lastName.ToUpper(), address, email, userId); 
+            return new Person(firstName.ToUpper(), lastName.ToUpper(), address, userId); 
         }
         public static Person UpdateBasicPerson(Person person, string firstName, string lastName, string emailAddr)
         {
-            person.FirstName = firstName;
-            person.LastName = lastName;
-            person.Email = new Email(emailAddr);
+            // Todo : Do Api call or generate Kafka data.
             return person;
         }
         public static Address CreateAddress(string Country, string City, string Region, string PostalCode)

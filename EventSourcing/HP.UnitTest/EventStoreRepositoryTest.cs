@@ -30,7 +30,7 @@ namespace HP.test
         public void EventStore_Save_For_PersonCreate()
         {
             var addr = new Address("Canada", "Kitchener", "Ontario", "N2L 3M3");
-            IDomainEvent domainEvent = new PersonCreated(Guid.NewGuid().ToString(), "Kevin", "Park", new Email("hyunbin7303@gmail.com"), addr);
+            IDomainEvent domainEvent = new PersonCreated(Guid.NewGuid().ToString(), "Kevin", "Park", addr);
             eventStore.Save(domainEvent);
         }
 

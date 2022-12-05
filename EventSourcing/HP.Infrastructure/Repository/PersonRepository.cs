@@ -35,10 +35,11 @@ namespace HP.Infrastructure.Repository
 
         public async Task<Person> UpdatePersonAsync(Person person)
         {
+            // TODO :Requred to update this method for updating Person.
             var filter = Builders<Person>.Filter.And(Builders<Person>.Filter.Eq("UserId", person.UserId));
-            var update = Builders<Person>.Update.Set("FirstName", person.FirstName)
-                                                .Set("LastName", person.LastName)
-                                                .Set("Email.EmailAddr", person.Email.ToString())
+            var update = Builders<Person>.Update.Set("FirstName", "")
+                                                .Set("LastName", string.Empty)
+                                                .Set("Email.EmailAddr", string.Empty)
                                                 .Set("UpdateDate", DateTime.Now);
             var result = await _mongoCollection.FindOneAndUpdateAsync(filter, update,
                     options: new FindOneAndUpdateOptions<Person, BsonDocument>
