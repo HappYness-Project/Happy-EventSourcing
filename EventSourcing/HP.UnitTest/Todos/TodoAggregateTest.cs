@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using HP.Domain;
+using HP.test;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace HP.UnitTest.Todos
             List<Todo> todoList = new List<Todo>();
             Address addr = new Address("Canada", "Waterloo", "ON", "n2l-4m2");
             var expectedResult = 1;
-            Person person = new Person("Kevin", "Park", addr, null);
+            Person person = new Person("UserId");
 
             // Act
             var fakeTodo = Todo.Create(person, "fake Todo", "fake Description", TodoType.Others, faketags);

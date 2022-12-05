@@ -5,16 +5,9 @@ namespace HP.Domain
     {
         public class PersonCreated : DomainEventBase
         {
-            public PersonCreated(string personId, string firstName, string lastName, Address address) : base(nameof(Person))
+            public PersonCreated(string personId) : base(nameof(Person))
             {
-                FirstName = firstName;
-                LastName = lastName;
-                Address = address;
             }
-            public string FirstName { get; }
-            public string LastName { get; }
-            public Address Address { get; }
-
         }
         public class PersonUpdated : DomainEventBase
         {

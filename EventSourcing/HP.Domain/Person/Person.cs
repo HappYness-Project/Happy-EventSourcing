@@ -4,6 +4,7 @@ namespace HP.Domain
     public class Person : Entity
     {
         public string PersonId { get; private set; } 
+        public string PersonType { get; private set; }
         public Address Address { get; private set; }
         public string Description { get; private set; }
         public int GroupId { get; private set; }
@@ -24,7 +25,7 @@ namespace HP.Domain
             IsActive = true;
             GoalType = GoalType.NotDefined;
             Role = PersonRoleType.Normal.ToString(); // For now, Normal is the default Role.
-            AddDomainEvent(new PersonDomainEvents.PersonCreated(Id, firstName, lastName, address));
+            AddDomainEvent(new PersonDomainEvents.PersonCreated(Id));
         }
         public void UpdateRole(string role)
         {
@@ -40,20 +41,15 @@ namespace HP.Domain
             this.GroupId = groupId;
             AddDomainEvent(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
         }
-        public static Person Create(string firstName, string lastName, Address address, string emailValue, string userId= null)
+        public static Person Create(string userId= null)
         {
-            if (firstName is null || lastName is null)
-                throw new ArgumentNullException("Firstname or lastName cannot be null");
-
-            if (address is null)
-                throw new ArgumentNullException(nameof(address));
-
-            return new Person(firstName.ToUpper(), lastName.ToUpper(), address, userId); 
+            return new Person(userId); 
         }
-        public static Person UpdateBasicPerson(Person person, string firstName, string lastName, string emailAddr)
+        public void UpdateBasicInfo(string PersonType, int? GroupId)
         {
             // Todo : Do Api call or generate Kafka data.
-            return person;
+            this.PersonType = PersonType;
+            this.GroupId = GroupId.Value;
         }
         public static Address CreateAddress(string Country, string City, string Region, string PostalCode)
         {

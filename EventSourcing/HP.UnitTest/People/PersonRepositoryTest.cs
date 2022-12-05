@@ -33,7 +33,7 @@ namespace HP.UnitTest.People
         {
             // Creating a person object into the db.
             Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
-            Person person = Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com");
+            Person person = Person.Create("hyunbin7303@gmail.com");
             var newPerson = personRepository.CreateAsync(person).Result;
 
             var isRemoved = personRepository.DeletePersonAsync(newPerson.Id)?.Result;
@@ -45,7 +45,7 @@ namespace HP.UnitTest.People
         {
             // Arrange
             Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
-            Person person = Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com");
+            Person person = Person.Create("hyunbin7303@gmail.com");
             var personObj = personRepository.CreateAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }
@@ -54,8 +54,7 @@ namespace HP.UnitTest.People
         public void UpdatePersonAsync_UpdateSuccessful()
         {
             // Arrange
-            Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
-            Person person = Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com", "hyunbin7303");
+            Person person = Person.Create("hyunbin7303");
             var personObj = personRepository.UpdatePersonAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }

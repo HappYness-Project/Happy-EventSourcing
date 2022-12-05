@@ -30,7 +30,6 @@ namespace BlazorUI.Services
         }
         public async Task<User> RequestUserCreateAsync(User user)
         {
-            // Todo : Api call to the Identity service.
             var newUser = new User()
             {
                 FirstName = user.FirstName,
@@ -38,9 +37,12 @@ namespace BlazorUI.Services
                 Email = user.Email,
                 Password = user.Password,
             };
-            var token = await _httpClient.PostAsJsonAsync("/user/create", newUser); // Get the user information with the token
-
-            await Task.FromResult(true);
+            var response = await _httpClient.PostAsJsonAsync("/user/create", newUser); // Get the user information with the token
+            if(response.IsSuccessStatusCode)
+            {
+                return await Task.FromResult(newUser);
+            }
+            return null;
         }
         public Task<string> GetUserRole(string userId)
         {

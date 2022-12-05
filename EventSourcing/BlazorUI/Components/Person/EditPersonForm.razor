@@ -57,7 +57,7 @@
 
     public async void HandleValidSubmit()
     {
-        var check = await _mediator.Send(new UpdatePersonCommand(person.UserId, person.FirstName, person.LastName, person.Email));
+        var check = await _mediator.Send(new UpdatePersonCommand(person.UserId, person.PersonType));
         await OnSubmitCallback.InvokeAsync();
     }
 

@@ -4,6 +4,7 @@ using HP.Application.Commands.Person;
 using HP.Application.DTOs;
 using HP.Application.Queries;
 using HP.Core.Commands;
+using HP.Shared.Requests.People;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,19 +34,19 @@ namespace HP.Controllers
             return Ok(person);
         }
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreatePersonRequest personDto, CancellationToken token = default)
+        public async Task<IActionResult> Create([FromBody]CreatePersonRequest request, CancellationToken token = default)
         {
-            if (personDto == null)
+            if (request == null)
                 return BadRequest();
             
-            var cmd = new CreatePersonCommand(personDto.Address, personDto.Email, personDto.PersonId);
+            var cmd = new CreatePersonCommand(request.PersonId, request.PersonType, request.GroupId);
             //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);//TODO: Since it is a Create, I think it's desirable to use Publish command
             return Ok(_mediator.Send(cmd));
         }
         [HttpPut("{userid}")]
         public async Task<CommandResult> Update(string userid, [FromBody]UpdatePersonRequest request)
         {
-            var result = await _mediator.Send(new UpdatePersonCommand(userid, request.FirstName, request.LastName, request.Email));
+            var result = await _mediator.Send(new UpdatePersonCommand(request.PersonId, request.PersonType, request.GroupId));
             return result;
         }
         [HttpPut("{userid}/Role")]
