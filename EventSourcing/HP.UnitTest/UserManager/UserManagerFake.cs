@@ -20,8 +20,10 @@ namespace HP.UnitTest.UserManager
             throw new NotImplementedException();
         }
 
+        //Use case: Use this method when the user press the button for the creating user.
         public Task InsertUserAsync(User user)
         {
+            // TODO Create new user from here.
             return Task.FromResult(true);
         }
 

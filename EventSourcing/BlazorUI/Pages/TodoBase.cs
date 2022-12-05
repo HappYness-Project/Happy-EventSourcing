@@ -1,10 +1,12 @@
-﻿using HP.Api.Requests;
+﻿using BlazorUI.Services.Todo;
+using HP.Api.Requests;
 using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
 using HP.Domain;
 using HP.GeneralUI.DropdownControl;
 using HP.Shared.Contacts;
+using HP.Shared.Requests.Todos;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -15,6 +17,7 @@ namespace BlazorUI.Pages
     {
         [Inject] public IMediator Mediator { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
+        [Inject] public ITodoService _todoService { get; set; }
         [Inject] public ICurrentUserService CurrentUserService { get; set; }
         [Parameter] public string TodoId { get; set; }
         public TodoDetailsDto TodoDetails { get; private set; } = new();
@@ -81,8 +84,13 @@ namespace BlazorUI.Pages
         protected async void OnSubmit()
         {
             TodoType todoType = SelectedTodoTypeDropDownItem.ItemObject;
-            await Mediator.Send(new CreateTodoCommand(CurrentUserName, CreateTodoRequest.Title, todoType.Name, CreateTodoRequest.Description, CreateTodoRequest.StartDate, CreateTodoRequest.TargetEndDate, null));
-            NavigationManager.NavigateTo("todos");
+            var result = await _todoService.CreateAsync(CreateTodoRequest);
+            if(result.IsSuccess)
+            {
+                NavigationManager.NavigateTo("todos");
+                return;
+            }
+            // TODO : Need to display error msg for failure
         }
         protected void OnClickGoToCreateTodo()
         {

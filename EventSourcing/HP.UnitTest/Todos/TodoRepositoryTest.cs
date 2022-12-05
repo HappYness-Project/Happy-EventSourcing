@@ -4,9 +4,10 @@ using HP.Domain;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
+using HP.test;
 using NUnit.Framework;
 using System.IO;
-namespace HP.test
+namespace HP.UnitTest.Todos
 {
 
 
@@ -26,7 +27,7 @@ namespace HP.test
         public void GetListByUserId_Return_Nothing()
         {
             var check = todoRepository.GetListByUserId("userId7303");
-            Assert.That(check, Is.Not.Null);    
+            Assert.That(check, Is.Not.Null);
         }
         [Test]
         public void Exists_ReturnTrueIfExist()

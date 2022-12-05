@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace HP.test
+namespace HP.UnitTest.Todos
 {
     public class TodoAggregateTest
     {
@@ -20,7 +20,7 @@ namespace HP.test
             List<Todo> todoList = new List<Todo>();
             Address addr = new Address("Canada", "Waterloo", "ON", "n2l-4m2");
             var expectedResult = 1;
-            Person person= new Person("Kevin", "Park", addr, null);
+            Person person = new Person("Kevin", "Park", addr, null);
 
             // Act
             var fakeTodo = Todo.Create(person, "fake Todo", "fake Description", TodoType.Others, faketags);
@@ -87,6 +87,6 @@ namespace HP.test
             //Assert
             todo.SubTodos.Should().HaveCount(0);
         }
-        
+
     }
 }

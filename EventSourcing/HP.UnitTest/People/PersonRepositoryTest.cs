@@ -4,11 +4,12 @@ using HP.Domain;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
+using HP.test;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System.Collections;
 
-namespace HP.test
+namespace HP.UnitTest.People
 {
     public class PersonRepositoryTest : TestBase
     {
@@ -54,7 +55,7 @@ namespace HP.test
         {
             // Arrange
             Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
-            Person person = Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com","hyunbin7303");
+            Person person = Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com", "hyunbin7303");
             var personObj = personRepository.UpdatePersonAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }

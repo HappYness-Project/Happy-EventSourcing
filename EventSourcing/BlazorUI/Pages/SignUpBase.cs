@@ -1,4 +1,5 @@
 ﻿using HP.GeneralUI.DropdownControl;
+using HP.Shared.Contacts;
 using HP.Shared.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Components;
@@ -9,8 +10,8 @@ namespace BlazorUI.Pages
 {
     public class SignUpBase : SignBase
     {
-        [Inject]
-        private NavigationManager NavigationManager { get; set; }
+        [Inject] private NavigationManager NavigationManager { get; set; }
+        [Inject] private IUserManager _userManager { get; set; }
         protected IList<DropdownItem<GenderTypeEnum>> GenderTypeDropDownItems { get; } = new List<DropdownItem<GenderTypeEnum>>();
         protected DropdownItem<GenderTypeEnum> SelectedGenderTypeDropDownItem { get; set; }
 

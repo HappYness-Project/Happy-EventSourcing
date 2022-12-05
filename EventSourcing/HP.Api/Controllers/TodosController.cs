@@ -1,8 +1,8 @@
 ﻿using HP.Api.Requests;
-using HP.Application.Commands;
 using HP.Application.Commands.Todo;
 using HP.Application.Queries.Todos;
 using HP.Domain;
+using HP.Shared.Requests.Todos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

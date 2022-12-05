@@ -1,12 +1,12 @@
 ﻿using HP.Domain;
 
-namespace HP.test
+namespace HP.UnitTest.People
 {
     public class PersonFactory
     {
         public static Person Create()
         {
-            Address addr = new Address("Canada", "Waterloo","ON","N2L 4m2");
+            Address addr = new Address("Canada", "Waterloo", "ON", "N2L 4m2");
             return Person.Create("Kevin", "Park", addr, "hyunbin7303@gmail.com");
         }
         public static Person Create(string fName, string lName, Address addr, string email)
@@ -14,5 +14,5 @@ namespace HP.test
             return Person.Create(fName, lName, addr, email);
         }
     }
-    
+
 }

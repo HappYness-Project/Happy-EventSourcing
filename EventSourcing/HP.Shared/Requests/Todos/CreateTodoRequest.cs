@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-namespace HP.Api.Requests
+namespace HP.Shared.Requests.Todos
 {
     public record CreateTodoRequest
     {
