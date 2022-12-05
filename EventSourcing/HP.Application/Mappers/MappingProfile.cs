@@ -15,7 +15,7 @@ namespace HP.Application.Mappers
         {
             CreateMap<Person, PersonDetailsDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.PersonId))
                 .ForMember(dest => dest.GoalType, opt => opt.MapFrom( src => src.GoalType))
                 .ForMember(dest => dest.AddressStr, opt => opt.MapFrom( src=> src.Address.ToString()));
             CreateMap<Todo, TodoBasicInfoDto>()

@@ -98,7 +98,7 @@
     [Parameter] public string ParentTodoId { get; set; } = string.Empty;
     [Parameter] public EventCallback<bool> OnClose { get; set; }
     [Parameter] public TodoItemDto SelectedTodoItem { get; set; }
-    public CreateTodoItemModel NewTodoItem { get; set; } = new();
+    public CreateTodoItemRequest NewTodoItem { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {

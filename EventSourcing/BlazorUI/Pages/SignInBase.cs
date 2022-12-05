@@ -2,20 +2,13 @@
 using HP.Shared.Contacts;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using System.Linq.Expressions;
-
 namespace BlazorUI.Pages
 {
     public class SignInBase : SignBase
     {
         protected string Day { get; set; } = DateTime.Now.DayOfWeek.ToString();
-
-        [Inject]
-        private NavigationManager NavigationManager { get; set; }
-
-        [Inject]
-        private IUserManager UserManager { get; set; }
-
+        [Inject] private NavigationManager NavigationManager { get; set; }
+        [Inject] private IUserManager UserManager { get; set; }
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -45,4 +38,3 @@ namespace BlazorUI.Pages
         }
     }
 }
-//https://www.c-sharpcorner.com/article/5-steps-to-implement-event-call-backs-in-blazor/

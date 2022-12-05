@@ -1,7 +1,6 @@
 ﻿using HP.Application.DTOs;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-
 namespace HP.Shared
 {
     // GOing to be used for the Identity service in the future.

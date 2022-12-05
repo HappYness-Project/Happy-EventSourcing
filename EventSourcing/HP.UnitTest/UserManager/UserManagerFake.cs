@@ -21,10 +21,9 @@ namespace HP.UnitTest.UserManager
         }
 
         //Use case: Use this method when the user press the button for the creating user.
-        public Task InsertUserAsync(User user)
+        public async Task<User> RequestUserCreateAsync(User user)
         {
-            // TODO Create new user from here.
-            return Task.FromResult(true);
+            throw new NotImplementedException();
         }
 
         public Task<User> RefreshTokenAsync(RefreshRequest request)
@@ -37,5 +36,7 @@ namespace HP.UnitTest.UserManager
             Console.WriteLine("Trying from the UserManasgerFake!");
             return Task.FromResult(new User());
         }
+
+
     }
 }

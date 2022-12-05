@@ -79,7 +79,7 @@ namespace HP.Controllers
             return Ok(todo);
         }
         [HttpPost("{todoId}/todoItem")]
-        public async Task<IActionResult> CreateTodoItem(string todoId, [FromBody]CreateTodoItemRequest request, CancellationToken token = default)
+        public async Task<IActionResult> CreateTodoItem(string todoId, [FromBody] Api.Requests.CreateTodoItemRequest request, CancellationToken token = default)
         {
             if (request == null)
                 return BadRequest();

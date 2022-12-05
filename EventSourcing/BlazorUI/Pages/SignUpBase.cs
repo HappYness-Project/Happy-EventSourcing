@@ -1,4 +1,7 @@
-﻿using HP.GeneralUI.DropdownControl;
+﻿using HP.Api.Requests;
+using HP.Domain;
+using HP.GeneralUI.DropdownControl;
+using HP.Shared;
 using HP.Shared.Contacts;
 using HP.Shared.Enums;
 using MediatR;
@@ -12,6 +15,7 @@ namespace BlazorUI.Pages
     {
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private IUserManager _userManager { get; set; }
+        [Inject] private IPersonService _personService { get; set; }
         protected IList<DropdownItem<GenderTypeEnum>> GenderTypeDropDownItems { get; } = new List<DropdownItem<GenderTypeEnum>>();
         protected DropdownItem<GenderTypeEnum> SelectedGenderTypeDropDownItem { get; set; }
 
@@ -33,13 +37,10 @@ namespace BlazorUI.Pages
                 ItemObject = GenderTypeEnum.Neutral,
                 DisplayText = "Others"
             };
-
             GenderTypeDropDownItems.Add(male);
             GenderTypeDropDownItems.Add(female);
             GenderTypeDropDownItems.Add(neutral);
             SelectedGenderTypeDropDownItem = male;
-
-
         }
 
 
@@ -54,6 +55,17 @@ namespace BlazorUI.Pages
         }
         protected void OnValidSubmit()
         {
+            string userType = "Normal";
+            var response = _userManager.RequestUserCreateAsync(User).Result;
+            if(response != null)
+            {
+                CreatePersonRequest request = new CreatePersonRequest
+                {
+                    PersonId = response.UserName,
+                    PersonType = userType
+                };
+                _personService.CreateAsync(request);
+            }
             NavigationManager.NavigateTo("signin");
         }
     }

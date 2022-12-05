@@ -38,7 +38,7 @@ namespace HP.Controllers
             if (personDto == null)
                 return BadRequest();
             
-            var cmd = new CreatePersonCommand(personDto.FirstName, personDto.LastName, personDto.Address, personDto.Email, personDto.UserId);
+            var cmd = new CreatePersonCommand(personDto.Address, personDto.Email, personDto.PersonId);
             //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);//TODO: Since it is a Create, I think it's desirable to use Publish command
             return Ok(_mediator.Send(cmd));
         }

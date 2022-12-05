@@ -16,19 +16,19 @@ namespace BlazorUI.Services.Todo
     {
         private readonly HttpClient _httpClient;
         private AppSettings _appSettings { get; }
-        //private readonly IAuthenService _auithService;
+        private readonly CurrentUserService _currentUserService;
         public event Action OnChange;
-        public TodoService(HttpClient httpClient, IOptions<AppSettings> appSettings)
+        public TodoService(HttpClient httpClient, IOptions<AppSettings> appSettings, CurrentUserService currentUserService)
         {
             _appSettings = appSettings.Value;
             httpClient.BaseAddress = new Uri(_appSettings.HpApiBaseAddress);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient = httpClient;
+            _currentUserService = currentUserService;
         }
         public async Task<Result<IEnumerable<TodoDetailsDto>>> GetTodos()
         {
-            // Todo need to get Hyunbin7303 from the IAuthenService!!!!
-            string tmp_username = "hyunbin7303";
+            string tmp_username = _currentUserService.CurrentUser.UserName;
             IEnumerable<TodoDetailsDto> todos = await _httpClient.GetFromJsonAsync<IEnumerable<TodoDetailsDto>>($"Todos/users/{tmp_username}");
             return new()
             {
@@ -52,7 +52,7 @@ namespace BlazorUI.Services.Todo
         }
         public async Task<Result<CommandResult>> CreateAsync(CreateTodoRequest request)
         {
-            string tmp_username = "hyunbin7303";
+            string tmp_username = _currentUserService.CurrentUser.UserName;
             var response = await _httpClient.PostAsJsonAsync($"Todos/Create/{tmp_username}", request);
             if (response.IsSuccessStatusCode)
             {
