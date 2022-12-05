@@ -20,7 +20,7 @@ namespace HP.Infrastructure.Repository
         }
         public async Task<Person> GetPersonByUserIdAsync(string UserId)
         {
-            return await _mongoCollection.Find(x => x.UserId == UserId).FirstOrDefaultAsync();
+            return await _mongoCollection.Find(x => x.PersonId == UserId).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Person>> GetListByGroupIdAsync(int groupId)
@@ -36,7 +36,7 @@ namespace HP.Infrastructure.Repository
         public async Task<Person> UpdatePersonAsync(Person person)
         {
             // TODO :Requred to update this method for updating Person.
-            var filter = Builders<Person>.Filter.And(Builders<Person>.Filter.Eq("UserId", person.UserId));
+            var filter = Builders<Person>.Filter.And(Builders<Person>.Filter.Eq("UserId", person.PersonId));
             var update = Builders<Person>.Update.Set("FirstName", "")
                                                 .Set("LastName", string.Empty)
                                                 .Set("Email.EmailAddr", string.Empty)

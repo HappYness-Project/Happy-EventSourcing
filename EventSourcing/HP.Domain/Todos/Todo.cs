@@ -17,7 +17,7 @@ namespace HP.Domain
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentNullException(nameof(title));
             
-            UserId = person.UserId;
+            UserId = person.PersonId;
             Title = title;
             Description = description;
             Type = todoType;

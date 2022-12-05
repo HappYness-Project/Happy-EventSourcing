@@ -3,7 +3,7 @@ namespace HP.Domain
 {
     public class Person : Entity
     {
-        public string UserId { get; private set; } 
+        public string PersonId { get; private set; } 
         public Address Address { get; private set; }
         public string Description { get; private set; }
         public int GroupId { get; private set; }
@@ -18,16 +18,9 @@ namespace HP.Domain
             IsActive = false;
             CurrentScore = 0;
         }
-        public Person(string firstName, string lastName, Address address, string userId = null)
+        public Person(string personId)
         {
-            if (string.IsNullOrWhiteSpace(firstName))
-                throw new ArgumentNullException(nameof(firstName));
-
-            if (string.IsNullOrWhiteSpace(lastName))
-                throw new ArgumentNullException(nameof(lastName));
-
-            Address = address ?? throw new ArgumentNullException(nameof(address));
-            UserId = userId;
+            PersonId = personId;
             IsActive = true;
             GoalType = GoalType.NotDefined;
             Role = PersonRoleType.Normal.ToString(); // For now, Normal is the default Role.
