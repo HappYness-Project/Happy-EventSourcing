@@ -1,5 +1,6 @@
 ﻿using HP.Application.DTOs;
 using HP.Core.Commands;
+using HP.Shared.Common;
 using HP.Shared.Requests.Todos;
 
 namespace HP.Shared.Contacts

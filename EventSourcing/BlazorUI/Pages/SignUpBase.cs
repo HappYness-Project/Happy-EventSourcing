@@ -3,6 +3,7 @@ using HP.Shared;
 using HP.Shared.Contacts;
 using HP.Shared.Enums;
 using HP.Shared.Requests.People;
+using HP.Shared.Requests.Users;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Primitives;
@@ -54,7 +55,15 @@ namespace BlazorUI.Pages
         protected void OnValidSubmit()
         {
             string userType = "Normal";
-            var response = _userManager.RequestUserCreateAsync(User).Result;
+            UserCreateDto newUser = new()
+            {
+                UserName = User.UserName,
+                Password = User.Password,
+                Email = User.Email,
+                FirstName = User.FirstName,
+                LastName = User.LastName,
+            };
+            var response = _userManager.RequestUserCreateAsync(newUser).Result;
             if(response != null)
             {
                 CreatePersonRequest request = new CreatePersonRequest

@@ -1,11 +1,5 @@
-﻿using HP.Application.DTOs;
-using HP.Shared;
-using System;
-using System.Collections.Generic;
+﻿using HP.Shared;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorUI.Data
 {

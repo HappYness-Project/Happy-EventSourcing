@@ -2,7 +2,7 @@
 using HP.Application.Commands;
 using HP.Application.DTOs;
 using HP.Core.Commands;
-using HP.Shared;
+using HP.Shared.Common;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Todos;
 using Microsoft.Extensions.Options;

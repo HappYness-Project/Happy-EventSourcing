@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HP.Shared.Requests.Users;
 
 namespace HP.Shared.Contacts
 {
     public interface IUserManager
     {
-        Task<User> TrySignInAndGetUserAsync(User user);
-        Task<User> RequestUserCreateAsync(User user);
+        Task<User> TrySignInAndGetUserAsync(UserLoginDto user);
+        Task<User> RequestUserCreateAsync(UserCreateDto user);
         Task<string> GetUserRole(string userId);
         Task<User> GetUserByAccessTokenAsync(string accessToken);
         Task<User> RefreshTokenAsync(RefreshRequest request);

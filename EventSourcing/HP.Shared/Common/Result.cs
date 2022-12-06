@@ -1,4 +1,4 @@
-﻿namespace HP.Shared
+﻿namespace HP.Shared.Common
 {
     public class Result<T>
     {

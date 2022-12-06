@@ -1,6 +1,7 @@
 ﻿using BlazorUI.Data;
 using HP.Shared;
 using HP.Shared.Contacts;
+using HP.Shared.Requests.Users;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
@@ -21,14 +22,12 @@ namespace BlazorUI.Services
 
         }
 
-        public async Task<User> TrySignInAndGetUserAsync(User user)
+        public async Task<User> TrySignInAndGetUserAsync(UserLoginDto user)
         {
-            //await Task.Delay(10000);
-            Console.WriteLine("Hi from user manager.");
             await _httpClient.GetFromJsonAsync<User>("");
             return await Task.FromResult(new User());
         }
-        public async Task<User> RequestUserCreateAsync(User user)
+        public async Task<User> RequestUserCreateAsync(UserCreateDto user)
         {
             var newUser = new User()
             {

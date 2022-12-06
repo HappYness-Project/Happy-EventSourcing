@@ -5,7 +5,6 @@ namespace HP.Domain
     {
         public string PersonId { get; private set; } 
         public string PersonType { get; private set; }
-        public Address Address { get; private set; }
         public string Description { get; private set; }
         public int GroupId { get; private set; }
         public int ProjectId { get; private set; }

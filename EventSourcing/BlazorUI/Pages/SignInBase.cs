@@ -1,5 +1,6 @@
 ﻿using HP.Shared;
 using HP.Shared.Contacts;
+using HP.Shared.Requests.Users;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 namespace BlazorUI.Pages
@@ -29,9 +30,15 @@ namespace BlazorUI.Pages
             {
                 return;
             }
+            UserLoginDto user = new()
+            {
+                UserName = User.UserName,
+                Email = User.Email,
+                Password = User.Password,
+            };
 
-            var user = await UserManager.TrySignInAndGetUserAsync(User);
-            if(user != null)
+            var authenticatedUser = await UserManager.TrySignInAndGetUserAsync(user);
+            if(authenticatedUser != null)
             {
                 NavigationManager.NavigateTo("items");
             }
