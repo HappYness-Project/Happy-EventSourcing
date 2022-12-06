@@ -1,9 +1,12 @@
 ﻿using Identity.Data;
+using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using static OpenIddict.Abstractions.OpenIddictConstants;
@@ -26,6 +29,7 @@ namespace Identity
 
             await RegisterApplicationsAsync(scope.ServiceProvider);
             await RegisterScopesAsync(scope.ServiceProvider);
+            await RegisterUsersAsync(scope.ServiceProvider);
 
             static async Task RegisterApplicationsAsync(IServiceProvider provider)
             {
@@ -103,6 +107,78 @@ namespace Identity
                             "resource_server_1"
                         }
                     });
+                }
+            }
+
+            static async Task RegisterUsersAsync(IServiceProvider provider)
+            {
+                var userMgr = provider.GetRequiredService<UserManager<ApplicationUser>>();
+                if (await userMgr.FindByNameAsync("alice") is null)
+                {
+                    var alice = new ApplicationUser
+                    {
+                        UserName = "alice",
+                        Email = "AliceSmith@email.com",
+                        EmailConfirmed = true,
+                    };
+                    var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
+
+                    result = userMgr.AddClaimsAsync(alice, new Claim[]{
+                            new Claim(ClaimTypes.Name, "Alice Smith"),
+                            new Claim(ClaimTypes.GivenName, "Alice"),
+                            new Claim(ClaimTypes.Surname, "Smith"),
+                            new Claim(ClaimTypes.Webpage, "http://alice.com"),
+                            new Claim(ClaimTypes.StreetAddress, "72 Pinnacle Drive"),
+                            new Claim(ClaimTypes.StateOrProvince, "Ontario"),
+                            new Claim(ClaimTypes.PostalCode, "N2P 1C5"),
+                        }).Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
+                    Log.Debug("alice created");
+                }
+                else
+                {
+                    Log.Debug("alice already exists");
+                }
+
+                if (await userMgr.FindByNameAsync("bob") is null)
+                {
+                    var bob = new ApplicationUser
+                    {
+                        UserName = "bob",
+                        Email = "BobSmith@email.com",
+                        EmailConfirmed = true
+                    };
+                    var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
+
+                    result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                            new Claim(ClaimTypes.Name, "Bob Smith"),
+                            new Claim(ClaimTypes.GivenName, "Bob"),
+                            new Claim(ClaimTypes.Surname, "Smith"),
+                            new Claim(ClaimTypes.Webpage, "http://bob.com"),
+                            new Claim(ClaimTypes.Email, "bob@gmail.com"),
+                            new Claim(ClaimTypes.MobilePhone, "519-666-7777"),
+                            new Claim("location", "somewhere")
+                        }).Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
+                    Log.Debug("bob created");
+                }
+                else
+                {
+                    Log.Debug("bob already exists");
                 }
             }
         }
