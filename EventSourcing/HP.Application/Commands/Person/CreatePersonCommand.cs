@@ -20,8 +20,8 @@ namespace HP.Application.Commands.Person
             if(person != null)
                 throw new ApplicationException($"The PersonId : {request.PersonId} Already exists.");
 
-            var check = await _repository.CreateAsync(Domain.Person.Create(request.PersonId.ToUpper()));
-            return new CommandResult(true, "Successfully person has been created.", person.Id);
+            var newPerson = await _repository.CreateAsync(Domain.Person.Create(request.PersonId.ToUpper()));
+            return new CommandResult(true, "Successfully person has been created.", newPerson.Id);
         }
     }
 }

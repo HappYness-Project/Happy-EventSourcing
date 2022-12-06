@@ -38,11 +38,10 @@ namespace HP.Controllers
         {
             if (request == null)
                 return BadRequest();
-            
+
             var cmd = new CreatePersonCommand(request.PersonId, request.PersonType, request.GroupId);
-            //var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
-            //TODO : Since it is a Create, I think it's desirable to use Publish command
-            return Ok(_mediator.Send(cmd));
+            //TODO : Since it is a Create, I think it's desirable to use Publish command e.g. var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
+            return Ok(await _mediator.Send(cmd));
         }
         [HttpPut("{userid}")]
         public async Task<CommandResult> Update(string userid, [FromBody]UpdatePersonRequest request)
