@@ -1,11 +1,8 @@
-﻿using HP.Api.Requests;
-using HP.Domain;
-using HP.GeneralUI.DropdownControl;
+﻿using HP.GeneralUI.DropdownControl;
 using HP.Shared;
 using HP.Shared.Contacts;
 using HP.Shared.Enums;
 using HP.Shared.Requests.People;
-using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Primitives;

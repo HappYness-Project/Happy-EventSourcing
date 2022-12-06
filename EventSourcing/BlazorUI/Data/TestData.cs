@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HP.UnitTest
+namespace BlazorUI.Data
 {
     public class TestData
     {
