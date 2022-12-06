@@ -64,16 +64,17 @@ namespace BlazorUI.Pages
                 LastName = User.LastName,
             };
             var response = _userManager.RequestUserCreateAsync(newUser).Result;
-            if(response != null)
+            // Decription should happen in here?
+            if(response.IsSuccess)
             {
                 CreatePersonRequest request = new CreatePersonRequest
                 {
-                    PersonId = response.UserName,
+                    //PersonId = response,
                     PersonType = userType
                 };
                 _personService.CreateAsync(request);
+                NavigationManager.NavigateTo("signin");
             }
-            NavigationManager.NavigateTo("signin");
         }
     }
 }

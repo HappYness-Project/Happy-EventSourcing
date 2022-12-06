@@ -2,10 +2,8 @@
 using HP.Shared.Common;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Users;
-using System;
-using System.Threading.Tasks;
 
-namespace HP.UnitTest.UserManager
+namespace BlazorUI.Data
 {
     public class UserManagerFake : IUserManager
     {

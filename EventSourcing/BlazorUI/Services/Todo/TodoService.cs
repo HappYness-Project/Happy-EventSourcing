@@ -14,9 +14,9 @@ namespace BlazorUI.Services.Todo
     {
         private readonly HttpClient _httpClient;
         private AppSettings _appSettings { get; }
-        private readonly CurrentUserService _currentUserService;
+        private readonly ICurrentUserService _currentUserService;
         public event Action OnChange;
-        public TodoService(HttpClient httpClient, IOptions<AppSettings> appSettings, CurrentUserService currentUserService)
+        public TodoService(HttpClient httpClient, IOptions<AppSettings> appSettings, ICurrentUserService currentUserService)
         {
             _appSettings = appSettings.Value;
             httpClient.BaseAddress = new Uri(_appSettings.HpApiBaseAddress);

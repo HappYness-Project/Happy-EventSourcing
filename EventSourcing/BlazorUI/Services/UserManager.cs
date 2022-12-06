@@ -1,5 +1,6 @@
 ﻿using BlazorUI.Data;
 using HP.Shared;
+using HP.Shared.Common;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Users;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -22,26 +23,26 @@ namespace BlazorUI.Services
 
         }
 
-        public async Task<User> TrySignInAndGetUserAsync(UserLoginDto user)
+        public async Task<Result<User>> TrySignInAndGetUserAsync(UserLoginDto user)
         {
-            await _httpClient.GetFromJsonAsync<User>("");
-            return await Task.FromResult(new User());
+            await _httpClient.GetFromJsonAsync<UserLoginDto>("");// Todo Signin Process
+            // Get the user process
+            var result = new Result<User>();
+            return result;
         }
-        public async Task<User> RequestUserCreateAsync(UserCreateDto user)
+        public async Task<Result<string>> RequestUserCreateAsync(UserCreateDto user)
         {
-            var newUser = new User()
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Password = user.Password,
-            };
-            var response = await _httpClient.PostAsJsonAsync("/user/create", newUser); // Get the user information with the token
+            var result = new Result<string>();
+            var response = await _httpClient.PostAsJsonAsync("/user/create", user); // Get the user information with the token
             if(response.IsSuccessStatusCode)
             {
-                return await Task.FromResult(newUser);
+                result.IsSuccess = true;
+                result.Data = await response.Content.ReadAsStringAsync();
+                return result;
             }
-            return null;
+            result.IsSuccess = false;
+            result.Msg = await response.Content.ReadAsStringAsync();
+            return result;
         }
         public Task<string> GetUserRole(string userId)
         {

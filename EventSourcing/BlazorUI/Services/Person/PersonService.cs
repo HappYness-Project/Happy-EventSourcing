@@ -10,8 +10,8 @@ namespace BlazorUI.Services.Person
     {
         private readonly HttpClient _httpClient;
         private AppSettings _appSettings { get; }
-        private readonly CurrentUserService _currentUserService;
-        public PersonService(HttpClient httpClient, IOptions<AppSettings> appSettings, CurrentUserService currentUserService)
+        private readonly ICurrentUserService _currentUserService;
+        public PersonService(HttpClient httpClient, IOptions<AppSettings> appSettings, ICurrentUserService currentUserService)
         {
             _appSettings = appSettings.Value;
             httpClient.BaseAddress = new Uri(_appSettings.HpApiBaseAddress);
