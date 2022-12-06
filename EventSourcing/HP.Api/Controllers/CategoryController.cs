@@ -1,4 +1,4 @@
-﻿using HP.Api.Requests;
+﻿using HP.Shared.Requests.Categories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 namespace HP.Api.Controllers

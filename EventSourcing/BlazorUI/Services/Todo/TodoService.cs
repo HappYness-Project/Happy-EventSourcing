@@ -1,9 +1,7 @@
 ﻿using BlazorUI.Data;
-using BlazorUI.Pages;
 using HP.Application.Commands;
 using HP.Application.DTOs;
 using HP.Core.Commands;
-using HP.Domain;
 using HP.Shared;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Todos;
@@ -61,6 +59,9 @@ namespace BlazorUI.Services.Todo
             return new Result<CommandResult> { IsSuccess = false, Msg = response.Content.ToString() };
         }
 
-
+        public Task<Result<string>> UpdateAsync(UpdateTodoRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

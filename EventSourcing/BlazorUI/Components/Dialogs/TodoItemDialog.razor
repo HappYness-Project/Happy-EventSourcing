@@ -25,7 +25,7 @@
                         <DataAnnotationsValidator />
                         <div class="form-group">
                             <label for="Title">Title</label>
-                            <InputText class="form-control" id="titleInput" @bind-Value="NewTodoItem.Title" />
+                            <InputText class="form-control" id="titleInput" @bind-Value="NewTodoItem.TodoTitle" />
                         </div>
                         <div class="form-group">
                             <label for="Description">Description</label>
@@ -120,7 +120,7 @@
     {
         if (TodoItemDialogType == DialogType.Create)
         {
-            await _mediator.Send(new CreateTodoItemCommand(ParentTodoId, NewTodoItem.Title, NewTodoItem.TodoType, NewTodoItem.Description));
+            await _mediator.Send(new CreateTodoItemCommand(ParentTodoId, NewTodoItem.TodoTitle, NewTodoItem.TodoType, NewTodoItem.Description));
         }
         else if (TodoItemDialogType == DialogType.Update)
         {

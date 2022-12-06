@@ -1,9 +1,11 @@
-﻿using HP.Application.Commands;
+﻿using BlazorUI.Services.Todo;
+using HP.Application.Commands;
 using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
 using HP.Core.Commands;
 using HP.Shared.Contacts;
+using HP.Shared.Requests.Todos;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 
@@ -24,6 +26,17 @@ namespace BlazorUI.Pages
         }
         protected async Task SaveTodoChanges()
         {
+            UpdateTodoRequest request = new UpdateTodoRequest()
+            {
+                TodoId = SelectedTodo.TodoId,
+                TodoTitle = SelectedTodo.TodoTitle,
+                TodoType = SelectedTodo.TodoType,
+                Description = SelectedTodo.Description,
+                Tags = null,
+                TargetStartDate = SelectedTodo.TargetStartDate,
+                TargetEndDate = SelectedTodo.TargetEndDate,
+            };
+            await _todoService.UpdateAsync(request);
             var result = await _mediator.Send(new UpdateTodoCommand(SelectedTodo.TodoId, SelectedTodo.TodoTitle, SelectedTodo.TodoType, SelectedTodo.Description, null, SelectedTodo.TargetStartDate, SelectedTodo.TargetEndDate));
             if (result.IsSuccess)
                 await LoadTodoData();

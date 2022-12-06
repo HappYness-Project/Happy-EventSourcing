@@ -1,6 +1,7 @@
 using BlazorUI.Data;
 using BlazorUI.Services;
 using BlazorUI.Services.ItemEdit;
+using BlazorUI.Services.Person;
 using BlazorUI.Services.Todo;
 using HP.Application;
 using HP.Core.Events;
@@ -9,7 +10,6 @@ using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
 using HP.Shared.Contacts;
-using HP.UnitTest;
 //using HP.UnitTest;
 //using HP.UnitTest.UserManager;
 using MediatR;
@@ -35,6 +35,7 @@ builder.Services.AddTransient<IPersonRepository, PersonRepository>();
 builder.Services.AddTransient<ITodoRepository, TodoRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddHttpClient<ITodoService, TodoService>();
+builder.Services.AddHttpClient<IPersonService, PersonService>();
 builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).AddEnvironmentVariables();
@@ -42,7 +43,7 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).Add
 var app = builder.Build();
 var currentUserService = app.Services.GetRequiredService<ICurrentUserService>();
 TestData.CreateTestUser();
-currentUserService.CurrentUser = TestData.TestUser;
+currentUserService.CurrentUser = BlazorUI.Data.TestData.TestUser;
 
 
 // Configure the HTTP request pipeline.
