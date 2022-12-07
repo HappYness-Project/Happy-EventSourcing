@@ -2,7 +2,7 @@
 @using HP.Application.Commands.Person
 @using HP.Application.DTOs
 @using HP.Domain
-@inject MediatR.IMediator _mediator
+@using HP.Shared.Contacts;
 
 <div class="card">
     <div class="card-header">
@@ -40,10 +40,10 @@
 
 
 @code {
+    [Inject] public IPersonService _personService { get; set; }
     [Parameter] public PersonDetailsDto person { get; set; } = new();
     [Parameter] public IList<Project> Projects { get; set; } = new List<Project>();
     [Parameter] public EventCallback OnSubmitCallback { get; set; }
-
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -57,6 +57,7 @@
 
     public async void HandleValidSubmit()
     {
+        _personService.UpdateAsync()
         var check = await _mediator.Send(new UpdatePersonCommand(person.UserId, person.PersonType));
         await OnSubmitCallback.InvokeAsync();
     }

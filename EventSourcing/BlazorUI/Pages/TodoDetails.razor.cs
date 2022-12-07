@@ -11,7 +11,6 @@ namespace BlazorUI.Pages
 {
     public partial class TodoDetails : ComponentBase
     {
-        [Inject] public IMediator _mediator { get; set; }
         [Inject] public ITodoService _todoService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Parameter] public string TodoId { get; set; } = string.Empty;
@@ -84,10 +83,6 @@ namespace BlazorUI.Pages
         {
             AddTodoItemDialogOpen = true;
             StateHasChanged();
-        }
-        private async Task UpdateLocationOfItems(string itemId)
-        {
-
         }
     }
 }

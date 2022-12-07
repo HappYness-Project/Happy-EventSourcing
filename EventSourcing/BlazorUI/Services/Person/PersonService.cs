@@ -1,4 +1,6 @@
 ﻿using BlazorUI.Data;
+using HP.Core.Commands;
+using HP.Shared.Common;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.People;
 using Microsoft.Extensions.Options;
@@ -19,18 +21,23 @@ namespace BlazorUI.Services.Person
             _httpClient = httpClient;
             _currentUserService = currentUserService;
         }
-        public async Task CreateAsync(CreatePersonRequest request)
+        public async Task<Result<CommandResult>> CreateAsync(CreatePersonRequest request)
         {
-            // Assumption here : The user has been created already.
+
+            var getuser = _currentUserService.CurrentUser.UserName;
             var response = await _httpClient.PostAsJsonAsync("create", request);
             if(response.IsSuccessStatusCode)
-            {
-                // TODO Log msg in here.
-            }
+                return new Result<CommandResult> { IsSuccess = false,  Msg = $"Failed to Create Person. {request.PersonId}" };
+
+            return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to create a person." };
         }
-        public async Task UpdatePersonAsync(UpdatePersonRequest request)
+        public async Task<Result<CommandResult>> UpdateAsync(UpdatePersonRequest request)
         {
-            var response = await _httpClient.PostAsJsonAsync("Update", request);
+            var response = await _httpClient.PostAsJsonAsync("people/Update", request);
+            if (!response.IsSuccessStatusCode)
+                return new Result<CommandResult> { IsSuccess = false,  Msg = $"Failed to update Person. {request.PersonId}" };
+
+            return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to update a person. {request.PersonId}" };
         }
     }
 }

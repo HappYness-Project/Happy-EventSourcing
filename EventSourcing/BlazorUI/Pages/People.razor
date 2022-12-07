@@ -2,7 +2,6 @@
 @using HP.Application.DTOs
 @using HP.Application.Queries
 @using HP.Shared.Contacts
-@inject MediatR.IMediator _mediator
 
 <PageTitle>Index Page Title</PageTitle>
 
@@ -26,6 +25,7 @@
     [Parameter] public PersonDetailsDto MainUser { get; set; } 
     IEnumerable<PersonDetailsDto> PeopleDtos { get; set; } 
     [Inject] private ICurrentUserService CurrentUserService { get; set; }
+    [Inject] private IPersonService _personService { get; set; }
     [Parameter] public bool ShowEdit { get; set; }
     protected override async Task OnInitializedAsync()
     {
