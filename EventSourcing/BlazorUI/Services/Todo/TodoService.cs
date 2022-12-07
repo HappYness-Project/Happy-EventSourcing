@@ -7,6 +7,7 @@ using HP.Shared.Contacts;
 using HP.Shared.Requests.Todos;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace BlazorUI.Services.Todo
 {
@@ -53,15 +54,35 @@ namespace BlazorUI.Services.Todo
             string tmp_username = _currentUserService.CurrentUser.UserName;
             var response = await _httpClient.PostAsJsonAsync($"Todos/Create/{tmp_username}", request);
             if (response.IsSuccessStatusCode)
-            {
                 return new Result<CommandResult> { IsSuccess = true, Data = new CommandResult(true, response.Content.ToString()) };
-            }
             return new Result<CommandResult> { IsSuccess = false, Msg = response.Content.ToString() };
         }
-
-        public Task<Result<string>> UpdateAsync(UpdateTodoRequest request)
+        public async Task<Result<CommandResult>> UpdateAsync(UpdateTodoRequest request)
         {
-            throw new NotImplementedException();
+            string tmp_username = _currentUserService.CurrentUser.UserName;
+            var response = await _httpClient.PutAsJsonAsync($"Todos/Update", request);
+            if (response.IsSuccessStatusCode)
+                return new Result<CommandResult> { IsSuccess = true, Data = new CommandResult(true, response.Content.ToString()) };
+            return new Result<CommandResult> { IsSuccess = false, Msg = response.Content.ToString() };
+        }
+        public async Task<Result<IEnumerable<TodoDetailsDto>>> GetTodosByPersonId(string? PersonName = "")
+        {
+            string? tmp_username = PersonName != "" ? PersonName : _currentUserService.CurrentUser.UserName;
+            var response = await _httpClient.GetFromJsonAsync<IEnumerable<TodoDetailsDto>>($"Todos/Users/{tmp_username}");
+            if(response == null)
+            {
+                var check = new Result<IEnumerable<TodoDetailsDto>>();
+                check.IsSuccess = false;
+                check.Msg = $"Failed to retrieve data for PersonId: {PersonName}";
+                return check;
+            }
+            var result = new Result<IEnumerable<TodoDetailsDto>>
+            {
+                IsSuccess = true,
+                Msg = "Successful for retrieving data from the GetTodosByPersonId.",
+                Data = response
+            };
+            return result;
         }
     }
 }

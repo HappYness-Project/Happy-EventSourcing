@@ -8,9 +8,10 @@ namespace HP.Shared.Contacts
     public interface ITodoService
     {
         Task<Result<IEnumerable<TodoDetailsDto>>> GetTodos();
-        Task<Result<string>> UpdateAsync(UpdateTodoRequest request);
+        Task<Result<CommandResult>> CreateAsync(CreateTodoRequest request);
+        Task<Result<CommandResult>> UpdateAsync(UpdateTodoRequest request);
         Task<Result<TodoDetailsDto>> GetTodoDetails(string TodoId);
         Task<Result<int>> GetTodoItemsCount(bool OnlyActive = true);
-        Task<Result<CommandResult>> CreateAsync(CreateTodoRequest request);
+        Task<Result<IEnumerable<TodoDetailsDto>>> GetTodosByPersonId(string temp_username);
     }
 }

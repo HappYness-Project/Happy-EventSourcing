@@ -1,4 +1,5 @@
-﻿using HP.Shared;
+﻿using HP.Core.Helpers;
+using HP.Shared;
 using HP.Shared.Common;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Users;
@@ -7,9 +8,11 @@ namespace BlazorUI.Data
 {
     public class UserManagerFake : IUserManager
     {
-        public Task<User> GetUserByAccessTokenAsync(string accessToken)
+        // Assuming that we received the token info.
+        public async Task<User> GetUserByAccessTokenAsync(string accessToken)
         {
-            throw new NotImplementedException();
+            var infoDic = AuthHelper.GetTokenInfo(accessToken);
+            return new User() { Id = 1, UserName = "hyunbin7303", FirstName = "Kevin", LastName = "Park", Email = "hyunbin7303@gmail.com" };
         }
 
         public Task<string> GetUserRole(string userId)

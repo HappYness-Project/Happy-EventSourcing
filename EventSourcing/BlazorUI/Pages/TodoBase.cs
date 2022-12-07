@@ -78,7 +78,12 @@ namespace BlazorUI.Pages
         {
             var temp_username = CurrentUserService.CurrentUser.UserName;
             Todos = await Mediator.Send(new GetTodosByUserId(temp_username));
-            StateHasChanged();
+            var result = await _todoService.GetTodosByPersonId(temp_username);
+            if(result.IsSuccess)
+            {
+                Todos = result.Data;
+                StateHasChanged();
+            }
         }
         protected async void OnSubmit()
         {
