@@ -66,13 +66,15 @@ namespace BlazorUI.Pages
         {
             if (string.IsNullOrEmpty(value))
                 return;
-            var getTodo = await Mediator.Send(new GetTodoById(value));
-            if (getTodo == null)
+            var getTodo = await _todoService.GetTodoById(value);
+            if (getTodo.IsSuccess)
             {
-                TodoDetailsFromTodoSearch = null;
+                TodoDetailsFromTodoSearch = getTodo.Data;
+                StateHasChanged();
                 return;
             }
-            TodoDetailsFromTodoSearch = getTodo;
+            TodoDetailsFromTodoSearch = null;
+
         }
         private async Task LoadData()
         {

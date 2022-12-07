@@ -36,6 +36,14 @@ namespace BlazorUI.Services.Todo
                 Msg = "Return Todos"
             };
         }
+        public async Task<Result<TodoDetailsDto>> GetTodoById(string todoId)
+        {
+            var todo = await _httpClient.GetFromJsonAsync<TodoDetailsDto>($"Todos/{todoId}");
+            if(todo == null )
+                return new Result<TodoDetailsDto> { IsSuccess = false, Msg = "Not able to get the data" };
+
+            return new Result<TodoDetailsDto> { IsSuccess = true, Data = todo, Msg = "GetTodoById success." };
+        }
         public async Task<Result<TodoDetailsDto>> GetTodoDetails(string TodoId)
         {
             var todo = await _httpClient.GetFromJsonAsync<TodoDetailsDto>($"Todos/{TodoId}");
@@ -84,5 +92,6 @@ namespace BlazorUI.Services.Todo
             };
             return result;
         }
+
     }
 }
