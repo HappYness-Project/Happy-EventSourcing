@@ -1,13 +1,27 @@
 version: '3.4'
 
+name: identity_server
 services:
   db:
     image: postgres
+    container_name: db_postgres
+    networks:
+      demo:
 
   identity:
     image: ${DOCKER_REGISTRY-}identity
+    container_name: identity_server
     build:
       context: .
       dockerfile: Identity/Dockerfile
     depends_on:
       - db
+    networks:
+      demo:
+
+networks:
+  demo:
+    name: id_srv_bridge
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: br-demo
