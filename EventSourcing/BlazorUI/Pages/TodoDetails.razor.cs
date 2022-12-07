@@ -1,9 +1,7 @@
-﻿using BlazorUI.Services.Todo;
-using HP.Application.Commands;
-using HP.Application.Commands.Todo;
+﻿using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
-using HP.Application.Queries.Todos;
 using HP.Core.Commands;
+using HP.Shared.Common;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Todos;
 using MediatR;
@@ -47,13 +45,13 @@ namespace BlazorUI.Pages
                 SelectedTodo = check.Data;
             StateHasChanged();
         }
-        private async Task<CommandResult> PerformStatusOperation(string command) => command switch
+        private async Task<Result<CommandResult>> PerformStatusOperation(string command) => command switch
         {
-            "start" =>    await _mediator.Send(new StartTodoCommand(SelectedTodo.TodoId)),
-            "stop" =>     await _mediator.Send(new StopTodoCommand(SelectedTodo.TodoId, "Reason needs to be updated.")),
-            "accept" =>   await _mediator.Send(new AcceptTodoCommand(SelectedTodo.TodoId)),
-            "pending" =>  await _mediator.Send(new PendingTodoCommand(SelectedTodo.TodoId)),
-            "complete" => await _mediator.Send(new CompleteTodoCommand(SelectedTodo.TodoId)),
+            "start" =>    await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "start"),
+            "stop" => await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "stop"),
+            "accept" =>   await _todoService.UpdateTodoStatus(SelectedTodo.TodoId,"accept"),
+            "pending" =>  await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "pending"),
+            "complete" => await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "complete"),
             _ => throw new ArgumentException("Invalid string value for command", nameof(command)),
         };
         private async Task StatusSelected(string value)

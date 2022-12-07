@@ -98,5 +98,12 @@ namespace BlazorUI.Services.Todo
                 return new Result<CommandResult> { IsSuccess = false, Data = null, Msg = $"Deleting TodoId: {todoId} failed." };
             return new Result<CommandResult> { IsSuccess = true, Data = null, Msg = $"Deleting TodoId: {todoId} Success." };
         }
+        public async Task<Result<CommandResult>> UpdateTodoStatus(string todoId, string status)
+        {
+            var result = await _httpClient.PatchAsync($"todos/{todoId}/{status}", null);
+            if(!result.IsSuccessStatusCode)
+                return new Result<CommandResult> { IsSuccess = false, Data = null, Msg = $"Updating status for TodoId: {todoId} failed." };
+            return new Result<CommandResult> { IsSuccess = true, Data = null, Msg = $"Updating statusfor TodoId: {todoId} Success." };
+        }
     }
 }

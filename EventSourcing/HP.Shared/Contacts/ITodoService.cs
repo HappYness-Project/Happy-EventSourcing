@@ -11,6 +11,7 @@ namespace HP.Shared.Contacts
         Task<Result<CommandResult>> CreateAsync(CreateTodoRequest request);
         Task<Result<CommandResult>> UpdateAsync(UpdateTodoRequest request);
         Task<Result<CommandResult>> DeleteAsync(string todoId);
+        Task<Result<CommandResult>> UpdateTodoStatus(string todoId, string status);
         Task<Result<TodoDetailsDto>> GetTodoDetails(string todoId);
         Task<Result<int>> GetTodoItemsCount(bool onlyActive = true);
         Task<Result<IEnumerable<TodoDetailsDto>>> GetTodosByPersonId(string temp_username);
