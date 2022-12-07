@@ -79,7 +79,6 @@ namespace BlazorUI.Pages
         private async Task LoadData()
         {
             var temp_username = CurrentUserService.CurrentUser.UserName;
-            Todos = await Mediator.Send(new GetTodosByUserId(temp_username));
             var result = await _todoService.GetTodosByPersonId(temp_username);
             if(result.IsSuccess)
             {
@@ -106,7 +105,7 @@ namespace BlazorUI.Pages
         {
             if (accepted)
             {
-                await Mediator.Send(new DeleteTodoCommand(_deleteTodoId));
+                await _todoService.DeleteAsync(_deleteTodoId);
                 _deleteTodoId = string.Empty;
             }
             DeleteDialogOpen = false;

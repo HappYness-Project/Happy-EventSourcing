@@ -36,8 +36,7 @@ namespace BlazorUI.Pages
                 TargetStartDate = SelectedTodo.TargetStartDate,
                 TargetEndDate = SelectedTodo.TargetEndDate,
             };
-            await _todoService.UpdateAsync(request);
-            var result = await _mediator.Send(new UpdateTodoCommand(SelectedTodo.TodoId, SelectedTodo.TodoTitle, SelectedTodo.TodoType, SelectedTodo.Description, null, SelectedTodo.TargetStartDate, SelectedTodo.TargetEndDate));
+            var result = await _todoService.UpdateAsync(request);
             if (result.IsSuccess)
                 await LoadTodoData();
         }
@@ -45,10 +44,8 @@ namespace BlazorUI.Pages
         {
             var check = await _todoService.GetTodoDetails(TodoId);
             if (check.IsSuccess)
-            {
                 SelectedTodo = check.Data;
-                StateHasChanged();
-            }
+            StateHasChanged();
         }
         private async Task<CommandResult> PerformStatusOperation(string command) => command switch
         {
@@ -74,7 +71,7 @@ namespace BlazorUI.Pages
         {
             if (accepted)
             {
-                await _mediator.Send(new DeleteTodoCommand(SelectedTodo.TodoId));
+                await _todoService.DeleteAsync(SelectedTodo.TodoId);
                 NavigationManager.NavigateTo("todos");
             }
             DeleteTodoDialogOpen = false;

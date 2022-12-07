@@ -67,11 +67,10 @@ namespace BlazorUI.Services.Todo
         }
         public async Task<Result<CommandResult>> UpdateAsync(UpdateTodoRequest request)
         {
-            string tmp_username = _currentUserService.CurrentUser.UserName;
             var response = await _httpClient.PutAsJsonAsync($"Todos/Update", request);
-            if (response.IsSuccessStatusCode)
-                return new Result<CommandResult> { IsSuccess = true, Data = new CommandResult(true, response.Content.ToString()) };
-            return new Result<CommandResult> { IsSuccess = false, Msg = response.Content.ToString() };
+            if (!response.IsSuccessStatusCode)
+                return new Result<CommandResult> { IsSuccess = false, Msg = response.Content.ToString() };
+            return new Result<CommandResult> { IsSuccess = true, Data = new CommandResult(true, response.Content.ToString()), Msg = $"TodoId:{request.TodoId} has been updated." };
         }
         public async Task<Result<IEnumerable<TodoDetailsDto>>> GetTodosByPersonId(string? PersonName = "")
         {
@@ -92,6 +91,12 @@ namespace BlazorUI.Services.Todo
             };
             return result;
         }
-
+        public async Task<Result<CommandResult>> DeleteAsync(string todoId)
+        {
+            var result = await _httpClient.DeleteAsync($"todos/{todoId}");
+            if (!result.IsSuccessStatusCode)
+                return new Result<CommandResult> { IsSuccess = false, Data = null, Msg = $"Deleting TodoId: {todoId} failed." };
+            return new Result<CommandResult> { IsSuccess = true, Data = null, Msg = $"Deleting TodoId: {todoId} Success." };
+        }
     }
 }
