@@ -24,7 +24,7 @@ namespace BlazorUI.Pages
         public IEnumerable<TodoDetailsDto> Todos { get; set; } = new List<TodoDetailsDto>();
         private string _deleteTodoId { get; set; } = string.Empty;
         protected EditContext EditContext { get; set; }
-        protected CreateTodoRequest CreateTodoRequest { get; set; } = new();
+        protected CreateTodoDto CreateTodoRequest { get; set; } = new();
         protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
         protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
         protected IList<DropdownItem<TodoStatus>> TodoStatusEnums { get; } = new List<DropdownItem<TodoStatus>>();

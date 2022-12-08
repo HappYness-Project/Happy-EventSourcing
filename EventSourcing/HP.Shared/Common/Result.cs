@@ -6,4 +6,8 @@
         public bool IsSuccess { get; set; } = true;
         public string Msg { get; set; } = string.Empty;
     }
+    public class Result
+    {
+       
+    }
 }

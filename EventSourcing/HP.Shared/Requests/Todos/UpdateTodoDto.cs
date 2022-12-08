@@ -1,6 +1,6 @@
 ﻿namespace HP.Shared.Requests.Todos
 {
-    public record UpdateTodoRequest
+    public record UpdateTodoDto
     {
         public string TodoId { get; set; }
         public string TodoTitle { get; set; }

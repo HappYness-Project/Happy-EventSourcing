@@ -42,7 +42,7 @@ namespace HP.UnitTest.Todos
 
             var mediator = new Mock<IMediator>();
             var controller = new TodosController(mediator.Object);
-            var createRequest = new CreateTodoRequest
+            var createRequest = new CreateTodoDto
             {
                 Title = "Testing",
                 Description = "Test",

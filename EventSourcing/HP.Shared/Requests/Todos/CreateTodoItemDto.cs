@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace HP.Shared.Requests.Todos
 {
-    public record CreateTodoItemRequest
+    public record CreateTodoItemDto
     {
-        [Required]
-        public string TodoId { get; set; }
         [Required]
         [StringLength(50)]
         public string TodoTitle { get; set; }
@@ -16,4 +14,3 @@ namespace HP.Shared.Requests.Todos
         public DateTime TargetDate { get; set; }
     }
 }
-//string TodoTitle, string TodoType, string Description, string[] Tags = null

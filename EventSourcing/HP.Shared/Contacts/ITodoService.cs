@@ -8,11 +8,15 @@ namespace HP.Shared.Contacts
     {
         Task<Result<IEnumerable<TodoDetailsDto>>> GetTodos();
         Task<Result<TodoDetailsDto>> GetTodoById(string todoId);
-        Task<Result<CommandResult>> CreateAsync(CreateTodoRequest request);
-        Task<Result<CommandResult>> UpdateAsync(UpdateTodoRequest request);
+        Task<CommandResult> CreateAsync(CreateTodoDto request);
+        Task<CommandResult> UpdateAsync(UpdateTodoDto request);
+        Task<CommandResult> CreateTodoItemAsync(string todoId, CreateTodoItemDto request);
+        Task<CommandResult> UpdateTodoItemAsync(string todoId, TodoItemDto todoItem);
         Task<Result<CommandResult>> DeleteAsync(string todoId);
         Task<Result<CommandResult>> UpdateTodoStatus(string todoId, string status);
         Task<Result<TodoDetailsDto>> GetTodoDetails(string todoId);
+        Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId);
+        Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status);
         Task<Result<int>> GetTodoItemsCount(bool onlyActive = true);
         Task<Result<IEnumerable<TodoDetailsDto>>> GetTodosByPersonId(string temp_username);
     }

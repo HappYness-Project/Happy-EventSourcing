@@ -1,11 +1,15 @@
-﻿using BlazorUI.Data;
+﻿using AutoMapper.Configuration.Annotations;
+using BlazorUI.Data;
 using HP.Application.DTOs;
 using HP.Core.Commands;
+using HP.Domain;
 using HP.Shared.Common;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Todos;
+using MediatR;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace BlazorUI.Services.Todo
 {
@@ -37,7 +41,7 @@ namespace BlazorUI.Services.Todo
         public async Task<Result<TodoDetailsDto>> GetTodoById(string todoId)
         {
             var todo = await _httpClient.GetFromJsonAsync<TodoDetailsDto>($"Todos/{todoId}");
-            if(todo == null )
+            if (todo == null)
                 return new Result<TodoDetailsDto> { IsSuccess = false, Msg = "Not able to get the data" };
 
             return new Result<TodoDetailsDto> { IsSuccess = true, Data = todo, Msg = "GetTodoById success." };
@@ -55,26 +59,26 @@ namespace BlazorUI.Services.Todo
         {
             throw new NotImplementedException();
         }
-        public async Task<Result<CommandResult>> CreateAsync(CreateTodoRequest request)
+        public async Task<CommandResult> CreateAsync(CreateTodoDto request)
         {
-            string tmp_username = _currentUserService.CurrentUser.UserName;
-            var response = await _httpClient.PostAsJsonAsync($"Todos/Create/{tmp_username}", request);
+            string userName = _currentUserService.CurrentUser.UserName;
+            var response = await _httpClient.PostAsJsonAsync($"Todos/Create/{userName}", request);
             if (response.IsSuccessStatusCode)
-                return new Result<CommandResult> { IsSuccess = true, Data = new CommandResult(true, response.Content.ToString()) };
-            return new Result<CommandResult> { IsSuccess = false, Msg = response.Content.ToString() };
+                return new CommandResult { IsSuccess = true, Message = response.Content.ToString() };
+            return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
         }
-        public async Task<Result<CommandResult>> UpdateAsync(UpdateTodoRequest request)
+        public async Task<CommandResult> UpdateAsync(UpdateTodoDto request)
         {
             var response = await _httpClient.PutAsJsonAsync($"Todos/Update", request);
             if (!response.IsSuccessStatusCode)
-                return new Result<CommandResult> { IsSuccess = false, Msg = response.Content.ToString() };
-            return new Result<CommandResult> { IsSuccess = true, Data = new CommandResult(true, response.Content.ToString()), Msg = $"TodoId:{request.TodoId} has been updated." };
+                return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
+            return new CommandResult { IsSuccess = true, Message = $"TodoId:{request.TodoId} has been updated." };
         }
         public async Task<Result<IEnumerable<TodoDetailsDto>>> GetTodosByPersonId(string? PersonName = "")
         {
             string? tmp_username = PersonName != "" ? PersonName : _currentUserService.CurrentUser.UserName;
             var response = await _httpClient.GetFromJsonAsync<IEnumerable<TodoDetailsDto>>($"Todos/Users/{tmp_username}");
-            if(response == null)
+            if (response == null)
             {
                 var check = new Result<IEnumerable<TodoDetailsDto>>();
                 check.IsSuccess = false;
@@ -99,9 +103,31 @@ namespace BlazorUI.Services.Todo
         public async Task<Result<CommandResult>> UpdateTodoStatus(string todoId, string status)
         {
             var result = await _httpClient.PatchAsync($"todos/{todoId}/{status}", null);
-            if(!result.IsSuccessStatusCode)
+            if (!result.IsSuccessStatusCode)
                 return new Result<CommandResult> { IsSuccess = false, Data = null, Msg = $"Updating status for TodoId: {todoId} failed." };
             return new Result<CommandResult> { IsSuccess = true, Data = null, Msg = $"Updating statusfor TodoId: {todoId} Success." };
+        }
+        public async Task<CommandResult> CreateTodoItemAsync(string todoId, CreateTodoItemDto createTodoItem)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"Todos/{todoId}/todoItems", createTodoItem);
+            if (!response.IsSuccessStatusCode)
+                return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
+            return new CommandResult { IsSuccess = true, Message = response.Content.ToString() };
+        }
+        public async Task<CommandResult> UpdateTodoItemAsync(string todoId, TodoItemDto todoItem)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"Todos/{todoId}/todoItems/{todoItem.Id}/update", todoItem);
+            if (!response.IsSuccessStatusCode)
+                return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
+            return new CommandResult { IsSuccess = true, EntityId = todoItem.Id, Message = response.Content.ToString() };
+        }
+        public async Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId) => await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"todos/{todoId}/todoItems");
+        public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status)
+        {
+            var response = await _httpClient.GetAsync($"Todos/{todoId}/TodoItems/status/{status}");
+            if (!response.IsSuccessStatusCode)
+                return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
+            return new CommandResult { IsSuccess = true, EntityId = todoItem.Id, Message = response.Content.ToString() };
         }
     }
 }

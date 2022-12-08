@@ -23,7 +23,7 @@ namespace BlazorUI.Pages
         }
         protected async Task SaveTodoChanges()
         {
-            UpdateTodoRequest request = new UpdateTodoRequest()
+            UpdateTodoDto request = new UpdateTodoDto()
             {
                 TodoId = SelectedTodo.TodoId,
                 TodoTitle = SelectedTodo.TodoTitle,

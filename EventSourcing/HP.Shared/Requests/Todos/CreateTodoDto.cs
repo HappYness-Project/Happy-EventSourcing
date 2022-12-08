@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace HP.Shared.Requests.Todos
 {
-    public record CreateTodoRequest
+    public record CreateTodoDto
     {
         [Required] public string Title { get; set; }
         public string TodoType { get; set; }

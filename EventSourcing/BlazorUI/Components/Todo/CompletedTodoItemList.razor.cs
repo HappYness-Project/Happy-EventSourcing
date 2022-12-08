@@ -1,4 +1,5 @@
-﻿using HP.Application.Commands;
+﻿using BlazorUI.Services.Todo;
+using HP.Application.Commands;
 using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
@@ -42,7 +43,7 @@ namespace BlazorUI.Components.Todo
         {
             if(Todo.TodoId != null)
             {
-                CompletedTodoItems = await _mediator.Send(new GetCompletedTodoItemsByTodoId(Todo.TodoId));
+                CompletedTodoItems = await _todoService.GetTodoItemsByStatus(Todo.TodoId, "complete");
                 StateHasChanged();
             }
         }

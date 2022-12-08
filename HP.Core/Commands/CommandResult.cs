@@ -5,7 +5,7 @@
         public bool IsSuccess { get; set; }
         public string EntityId { get; set; }
         public string Message { get; set; }
-
+        public CommandResult() { }
         public CommandResult(bool isSuccess, string msg = "", string entityId = "")
         {
             IsSuccess = isSuccess;

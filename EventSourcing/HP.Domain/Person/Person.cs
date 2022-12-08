@@ -50,10 +50,6 @@ namespace HP.Domain
             this.PersonType = PersonType;
             this.GroupId = GroupId.Value;
         }
-        public static Address CreateAddress(string Country, string City, string Region, string PostalCode)
-        {
-            return new Address(Country, City, Region, PostalCode);
-        }
         protected override void When(IDomainEvent @event)
         {
             switch(@event)
