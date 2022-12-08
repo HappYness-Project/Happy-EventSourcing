@@ -3,6 +3,7 @@
 @using HP.Application.DTOs
 @using HP.Domain
 @using HP.Shared.Contacts;
+@using HP.Shared.Requests.People;
 
 <div class="card">
     <div class="card-header">
@@ -57,11 +58,14 @@
 
     public async void HandleValidSubmit()
     {
-        _personService.UpdateAsync()
-        var check = await _mediator.Send(new UpdatePersonCommand(person.UserId, person.PersonType));
+        UpdatePersonRequest request = new UpdatePersonRequest
+        {
+            PersonId = person.UserId,
+            GroupId = 0,
+                PersonType = person.PersonType
+        };
+        var result = _personService.UpdateAsync(request);
         await OnSubmitCallback.InvokeAsync();
     }
-
-
 
 }

@@ -1,4 +1,5 @@
 ﻿using BlazorUI.Data;
+using HP.Application.DTOs;
 using HP.Core.Commands;
 using HP.Shared.Common;
 using HP.Shared.Contacts;
@@ -26,8 +27,8 @@ namespace BlazorUI.Services.Person
 
             var getuser = _currentUserService.CurrentUser.UserName;
             var response = await _httpClient.PostAsJsonAsync("create", request);
-            if(response.IsSuccessStatusCode)
-                return new Result<CommandResult> { IsSuccess = false,  Msg = $"Failed to Create Person. {request.PersonId}" };
+            if (response.IsSuccessStatusCode)
+                return new Result<CommandResult> { IsSuccess = false, Msg = $"Failed to Create Person. {request.PersonId}" };
 
             return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to create a person." };
         }
@@ -35,9 +36,20 @@ namespace BlazorUI.Services.Person
         {
             var response = await _httpClient.PostAsJsonAsync("people/Update", request);
             if (!response.IsSuccessStatusCode)
-                return new Result<CommandResult> { IsSuccess = false,  Msg = $"Failed to update Person. {request.PersonId}" };
+                return new Result<CommandResult> { IsSuccess = false, Msg = $"Failed to update Person. {request.PersonId}" };
 
             return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to update a person. {request.PersonId}" };
+        }
+
+        public async Task<Result<PersonDetailsDto>> GetPersonByPersonId(string id)
+        {
+            var response = await _httpClient.GetFromJsonAsync<PersonDetailsDto>($"people/{id}");
+            return new Result<PersonDetailsDto> { IsSuccess = true, Data = response, Msg = $"Success to get the person data. personId: {id}" };
+        }
+
+        public Task<Result<List<PersonDetailsDto>>> GetPeopleList()
+        {
+            throw new NotImplementedException();
         }
     }
 }

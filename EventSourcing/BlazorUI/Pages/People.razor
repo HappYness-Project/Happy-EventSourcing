@@ -30,13 +30,16 @@
     protected override async Task OnInitializedAsync()
     {
         PeopleDtos = new List<PersonDetailsDto>();
-        var userName = CurrentUserService.CurrentUser.UserName;
-        MainUser = await _mediator.Send(new GetPersonUserId(userName));
+        var result = await _personService.GetPersonByPersonId(CurrentUserService.CurrentUser.UserName);
+        if(result.IsSuccess)
+            MainUser = result.Data;
+
         await LoadData();
     }
     private async Task LoadData()
     {
-        PeopleDtos = await _mediator.Send(new GetPersonList());
+        _personService.GetPeopleList();
+        //PeopleDtos = await _mediator.Send(new GetPersonList());
         StateHasChanged();
     }
     public async void Refresh()
