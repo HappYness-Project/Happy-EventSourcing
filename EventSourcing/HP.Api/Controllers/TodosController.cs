@@ -1,5 +1,6 @@
 ﻿using HP.Api.Requests;
 using HP.Application.Commands.Todo;
+using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
 using HP.Shared.Requests.Todos;
 using MediatR;
@@ -49,14 +50,19 @@ namespace HP.Controllers
 
             return Ok(todo);
         }
-        [HttpGet("{todoId}/TodoItems/completedItem")]
-        public async Task<IActionResult> GetCompletedTodoItemsByTodoId(string todoId, CancellationToken token = default)
+        [HttpGet("{todoId}/TodoItems/status")]
+        public async Task<IActionResult> GetTodoItemsByStatus(string todoId, [FromBody] GetTodoItemByStatusDto request,  CancellationToken token = default)
         {
-            var todo = await _mediator.Send(new GetCompletedTodoItemsByTodoId(todoId), token);
-            if (todo == null)
+            IEnumerable<TodoItemDto> items = null;
+            if (request.Status == "complete")
+                items = await _mediator.Send(new GetCompletedTodoItemsByTodoId(todoId), token);
+            else if (request.Status == "pending")
+                items = await _mediator.Send(new GetPendingTodoItemsByTodoId(todoId), token);
+
+            if (items == null)
                 return NotFound();
 
-            return Ok(todo);
+            return Ok(items);
         }
         [HttpGet("users/{id}")]
         public async Task<IActionResult> GetTodosByUser([FromRoute] string id, CancellationToken token = default)

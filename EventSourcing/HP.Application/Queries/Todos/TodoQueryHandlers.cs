@@ -12,7 +12,8 @@ namespace HP.Application.Queries.Todos
                                      IRequestHandler<GetTodosByProjectId, IEnumerable<TodoDetailsDto>>,
                                      IRequestHandler<GetActiveTodoItemsByTodoId, IEnumerable<TodoItem>>,
                                      IRequestHandler<GetTodoItemByTodoItemId, TodoItem>,
-                                     IRequestHandler<GetCompletedTodoItemsByTodoId, IEnumerable<TodoItemDto>>
+                                     IRequestHandler<GetCompletedTodoItemsByTodoId, IEnumerable<TodoItemDto>>,
+                                     IRequestHandler<GetPendingTodoItemsByTodoId, IEnumerable<TodoItemDto>>
 
     {
         private readonly ITodoRepository _todoRepository;
@@ -79,7 +80,6 @@ namespace HP.Application.Queries.Todos
 
             return todoItem;
         }
-
         public async Task<IEnumerable<TodoItemDto>> Handle(GetCompletedTodoItemsByTodoId request, CancellationToken cancellationToken)
         {
             var todo = await _todoRepository.GetActiveTodoById(request.todoId);
@@ -87,6 +87,16 @@ namespace HP.Application.Queries.Todos
                 throw new ApplicationException($"Cannot find the Todo ID:{request.todoId}");
 
             var completedItems = todo.SubTodos.Where(x => x.TodoStatus.Name == TodoStatus.Complete.Name && x.IsDone);
+            var todoItems = _mapper.Map<List<TodoItemDto>>(completedItems);
+            return todoItems;
+        }
+        public async Task<IEnumerable<TodoItemDto>> Handle(GetPendingTodoItemsByTodoId request, CancellationToken cancellationToken)
+        {
+            var todo = await _todoRepository.GetActiveTodoById(request.todoId);
+            if (todo == null)
+                throw new ApplicationException($"Cannot find the Todo ID:{request.todoId}");
+
+            var completedItems = todo.SubTodos.Where(x => x.TodoStatus.Name == TodoStatus.Pending.Name);
             var todoItems = _mapper.Map<List<TodoItemDto>>(completedItems);
             return todoItems;
         }
