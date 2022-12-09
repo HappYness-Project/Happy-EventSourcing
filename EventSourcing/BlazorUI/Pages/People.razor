@@ -38,8 +38,7 @@
     }
     private async Task LoadData()
     {
-        _personService.GetPeopleList();
-        //PeopleDtos = await _mediator.Send(new GetPersonList());
+        PeopleDtos = await _personService.GetPeopleList();
         StateHasChanged();
     }
     public async void Refresh()

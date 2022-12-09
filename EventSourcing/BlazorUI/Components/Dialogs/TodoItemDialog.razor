@@ -1,9 +1,11 @@
 ﻿@using HP.Application.Commands.Todo
 @using HP.Application.Commands
 @using HP.Application.DTOs
+@using HP.Core.Commands;
 @using HP.Shared;
+@using HP.Shared.Common;
+@using HP.Shared.Contacts;
 @using HP.Shared.Requests.Todos
-@inject MediatR.IMediator _mediator
 
 
 <div class="modal fade show" id="myModal" style="display:block; background-color: rgba(10,10,10,.8);" arial-modal="true" role="dialog">
@@ -18,7 +20,7 @@
                 <p>@Text</p>
             </div>
 
-            <div class="subtodo-dialog-body" >
+            <div class="subtodo-dialog-body">
                 @if (TodoItemDialogType == DialogType.Create)
                 {
                     <EditForm Model="@NewTodoItem">
@@ -37,16 +39,16 @@
                                 @{
                                     foreach (var type in TodoType.List())
                                     {
-                                    <option value="@type">@type</option>
+                                        <option value="@type">@type</option>
                                     }
-                            }
-                        </InputSelect>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateInput">Start Date</label>
-                        <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.StartDate"></InputDate>
-                    </div>
-                </EditForm>
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateInput">Start Date</label>
+                            <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.StartDate"></InputDate>
+                        </div>
+                    </EditForm>
                 }
                 else if (TodoItemDialogType == DialogType.Update)
                 {
@@ -63,19 +65,19 @@
                         <div class="form-group">
                             <label for="typeInput">Type</label>
                             <InputSelect class="form-control" id="typeInput" @bind-Value="SelectedTodoItem.TodoType">
-                            @{
+                                @{
                                     foreach (var type in TodoType.List())
                                     {
-                                    <option value="@type">@type</option>
+                                        <option value="@type">@type</option>
                                     }
-                            }
+                                }
                             </InputSelect>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateInput">Start Date</label>
-                        <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.StartDate"></InputDate>
-                    </div>
-                </EditForm>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateInput">Start Date</label>
+                            <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.StartDate"></InputDate>
+                        </div>
+                    </EditForm>
                 }
             </div>
 
@@ -98,7 +100,8 @@
     [Parameter] public string ParentTodoId { get; set; } = string.Empty;
     [Parameter] public EventCallback<bool> OnClose { get; set; }
     [Parameter] public TodoItemDto SelectedTodoItem { get; set; }
-    public CreateTodoItemRequest NewTodoItem { get; set; } = new();
+    [Inject] public ITodoService _todoService { get; set; }
+    public CreateTodoItemDto NewTodoItem { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -118,13 +121,14 @@
     }
     private async Task OnClickTodoItem()
     {
+        CommandResult result;
         if (TodoItemDialogType == DialogType.Create)
         {
-            await _mediator.Send(new CreateTodoItemCommand(ParentTodoId, NewTodoItem.TodoTitle, NewTodoItem.TodoType, NewTodoItem.Description));
+            result = await _todoService.CreateTodoItemAsync(ParentTodoId, NewTodoItem);
         }
         else if (TodoItemDialogType == DialogType.Update)
         {
-            await _mediator.Send(new UpdateTodoItemCommand(ParentTodoId, SelectedTodoItem.Id, SelectedTodoItem.Title, SelectedTodoItem.Description, SelectedTodoItem.TodoType));
+            result = await _todoService.UpdateTodoItemAsync(ParentTodoId, SelectedTodoItem);
         }
         await OnClose.InvokeAsync(true);
     }

@@ -47,7 +47,7 @@ namespace BlazorUI.Pages
         private async Task<Result<CommandResult>> PerformStatusOperation(string command) => command switch
         {
             "start" =>    await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "start"),
-            "stop" => await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "stop"),
+            "stop" =>     await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "stop"),
             "accept" =>   await _todoService.UpdateTodoStatus(SelectedTodo.TodoId,"accept"),
             "pending" =>  await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "pending"),
             "complete" => await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "complete"),

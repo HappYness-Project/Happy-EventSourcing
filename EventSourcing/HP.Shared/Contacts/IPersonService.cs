@@ -10,6 +10,6 @@ namespace HP.Shared.Contacts
         Task<Result<CommandResult>> CreateAsync(CreatePersonRequest request);
         Task<Result<CommandResult>> UpdateAsync(UpdatePersonRequest request);
         Task<Result<PersonDetailsDto>> GetPersonByPersonId(string id);
-        Task<Result<List<PersonDetailsDto>>> GetPeopleList();
+        Task<IEnumerable<PersonDetailsDto>> GetPeopleList();
     }
 }

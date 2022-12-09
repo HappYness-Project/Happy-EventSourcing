@@ -43,13 +43,13 @@ namespace BlazorUI.Services.Person
 
         public async Task<Result<PersonDetailsDto>> GetPersonByPersonId(string id)
         {
-            var response = await _httpClient.GetFromJsonAsync<PersonDetailsDto>($"people/{id}");
+            PersonDetailsDto? response = await _httpClient.GetFromJsonAsync<PersonDetailsDto>($"people/{id}");
             return new Result<PersonDetailsDto> { IsSuccess = true, Data = response, Msg = $"Success to get the person data. personId: {id}" };
         }
 
-        public Task<Result<List<PersonDetailsDto>>> GetPeopleList()
+        public async Task<IEnumerable<PersonDetailsDto>> GetPeopleList()
         {
-            throw new NotImplementedException();
+            return await _httpClient.GetFromJsonAsync<IEnumerable<PersonDetailsDto>>($"people");
         }
     }
 }

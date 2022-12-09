@@ -104,15 +104,6 @@ namespace HP.Controllers
             var cmd = new UpdateTodoCommand(request.TodoId, request.TodoTitle, request.TodoType, request.Description, null);
             return Ok(await _mediator.Send(cmd, token));
         }
-        [HttpPut("{todoId}/")]
-        public async Task<IActionResult> UpdateStatusTodoItem([FromBody] UpdateStatusTodoItemRequest request, CancellationToken token = default)
-        {
-            if (request == null)
-                return BadRequest();
-
-            var cmd = new UpdateTodoItemStatusCommand(request.TodoId, request.TodoItemId, request.NewStatus);
-            return Ok(await _mediator.Send(cmd, token));
-        }
         [HttpPatch("{todoId}/Activation")]
         public async Task<IActionResult> ActivateTodo([FromRoute] string todoId, CancellationToken token = default)
         {
@@ -160,6 +151,15 @@ namespace HP.Controllers
                 return BadRequest($"TodoId is null.");
 
             return Ok(await _mediator.Send(new CompleteTodoCommand(todoId), token));
+        }
+        [HttpPut("{todoId}/todoItems/{todoItemId}/{status}")]
+        public async Task<IActionResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status, CancellationToken token = default)
+        {
+            if (todoId == null || todoItemId == null)
+                return BadRequest();
+
+            var cmd = new UpdateTodoItemStatusCommand(todoId, todoItemId, status);
+            return Ok(await _mediator.Send(cmd, token));
         }
         [HttpDelete("{todoId}")]
         public async Task<IActionResult> Delete(string todoId, CancellationToken token = default)

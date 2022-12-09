@@ -122,12 +122,6 @@ namespace BlazorUI.Services.Todo
             return new CommandResult { IsSuccess = true, EntityId = todoItem.Id, Message = response.Content.ToString() };
         }
         public async Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId) => await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"todos/{todoId}/todoItems");
-        public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status)
-        {
-            var response = await _httpClient.GetAsync($"Todos/{todoId}/TodoItems/status/{status}");
-            if (!response.IsSuccessStatusCode)
-                return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
-            return new CommandResult { IsSuccess = true, EntityId = todoItem.Id, Message = response.Content.ToString() };
-        }
+        public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status) =>  await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"Todos/{todoId}/TodoItems/status/{status}");
     }
 }
