@@ -152,13 +152,24 @@ namespace HP.Controllers
 
             return Ok(await _mediator.Send(new CompleteTodoCommand(todoId), token));
         }
-        [HttpPut("{todoId}/todoItems/{todoItemId}/{status}")]
-        public async Task<IActionResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status, CancellationToken token = default)
+
+        [HttpPut("{todoId}/todoItems/{todoItemId}")]
+        public async Task<IActionResult> UpdateTodoItem(string todoId, string todoItemId, [FromBody]UpdateTodoDto todoItem, CancellationToken token = default)
         {
             if (todoId == null || todoItemId == null)
                 return BadRequest();
 
-            var cmd = new UpdateTodoItemStatusCommand(todoId, todoItemId, status);
+            var cmd = new UpdateTodoItemCommand(todoId, todoItemId, todoItem.TodoTitle, todoItem.Description, todoItem.TodoType);
+            return Ok(await _mediator.Send(cmd, token));
+        }
+
+        [HttpPut("{todoId}/todoItems/{todoItemId}/status")]
+        public async Task<IActionResult> UpdateTodoItemStatus(string todoId, string todoItemId, [FromBody]UpdateTodoStatusDto dto, CancellationToken token = default)
+        {
+            if (todoId == null || todoItemId == null)
+                return BadRequest();
+
+            var cmd = new UpdateTodoItemStatusCommand(todoId, todoItemId, dto.Status);
             return Ok(await _mediator.Send(cmd, token));
         }
         [HttpDelete("{todoId}")]

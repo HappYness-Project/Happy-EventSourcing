@@ -116,12 +116,20 @@ namespace BlazorUI.Services.Todo
         }
         public async Task<CommandResult> UpdateTodoItemAsync(string todoId, TodoItemDto todoItem)
         {
-            var response = await _httpClient.PutAsJsonAsync($"Todos/{todoId}/todoItems/{todoItem.Id}/update", todoItem);
+            var response = await _httpClient.PutAsJsonAsync($"Todos/{todoId}/todoItems/{todoItem.Id}", todoItem);
             if (!response.IsSuccessStatusCode)
                 return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
             return new CommandResult { IsSuccess = true, EntityId = todoItem.Id, Message = response.Content.ToString() };
         }
         public async Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId) => await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"todos/{todoId}/todoItems");
-        public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status) =>  await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"Todos/{todoId}/TodoItems/status/{status}");
+        // Currently returning an error so need to be reviewed.
+        public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status)
+        {
+            return await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"Todos/{todoId}/TodoItems/status/{status}");
+        }
+        public Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
