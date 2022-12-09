@@ -61,6 +61,9 @@ namespace HP.Controllers
         [HttpGet("users/{id}")]
         public async Task<IActionResult> GetTodosByUser([FromRoute] string id, CancellationToken token = default)
         {
+            if(id == null)
+                return BadRequest();
+
             var todo = await _mediator.Send(new GetTodosByUserId(id), token);
             if (todo == null)
                 return NotFound();
@@ -86,7 +89,7 @@ namespace HP.Controllers
             var todo = await _mediator.Send(new CreateTodoItemCommand(todoId, request.TodoTitle, request.TodoType, request.Description, null), token);
             return Ok(todo);
         }
-        [HttpPut("{todoId}/todoItems/{todoItemId}")]
+        [HttpDelete("{todoId}/todoItems/{todoItemId}")]
         public async Task<IActionResult> DeleteTodoItem(string todoId, string todoItemId, CancellationToken token = default)
         {
             if (todoId == null || todoItemId == null)
