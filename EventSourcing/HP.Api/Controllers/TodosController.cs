@@ -50,13 +50,13 @@ namespace HP.Controllers
 
             return Ok(todo);
         }
-        [HttpGet("{todoId}/TodoItems/status")]
-        public async Task<IActionResult> GetTodoItemsByStatus(string todoId, [FromBody] GetTodoItemByStatusDto request,  CancellationToken token = default)
+        [HttpGet("{todoId}/TodoItems/status/{status}")]
+        public async Task<IActionResult> GetTodoItemsByStatus(string todoId, string status,  CancellationToken token = default)
         {
             IEnumerable<TodoItemDto> items = null;
-            if (request.Status == "complete")
+            if (status == "complete")
                 items = await _mediator.Send(new GetCompletedTodoItemsByTodoId(todoId), token);
-            else if (request.Status == "pending")
+            else if (status == "pending")
                 items = await _mediator.Send(new GetPendingTodoItemsByTodoId(todoId), token);
 
             if (items == null)
@@ -76,17 +76,18 @@ namespace HP.Controllers
 
             return Ok(todo);
         }
+        [IgnoreAntiforgeryToken]
         [HttpPost("{personId}")]
         public async Task<IActionResult> Create(string personId, [FromBody] CreateTodoDto request, CancellationToken token = default)
         {
             if (request == null)
                 return BadRequest();
 
-            var todo = await _mediator.Send(new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.StartDate, request.TargetEndDate, request.Tags), token);
+            var todo = await _mediator.Send(new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.TargetStartDate, request.TargetEndDate,null), token);
             //return CreatedAtAction(nameof(GetTodo), new { Id = todo.TodoId }, todo);
             return Ok(todo);
         }
-        [HttpPost("{todoId}/todoItem")]
+        [HttpPost("{todoId}/todoItems")]
         public async Task<IActionResult> CreateTodoItem(string todoId, [FromBody] CreateTodoItemDto request, CancellationToken token = default)
         {
             if (request == null)

@@ -89,6 +89,7 @@ namespace BlazorUI.Pages
         protected async void OnSubmit()
         {
             TodoType todoType = SelectedTodoTypeDropDownItem.ItemObject;
+            CreateTodoRequest.TodoType = todoType.ToString();
             var result = await _todoService.CreateAsync(CreateTodoRequest);
             if(result.IsSuccess)
             {

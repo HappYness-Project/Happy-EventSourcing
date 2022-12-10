@@ -46,10 +46,9 @@ namespace HP.UnitTest.Todos
             {
                 Title = "Testing",
                 Description = "Test",
-                StartDate = DateTime.Now,
+                TargetStartDate = DateTime.Now,
                 TodoType = TodoType.Research.ToString(),
                 TargetEndDate = DateTime.Now,
-                Tags = null
             };
             var result = await controller.Create("hyunbin7303", createRequest);
             Assert.That(result, Is.Not.Null);

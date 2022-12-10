@@ -8,8 +8,12 @@ using HP.Shared.Contacts;
 using HP.Shared.Requests.Todos;
 using MediatR;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson.IO;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text;
+using System.Text.Json;
 
 namespace BlazorUI.Services.Todo
 {
@@ -62,10 +66,10 @@ namespace BlazorUI.Services.Todo
         public async Task<CommandResult> CreateAsync(CreateTodoDto request)
         {
             string userName = _currentUserService.CurrentUser.UserName;
-            var response = await _httpClient.PostAsJsonAsync($"Todos/Create/{userName}", request);
-            if (response.IsSuccessStatusCode)
-                return new CommandResult { IsSuccess = true, Message = response.Content.ToString() };
-            return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
+            using HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"todos/{userName}", request);
+            if (!response.IsSuccessStatusCode)
+                return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
+            return new CommandResult { IsSuccess = true, Message = response.Content.ToString() };
         }
         public async Task<CommandResult> UpdateAsync(UpdateTodoDto request)
         {
@@ -122,7 +126,6 @@ namespace BlazorUI.Services.Todo
             return new CommandResult { IsSuccess = true, EntityId = todoItem.Id, Message = response.Content.ToString() };
         }
         public async Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId) => await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"todos/{todoId}/todoItems");
-        // Currently returning an error so need to be reviewed.
         public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status)
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"Todos/{todoId}/TodoItems/status/{status}");
