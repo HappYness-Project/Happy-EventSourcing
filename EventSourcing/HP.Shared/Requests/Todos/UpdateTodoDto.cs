@@ -3,11 +3,10 @@
     public record UpdateTodoDto
     {
         public string TodoId { get; set; }
-        public string TodoTitle { get; set; }
-        public string TodoType { get; set; }
-        public string Description { get; set; }
-        public List<string> Tags { get; set; } = new List<string>();
+        public string TodoTitle { get; set; } = string.Empty;
+        public string TodoType { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public DateTime? TargetStartDate { get; set; }
-        public DateTime? TargetEndDate { get; set; }
+        public DateTime? TargetEndDate { get; set; } 
     }
 }

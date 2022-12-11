@@ -73,7 +73,7 @@ namespace BlazorUI.Services.Todo
         }
         public async Task<CommandResult> UpdateAsync(UpdateTodoDto request)
         {
-            var response = await _httpClient.PutAsJsonAsync($"Todos/Update", request);
+            var response = await _httpClient.PutAsJsonAsync($"Todos/{request.TodoId}", request);
             if (!response.IsSuccessStatusCode)
                 return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
             return new CommandResult { IsSuccess = true, Message = $"TodoId:{request.TodoId} has been updated." };

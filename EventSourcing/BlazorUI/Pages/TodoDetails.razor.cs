@@ -4,7 +4,6 @@ using HP.Core.Commands;
 using HP.Shared.Common;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Todos;
-using MediatR;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorUI.Pages
@@ -29,7 +28,6 @@ namespace BlazorUI.Pages
                 TodoTitle = SelectedTodo.TodoTitle,
                 TodoType = SelectedTodo.TodoType,
                 Description = SelectedTodo.Description,
-                Tags = null,
                 TargetStartDate = SelectedTodo.TargetStartDate,
                 TargetEndDate = SelectedTodo.TargetEndDate,
             };
