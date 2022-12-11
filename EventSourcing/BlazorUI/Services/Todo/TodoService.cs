@@ -50,15 +50,6 @@ namespace BlazorUI.Services.Todo
 
             return new Result<TodoDetailsDto> { IsSuccess = true, Data = todo, Msg = "GetTodoById success." };
         }
-        public async Task<Result<TodoDetailsDto>> GetTodoDetails(string TodoId)
-        {
-            var todo = await _httpClient.GetFromJsonAsync<TodoDetailsDto>($"Todos/{TodoId}");
-            if (todo == null)
-            {
-                return new() { IsSuccess = true, Data = null, Msg = "Request was successful " };
-            }
-            return new() { IsSuccess = true, Data = todo };
-        }
         public async Task<Result<int>> GetTodoItemsCount(bool OnlyActive = true)
         {
             throw new NotImplementedException();

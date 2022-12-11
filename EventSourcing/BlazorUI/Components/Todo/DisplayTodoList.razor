@@ -4,7 +4,7 @@
 
     @if (TodoDetailsDtos != null)
     {
-        <Grid GridName="Todo Information" Items="TodoDetailsDtos">
+        <Grid GridName="Todo Information" Items="TodoDetailsDtos.ToList()">
             <Header>
                 <th scope="col">TODO ID</th>
                 <th scope="col">Title</th>

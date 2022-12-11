@@ -1,12 +1,8 @@
-﻿using BlazorUI.Services.Todo;
-using HP.Application.Commands.Todo;
-using HP.Application.DTOs;
-using HP.Application.Queries.Todos;
+﻿using HP.Application.DTOs;
 using HP.Domain;
 using HP.GeneralUI.DropdownControl;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Todos;
-using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -14,7 +10,6 @@ namespace BlazorUI.Pages
 {
     public class TodoBase : ComponentBase
     {
-        [Inject] public IMediator Mediator { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public ITodoService _todoService { get; set; }
         [Inject] public ICurrentUserService CurrentUserService { get; set; }

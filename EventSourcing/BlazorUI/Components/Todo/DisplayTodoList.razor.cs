@@ -12,24 +12,18 @@ namespace BlazorUI.Components.Todo
 {
     public partial class DisplayTodoList : ComponentBase
     {
-        [Inject] public IMediator _mediator { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public ICurrentUserService CurrentUserService { get; set; }
+        [Inject] public ITodoService _todoService { get; set; }
         public TodoDetailsDto SelectedTodo { get; set; }
         public Type DynamicComponentType { get; set; }
-        public List<TodoDetailsDto> TodoDetailsDtos { get; set; } = new List<TodoDetailsDto>();
+        public IEnumerable<TodoDetailsDto> TodoDetailsDtos { get; set; } = new List<TodoDetailsDto>();
         public Dictionary<string, object> DynamicComponentParams { get; set; }
         public bool DeleteTodoDialogOpen { get; set; } = false;
         public string _deleteTodoId { get; set; }
-
-        //public EventCallback<TodoEventArgs> DataButtonClickHandler { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            base.OnInitializedAsync();
-            var username = CurrentUserService.CurrentUser.UserName;
-            var todos = await _mediator.Send(new GetTodosByUserId(username));
-            TodoDetailsDtos = todos.ToList();
-            //Todos = CurrentUserService.CurrentUser.TodoItems;
+            await LoadData();
         }
         public void OnClickViewDetails(string todoId)
         {
@@ -39,7 +33,7 @@ namespace BlazorUI.Components.Todo
         {
             if (accepted)
             {
-                await _mediator.Send(new DeleteTodoCommand(_deleteTodoId));
+                var result = await _todoService.DeleteAsync(_deleteTodoId);
                 _deleteTodoId = string.Empty;
             }
             DeleteTodoDialogOpen = false;
@@ -54,9 +48,12 @@ namespace BlazorUI.Components.Todo
         private async Task LoadData()
         {
             var temp_username = CurrentUserService.CurrentUser.UserName;
-            var todos = await _mediator.Send(new GetTodosByUserId(temp_username));
-            TodoDetailsDtos = todos.ToList();
-            StateHasChanged();
+            var result = await _todoService.GetTodosByPersonId(temp_username);
+            if(result.IsSuccess)
+            {
+                TodoDetailsDtos = result.Data;
+                StateHasChanged();
+            }
         }
     }
 }

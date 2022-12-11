@@ -37,7 +37,7 @@ namespace BlazorUI.Pages
         }
         private async Task LoadTodoData()
         {
-            var check = await _todoService.GetTodoDetails(TodoId);
+            var check = await _todoService.GetTodoById(TodoId);
             if (check.IsSuccess)
                 SelectedTodo = check.Data;
             StateHasChanged();

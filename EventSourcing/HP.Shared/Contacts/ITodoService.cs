@@ -16,7 +16,6 @@ namespace HP.Shared.Contacts
         Task<Result<CommandResult>> DeleteAsync(string todoId);
         Task<Result<CommandResult>> UpdateTodoStatus(string todoId, string status);
         Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status);
-        Task<Result<TodoDetailsDto>> GetTodoDetails(string todoId);
         Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId);
         Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status);
         Task<Result<int>> GetTodoItemsCount(bool onlyActive = true);

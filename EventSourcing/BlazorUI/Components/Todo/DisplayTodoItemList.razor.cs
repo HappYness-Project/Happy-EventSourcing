@@ -1,16 +1,12 @@
-﻿using HP.Application.Commands;
-using HP.Application.Commands.Todo;
-using HP.Application.DTOs;
-using HP.Application.Queries.Todos;
-using HP.Domain;
-using MediatR;
+﻿using HP.Application.DTOs;
+using HP.Shared.Contacts;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorUI.Components.Todo
 {
     public partial class DisplayTodoItemList : ComponentBase
     {
-        [Inject] public IMediator _mediator { get; set; }
+        [Inject] private ITodoService _todoService { get; set; }
 
         [CascadingParameter(Name = "ParentTodoDto")] 
         public TodoDetailsDto Todo { get; set; }
@@ -32,8 +28,8 @@ namespace BlazorUI.Components.Todo
 
         private async Task DeleteTodoSubItem(string subTodoId)
         {
-            bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(Todo.TodoId, subTodoId));
-            if (isRemoved)
+            var result = await _todoService.DeleteTodoItemAsync(Todo.TodoId, subTodoId);
+            if (result.IsSuccess)
                 await LoadTodoData();
         }
         private async Task StatusCompleteTodoItem()
@@ -42,8 +38,12 @@ namespace BlazorUI.Components.Todo
         }
         private async Task LoadTodoData()
         {
-            Todo = await _mediator.Send(new GetTodoById(Todo.TodoId));
-            StateHasChanged();
+            var result = await _todoService.GetTodoById(Todo.TodoId);
+            if (result.IsSuccess)
+            {
+                Todo = result.Data;
+                StateHasChanged();
+            }
         }
     }
 }
