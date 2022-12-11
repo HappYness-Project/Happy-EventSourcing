@@ -1,19 +1,12 @@
-﻿using AutoMapper.Configuration.Annotations;
-using BlazorUI.Data;
+﻿using BlazorUI.Data;
 using HP.Application.DTOs;
 using HP.Core.Commands;
-using HP.Domain;
 using HP.Shared.Common;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Todos;
-using MediatR;
 using Microsoft.Extensions.Options;
-using MongoDB.Bson.IO;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Text;
-using System.Text.Json;
 
 namespace BlazorUI.Services.Todo
 {
@@ -131,6 +124,33 @@ namespace BlazorUI.Services.Todo
         public Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<CommandResult> ToggleActive(string todoId, bool activate)
+        {
+            HttpResponseMessage msg = null;
+            if(activate)
+                msg = await _httpClient.PatchAsync($"Todos/{todoId}/Activation", null);
+            else
+                msg = await _httpClient.PatchAsync($"Todos/{todoId}/Deactivation", null);
+
+            if (!msg.IsSuccessStatusCode)
+                return new CommandResult { IsSuccess = false, EntityId = todoId, Message = msg.Content.ToString() };
+            return new CommandResult { IsSuccess = true, EntityId = todoId, Message = msg.Content.ToString() };
+
+        }
+
+        public async Task<CommandResult> ToggleTodoItemActive(string todoId, string todoItemId, bool activate)
+        {
+            HttpResponseMessage msg = null;
+            if (activate)
+                msg = await _httpClient.PatchAsync($"Todos/{todoId}/TodoItems/{todoItemId}/Activation", null);
+            else
+                msg = await _httpClient.PatchAsync($"Todos/{todoId}/TodoItems/{todoItemId}/Deactivation", null);
+
+            if (!msg.IsSuccessStatusCode)
+                return new CommandResult { IsSuccess = false, EntityId = todoItemId, Message = msg.Content.ToString() };
+            return new CommandResult { IsSuccess = true, EntityId = todoItemId, Message = msg.Content.ToString() };
         }
     }
 }

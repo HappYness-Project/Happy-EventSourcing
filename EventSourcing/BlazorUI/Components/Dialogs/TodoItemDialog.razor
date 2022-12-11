@@ -35,14 +35,8 @@
                         </div>
                         <div class="form-group">
                             <label for="typeInput">Type</label>
-                            <InputSelect class="form-control" id="typeInput" @bind-Value="NewTodoItem.TodoType">
-                                @{
-                                    foreach (var type in TodoType.List())
-                                    {
-                                        <option value="@type">@type</option>
-                                    }
-                                }
-                            </InputSelect>
+                            <Dropdown TValue="TodoType" @bind-SelectedItem="@SelectedTodoTypeDropDownItem" SelectableItems="@TodoTypeEnums"></Dropdown>
+
                         </div>
                         <div class="form-group">
                             <label for="dateInput">Start Date</label>
@@ -72,6 +66,7 @@
                                     }
                                 }
                             </InputSelect>
+
                         </div>
                         <div class="form-group">
                             <label for="dateInput">Start Date</label>
@@ -102,6 +97,21 @@
     [Parameter] public TodoItemDto SelectedTodoItem { get; set; }
     [Inject] public ITodoService _todoService { get; set; }
     public CreateTodoItemDto NewTodoItem { get; set; } = new();
+    protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
+    protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
+    public TodoItemDialog()
+    {
+        foreach (TodoType type in TodoType.List())
+        {
+            var ddItem = new DropdownItem<TodoType>
+                {
+                    ItemObject = type,
+                    DisplayText = type.Name
+                };
+            TodoTypeEnums.Add(ddItem);
+        }
+        SelectedTodoTypeDropDownItem = TodoTypeEnums[0];
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -124,6 +134,7 @@
         CommandResult result;
         if (TodoItemDialogType == DialogType.Create)
         {
+            NewTodoItem.TodoType = SelectedTodoTypeDropDownItem.ItemObject.ToString();
             result = await _todoService.CreateTodoItemAsync(ParentTodoId, NewTodoItem);
         }
         else if (TodoItemDialogType == DialogType.Update)

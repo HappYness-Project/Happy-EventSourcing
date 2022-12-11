@@ -13,6 +13,8 @@ namespace HP.Shared.Contacts
         Task<CommandResult> CreateTodoItemAsync(string todoId, CreateTodoItemDto request);
         Task<CommandResult> UpdateTodoItemAsync(string todoId, TodoItemDto todoItem);
         Task<CommandResult> DeleteTodoItemAsync(string todoId, string todoItemId);
+        Task<CommandResult> ToggleActive(string todoId, bool activate);
+        Task<CommandResult> ToggleTodoItemActive(string todoId, string todoItemId, bool activate);
         Task<Result<CommandResult>> DeleteAsync(string todoId);
         Task<Result<CommandResult>> UpdateTodoStatus(string todoId, string status);
         Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status);

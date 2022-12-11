@@ -1,6 +1,7 @@
 ﻿using HP.Application.Commands;
 using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
+using HP.Shared.Contacts;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 namespace BlazorUI.Components.Todo
@@ -8,6 +9,7 @@ namespace BlazorUI.Components.Todo
     public partial class TodoItemElement : ComponentBase
     {
         [Inject] public IMediator _mediator { get; set; }
+        [Inject] public ITodoService _todoService { get; set; }
         [Parameter] public TodoItemDto TodoItem { get; set; }
         [CascadingParameter(Name = "ParentTodoDto")]
         [Parameter] public TodoDetailsDto ParentTodo { get; set; }
@@ -20,12 +22,7 @@ namespace BlazorUI.Components.Todo
         protected async Task CheckBoxChanged(ChangeEventArgs e)
         {
             var value = (bool)e.Value;
-            if (!value)
-            {
-                await _mediator.Send(new DeactivateTodoItemCommand(ParentTodo.TodoId, TodoItem.Id));
-            }
-            else
-                await _mediator.Send(new ActivateTodoItemCommand(ParentTodo.TodoId, TodoItem.Id));
+            var result = await _todoService.ToggleTodoItemActive(ParentTodo.TodoId, TodoItem.Id, value);
         }
         protected async Task DeleteButtonClicked(string removeTodoItemId)
         {
