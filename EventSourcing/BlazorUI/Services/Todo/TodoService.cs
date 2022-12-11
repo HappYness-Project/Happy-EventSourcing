@@ -125,6 +125,13 @@ namespace BlazorUI.Services.Todo
                 return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
             return new CommandResult { IsSuccess = true, EntityId = todoItem.Id, Message = response.Content.ToString() };
         }
+        public async Task<CommandResult> DeleteTodoItemAsync(string todoId, string todoItemId)
+        {
+            var response = await _httpClient.DeleteAsync($"Todos/{todoId}/todoItems/{todoItemId}");
+            if (!response.IsSuccessStatusCode)
+                return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
+            return new CommandResult { IsSuccess = true, EntityId = todoItemId, Message = $"TodoItemId:{todoItemId} in Todo:{todoId} has been deleted successfully." };
+        }
         public async Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId) => await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"todos/{todoId}/todoItems");
         public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status)
         {

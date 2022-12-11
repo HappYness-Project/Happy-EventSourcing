@@ -12,6 +12,7 @@ namespace HP.Shared.Contacts
         Task<CommandResult> UpdateAsync(UpdateTodoDto request);
         Task<CommandResult> CreateTodoItemAsync(string todoId, CreateTodoItemDto request);
         Task<CommandResult> UpdateTodoItemAsync(string todoId, TodoItemDto todoItem);
+        Task<CommandResult> DeleteTodoItemAsync(string todoId, string todoItemId);
         Task<Result<CommandResult>> DeleteAsync(string todoId);
         Task<Result<CommandResult>> UpdateTodoStatus(string todoId, string status);
         Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status);

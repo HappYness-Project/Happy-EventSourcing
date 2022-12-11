@@ -11,7 +11,6 @@ namespace BlazorUI.Components.Todo
 {
     public partial class CompletedTodoItemList : ComponentBase
     {
-        [Inject] public IMediator _mediator { get; set; }
         [Inject] public ITodoService _todoService { get; set; }
         [CascadingParameter(Name = "ParentTodoDto")]
         public TodoDetailsDto Todo { get; set; }
@@ -30,14 +29,18 @@ namespace BlazorUI.Components.Todo
         }
         private async Task DeleteTodoSubItem(string subTodoId)
         {
-            bool isRemoved = await _mediator.Send(new DeleteTodoItemCommand(Todo.TodoId, subTodoId));
-            if (isRemoved)
+            var result = await _todoService.DeleteTodoItemAsync(Todo.TodoId, subTodoId);
+            if(result.IsSuccess)
                 await LoadTodoData();
         }
         private async Task LoadTodoData()
         {
-            Todo = await _mediator.Send(new GetTodoById(Todo.TodoId));
-            StateHasChanged();
+            var result = await _todoService.GetTodoById(Todo.TodoId);
+            if (!result.IsSuccess)
+            {
+                Todo = result.Data;
+                StateHasChanged();
+            }
         }
         private async Task LoadCompletedTodoItemData()
         {
