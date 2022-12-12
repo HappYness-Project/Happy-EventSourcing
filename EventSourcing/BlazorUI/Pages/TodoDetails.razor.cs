@@ -1,5 +1,4 @@
-﻿using HP.Application.Commands.Todo;
-using HP.Application.DTOs;
+﻿using HP.Application.DTOs;
 using HP.Core.Commands;
 using HP.Shared.Common;
 using HP.Shared.Contacts;
@@ -10,6 +9,7 @@ namespace BlazorUI.Pages
 {
     public partial class TodoDetails : ComponentBase
     {
+        [Inject] public TodoState todoState { get; set; }
         [Inject] public ITodoService _todoService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Parameter] public string TodoId { get; set; } = string.Empty;
@@ -19,6 +19,12 @@ namespace BlazorUI.Pages
         protected override async Task OnInitializedAsync()
         {
             await LoadTodoData();
+            todoState.SetValue(SelectedTodo);
+            todoState.OnStateChange += StateHasChanged;
+        }
+        public void Dispose()
+        {
+            todoState.OnStateChange -= StateHasChanged;
         }
         protected async Task SaveTodoChanges()
         {

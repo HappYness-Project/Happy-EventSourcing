@@ -1,17 +1,19 @@
 ﻿using HP.Application.DTOs;
-using HP.Domain;
 
 namespace BlazorUI
 {
     public class TodoState 
     {
         public bool ShowingConfigureDialog { get; private set; }
-        public TodoDetailsDto ConfiguringTodo { get; private set; }
-        public event Action<int> OnTodoItemChanged;
-        public TodoState()
+        public TodoDetailsDto Todo { get; private set; } = new TodoDetailsDto();
+        //public event Action<int> OnTodoItemChanged;
+        public event Action OnStateChange;
+        public void SetValue(TodoDetailsDto value)
         {
-
+            Todo = value;
+            NotifyStateChanged();
         }
+        private void NotifyStateChanged() => OnStateChange?.Invoke();
         public void ShowConfigureTodoItemDialog()
         {
             ShowingConfigureDialog = true;
@@ -24,9 +26,5 @@ namespace BlazorUI
         {
             ShowingConfigureDialog = false;
         }
-        //public void RemoveConfiguredTodoItem(TodoD todoItem)
-        //{
-        //    ConfiguringTodo.SubTodos.Remove(todoItem);
-        //}
     }
 }

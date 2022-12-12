@@ -1,3 +1,4 @@
+using BlazorUI;
 using BlazorUI.Data;
 using BlazorUI.Services;
 using BlazorUI.Services.ItemEdit;
@@ -38,6 +39,7 @@ builder.Services.AddHttpClient<ITodoService, TodoService>();
 builder.Services.AddHttpClient<IPersonService, PersonService>();
 builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);
+builder.Services.AddScoped<TodoState>();
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).AddEnvironmentVariables();
 
 var app = builder.Build();
