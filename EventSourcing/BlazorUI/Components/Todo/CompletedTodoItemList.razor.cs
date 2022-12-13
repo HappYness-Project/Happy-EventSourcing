@@ -12,8 +12,8 @@ namespace BlazorUI.Components.Todo
     public partial class CompletedTodoItemList : ComponentBase
     {
         [Inject] public ITodoService _todoService { get; set; }
-        [CascadingParameter(Name = "ParentTodoDto")]
-        public TodoDetailsDto Todo { get; set; }
+        [CascadingParameter(Name = "ParentTodoDto")] public TodoDetailsDto ParentTodo { get; set; }
+        [Parameter] public string ParentTodoId { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }
         public IEnumerable<TodoItemDto> CompletedTodoItems { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
@@ -29,24 +29,18 @@ namespace BlazorUI.Components.Todo
         }
         private async Task DeleteTodoSubItem(string subTodoId)
         {
-            var result = await _todoService.DeleteTodoItemAsync(Todo.TodoId, subTodoId);
-            if(result.IsSuccess)
-                await LoadTodoData();
-        }
-        private async Task LoadTodoData()
-        {
-            var result = await _todoService.GetTodoById(Todo.TodoId);
-            if (!result.IsSuccess)
+            var result = await _todoService.DeleteTodoItemAsync(ParentTodoId, subTodoId);
+            if (result.IsSuccess)
             {
-                Todo = result.Data;
-                StateHasChanged();
+                await LoadCompletedTodoItemData();
             }
+
         }
         private async Task LoadCompletedTodoItemData()
         {
-            if(Todo.TodoId != null)
+            if(ParentTodo.TodoId != null)
             {
-                CompletedTodoItems = await _todoService.GetTodoItemsByStatus(Todo.TodoId, "complete");
+                CompletedTodoItems = await _todoService.GetTodoItemsByStatus(ParentTodoId, "complete");
                 StateHasChanged();
             }
         }

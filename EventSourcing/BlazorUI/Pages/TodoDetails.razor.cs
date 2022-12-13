@@ -19,7 +19,7 @@ namespace BlazorUI.Pages
         protected override async Task OnInitializedAsync()
         {
             await LoadTodoData();
-            todoState.SetValue(SelectedTodo);
+            //todoState.SetValue(SelectedTodo); // Do we need this?
             todoState.OnStateChange += StateHasChanged;
         }
         public void Dispose()
@@ -39,7 +39,9 @@ namespace BlazorUI.Pages
             };
             var result = await _todoService.UpdateAsync(request);
             if (result.IsSuccess)
+            {
                 await LoadTodoData();
+            }
         }
         private async Task LoadTodoData()
         {

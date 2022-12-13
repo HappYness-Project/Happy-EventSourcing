@@ -71,7 +71,7 @@
             @if (SelectedTodo.SubTodos != null)
             {
                 <TemplatedCollapsible Title="Completed Task" ActionText="Display Completed Task" UrlString="@("/todos/details/" + SelectedTodo.TodoId)">
-                    <CompletedTodoItemList></CompletedTodoItemList>
+                    <CompletedTodoItemList ParentTodoId="@SelectedTodo.TodoId"></CompletedTodoItemList>
                 </TemplatedCollapsible>
             }
         </div>
