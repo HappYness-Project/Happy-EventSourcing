@@ -6,11 +6,31 @@ using System.Text;
 using System.Threading.Tasks;
 namespace HP.Shared
 {
-
-    public class BaseItem 
+    public class BaseEntity : NotifyingObject
     {
-        public int Id { get; set; }
-        public int ParentId { get; set; }
+        public int Id { get
+            {
+                return _id;
+            }
+            set
+            {
+                if (_id == value) 
+                {
+                    return;
+                }
+                _id = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private int _id;
+    }
+
+    public class BaseItem  : BaseEntity
+    {
+        public int ParentId { get => _parentId;
+            set => SetProperty(ref _parentId, value); 
+        }
+        private int _parentId;
         public ItemTypeEnum ItemTypeEnum { get; set; }
         public int Position { get; set; }
         public bool IsDone { get; set; }
