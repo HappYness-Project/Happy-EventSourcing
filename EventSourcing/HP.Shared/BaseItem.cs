@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HP.Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -27,24 +28,73 @@ namespace HP.Shared
 
     public class BaseItem  : BaseEntity
     {
-        public int ParentId { get => _parentId;
+        public int ParentId { 
+            get => _parentId;
             set => SetProperty(ref _parentId, value); 
         }
         private int _parentId;
-        public ItemTypeEnum ItemTypeEnum { get; set; }
-        public int Position { get; set; }
-        public bool IsDone { get; set; }
-        public string Title { get; set; }
+        public ItemTypeEnum ItemTypeEnum { 
+            get => _itemTypeEnum;
+            set => SetProperty(ref _itemTypeEnum, value);
+        }
+        private ItemTypeEnum _itemTypeEnum;
+        public int Position { 
+            get => _position;
+            set => SetProperty(ref _position, value);
+        }
+        private int _position;
+        public bool IsDone { 
+            get => _isDone;
+            set => SetProperty(ref _isDone, value);
+        }
+        private bool _isDone;
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
+        private string _title;
     }
     public class TextItem : BaseItem
     {
-        public string SubTitle { get; set; }
-        public string Desc { get; set; }
+        public string SubTitle
+        {
+            get => _subTitle;
+            set => SetProperty(ref _subTitle, value);
+        }
+        private string _subTitle;
+        public string Desc
+        {
+            get => _desc;
+            set=> SetProperty(ref _desc, value);
+        }
+        private string _desc;
+    }
+    public class UrlItem : BaseItem
+    {
+        public string Url
+        {
+            get => _url; set => SetProperty(ref _url, value);   
+        }
+        private string _url;
     }
     public class ChildItem : BaseItem { }
     public class ParentItem : BaseItem
     {
-        public ObservableCollection<ChildItem> ChildItems { get; set; }
+        public ObservableCollection<ChildItem> ChildItems
+        {
+            get => _childItems;
+            set
+            {
+                if(value == _childItems)
+                {
+                    return;
+                }
+                _childItems = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private ObservableCollection<ChildItem> _childItems;
     }
     public enum ItemTypeEnum
     {
