@@ -105,7 +105,7 @@ namespace BlazorUI.Pages
                 _deleteTodoId = string.Empty;
             }
             DeleteDialogOpen = false;
-            StateHasChanged();
+            await LoadData();
         }
     }
 }

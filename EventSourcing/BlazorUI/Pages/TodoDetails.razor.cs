@@ -9,7 +9,6 @@ namespace BlazorUI.Pages
 {
     public partial class TodoDetails : ComponentBase
     {
-        [Inject] public TodoState todoState { get; set; }
         [Inject] public ITodoService _todoService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Parameter] public string TodoId { get; set; } = string.Empty;
@@ -19,12 +18,11 @@ namespace BlazorUI.Pages
         protected override async Task OnInitializedAsync()
         {
             await LoadTodoData();
-            //todoState.SetValue(SelectedTodo); // Do we need this?
-            todoState.OnStateChange += StateHasChanged;
+            //_todoService.TodoChanged += StateHasChanged;
         }
         public void Dispose()
         {
-            todoState.OnStateChange -= StateHasChanged;
+            _todoService.TodoChanged -= StateHasChanged;
         }
         protected async Task SaveTodoChanges()
         {
