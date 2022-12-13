@@ -21,7 +21,7 @@ namespace HP.Application.Commands.Todo
             if (todoItem == null)
                 throw new ApplicationException($"{request.TodoItemId} does not exist in the TodoId: {todo.Id}");
 
-            todoItem.TodoStatus = TodoStatus.FromName(request.NewStatus);
+            todoItem.SetStatus(request.NewStatus);
             await _repository.UpdateAsync(todo);
             return true;
         }
