@@ -34,13 +34,16 @@ namespace HP.Domain
             {
                 case "pending":
                     this.TodoStatus = TodoStatus.Pending;
+                    this.IsDone = false;
                     break;
 
                 case "accept":
                     this.TodoStatus = TodoStatus.Accept;
+                    this.IsDone = false;
                     break;
                 case "start":
                     this.TodoStatus = TodoStatus.Start;
+                    this.IsDone = false;
                     break;
                 case "complete":
                     MarkCompleted();

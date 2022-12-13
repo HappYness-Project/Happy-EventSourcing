@@ -51,7 +51,7 @@ namespace HP.Controllers
             return Ok(todo);
         }
         [HttpGet("{todoId}/TodoItems/status/{status}")]
-        public async Task<IActionResult> GetTodoItemsByStatus(string todoId, string status,  CancellationToken token = default)
+        public async Task<IActionResult> GetTodoItemsByStatus(string todoId, string status, CancellationToken token = default)
         {
             IEnumerable<TodoItemDto> items = null;
             if (status == "complete")
@@ -67,7 +67,7 @@ namespace HP.Controllers
         [HttpGet("users/{id}")]
         public async Task<IActionResult> GetTodosByUser([FromRoute] string id, CancellationToken token = default)
         {
-            if(id == null)
+            if (id == null)
                 return BadRequest();
 
             var todo = await _mediator.Send(new GetTodosByUserId(id), token);
@@ -83,7 +83,7 @@ namespace HP.Controllers
             if (request == null)
                 return BadRequest();
 
-            var todo = await _mediator.Send(new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.TargetStartDate, request.TargetEndDate,null), token);
+            var todo = await _mediator.Send(new CreateTodoCommand(personId, request.Title, request.TodoType, request.Description, request.TargetStartDate, request.TargetEndDate, null), token);
             //return CreatedAtAction(nameof(GetTodo), new { Id = todo.TodoId }, todo);
             return Ok(todo);
         }

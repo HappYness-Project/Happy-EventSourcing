@@ -1,4 +1,5 @@
 ﻿using BlazorUI.Data;
+using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
 using HP.Core.Commands;
 using HP.Shared.Common;
@@ -7,16 +8,17 @@ using HP.Shared.Requests.Todos;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 
 namespace BlazorUI.Services.Todo
 {
     public class TodoService : ITodoService
     {
         private readonly HttpClient _httpClient;
+        public event Action TodoChanged;
         private AppSettings _appSettings { get; }
         private readonly ICurrentUserService _currentUserService;
         public TodoDetailsDto Todo { get; set; } = new TodoDetailsDto();
-        public event Action TodoChanged;
         public TodoService(HttpClient httpClient, IOptions<AppSettings> appSettings, ICurrentUserService currentUserService)
         {
             _appSettings = appSettings.Value;
@@ -132,9 +134,14 @@ namespace BlazorUI.Services.Todo
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"Todos/{todoId}/TodoItems/status/{status}");
         }
-        public Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status)
+        public async Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status)
         {
-            throw new NotImplementedException();
+            var statusDto = new UpdateTodoStatusDto { Status = status };
+            var response = await _httpClient.PutAsJsonAsync($"Todos/{todoId}/todoItems/{todoItemId}/status", statusDto);
+            if (!response.IsSuccessStatusCode)
+                return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
+
+            return new CommandResult { IsSuccess = true, EntityId = todoItemId, Message = $"The status of TodoItemId:{todoItemId} in Todo:{todoId} has been updated successfully." };
         }
 
         public async Task<CommandResult> ToggleActive(string todoId, bool activate)

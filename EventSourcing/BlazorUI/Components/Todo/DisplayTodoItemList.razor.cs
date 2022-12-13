@@ -7,14 +7,11 @@ namespace BlazorUI.Components.Todo
     public partial class DisplayTodoItemList : ComponentBase
     {
         [Inject] private ITodoService _todoService { get; set; }
-
+        
         [CascadingParameter(Name = "ParentTodoDto")] 
         public TodoDetailsDto Todo { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
-        protected bool IsSelected { get; set; }
-        [Parameter] public EventCallback<string> ItemStatusUpdated { get; set; }
-
         protected override void OnInitialized()
         {
             base.OnInitialized();
