@@ -14,7 +14,6 @@ namespace BlazorUI.Pages
         [Inject] public ITodoService _todoService { get; set; }
         [Inject] public ICurrentUserService CurrentUserService { get; set; }
         [Parameter] public string TodoId { get; set; }
-        public TodoDetailsDto TodoDetails { get; private set; } = new();
         public TodoDetailsDto TodoDetailsFromTodoSearch { get; private set; }
         public IEnumerable<TodoDetailsDto> Todos { get; set; } = new List<TodoDetailsDto>();
         private string _deleteTodoId { get; set; } = string.Empty;

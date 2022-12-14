@@ -16,7 +16,6 @@ namespace BlazorUI.Components.Todo
         [Parameter] public EventCallback<string> ItemMarkedCompleted { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
-
         protected async Task CheckBoxChanged(ChangeEventArgs e)
         {
             var value = (bool)e.Value;

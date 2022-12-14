@@ -1,5 +1,4 @@
 ﻿using BlazorUI.Data;
-using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
 using HP.Core.Commands;
 using HP.Shared.Common;
@@ -143,7 +142,6 @@ namespace BlazorUI.Services.Todo
 
             return new CommandResult { IsSuccess = true, EntityId = todoItemId, Message = $"The status of TodoItemId:{todoItemId} in Todo:{todoId} has been updated successfully." };
         }
-
         public async Task<CommandResult> ToggleActive(string todoId, bool activate)
         {
             HttpResponseMessage msg = null;

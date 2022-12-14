@@ -36,11 +36,10 @@
                         <div class="form-group">
                             <label for="typeInput">Type</label>
                             <Dropdown TValue="TodoType" @bind-SelectedItem="@SelectedTodoTypeDropDownItem" SelectableItems="@TodoTypeEnums"></Dropdown>
-
                         </div>
                         <div class="form-group">
-                            <label for="dateInput">Start Date</label>
-                            <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.StartDate"></InputDate>
+                            <label for="dateInput">Target Start Date</label>
+                            <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.TargetStartDate"></InputDate>
                         </div>
                     </EditForm>
                 }
@@ -58,19 +57,15 @@
                         </div>
                         <div class="form-group">
                             <label for="typeInput">Type</label>
-                            <InputSelect class="form-control" id="typeInput" @bind-Value="SelectedTodoItem.TodoType">
-                                @{
-                                    foreach (var type in TodoType.List())
-                                    {
-                                        <option value="@type">@type</option>
-                                    }
-                                }
-                            </InputSelect>
-
+                            <Dropdown TValue="TodoType" @bind-SelectedItem="@SelectedTodoTypeDropDownItem" SelectableItems="@TodoTypeEnums"></Dropdown>
                         </div>
                         <div class="form-group">
-                            <label for="dateInput">Start Date</label>
-                            <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.StartDate"></InputDate>
+                            <label for="dateInput">Target Start Date</label>
+                            <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.TargetStartDate"></InputDate>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateInput">Target End Date</label>
+                            <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.TargetCompletedDate"></InputDate>
                         </div>
                     </EditForm>
                 }
