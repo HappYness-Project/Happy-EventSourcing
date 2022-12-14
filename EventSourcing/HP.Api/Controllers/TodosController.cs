@@ -111,8 +111,7 @@ namespace HP.Controllers
             if (request == null)
                 return BadRequest();
 
-            var cmd = new UpdateTodoCommand(request.TodoId, request.TodoTitle, request.TodoType, request.Description, null);
-            return Ok(await _mediator.Send(cmd, token));
+            return Ok(await _mediator.Send(new UpdateTodoCommand(request.TodoId, request.TodoTitle, request.TodoType, request.Description, null, request.TargetStartDate, request.TargetEndDate), token));
         }
         [HttpPatch("{todoId}/Activation")]
         public async Task<IActionResult> ActivateTodo([FromRoute] string todoId, CancellationToken token = default)

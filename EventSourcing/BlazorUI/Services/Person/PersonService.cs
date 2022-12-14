@@ -6,7 +6,6 @@ using HP.Shared.Contacts;
 using HP.Shared.Requests.People;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
-
 namespace BlazorUI.Services.Person
 {
     public class PersonService : IPersonService
@@ -40,13 +39,11 @@ namespace BlazorUI.Services.Person
 
             return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to update a person. {request.PersonId}" };
         }
-
         public async Task<Result<PersonDetailsDto>> GetPersonByPersonId(string id)
         {
             PersonDetailsDto? response = await _httpClient.GetFromJsonAsync<PersonDetailsDto>($"people/{id}");
             return new Result<PersonDetailsDto> { IsSuccess = true, Data = response, Msg = $"Success to get the person data. personId: {id}" };
         }
-
         public async Task<IEnumerable<PersonDetailsDto>> GetPeopleList()
         {
             return await _httpClient.GetFromJsonAsync<IEnumerable<PersonDetailsDto>>($"people");
