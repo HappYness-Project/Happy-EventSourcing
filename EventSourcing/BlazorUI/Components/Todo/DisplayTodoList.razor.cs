@@ -35,6 +35,7 @@ namespace BlazorUI.Components.Todo
             {
                 var result = await _todoService.DeleteAsync(_deleteTodoId);
                 _deleteTodoId = string.Empty;
+                await LoadData();
             }
             DeleteTodoDialogOpen = false;
             StateHasChanged();
@@ -43,7 +44,6 @@ namespace BlazorUI.Components.Todo
         {
             DeleteTodoDialogOpen = true;
             _deleteTodoId = todoId;
-            await LoadData();
         }
         private async Task LoadData()
         {
