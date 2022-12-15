@@ -2,21 +2,21 @@
 @inject IJSRuntime JS
 
 <div class="w-100">
-    <h4 class="col-8 row" style="font-weight:bold">USER, @SelectedTodo.UserId</h4>
+    <h4 class="col-8 row" style="font-weight:bold">USER, @_todoService.Todo.UserId</h4>
 
 
-    <EditForm Model="@SelectedTodo">
+    <EditForm Model="@_todoService.Todo">
         <DataAnnotationsValidator />
         <div class="form-group">
             <div style="margin-bottom: 0.5rem;">
                 <label>Todo Title: </label>
-                <InputText style="font-weight:bold" type="text" @bind-Value="SelectedTodo.TodoTitle" />
+                <InputText style="font-weight:bold" type="text" @bind-Value="_todoService.Todo.TodoTitle" />
             </div>
         </div>
-        <h3>Todo(@SelectedTodo.TodoId) Details</h3>
+        <h3>Todo(@_todoService.Todo.TodoId) Details</h3>
         <div class="form-group" style="margin-bottom: 1rem;">
             <label>Todo Status: </label>
-            <InputSelect ValueChanged="@((string value) => StatusSelected(value))" Value="@SelectedTodo.TodoStatus" ValueExpression="@(()=>SelectedTodo.TodoStatus)">
+            <InputSelect ValueChanged="@((string value) => StatusSelected(value))" Value="@_todoService.Todo.TodoStatus" ValueExpression="@(()=>_todoService.Todo.TodoStatus)">
                 @{
                     foreach (var status in TodoStatus.List())
                     {
@@ -30,7 +30,7 @@
         <div class="col-8 row">
             <div style="margin-bottom: 0.5rem;">
                 <label>Todo Type: </label>
-                <InputSelect @bind-Value="SelectedTodo.TodoType">
+                <InputSelect @bind-Value="_todoService.Todo.TodoType">
                     @{
                         foreach (var type in TodoType.List())
                         {
@@ -39,24 +39,24 @@
                     }
                 </InputSelect>
             </div>
-            <label>Todo Created Datetime : @SelectedTodo.CreatedDate</label>
+            <label>Todo Created Datetime : @_todoService.Todo.CreatedDate</label>
             <label>Target StartDatetime</label>
-            <InputDate class="form-control" id="dateInput" @bind-Value="SelectedTodo.TargetStartDate"></InputDate>
-            <InputDate class="form-control" id="dateInput" @bind-Value="SelectedTodo.TargetEndDate"></InputDate>
+            <InputDate class="form-control" id="dateInput" @bind-Value="_todoService.Todo.TargetStartDate"></InputDate>
+            <InputDate class="form-control" id="dateInput" @bind-Value="_todoService.Todo.TargetEndDate"></InputDate>
             <div class="col-8 row" style="margin-bottom: 2rem;">
                 <label>Description</label>
-                <InputTextArea @bind-Value="SelectedTodo.Description" />
+                <InputTextArea @bind-Value="_todoService.Todo.Description" />
             </div>
         </div>
         <button class="btn btn-success ml-1" type="submit" @onclick="()=> SaveTodoChanges()">Save Changes</button>
     </EditForm>
 
-    <CascadingValue Value="@SelectedTodo" Name="ParentTodoDto">
+    <CascadingValue Value="@_todoService.Todo" Name="ParentTodoDto">
         <div>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
             <h4>Sub Items</h4>
-            <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(SelectedTodo)">Create SubTodo</button>
-            @if (SelectedTodo.SubTodos != null)
+            <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(_todoService.Todo)">Create SubTodo</button>
+            @if (_todoService.Todo.SubTodos != null)
             {
                 <DisplayTodoItemList ></DisplayTodoItemList>
             }
@@ -65,10 +65,10 @@
 
         <hr />
         <div>
-            @if (SelectedTodo.SubTodos != null)
+            @if (_todoService.Todo.SubTodos != null)
             {
-                <TemplatedCollapsible Title="Completed Task" ActionText="Display Completed Task" UrlString="@("/todos/details/" + SelectedTodo.TodoId)">
-                    <CompletedTodoItemList ParentTodoId="@SelectedTodo.TodoId"></CompletedTodoItemList>
+                <TemplatedCollapsible Title="Completed Task" ActionText="Display Completed Task" UrlString="@("/todos/details/" + _todoService.Todo.TodoId)">
+                    <CompletedTodoItemList ParentTodoId="@_todoService.Todo.TodoId"></CompletedTodoItemList>
                 </TemplatedCollapsible>
             }
         </div>
@@ -81,5 +81,5 @@
 </TemplatedDialog>
 
 <TemplatedDialog Show="AddTodoItemDialogOpen">
-    <TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodoId="@SelectedTodo.TodoId" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>
+    <TodoItemDialog Title="Adding new todo Item" Text="Create new SubTodo Item" ParentTodoId="@_todoService.Todo.TodoId" OnClose="@OnAddTodoItemDialogClose"></TodoItemDialog>
 </TemplatedDialog>

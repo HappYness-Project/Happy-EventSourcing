@@ -12,7 +12,6 @@ namespace BlazorUI.Pages
         [Inject] public ITodoService _todoService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Parameter] public string TodoId { get; set; } = string.Empty;
-        public TodoDetailsDto SelectedTodo { get; set; } = new();
         public bool DeleteTodoDialogOpen { get; set; }
         public bool AddTodoItemDialogOpen { get; set; }
         protected override async Task OnInitializedAsync()
@@ -28,12 +27,12 @@ namespace BlazorUI.Pages
         {
             UpdateTodoDto request = new UpdateTodoDto()
             {
-                TodoId = SelectedTodo.TodoId,
-                TodoTitle = SelectedTodo.TodoTitle,
-                TodoType = SelectedTodo.TodoType,
-                Description = SelectedTodo.Description,
-                TargetStartDate = SelectedTodo.TargetStartDate,
-                TargetEndDate = SelectedTodo.TargetEndDate,
+                TodoId = _todoService.Todo.TodoId,
+                TodoTitle = _todoService.Todo.TodoTitle,
+                TodoType = _todoService.Todo.TodoType,
+                Description = _todoService.Todo.Description,
+                TargetStartDate = _todoService.Todo.TargetStartDate,
+                TargetEndDate = _todoService.Todo.TargetEndDate,
             };
             var result = await _todoService.UpdateAsync(request);
             if (result.IsSuccess)
@@ -45,21 +44,21 @@ namespace BlazorUI.Pages
         {
             var check = await _todoService.GetTodoById(TodoId);
             if (check.IsSuccess)
-                SelectedTodo = check.Data;
+                _todoService.Todo = check.Data;
             StateHasChanged();
         }
         private async Task<Result<CommandResult>> PerformStatusOperation(string command) => command switch
         {
-            "start" =>    await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "start"),
-            "stop" =>     await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "stop"),
-            "accept" =>   await _todoService.UpdateTodoStatus(SelectedTodo.TodoId,"accept"),
-            "pending" =>  await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "pending"),
-            "complete" => await _todoService.UpdateTodoStatus(SelectedTodo.TodoId, "complete"),
+            "start" =>    await _todoService.UpdateTodoStatus(_todoService.Todo.TodoId, "start"),
+            "stop" =>     await _todoService.UpdateTodoStatus(_todoService.Todo.TodoId, "stop"),
+            "accept" =>   await _todoService.UpdateTodoStatus(_todoService.Todo.TodoId,"accept"),
+            "pending" =>  await _todoService.UpdateTodoStatus(_todoService.Todo.TodoId, "pending"),
+            "complete" => await _todoService.UpdateTodoStatus(_todoService.Todo.TodoId, "complete"),
             _ => throw new ArgumentException("Invalid string value for command", nameof(command)),
         };
         private async Task StatusSelected(string value)
         {
-            await PerformStatusOperation(value);
+            var result = await PerformStatusOperation(value);
             await LoadTodoData();
         }
         private async Task OnAddTodoItemDialogClose(bool accepted)
@@ -72,7 +71,7 @@ namespace BlazorUI.Pages
         {
             if (accepted)
             {
-                await _todoService.DeleteAsync(SelectedTodo.TodoId);
+                await _todoService.DeleteAsync(_todoService.Todo.TodoId);
                 NavigationManager.NavigateTo("todos");
             }
             DeleteTodoDialogOpen = false;

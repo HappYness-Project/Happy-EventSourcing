@@ -13,11 +13,12 @@ namespace BlazorUI.Services.Todo
 {
     public class TodoService : ITodoService
     {
+        private readonly ICurrentUserService _currentUserService;
         private readonly HttpClient _httpClient;
         public event Action TodoChanged;
         private AppSettings _appSettings { get; }
-        private readonly ICurrentUserService _currentUserService;
-        public TodoDetailsDto Todo { get; set; } = new TodoDetailsDto();
+        public TodoDetailsDto Todo { get; set; } = new();
+        public IEnumerable<TodoItemDto> CompletedTodoItems { get; set; }
         public TodoService(HttpClient httpClient, IOptions<AppSettings> appSettings, ICurrentUserService currentUserService)
         {
             _appSettings = appSettings.Value;
@@ -63,7 +64,6 @@ namespace BlazorUI.Services.Todo
             if (!response.IsSuccessStatusCode)
                 return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
 
-            NotifyTodoChanged();
             return new CommandResult { IsSuccess = true, Message = $"TodoId:{request.TodoId} has been updated." };
         }
         public async Task<Result<IEnumerable<TodoDetailsDto>>> GetTodosByPersonId(string? PersonName = "")
@@ -98,7 +98,6 @@ namespace BlazorUI.Services.Todo
             if (!result.IsSuccessStatusCode)
                 return new Result<CommandResult> { IsSuccess = false, Data = null, Msg = $"Updating status for TodoId: {todoId} failed." };
             
-            NotifyTodoChanged();
             return new Result<CommandResult> { IsSuccess = true, Data = null, Msg = $"Updating statusfor TodoId: {todoId} Success." };
         }
         public async Task<CommandResult> CreateTodoItemAsync(string todoId, CreateTodoItemDto createTodoItem)
@@ -107,7 +106,6 @@ namespace BlazorUI.Services.Todo
             if (!response.IsSuccessStatusCode)
                 return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
 
-            NotifyTodoChanged();
             return new CommandResult { IsSuccess = true, Message = response.Content.ToString() };
         }
         public async Task<CommandResult> UpdateTodoItemAsync(string todoId, TodoItemDto todoItem)
@@ -116,7 +114,6 @@ namespace BlazorUI.Services.Todo
             if (!response.IsSuccessStatusCode)
                 return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
 
-            NotifyTodoChanged();
             return new CommandResult { IsSuccess = true, EntityId = todoItem.Id, Message = response.Content.ToString() };
         }
         public async Task<CommandResult> DeleteTodoItemAsync(string todoId, string todoItemId)
@@ -128,10 +125,15 @@ namespace BlazorUI.Services.Todo
             NotifyTodoChanged();
             return new CommandResult { IsSuccess = true, EntityId = todoItemId, Message = $"TodoItemId:{todoItemId} in Todo:{todoId} has been deleted successfully." };
         }
-        public async Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId) => await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"todos/{todoId}/todoItems");
+        public async Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId)
+        {
+            var response = await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"todos/{todoId}/todoItems");
+            return response;
+        }
         public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status)
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"Todos/{todoId}/TodoItems/status/{status}");
+            var response = await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"Todos/{todoId}/TodoItems/status/{status}");
+            return response;
         }
         public async Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status)
         {
@@ -168,10 +170,14 @@ namespace BlazorUI.Services.Todo
             return new CommandResult { IsSuccess = true, EntityId = todoItemId, Message = msg.Content.ToString() };
         }
         private void NotifyTodoChanged() => TodoChanged?.Invoke();
-        public void SetValue(TodoDetailsDto value)
+        public void SetValue(TodoDetailsDto newTodo)
         {
-            Todo = value;
-            NotifyTodoChanged();
+            var oldState = Todo;
+            if(newTodo != Todo)
+            {
+                Todo = newTodo;
+                NotifyTodoChanged();
+            }
         }
     }
 }

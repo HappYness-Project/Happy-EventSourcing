@@ -1,9 +1,9 @@
 ﻿@using HP.Application.DTOs
 <div class="col-8 row">
 
-    @if (CompletedTodoItems != null)
+    @if (_todoService.CompletedTodoItems != null)
     {
-        @foreach (TodoItemDto todoItem in CompletedTodoItems)
+        @foreach (TodoItemDto todoItem in _todoService.CompletedTodoItems)
         {
             <TodoItemElement TodoItem="@todoItem" TodoItemRemoved="DeleteTodoSubItem"></TodoItemElement>
         }
