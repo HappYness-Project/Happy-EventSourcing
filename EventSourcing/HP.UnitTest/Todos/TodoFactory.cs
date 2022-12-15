@@ -7,11 +7,11 @@ namespace HP.test
         {
             return Todo.Create(new Person("UserId"), "Title", "Desc", TodoType.Others, null);
         }
-        public static Todo Create(string userId, string todoTitle, bool defaultTag = true)
+        public static Todo Create(string userId, string todoTitle, string desc, bool defaultTag = true)
         {
             string[] tags = { "Study", "Exercise", "Chore" };
-            Person person = Person.Create( "hyunbin7303@gmail.com");
-            return Todo.Create(person, todoTitle,"Description", TodoType.Others, defaultTag ? tags : null);
+            Person person = Person.Create(userId);
+            return Todo.Create(person, todoTitle, desc, TodoType.Others, defaultTag ? tags : null);
         }
     }
 }

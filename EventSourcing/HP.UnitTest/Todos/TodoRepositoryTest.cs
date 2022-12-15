@@ -40,15 +40,16 @@ namespace HP.UnitTest.Todos
             // Arrange
             var expectedUserName = "TestUser123";
             var expectedTitle = "Creating Todo";
+            var expectedDesc = "Description Testing";
 
             // Act
-            var todo = TodoFactory.Create(expectedUserName, expectedTitle, true);
+            var todo = TodoFactory.Create(expectedUserName, expectedTitle, expectedDesc, true);
             var todoObj = todoRepository.CreateAsync(todo)?.Result;
 
             // Assert
-            Assert.NotNull(todoObj);
             todoObj.UserId.Should().Be(expectedUserName);
             todoObj.Title.Should().Be(expectedTitle);
+            todoObj.Description.Should().Be(expectedDesc);
         }
 
 

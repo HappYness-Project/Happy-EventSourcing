@@ -18,16 +18,13 @@ namespace HP.UnitTest.Todos
         {
             //Arrange
             string[] faketags = { "Study", "Kevin", "DDD" };
-            List<Todo> todoList = new List<Todo>();
-            Address addr = new Address("Canada", "Waterloo", "ON", "n2l-4m2");
-            var expectedResult = 1;
             Person person = new Person("UserId");
 
             // Act
             var fakeTodo = Todo.Create(person, "fake Todo", "fake Description", TodoType.Others, faketags);
 
             //Assert
-            Assert.Equals(fakeTodo.DomainEvents.Count, expectedResult);
+            fakeTodo.DomainEvents.Count.Should().Be(1);
         }
 
         [Test]

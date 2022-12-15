@@ -47,7 +47,6 @@ namespace HP.Domain
             if(person is null)
                 throw new ArgumentNullException(nameof(person));
 
-            // Get Todo Type
             return new(person, title, description, type, tags);
         }
         public void Update(string title, string type, string desc, string[] Tags, DateTime? targetStartDate = null, DateTime? targetEndDate = null)
@@ -65,7 +64,7 @@ namespace HP.Domain
         {
             TodoItem todoItem = new TodoItem(title, type, desc);
             SubTodos.Add(todoItem);
-            return new TodoItem(title, type, desc);
+            return todoItem;
         }
         public void DeleteTodoItem(string todoItemId)
         {
