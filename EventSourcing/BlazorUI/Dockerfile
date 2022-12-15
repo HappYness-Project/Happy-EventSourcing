@@ -11,6 +11,7 @@ COPY ["BlazorUI/BlazorUI.csproj", "BlazorUI/"]
 COPY ["HP.Application/HP.Application.csproj", "HP.Application/"]
 COPY ["HP.Shared/HP.Shared.csproj", "HP.Shared/"]
 COPY ["HP.GeneralUI/HP.GeneralUI.csproj", "HP.GeneralUI/"]
+COPY ["HP.Core/HP.Core.csproj", "HP.Core/"]
 RUN dotnet restore "BlazorUI/BlazorUI.csproj"
 COPY . .
 WORKDIR "/src/BlazorUI"
