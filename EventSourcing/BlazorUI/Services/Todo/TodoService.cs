@@ -18,7 +18,7 @@ namespace BlazorUI.Services.Todo
         public event Action TodoChanged;
         private AppSettings _appSettings { get; }
         public TodoDetailsDto Todo { get; set; } = new();
-        public IEnumerable<TodoItemDto> CompletedTodoItems { get; set; }
+        public IEnumerable<TodoItemDto> CompletedTodoItems { get; set; } = new List<TodoItemDto>(); 
         public TodoService(HttpClient httpClient, IOptions<AppSettings> appSettings, ICurrentUserService currentUserService)
         {
             _appSettings = appSettings.Value;
@@ -27,19 +27,9 @@ namespace BlazorUI.Services.Todo
             _httpClient = httpClient;
             _currentUserService = currentUserService;
         }
-        public async Task<Result<IEnumerable<TodoDetailsDto>>> GetTodos()
+        public async Task<Result<TodoDetailsDto>> GetTodoById(string? todoId = null)
         {
-            string tmp_username = _currentUserService.CurrentUser.UserName;
-            IEnumerable<TodoDetailsDto> todos = await _httpClient.GetFromJsonAsync<IEnumerable<TodoDetailsDto>>($"Todos/users/{tmp_username}");
-            return new()
-            {
-                IsSuccess = true,
-                Data = todos,
-                Msg = "Return Todos"
-            };
-        }
-        public async Task<Result<TodoDetailsDto>> GetTodoById(string todoId)
-        {
+            todoId = todoId == null ? Todo.TodoId : todoId;
             var todo = await _httpClient.GetFromJsonAsync<TodoDetailsDto>($"Todos/{todoId}");
             if (todo == null)
                 return new Result<TodoDetailsDto> { IsSuccess = false, Msg = "Not able to get the data" };

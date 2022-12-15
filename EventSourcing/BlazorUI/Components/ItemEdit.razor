@@ -7,3 +7,24 @@
 
 <label for="title">Title</label>
 <input id="title" type="text" class="item-edit-input" @bind-value="@Item.Title" />
+
+@switch(Item)
+{
+    case TextItem textItem:
+        <label for="subtitle">Subtitle</label>
+        <input id="subtitle" class="item-create-input" @bind-value="@textItem.SubTitle" @bind-value:event="oninput"/>
+        <label for="detail">Details</label>
+        <textarea id="details" type="text" class="item-create-input" @bind-value="@textItem.Desc" @bind-value:event="oninput"></textarea>
+        break;
+
+    case UrlItem urlItem:
+        <label for="url">Url</label>    
+        <input id="url" type="text" class="item-create-input" @bind-value="@urlItem.Url" @bind-value:event="oninput">
+        <a class="orga-button" href="@urlItem.Url" target="_blank">Open</a>
+        break;
+
+
+    case ParentItem parentItem:
+
+        break;
+}

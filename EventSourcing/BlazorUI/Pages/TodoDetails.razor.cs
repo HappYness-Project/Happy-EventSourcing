@@ -17,7 +17,7 @@ namespace BlazorUI.Pages
         protected override async Task OnInitializedAsync()
         {
             await LoadTodoData();
-            //_todoService.TodoChanged += StateHasChanged;
+            _todoService.TodoChanged += StateHasChanged;
         }
         public void Dispose()
         {
@@ -36,16 +36,16 @@ namespace BlazorUI.Pages
             };
             var result = await _todoService.UpdateAsync(request);
             if (result.IsSuccess)
-            {
                 await LoadTodoData();
-            }
         }
         private async Task LoadTodoData()
         {
-            var check = await _todoService.GetTodoById(TodoId);
-            if (check.IsSuccess)
-                _todoService.Todo = check.Data;
-            StateHasChanged();
+            var result = await _todoService.GetTodoById(TodoId);
+            if (result.IsSuccess)
+            {
+                _todoService.Todo = result.Data;
+                StateHasChanged();
+            }
         }
         private async Task<Result<CommandResult>> PerformStatusOperation(string command) => command switch
         {

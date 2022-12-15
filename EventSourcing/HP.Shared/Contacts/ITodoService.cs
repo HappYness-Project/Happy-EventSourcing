@@ -9,8 +9,7 @@ namespace HP.Shared.Contacts
         event Action TodoChanged;
         TodoDetailsDto Todo { get; set; }
         IEnumerable<TodoItemDto> CompletedTodoItems { get; set; }
-        Task<Result<IEnumerable<TodoDetailsDto>>> GetTodos();
-        Task<Result<TodoDetailsDto>> GetTodoById(string todoId);
+        Task<Result<TodoDetailsDto>> GetTodoById(string? todoId = null);
         Task<CommandResult> CreateAsync(CreateTodoDto request);
         Task<CommandResult> UpdateAsync(UpdateTodoDto request);
         Task<CommandResult> CreateTodoItemAsync(string todoId, CreateTodoItemDto request);
