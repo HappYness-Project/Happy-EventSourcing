@@ -1,4 +1,5 @@
-﻿using HP.Domain.Categories;
+﻿using HP.Core.Common;
+using HP.Domain.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace HP.Domain
 {
-    public interface ICategoryRepository 
+    public interface ICategoryRepository : IBaseRepository<Category>
     {
-        Task<IEnumerable<Category>> GetCategories();
         Task<IEnumerable<Category>> GetCategoriesByUserId(string userId);
-        Task CreateCategory(Category category);
     }
 }
  

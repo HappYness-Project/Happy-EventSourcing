@@ -25,14 +25,12 @@ namespace HP.Infrastructure.Repository
             }
             throw new NotImplementedException();
         }
-        //
         public async Task<IEnumerable<Todo>> GetListByUserId(string userId)
         {
             var filter = Builders<Todo>.Filter.Eq("UserId", userId.ToUpper());
             var todos = await _todos.FindAsync(filter).Result.ToListAsync();
             return todos;
         }
-
 //         public async Task<IEnumerable<Todo>> GetListByScoreOfUser(string userId, string targetScore)
 //         {
 //             var highExamScoreFilter = Builders<BsonDocument>.Filter.ElemMatch<BsonValue>
@@ -43,7 +41,6 @@ namespace HP.Infrastructure.Repository
 //   //          _todos.Find(highExamScoreFilter);
 
 //         }
-
         public IEnumerable<Todo> Search(int page, int recordsPerPage, string TodoTitle, out int totalCount)
         {
             throw new NotImplementedException();
