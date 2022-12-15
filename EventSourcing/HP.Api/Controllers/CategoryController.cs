@@ -1,4 +1,5 @@
-﻿using HP.Shared.Requests.Categories;
+﻿using HP.Application.Commands.Category;
+using HP.Shared.Requests.Categories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 namespace HP.Api.Controllers
@@ -16,9 +17,8 @@ namespace HP.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request, CancellationToken token = default)
         {
-            //var cmd = new CreateCategoryCommand(personDto.FirstName, personDto.LastName, personDto.Address, personDto.Email, personDto.UserId);
-            //return Ok(_mediator.Send(cmd));
-            return Ok();
+            var cmd = new CreateCategoryCommand { Name = request.CategoryName, Desc = request.CategoryDesc, Type = request.CategoryType };
+            return Ok(_mediator.Send(cmd));
         }
     }
 }
