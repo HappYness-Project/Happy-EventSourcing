@@ -26,22 +26,7 @@ jobs:
       working-directory: EventSourcing/BlazorUI
     - name: Build
       run: dotnet build EventSourcing/EventSourcing.sln
-    - name: Test
-      run: dotnet test EventSourcing/EventSourcing.sln
+
       
-    services:
-      mongo:
-        image: mongo
-        env:
-          MONGO_INITDB_ROOT_USERNAME: admin
-          MONGO_INITDB_ROOT_PASSWORD: secret
-          MONGO_INITDB_DATABASE: hp
-        options: >-
-          --health-cmd mongo
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 28017:27017
-      
+
       
