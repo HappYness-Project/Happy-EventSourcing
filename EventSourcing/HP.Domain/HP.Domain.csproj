@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\HP.Core\HP.Core.csproj" />
+    <ProjectReference Include="..\HP.Core\HP.Core.csproj" />
   </ItemGroup>
 
 </Project>

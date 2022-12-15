@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\HP.Core\HP.Core.csproj" />
     <ProjectReference Include="..\HP.Domain\HP.Domain.csproj" />
     <ProjectReference Include="..\HP.Infrastructure\HP.Infrastructure.csproj" />
   </ItemGroup>
