@@ -11,7 +11,11 @@ namespace HP.Domain
         public TodoStatus TodoStatus { get; set; }
         public DateTime Completed { get; set; }
 
-        public TodoItem(){}
+        public TodoItem()
+        {
+            IsDone = false;
+            TodoStatus = TodoStatus.NotDefined;
+        }
         public TodoItem(string title, string todoType, string desc)
         {
             Title = title;

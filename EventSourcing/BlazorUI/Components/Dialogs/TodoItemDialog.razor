@@ -87,13 +87,13 @@
     [Parameter] public string Title { get; set; }
     [Parameter] public string Text { get; set; }
     [Parameter] public DialogType TodoItemDialogType { get; set; }
+    [Parameter] public string ParentTodoId { get; set; } = string.Empty;
     [Parameter] public EventCallback<bool> OnClose { get; set; }
     [Parameter] public TodoItemDto SelectedTodoItem { get; set; }
     [Inject] public ITodoService _todoService { get; set; }
     public CreateTodoItemDto NewTodoItem { get; set; } = new();
     protected IList<DropdownItem<TodoType>> TodoTypeEnums { get; } = new List<DropdownItem<TodoType>>();
     protected DropdownItem<TodoType> SelectedTodoTypeDropDownItem { get; set; }
-    private string _parentTodoId { get; set; }
     public TodoItemDialog()
     {
         foreach (TodoType type in TodoType.List())
@@ -110,7 +110,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _parentTodoId = _todoService.Todo.TodoId;
         if (TodoItemDialogType == DialogType.Create)
         {
             SelectedTodoItem = new();
@@ -131,11 +130,11 @@
         if (TodoItemDialogType == DialogType.Create)
         {
             NewTodoItem.TodoType = SelectedTodoTypeDropDownItem.ItemObject.ToString();
-            result = await _todoService.CreateTodoItemAsync(_parentTodoId, NewTodoItem);
+            result = await _todoService.CreateTodoItemAsync(ParentTodoId, NewTodoItem);
         }
         else if (TodoItemDialogType == DialogType.Update)
         {
-            result = await _todoService.UpdateTodoItemAsync(_parentTodoId, SelectedTodoItem);
+            result = await _todoService.UpdateTodoItemAsync(ParentTodoId, SelectedTodoItem);
         }
         await OnClose.InvokeAsync(true);
     }
