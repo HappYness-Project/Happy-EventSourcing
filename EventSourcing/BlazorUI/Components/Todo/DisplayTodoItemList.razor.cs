@@ -10,11 +10,16 @@ namespace BlazorUI.Components.Todo
         
         [CascadingParameter(Name = "ParentTodoDto")] 
         public TodoDetailsDto Todo { get; set; }
+        [Parameter] public Action<string> OnChange { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         protected override void OnInitialized()
         {
-            base.OnInitialized();
+            _todoService.TodoChanged += StateHasChanged;
+        }
+        public void Dispose()
+        {
+            _todoService.TodoChanged -= StateHasChanged;
         }
         private void OnUpdateTodoItemDialogClose(bool accepted)
         {
@@ -41,6 +46,7 @@ namespace BlazorUI.Components.Todo
                 Todo = result.Data;
                 StateHasChanged();
             }
+            OnChange?.Invoke("Kevin");
         }
     }
 }

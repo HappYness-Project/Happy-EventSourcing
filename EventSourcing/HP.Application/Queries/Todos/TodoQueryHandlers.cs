@@ -86,7 +86,7 @@ namespace HP.Application.Queries.Todos
             if (todo == null)
                 throw new ApplicationException($"Cannot find the Todo ID:{request.todoId}");
 
-            var completedItems = todo.SubTodos.Where(x => x.TodoStatus.Name == TodoStatus.Complete.Name && x.IsDone);
+            var completedItems = todo.SubTodos.Where(x => x.TodoStatus !=null && (x.TodoStatus.ToString() == TodoStatus.Complete.Name && x.IsDone));
             var todoItems = _mapper.Map<List<TodoItemDto>>(completedItems);
             return todoItems;
         }

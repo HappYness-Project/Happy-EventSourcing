@@ -1,6 +1,5 @@
 ﻿@page "/todos/details/{TodoId}"
 @inject IJSRuntime JS
-
 <div class="w-100">
     <h4 class="col-8 row" style="font-weight:bold">USER, @_todoService.Todo.UserId</h4>
 
@@ -58,7 +57,7 @@
             <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(_todoService.Todo)">Create SubTodo</button>
             @if (_todoService.Todo.SubTodos != null)
             {
-                <DisplayTodoItemList ></DisplayTodoItemList>
+                <DisplayTodoItemList OnChange="ChangeTrigger"></DisplayTodoItemList>
             }
             <p>&nbsp;&nbsp;</p>
         </div>
@@ -68,7 +67,7 @@
             @if (_todoService.Todo.SubTodos != null)
             {
                 <TemplatedCollapsible Title="Completed Task" ActionText="Display Completed Task" UrlString="@("/todos/details/" + _todoService.Todo.TodoId)">
-                    <CompletedTodoItemList ParentTodoId="@_todoService.Todo.TodoId"></CompletedTodoItemList>
+                    <CompletedTodoItemList ParentTodoId="@_todoService.Todo.TodoId" OnChange="ChangeTrigger"></CompletedTodoItemList>
                 </TemplatedCollapsible>
             }
         </div>

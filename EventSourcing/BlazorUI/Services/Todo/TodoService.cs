@@ -162,7 +162,6 @@ namespace BlazorUI.Services.Todo
         private void NotifyTodoChanged() => TodoChanged?.Invoke();
         public void SetValue(TodoDetailsDto newTodo)
         {
-            var oldState = Todo;
             if(newTodo != Todo)
             {
                 Todo = newTodo;

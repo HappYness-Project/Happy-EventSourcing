@@ -14,6 +14,8 @@ namespace BlazorUI.Pages
         [Parameter] public string TodoId { get; set; } = string.Empty;
         public bool DeleteTodoDialogOpen { get; set; }
         public bool AddTodoItemDialogOpen { get; set; }
+        private string mainUserName { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             await LoadTodoData();
@@ -44,9 +46,10 @@ namespace BlazorUI.Pages
             if (result.IsSuccess)
             {
                 _todoService.Todo = result.Data;
-                StateHasChanged();
+                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(_todoService.Todo.TodoId, "complete");
             }
         }
+        
         private async Task<Result<CommandResult>> PerformStatusOperation(string command) => command switch
         {
             "start" =>    await _todoService.UpdateTodoStatus(_todoService.Todo.TodoId, "start"),
@@ -87,5 +90,11 @@ namespace BlazorUI.Pages
             AddTodoItemDialogOpen = true;
             StateHasChanged();
         }
+        private async void ChangeTrigger(string name)
+        {
+            mainUserName = name;
+            await LoadTodoData();
+        }
+
     }
 }
