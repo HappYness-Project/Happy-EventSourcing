@@ -58,6 +58,10 @@ namespace HP.Controllers
                 items = await _mediator.Send(new GetCompletedTodoItemsByTodoId(todoId), token);
             else if (status == "pending")
                 items = await _mediator.Send(new GetPendingTodoItemsByTodoId(todoId), token);
+            else if (status == "start")
+                items = await _mediator.Send(new GetStartedTodoItemsByTodoId(todoId), token);
+            else if (status == "stopped")
+                items = await _mediator.Send(new GetStoppedTodoItemsByTodoId(todoId), token);
 
             if (items == null)
                 return NotFound();
