@@ -13,7 +13,8 @@ namespace HP.Application.Queries.Todos
                                      IRequestHandler<GetActiveTodoItemsByTodoId, IEnumerable<TodoItem>>,
                                      IRequestHandler<GetTodoItemByTodoItemId, TodoItem>,
                                      IRequestHandler<GetCompletedTodoItemsByTodoId, IEnumerable<TodoItemDto>>,
-                                     IRequestHandler<GetPendingTodoItemsByTodoId, IEnumerable<TodoItemDto>>
+                                     IRequestHandler<GetPendingTodoItemsByTodoId, IEnumerable<TodoItemDto>>,
+                                     IRequestHandler<GetStartedTodoItemsByTodoId, IEnumerable<TodoItemDto>>
 
     {
         private readonly ITodoRepository _todoRepository;
@@ -98,6 +99,17 @@ namespace HP.Application.Queries.Todos
 
             var completedItems = todo.SubTodos.Where(x => x.TodoStatus.Name == TodoStatus.Pending.Name);
             var todoItems = _mapper.Map<List<TodoItemDto>>(completedItems);
+            return todoItems;
+        }
+
+        public async Task<IEnumerable<TodoItemDto>> Handle(GetStartedTodoItemsByTodoId request, CancellationToken cancellationToken)
+        {
+            var todo = await _todoRepository.GetActiveTodoById(request.todoId);
+            if (todo == null)
+                throw new ApplicationException($"Cannot find the Todo ID:{request.todoId}");
+
+            var startedItems = todo.SubTodos.Where(x => x.TodoStatus.Name == TodoStatus.Start.Name);
+            var todoItems = _mapper.Map<List<TodoItemDto>>(startedItems);
             return todoItems;
         }
     }
