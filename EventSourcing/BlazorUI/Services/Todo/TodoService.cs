@@ -50,11 +50,11 @@ namespace BlazorUI.Services.Todo
         }
         public async Task<CommandResult> UpdateAsync(UpdateTodoDto request)
         {
-            var response = await _httpClient.PutAsJsonAsync($"Todos/{request.TodoId}", request);
+            var response = await _httpClient.PutAsJsonAsync($"Todos/{request.Id}", request);
             if (!response.IsSuccessStatusCode)
                 return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
 
-            return new CommandResult { IsSuccess = true, Message = $"TodoId:{request.TodoId} has been updated." };
+            return new CommandResult { IsSuccess = true, Message = $"TodoId:{request.Id} has been updated." };
         }
         public async Task<Result<IEnumerable<TodoDetailsDto>>> GetTodosByPersonId(string? PersonName = "")
         {
@@ -97,15 +97,17 @@ namespace BlazorUI.Services.Todo
             if (!response.IsSuccessStatusCode)
                 return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
 
+            TodoChanged?.Invoke();
             return new CommandResult { IsSuccess = true, Message = response.Content.ToString() };
         }
-        public async Task<CommandResult> UpdateTodoItemAsync(TodoItemDto todoItem)
+        public async Task<CommandResult> UpdateTodoItemAsync(UpdateTodoItemDto todoItem)
         {
-            var response = await _httpClient.PutAsJsonAsync($"Todos/{Todo.TodoId}/todoItems/{todoItem.Id}", todoItem);
+
+            var response = await _httpClient.PutAsJsonAsync($"Todos/{Todo.TodoId}/todoItems/{todoItem.TodoItemId}", todoItem);
             if (!response.IsSuccessStatusCode)
                 return new CommandResult { IsSuccess = false, Message = response.Content.ToString() };
 
-            return new CommandResult { IsSuccess = true, EntityId = todoItem.Id, Message = response.Content.ToString() };
+            return new CommandResult { IsSuccess = true, EntityId = todoItem.TodoItemId, Message = response.Content.ToString() };
         }
         public async Task<CommandResult> DeleteTodoItemAsync(string todoItemId)
         {

@@ -11,10 +11,10 @@ namespace HP.Shared.Contacts
         TodoDetailsDto Todo { get; set; }
         IEnumerable<TodoItemDto> CompletedTodoItems { get; set; }
         Task<Result<TodoDetailsDto>> GetTodoById(string? todoId = null);
-        Task<CommandResult> CreateAsync(CreateTodoDto request);
-        Task<CommandResult> UpdateAsync(UpdateTodoDto request);
-        Task<CommandResult> CreateTodoItemAsync(CreateTodoItemDto request);
-        Task<CommandResult> UpdateTodoItemAsync(TodoItemDto todoItem);
+        Task<CommandResult> CreateAsync(CreateTodoDto todo);
+        Task<CommandResult> UpdateAsync(UpdateTodoDto todo);
+        Task<CommandResult> CreateTodoItemAsync(CreateTodoItemDto todoitem);
+        Task<CommandResult> UpdateTodoItemAsync(UpdateTodoItemDto todoItem);
         Task<CommandResult> DeleteTodoItemAsync(string todoItemId);
         Task<CommandResult> ToggleActive(string todoId, bool activate);
         Task<CommandResult> ToggleTodoItemActive(string todoId, string todoItemId, bool activate);

@@ -60,7 +60,7 @@ namespace HP.Controllers
                 items = await _mediator.Send(new GetPendingTodoItemsByTodoId(todoId), token);
             else if (status == "start")
                 items = await _mediator.Send(new GetStartedTodoItemsByTodoId(todoId), token);
-            else if (status == "stopped")
+            else if (status == "stop")
                 items = await _mediator.Send(new GetStoppedTodoItemsByTodoId(todoId), token);
 
             if (items == null)
@@ -115,7 +115,7 @@ namespace HP.Controllers
             if (request == null)
                 return BadRequest();
 
-            return Ok(await _mediator.Send(new UpdateTodoCommand(request.TodoId, request.TodoTitle, request.TodoType, request.Description, null, request.TargetStartDate, request.TargetEndDate), token));
+            return Ok(await _mediator.Send(new UpdateTodoCommand(request.Id, request.TodoTitle, request.TodoType, request.Description, null, request.TargetStartDate, request.TargetEndDate), token));
         }
         [HttpPatch("{todoId}/Activation")]
         public async Task<IActionResult> ActivateTodo([FromRoute] string todoId, CancellationToken token = default)
@@ -167,7 +167,7 @@ namespace HP.Controllers
         }
 
         [HttpPut("{todoId}/todoItems/{todoItemId}")]
-        public async Task<IActionResult> UpdateTodoItem(string todoId, string todoItemId, [FromBody]UpdateTodoDto todoItem, CancellationToken token = default)
+        public async Task<IActionResult> UpdateTodoItem(string todoId, string todoItemId, [FromBody]UpdateTodoItemDto todoItem, CancellationToken token = default)
         {
             if (todoId == null || todoItemId == null)
                 return BadRequest();

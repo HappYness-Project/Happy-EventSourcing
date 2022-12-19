@@ -4,6 +4,7 @@ using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
 using HP.Application.Queries.Todos;
 using HP.Shared.Contacts;
+using HP.Shared.Requests.Todos;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 
@@ -14,7 +15,6 @@ namespace BlazorUI.Components.Todo
         [Inject] public ITodoService _todoService { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
-        private string _parentTodoId;
         protected override async Task OnInitializedAsync()
         {
             _todoService.TodoChanged += StateHasChanged;

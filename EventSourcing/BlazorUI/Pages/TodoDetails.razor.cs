@@ -18,8 +18,11 @@ namespace BlazorUI.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            var todo = await _todoService.GetTodoById(TodoId);
+            await _todoService.SetValue(todo.Data);
             _todoService.TodoChanged += StateHasChanged;
         }
+
         protected override async Task OnParametersSetAsync()
         {
             await LoadTodoData();
@@ -32,7 +35,7 @@ namespace BlazorUI.Pages
         {
             UpdateTodoDto request = new UpdateTodoDto()
             {
-                TodoId = _todoService.Todo.TodoId,
+                Id = _todoService.Todo.TodoId,
                 TodoTitle = _todoService.Todo.TodoTitle,
                 TodoType = _todoService.Todo.TodoType,
                 Description = _todoService.Todo.Description,
@@ -76,7 +79,10 @@ namespace BlazorUI.Pages
         {
             AddTodoItemDialogOpen = false;
             if (accepted)
+            {
                 await LoadTodoData();
+            }
+            StateHasChanged();
         }
         private async void OnDeleteDialogClose(bool accepted)
         {

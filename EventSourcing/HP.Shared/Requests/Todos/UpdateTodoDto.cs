@@ -2,7 +2,7 @@
 {
     public record UpdateTodoDto
     {
-        public string TodoId { get; set; }
+        public string Id { get; set; }
         public string TodoTitle { get; set; } = string.Empty;
         public string TodoType { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;

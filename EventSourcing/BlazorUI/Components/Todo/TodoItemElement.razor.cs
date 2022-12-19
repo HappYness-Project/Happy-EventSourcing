@@ -3,6 +3,7 @@ using HP.Application.Commands;
 using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
 using HP.Shared.Contacts;
+using HP.Shared.Requests.Todos;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 namespace BlazorUI.Components.Todo
@@ -11,8 +12,6 @@ namespace BlazorUI.Components.Todo
     {
         [Inject] public ITodoService _todoService { get; set; }
         [Parameter] public TodoItemDto TodoItem { get; set; }
-        [CascadingParameter(Name = "ParentTodoDto")]
-        [Parameter] public TodoDetailsDto ParentTodo { get; set; }
         [Parameter] public EventCallback<string> TodoItemRemoved { get; set; }
         [Parameter] public EventCallback<string> ItemMarkedCompleted { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }
@@ -20,7 +19,7 @@ namespace BlazorUI.Components.Todo
         protected async Task CheckBoxChanged(ChangeEventArgs e)
         {
             var value = (bool)e.Value;
-            var result = await _todoService.ToggleTodoItemActive(ParentTodo.TodoId, TodoItem.Id, value);
+            var result = await _todoService.ToggleTodoItemActive(_todoService.Todo.TodoId, TodoItem.Id, value);
         }
         protected async Task DeleteButtonClicked(string removeTodoItemId)
         {
@@ -41,7 +40,7 @@ namespace BlazorUI.Components.Todo
         private async Task StatusSelected(ChangeEventArgs args)
         {
 
-            var result = await _todoService.UpdateTodoItemStatus(ParentTodo.TodoId, TodoItem.Id, args.Value as string);
+            var result = await _todoService.UpdateTodoItemStatus(_todoService.Todo.TodoId, TodoItem.Id, args.Value as string);
             if(!result.IsSuccess)
                 return;
 

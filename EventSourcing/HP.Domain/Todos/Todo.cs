@@ -81,9 +81,7 @@ namespace HP.Domain
             if (todoItem == null)
                 throw new Exception($"[Domain Excecption]Not Found TodoItem : {todoItemId}");
 
-            todoItem.Title = newTitle;
-            todoItem.Description = newDesc;
-            todoItem.TodoType = newType;
+            todoItem.Update(newTitle, newType, newDesc);
             this.AddDomainEvent(new TodoDomainEvents.TodoItemUpdated(todoItemId));
         }
         protected override void When(IDomainEvent @event)

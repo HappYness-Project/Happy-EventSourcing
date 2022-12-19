@@ -1,5 +1,6 @@
 ﻿using HP.Application.DTOs;
 using HP.Shared.Contacts;
+using HP.Shared.Requests.Todos;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorUI.Components.Todo

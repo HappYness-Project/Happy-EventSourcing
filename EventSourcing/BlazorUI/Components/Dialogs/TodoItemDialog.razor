@@ -61,11 +61,11 @@
                         </div>
                         <div class="form-group">
                             <label for="dateInput">Target Start Date</label>
-                            <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.TargetStartDate"></InputDate>
+                            <InputDate class="form-control" id="dateInput" @bind-Value="SelectedTodoItem.TargetStartDate"></InputDate>
                         </div>
                         <div class="form-group">
                             <label for="dateInput">Target End Date</label>
-                            <InputDate class="form-control" id="dateInput" @bind-Value="NewTodoItem.TargetCompletedDate"></InputDate>
+                            <InputDate class="form-control" id="dateInput" @bind-Value="SelectedTodoItem.TargetCompletedDate"></InputDate>
                         </div>
                     </EditForm>
                 }
@@ -133,7 +133,16 @@
         }
         else if (TodoItemDialogType == DialogType.Update)
         {
-            result = await _todoService.UpdateTodoItemAsync(SelectedTodoItem);
+            UpdateTodoItemDto dto = new UpdateTodoItemDto
+            {
+                TodoItemId = SelectedTodoItem.Id,
+                TodoTitle = SelectedTodoItem.Title,
+                Description = SelectedTodoItem.Description,
+                TodoType = SelectedTodoItem.TodoType,
+                TargetStartDate = SelectedTodoItem.TargetStartDate,
+                TargetCompletedDate = SelectedTodoItem.TargetCompletedDate,
+            };
+            result = await _todoService.UpdateTodoItemAsync(dto);
         }
         await OnClose.InvokeAsync(true);
     }
