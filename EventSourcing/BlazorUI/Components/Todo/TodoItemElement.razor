@@ -28,5 +28,5 @@
 
 @if (UpdateTodoItemDialogOpen)
 {
-    <TodoItemDialog Title="Update TodoItem" Text="@TodoItem.Id" ParentTodoId="@ParentTodo.TodoId" SelectedTodoItem="@TodoItem" OnClose="@OnUpdateTodoItemDialogClose" TodoItemDialogType=TodoItemDialog.DialogType.Update></TodoItemDialog>
+    <TodoItemDialog Title="Update TodoItem" Text="@TodoItem.Id"  SelectedTodoItem="@TodoItem" OnClose="@OnUpdateTodoItemDialogClose" TodoItemDialogType=TodoItemDialog.DialogType.Update></TodoItemDialog>
 }

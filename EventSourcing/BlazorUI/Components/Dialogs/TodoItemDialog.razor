@@ -87,7 +87,6 @@
     [Parameter] public string Title { get; set; }
     [Parameter] public string Text { get; set; }
     [Parameter] public DialogType TodoItemDialogType { get; set; }
-    [Parameter] public string ParentTodoId { get; set; } = string.Empty;
     [Parameter] public EventCallback<bool> OnClose { get; set; }
     [Parameter] public TodoItemDto SelectedTodoItem { get; set; }
     [Inject] public ITodoService _todoService { get; set; }
@@ -130,11 +129,11 @@
         if (TodoItemDialogType == DialogType.Create)
         {
             NewTodoItem.TodoType = SelectedTodoTypeDropDownItem.ItemObject.ToString();
-            result = await _todoService.CreateTodoItemAsync(ParentTodoId, NewTodoItem);
+            result = await _todoService.CreateTodoItemAsync(NewTodoItem);
         }
         else if (TodoItemDialogType == DialogType.Update)
         {
-            result = await _todoService.UpdateTodoItemAsync(ParentTodoId, SelectedTodoItem);
+            result = await _todoService.UpdateTodoItemAsync(SelectedTodoItem);
         }
         await OnClose.InvokeAsync(true);
     }

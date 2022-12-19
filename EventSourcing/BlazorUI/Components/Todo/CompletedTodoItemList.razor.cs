@@ -13,7 +13,6 @@ namespace BlazorUI.Components.Todo
     {
         [Inject] public ITodoService _todoService { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }
-        [Parameter] public Action<string> OnChange { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         private string _parentTodoId;
         protected override async Task OnInitializedAsync()
@@ -38,20 +37,12 @@ namespace BlazorUI.Components.Todo
         }
         private async Task DeleteTodoSubItem(string subTodoId)
         {
-            var result = await _todoService.DeleteTodoItemAsync(_parentTodoId, subTodoId);
+            var result = await _todoService.DeleteTodoItemAsync(subTodoId);
             if (result.IsSuccess)
             {
                 _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(_parentTodoId, "complete");
                 _todoService.TodoChanged += StateHasChanged;
             }
         }
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if(firstRender)
-            {
-
-            }
-        }
-
     }
 }

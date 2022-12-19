@@ -58,7 +58,7 @@
             <button type="button" class="btn btn-primary" @onclick="() => OpenAddTodoItemDialog(_todoService.Todo)">Create SubTodo</button>
             @if (_todoService.Todo.SubTodos != null)
             {
-                <DisplayTodoItemList OnChange="ChangeTrigger"></DisplayTodoItemList>
+                <DisplayTodoItemList></DisplayTodoItemList>
             }
             <p>&nbsp;&nbsp;</p>
         </div>
@@ -68,7 +68,7 @@
             @if (_todoService.Todo.SubTodos != null)
             {
                 <TemplatedCollapsible Title="Completed Task" ActionText="Display Completed Task" UrlString="@("/todos/details/" + _todoService.Todo.TodoId)">
-                    <CompletedTodoItemList OnChange="ChangeTrigger"></CompletedTodoItemList>
+                    <CompletedTodoItemList></CompletedTodoItemList>
                 </TemplatedCollapsible>
             }
         </div>

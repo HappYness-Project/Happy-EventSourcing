@@ -1,9 +1,9 @@
 ﻿@using HP.Application.DTOs
 @implements IDisposable
 <div class="col-8 row">
-    @if (Todo.SubTodos != null)
+    @if (_todoService.Todo.SubTodos != null)
     {
-        @foreach (TodoItemDto todoItem in Todo.SubTodos)
+        @foreach (TodoItemDto todoItem in _todoService.Todo.SubTodos)
         {
             if (todoItem.IsDone)
             {

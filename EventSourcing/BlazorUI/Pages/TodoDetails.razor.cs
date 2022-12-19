@@ -43,6 +43,10 @@ namespace BlazorUI.Pages
             if (result.IsSuccess)
                 await LoadTodoData();
         }
+        public void UpdatingTest()
+        {
+            LoadTodoData();
+        }
         private async Task LoadTodoData()
         {
             var result = await _todoService.GetTodoById(TodoId);
@@ -50,6 +54,7 @@ namespace BlazorUI.Pages
             {
                 _todoService.Todo = result.Data;
                 _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(_todoService.Todo.TodoId, "complete");
+                StateHasChanged();
             }
         }
         

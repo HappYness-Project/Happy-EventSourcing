@@ -26,11 +26,6 @@ namespace BlazorUI.Components.Todo
         {
             await TodoItemRemoved.InvokeAsync(removeTodoItemId);
         }
-        protected async Task TodoItemStatusUpdated(string todoItemId)
-        {
-            
-        }
-
         private void OpenUpdateTodoItemDialog(TodoItemDto todoItem)
         {
             SelectTodoItem = todoItem;
@@ -53,13 +48,9 @@ namespace BlazorUI.Components.Todo
             if ((string)args.Value == "complete")
             {
                 await ItemMarkedCompleted.InvokeAsync(TodoItem.Id);
-                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(ParentTodo.TodoId, (string)args.Value);
-                await InvokeAsync(StateHasChanged);
             }
-            else
-            {
-                //
-            }
+            _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(ParentTodo.TodoId, (string)args.Value);
+            StateHasChanged();
         }
 
     }

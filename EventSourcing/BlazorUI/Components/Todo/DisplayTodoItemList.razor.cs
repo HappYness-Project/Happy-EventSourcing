@@ -7,10 +7,6 @@ namespace BlazorUI.Components.Todo
     public partial class DisplayTodoItemList : ComponentBase
     {
         [Inject] private ITodoService _todoService { get; set; }
-        
-        [CascadingParameter(Name = "ParentTodoDto")] 
-        public TodoDetailsDto Todo { get; set; }
-        [Parameter] public Action<string> OnChange { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         protected override void OnInitialized()
@@ -30,7 +26,7 @@ namespace BlazorUI.Components.Todo
 
         private async Task DeleteTodoSubItem(string subTodoId)
         {
-            var result = await _todoService.DeleteTodoItemAsync(Todo.TodoId, subTodoId);
+            var result = await _todoService.DeleteTodoItemAsync(subTodoId);
             if (result.IsSuccess)
                 await LoadTodoData();
         }
@@ -40,13 +36,12 @@ namespace BlazorUI.Components.Todo
         }
         private async Task LoadTodoData()
         {
-            var result = await _todoService.GetTodoById(Todo.TodoId);
+            var result = await _todoService.GetTodoById(_todoService.Todo.TodoId);
             if (result.IsSuccess)
             {
-                Todo = result.Data;
+                _todoService.Todo = result.Data;
                 StateHasChanged();
             }
-            OnChange?.Invoke("Kevin");
         }
     }
 }
