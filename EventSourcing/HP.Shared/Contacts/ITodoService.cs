@@ -7,6 +7,7 @@ namespace HP.Shared.Contacts
     public interface ITodoService
     {
         event Action TodoChanged;
+        Task SetValue(TodoDetailsDto newTodo);
         TodoDetailsDto Todo { get; set; }
         IEnumerable<TodoItemDto> CompletedTodoItems { get; set; }
         Task<Result<TodoDetailsDto>> GetTodoById(string? todoId = null);

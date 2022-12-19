@@ -18,8 +18,11 @@ namespace BlazorUI.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadTodoData();
             _todoService.TodoChanged += StateHasChanged;
+        }
+        protected override async Task OnParametersSetAsync()
+        {
+            await LoadTodoData();
         }
         public void Dispose()
         {

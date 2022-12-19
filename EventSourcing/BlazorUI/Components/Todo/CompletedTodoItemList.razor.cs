@@ -12,20 +12,25 @@ namespace BlazorUI.Components.Todo
     public partial class CompletedTodoItemList : ComponentBase
     {
         [Inject] public ITodoService _todoService { get; set; }
-        [Parameter] public string ParentTodoId { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }
         [Parameter] public Action<string> OnChange { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
+        private string _parentTodoId;
         protected override async Task OnInitializedAsync()
         {
-            _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(ParentTodoId, "complete");
             _todoService.TodoChanged += StateHasChanged;
         }
         public void Dispose()
         {
             _todoService.TodoChanged -= StateHasChanged;
         }
-        private void OnUpdateTodoItemDialogClose(bool accepted)
+        protected override async Task OnParametersSetAsync()
+        {
+            _parentTodoId = _todoService.Todo.TodoId;
+            _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(_parentTodoId, "complete");
+        }
+
+        private async void OnUpdateTodoItemDialogClose(bool accepted)
         {
             SelectTodoItem = null;
             UpdateTodoItemDialogOpen = false;
@@ -33,12 +38,20 @@ namespace BlazorUI.Components.Todo
         }
         private async Task DeleteTodoSubItem(string subTodoId)
         {
-            var result = await _todoService.DeleteTodoItemAsync(ParentTodoId, subTodoId);
+            var result = await _todoService.DeleteTodoItemAsync(_parentTodoId, subTodoId);
             if (result.IsSuccess)
             {
-                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(ParentTodoId, "complete");
+                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(_parentTodoId, "complete");
                 _todoService.TodoChanged += StateHasChanged;
             }
         }
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if(firstRender)
+            {
+
+            }
+        }
+
     }
 }

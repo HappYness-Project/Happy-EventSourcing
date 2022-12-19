@@ -1,4 +1,5 @@
-﻿using HP.Application.Commands;
+﻿using BlazorUI.Services.Todo;
+using HP.Application.Commands;
 using HP.Application.Commands.Todo;
 using HP.Application.DTOs;
 using HP.Shared.Contacts;
@@ -50,13 +51,15 @@ namespace BlazorUI.Components.Todo
                 return;
 
             if ((string)args.Value == "complete")
+            {
                 await ItemMarkedCompleted.InvokeAsync(TodoItem.Id);
+                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(ParentTodo.TodoId, (string)args.Value);
+                await InvokeAsync(StateHasChanged);
+            }
             else
             {
                 //
             }
-
-            StateHasChanged();
         }
 
     }

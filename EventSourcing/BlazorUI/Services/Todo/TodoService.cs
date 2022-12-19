@@ -160,13 +160,10 @@ namespace BlazorUI.Services.Todo
             return new CommandResult { IsSuccess = true, EntityId = todoItemId, Message = msg.Content.ToString() };
         }
         private void NotifyTodoChanged() => TodoChanged?.Invoke();
-        public void SetValue(TodoDetailsDto newTodo)
+        public async Task SetValue(TodoDetailsDto newTodo)
         {
-            if(newTodo != Todo)
-            {
-                Todo = newTodo;
-                NotifyTodoChanged();
-            }
+            Todo = newTodo;
+            NotifyTodoChanged();
         }
     }
 }
