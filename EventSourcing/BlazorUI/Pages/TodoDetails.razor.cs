@@ -53,7 +53,7 @@ namespace BlazorUI.Pages
             if (result.IsSuccess)
             {
                 _todoService.Todo = result.Data;
-                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(_todoService.Todo.TodoId, "complete");
+                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus("complete");
                 StateHasChanged();
             }
         }

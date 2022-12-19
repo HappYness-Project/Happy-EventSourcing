@@ -49,7 +49,7 @@ namespace BlazorUI.Components.Todo
             {
                 await ItemMarkedCompleted.InvokeAsync(TodoItem.Id);
             }
-            _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(ParentTodo.TodoId, (string)args.Value);
+            _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus((string)args.Value);
             StateHasChanged();
         }
 

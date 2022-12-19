@@ -22,7 +22,7 @@ namespace HP.Shared.Contacts
         Task<Result<CommandResult>> UpdateTodoStatus(string todoId, string status);
         Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status);
         Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId);
-        Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status);
+        Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string status);
         Task<Result<int>> GetTodoItemsCount(bool onlyActive = true);
         Task<Result<IEnumerable<TodoDetailsDto>>> GetTodosByPersonId(string temp_username);
     }

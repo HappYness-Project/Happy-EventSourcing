@@ -25,8 +25,7 @@ namespace BlazorUI.Components.Todo
         }
         protected override async Task OnParametersSetAsync()
         {
-            _parentTodoId = _todoService.Todo.TodoId;
-            _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(_parentTodoId, "complete");
+            _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus("complete");
         }
 
         private async void OnUpdateTodoItemDialogClose(bool accepted)
@@ -40,7 +39,7 @@ namespace BlazorUI.Components.Todo
             var result = await _todoService.DeleteTodoItemAsync(subTodoId);
             if (result.IsSuccess)
             {
-                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus(_parentTodoId, "complete");
+                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus("complete");
                 _todoService.TodoChanged += StateHasChanged;
             }
         }

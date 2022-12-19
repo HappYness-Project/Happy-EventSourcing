@@ -120,9 +120,9 @@ namespace BlazorUI.Services.Todo
             var response = await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"todos/{Todo.TodoId}/todoItems");
             return response;
         }
-        public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string todoId, string status)
+        public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string status)
         {
-            var response = await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"Todos/{todoId}/TodoItems/status/{status}");
+            var response = await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"Todos/{Todo.TodoId}/TodoItems/status/{status}");
             return response;
         }
         public async Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status)
