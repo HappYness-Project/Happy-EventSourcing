@@ -42,7 +42,7 @@ namespace BlazorUI.Components.Todo
         {
 
             var result = await _todoService.UpdateTodoItemStatus(_todoService.Todo.TodoId, TodoItem.Id, args.Value as string);
-            if(!result.IsSuccess)
+            if (!result.IsSuccess)
                 return;
 
             if ((string)args.Value == "complete")

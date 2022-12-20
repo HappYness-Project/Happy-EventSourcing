@@ -27,7 +27,6 @@ namespace BlazorUI.Components.Todo
         {
             _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus("complete");
         }
-
         private async void OnUpdateTodoItemDialogClose(bool accepted)
         {
             SelectTodoItem = null;
@@ -44,7 +43,10 @@ namespace BlazorUI.Components.Todo
         }
         private async Task ChangeTodoItemStatus(string todoItemId)
         {
-            //var result = await _todoService.UpdateTodoItemStatus(_todoService.Todo.TodoId, todoItemId, )
+            var updateTodo = await _todoService.GetTodoById();
+            if(updateTodo.IsSuccess)
+                _todoService.Todo = updateTodo.Data;
+
             _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus("complete");
             StateHasChanged();
         }

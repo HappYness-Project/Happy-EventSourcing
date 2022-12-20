@@ -76,6 +76,7 @@ namespace BlazorUI.Pages
             if (accepted)
             {
                 await LoadTodoData();
+                StateHasChanged();
             }
         }
         private async void OnDeleteDialogClose(bool accepted)
