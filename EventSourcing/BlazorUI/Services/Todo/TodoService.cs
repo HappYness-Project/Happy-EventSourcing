@@ -33,7 +33,8 @@ namespace BlazorUI.Services.Todo
             var todo = await _httpClient.GetFromJsonAsync<TodoDetailsDto>($"Todos/{todoId}");
             if (todo == null)
                 return new Result<TodoDetailsDto> { IsSuccess = false, Msg = "Not able to get the data" };
-
+            
+            TodoChanged?.Invoke();
             return new Result<TodoDetailsDto> { IsSuccess = true, Data = todo, Msg = "GetTodoById success." };
         }
         public async Task<Result<int>> GetTodoItemsCount(bool OnlyActive = true)
@@ -120,11 +121,13 @@ namespace BlazorUI.Services.Todo
         public async Task<IEnumerable<TodoItemDto>> GetTodoItemsById(string todoId)
         {
             var response = await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"todos/{Todo.TodoId}/todoItems");
+            TodoChanged?.Invoke();
             return response;
         }
         public async Task<IEnumerable<TodoItemDto>> GetTodoItemsByStatus(string status)
         {
             var response = await _httpClient.GetFromJsonAsync<IEnumerable<TodoItemDto>>($"Todos/{Todo.TodoId}/TodoItems/status/{status}");
+            TodoChanged?.Invoke();
             return response;
         }
         public async Task<CommandResult> UpdateTodoItemStatus(string todoId, string todoItemId, string status)

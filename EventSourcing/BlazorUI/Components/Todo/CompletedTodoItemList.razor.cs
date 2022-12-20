@@ -34,14 +34,19 @@ namespace BlazorUI.Components.Todo
             UpdateTodoItemDialogOpen = false;
             StateHasChanged();
         }
-        private async Task DeleteTodoSubItem(string subTodoId)
+        private async Task DeleteTodoSubItem(string todoItemId)
         {
-            var result = await _todoService.DeleteTodoItemAsync(subTodoId);
+            var result = await _todoService.DeleteTodoItemAsync(todoItemId);
             if (result.IsSuccess)
             {
                 _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus("complete");
-                _todoService.TodoChanged += StateHasChanged;
             }
+        }
+        private async Task ChangeTodoItemStatus(string todoItemId)
+        {
+            //var result = await _todoService.UpdateTodoItemStatus(_todoService.Todo.TodoId, todoItemId, )
+            _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus("complete");
+            StateHasChanged();
         }
     }
 }

@@ -6,7 +6,7 @@
     {
         @foreach (TodoItemDto todoItem in _todoService.CompletedTodoItems)
         {
-            <TodoItemElement TodoItem="@todoItem" TodoItemRemoved="DeleteTodoSubItem"></TodoItemElement>
+            <TodoItemElement TodoItem="@todoItem" TodoItemRemoved="DeleteTodoSubItem" ItemStatusChanged="ChangeTodoItemStatus"></TodoItemElement>
         }
     }
 </div>

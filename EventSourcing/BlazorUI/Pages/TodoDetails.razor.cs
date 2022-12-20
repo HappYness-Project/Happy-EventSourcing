@@ -46,17 +46,12 @@ namespace BlazorUI.Pages
             if (result.IsSuccess)
                 await LoadTodoData();
         }
-        public void UpdatingTest()
-        {
-            LoadTodoData();
-        }
         private async Task LoadTodoData()
         {
             var result = await _todoService.GetTodoById(TodoId);
             if (result.IsSuccess)
             {
                 _todoService.Todo = result.Data;
-                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus("complete");
                 StateHasChanged();
             }
         }
@@ -82,7 +77,6 @@ namespace BlazorUI.Pages
             {
                 await LoadTodoData();
             }
-            StateHasChanged();
         }
         private async void OnDeleteDialogClose(bool accepted)
         {
@@ -104,11 +98,5 @@ namespace BlazorUI.Pages
             AddTodoItemDialogOpen = true;
             StateHasChanged();
         }
-        private async void ChangeTrigger(string name)
-        {
-            mainUserName = name;
-            await LoadTodoData();
-        }
-
     }
 }

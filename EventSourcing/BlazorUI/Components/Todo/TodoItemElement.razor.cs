@@ -14,6 +14,7 @@ namespace BlazorUI.Components.Todo
         [Parameter] public TodoItemDto TodoItem { get; set; }
         [Parameter] public EventCallback<string> TodoItemRemoved { get; set; }
         [Parameter] public EventCallback<string> ItemMarkedCompleted { get; set; }
+        [Parameter] public EventCallback<string> ItemStatusChanged { get; set; }
         public TodoItemDto SelectTodoItem { get; set; }
         public bool UpdateTodoItemDialogOpen { get; set; } = false;
         protected async Task CheckBoxChanged(ChangeEventArgs e)
@@ -48,7 +49,10 @@ namespace BlazorUI.Components.Todo
             {
                 await ItemMarkedCompleted.InvokeAsync(TodoItem.Id);
             }
-            _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus((string)args.Value);
+            else
+            {
+                await ItemStatusChanged.InvokeAsync(TodoItem.Id);
+            }
             StateHasChanged();
         }
 

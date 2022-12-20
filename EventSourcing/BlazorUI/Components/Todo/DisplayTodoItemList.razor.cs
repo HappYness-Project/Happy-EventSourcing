@@ -41,8 +41,14 @@ namespace BlazorUI.Components.Todo
             if (result.IsSuccess)
             {
                 _todoService.Todo = result.Data;
+                _todoService.CompletedTodoItems = await _todoService.GetTodoItemsByStatus("complete");
                 StateHasChanged();
             }
+        }
+        private async Task ChangeTodoItemStatus(string todoItemId)
+        {
+            //var result = await _todoService.UpdateTodoItemStatus(_todoService.Todo.TodoId, todoItemId, )
+            StateHasChanged();
         }
     }
 }
