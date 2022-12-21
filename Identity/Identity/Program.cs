@@ -84,6 +84,8 @@ builder.Services.AddOpenIddict()
             // Enable the client credentials flow.
             options.AllowClientCredentialsFlow();
 
+            options.AllowAuthorizationCodeFlow();
+
             // Register the signing and encryption credentials.
             options.AddDevelopmentEncryptionCertificate()
                    .AddDevelopmentSigningCertificate();
@@ -137,16 +139,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-/*app.MapControllerRoute(
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();*/
+app.MapRazorPages();
 
-app.UseEndpoints(endpoints =>
+/*app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
     endpoints.MapDefaultControllerRoute();
     endpoints.MapRazorPages();
-});
+});*/
 
 app.Run();

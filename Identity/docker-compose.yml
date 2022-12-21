@@ -5,8 +5,8 @@ services:
   db:
     image: postgres
     container_name: db_postgres
-    networks:
-      demo:
+    #networks:
+    #  demo:
 
   identity:
     image: ${DOCKER_REGISTRY-}identity
@@ -14,14 +14,71 @@ services:
     build:
       context: .
       dockerfile: Identity/Dockerfile
+    ports:
+      - 7979:80
+      - 8001:443
+    #environment:
+    #  - ASPNETCORE_ENVIRONMENT=Development
+    #  - ASPNETCORE_URLS=https://+:443;http://+:80
+    #  - ASPNETCORE_HTTPS_PORT=8001
+    #  - ASPNETCORE_Kestrel__Certificates__Default__Password=crypticpassword
+    #  - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/Identity.pfx
+    #volumes:
+    #  - ~/.aspnet/https:/https:ro
     depends_on:
       - db
-    networks:
-      demo:
+    #networks:
+    #  - demo 
 
-networks:
-  demo:
-    name: id_srv_bridge
-    driver: bridge
-    driver_opts:
-      com.docker.network.bridge.name: br-demo
+  #server:
+  #  image: ${DOCKER_REGISTRY-}api
+  #  container_name: api
+  #  build:
+  #    context: .
+  #    dockerfile: DemoAPI/Dockerfile
+  #  ports:
+  #    - 8002:443
+  #  environment:
+  #    - ASPNETCORE_ENVIRONMENT=Development
+  #    - ASPNETCORE_URLS=https://+:443;http://+:80
+  #    - ASPNETCORE_HTTPS_PORT=8002
+  #    - ASPNETCORE_Kestrel__Certificates__Default__Password=crypticpassword
+  #    - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/DemoAPI.pfx
+  #  volumes:
+  #    - ~/.aspnet/https:/https:ro
+  #    - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  #  networks:
+  #    - demo
+
+  #client:
+  #  image: ${DOCKER_REGISTRY-}client
+  #  container_name: client
+  #  build:
+  #    context: .
+  #    dockerfile: DemoClient/Dockerfile
+  #  ports:
+  #    - 8003:443 
+  #  environment:
+  #    - ASPNETCORE_ENVIRONMENT=Development
+  #    - ASPNETCORE_URLS=https://+:443;http://+:80
+  #    - ASPNETCORE_HTTPS_PORT=8003
+  #    - ASPNETCORE_Kestrel__Certificates__Default__Password=crypticpassword
+  #    - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/DemoClient.pfx
+  #  volumes:
+  #    - ~/APPDATA/Roaming/microsoft/UserSecrets:/root/.microsoft/usersecrets
+  #    - ~/.aspnet/https:/https:ro
+  #    - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  #  depends_on:
+  #    - identity
+  #    - server
+  #  networks:
+  #    - demo
+
+#networks:
+#  demo:
+#    name: id_srv_bridge
+#    driver: bridge
+#    driver_opts:
+#      com.docker.network.bridge.name: br-demo
+#  test:
+#    external: true
