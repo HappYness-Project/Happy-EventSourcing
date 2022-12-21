@@ -13,7 +13,7 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Identity
 {
-    public class Seed:IHostedService
+    public class Seed : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -123,13 +123,13 @@ namespace Identity
                         Email = "AliceSmith@email.com",
                         EmailConfirmed = true,
                     };
-                    var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+                    var result = await userMgr.CreateAsync(alice, "Pass123$");
                     if (!result.Succeeded)
                     {
                         throw new Exception(result.Errors.First().Description);
                     }
 
-                    result = userMgr.AddClaimsAsync(alice, new Claim[]{
+                    result = await userMgr.AddClaimsAsync(alice, new Claim[]{
                             new Claim(ClaimTypes.Name, "Alice Smith"),
                             new Claim(ClaimTypes.GivenName, "Alice"),
                             new Claim(ClaimTypes.Surname, "Smith"),
@@ -137,7 +137,7 @@ namespace Identity
                             new Claim(ClaimTypes.StreetAddress, "72 Pinnacle Drive"),
                             new Claim(ClaimTypes.StateOrProvince, "Ontario"),
                             new Claim(ClaimTypes.PostalCode, "N2P 1C5"),
-                        }).Result;
+                    });
                     if (!result.Succeeded)
                     {
                         throw new Exception(result.Errors.First().Description);
@@ -157,13 +157,13 @@ namespace Identity
                         Email = "BobSmith@email.com",
                         EmailConfirmed = true
                     };
-                    var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                    var result = await userMgr.CreateAsync(bob, "Pass123$");
                     if (!result.Succeeded)
                     {
                         throw new Exception(result.Errors.First().Description);
                     }
 
-                    result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                    result = await userMgr.AddClaimsAsync(bob, new Claim[]{
                             new Claim(ClaimTypes.Name, "Bob Smith"),
                             new Claim(ClaimTypes.GivenName, "Bob"),
                             new Claim(ClaimTypes.Surname, "Smith"),
@@ -172,7 +172,7 @@ namespace Identity
                             new Claim(ClaimTypes.MobilePhone, "519-666-7777"),
                             new Claim("location", "somewhere"),
                             new Claim(Claims.Picture, "imge-url")
-                        }).Result;
+                    });
                     if (!result.Succeeded)
                     {
                         throw new Exception(result.Errors.First().Description);
