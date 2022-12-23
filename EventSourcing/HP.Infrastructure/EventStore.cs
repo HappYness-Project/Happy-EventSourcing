@@ -8,12 +8,12 @@ namespace HP.Infrastructure
     public class EventStore : IEventStore
     {
         private string EventStoreTableName = "EventStore";
-        private readonly IConfiguration _configuration;
         private readonly IMongoDbContext _mongoDbContext;
-        public EventStore(IConfiguration configuration, IMongoDbContext mongoDbContext)
+        private IEventProducer _eventProducer;
+        public EventStore(IMongoDbContext mongoDbContext, IEventProducer eventProducer)
         {
-            _configuration = configuration;
             _mongoDbContext = mongoDbContext;
+            _eventProducer = eventProducer;
         }
         public void Save<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
         {
@@ -25,7 +25,7 @@ namespace HP.Infrastructure
             var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
             await collection.InsertOneAsync(@event);
         }
-        public Task<IReadOnlyCollection<TDomainEvent>> GetEvents<TDomainEvent>(int aggregateId) where TDomainEvent : IDomainEvent
+        public async Task<IReadOnlyCollection<TDomainEvent>> GetEventsAsync<TDomainEvent>(int aggregateId) where TDomainEvent : IDomainEvent
         {
             var events = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
             //collection.FindAsync(aggregateId);
@@ -35,6 +35,7 @@ namespace HP.Infrastructure
         {
             if (events.Count == 0) return;
             var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
+            //var eventStream = a
             await collection.InsertManyAsync(events);
         }
     }
