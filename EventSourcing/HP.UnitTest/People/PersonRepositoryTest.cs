@@ -15,10 +15,13 @@ namespace HP.UnitTest.People
     {
         IPersonRepository personRepository = null;
         IEventStore eventStore = null;
+        IEventProducer _eventProducer = null;
+
+
         [SetUp]
         public void Setup()
         {
-            eventStore = new EventStore(_configuration, _mongoDbContext);
+            eventStore = new EventStore(_mongoDbContext, _eventProducer);
             personRepository = new PersonRepository(_mongoDbContext, eventStore);
         }
 

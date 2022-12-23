@@ -4,6 +4,6 @@ namespace HP.Core.Events
     public interface IEventStoreRepository
     {
         Task SaveAsync(DomainEventBase eventModel);
-        Task<List<DomainEventBase>> FindByAggregateId(string aggregateId);
+        Task<List<DomainEventBase>> FindByAggregateId(Guid aggregateId);
     }
 }

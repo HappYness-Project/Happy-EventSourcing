@@ -1,11 +1,15 @@
 ﻿using MediatR;
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace HP.Core.Models
 {
     public interface IDomainEvent : INotification
     {
+        [BsonId]
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public string EventId { get; }
         public Guid AggregateId { get; }
         public int AggregateVersion { get; }
-        public string EventId { get; }
         public string EventType { get; }
         public string EventData { get; }
         DateTime OccuredOn { get; }

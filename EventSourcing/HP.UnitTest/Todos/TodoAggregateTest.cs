@@ -2,17 +2,11 @@
 using HP.Domain;
 using HP.test;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace HP.UnitTest.Todos
 {
     public class TodoAggregateTest
     {
-        public TodoAggregateTest()
-        {
-
-        }
         [Test]
         public void Create_new_Todo_raises_new_event()
         {
@@ -52,6 +46,17 @@ namespace HP.UnitTest.Todos
             //Assert
             todo.IsActive.Should().BeFalse();
         }
+
+        [Test]
+        public void Todo_Is_Updated()
+        {
+            // Arrange
+            var todo = TodoFactory.Create("Hyunbin7303", type: "",todoTitle:"Testing the new Todo", desc:"Description");
+
+            // Act
+            todo.Update("Updated Todo Title", type: "Study", "Description updated", null);
+        }
+
         [Test]
         public void AddTodoTiem_Return_1()
         {
@@ -85,6 +90,5 @@ namespace HP.UnitTest.Todos
             //Assert
             todo.SubTodos.Should().HaveCount(0);
         }
-
     }
 }

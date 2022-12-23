@@ -13,10 +13,11 @@ namespace HP.test
     {
 
         IEventStore eventStore = null;
+        IEventProducer _eventProducer = null;
         [SetUp]
         public void SetUp()
         {
-             eventStore = new EventStore(_configuration, _mongoDbContext);
+             eventStore = new EventStore(_mongoDbContext, _eventProducer);
         }
 
         [Test]
@@ -49,7 +50,7 @@ namespace HP.test
         [Test]
         public void eventStore_Save()
         {
-            var events = eventStore.GetEvents<PersonCreated>(1);
+            //var events = eventStore.GetEvents<PersonCreated>(1);
         }
 
     }
