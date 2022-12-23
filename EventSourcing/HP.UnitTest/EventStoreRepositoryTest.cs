@@ -2,29 +2,31 @@
 using HP.Core.Models;
 using HP.Domain;
 using HP.Infrastructure;
+using HP.Infrastructure.Repository;
 using NUnit.Framework;
 using System;
 namespace HP.test
 {
     using static HP.Domain.PersonDomainEvents;
     using static HP.Domain.TodoDomainEvents;
-
     internal class EventStoreRepositoryTest : TestBase
     {
 
-        IEventStore eventStore = null;
-        IEventProducer _eventProducer = null;
+        private IEventStore _eventStore = null;
+        private IEventProducer _eventProducer = null;
+        private IEventStoreRepository _eventStoreRepository = null;
         [SetUp]
         public void SetUp()
         {
-             eventStore = new EventStore(_mongoDbContext, _eventProducer);
+             _eventStore = new EventStore(_mongoDbContext, _eventProducer);
+            _eventStoreRepository = new EventStoreRepository(_mongoDbContext);
         }
 
         [Test]
         public void EventStore_Save_For_TodoCreate()
         {
             IDomainEvent domainEvent = new TodoCreated(Guid.NewGuid().ToString(), "HP09428", "Todo Application Event created.", TodoType.Others.Name);
-            eventStore.Save(domainEvent);
+            _eventStore.Save(domainEvent);
         }
 
         [Test]
@@ -32,7 +34,7 @@ namespace HP.test
         {
             var addr = new Address("Canada", "Kitchener", "Ontario", "N2L 3M3");
             IDomainEvent domainEvent = new PersonCreated(Guid.NewGuid().ToString());
-            eventStore.Save(domainEvent);
+            _eventStore.Save(domainEvent);
         }
 
 
