@@ -42,6 +42,7 @@ namespace Identity
                     {
                         ClientId = "resource_server_1",
                         ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342",
+                        DisplayName = "DemoAPI",
                         Permissions =
                         {
                             Permissions.Endpoints.Introspection
@@ -57,19 +58,20 @@ namespace Identity
                     await manager.CreateAsync(new OpenIddictApplicationDescriptor
                     {
                         ClientId = "blazorcodeflowpkceclient",
+                        ClientSecret = "codeflow_pkce_client_secret",
                         ConsentType = ConsentTypes.Explicit,
                         DisplayName = "Blazor code PKCE",
                         PostLogoutRedirectUris =
                         {
-                            new Uri("https://localhost:44348/signout-callback-oidc")
+                            new Uri("https://localhost:7220/signout-callback-oidc")
                         },
                         RedirectUris =
                         {
-                            new Uri("https://localhost:44348/signin-oidc")
+                            new Uri("https://localhost:7220/signin-oidc")
                         },
-                        ClientSecret = "codeflow_pkce_client_secret",
                         Permissions =
                         {
+                            Permissions.Endpoints.Introspection,
                             Permissions.Endpoints.Authorization,
                             Permissions.Endpoints.Logout,
                             Permissions.Endpoints.Token,
@@ -113,11 +115,11 @@ namespace Identity
             static async Task RegisterUsersAsync(IServiceProvider provider)
             {
                 var userMgr = provider.GetRequiredService<UserManager<ApplicationUser>>();
-                if (await userMgr.FindByNameAsync("alice") is null)
+                if (await userMgr.FindByNameAsync("AliceSmith@email.com") is null)
                 {
                     var alice = new ApplicationUser
                     {
-                        UserName = "alice",
+                        UserName = "AliceSmith@email.com",
                         Email = "AliceSmith@email.com",
                         EmailConfirmed = true,
                     };
@@ -147,11 +149,11 @@ namespace Identity
                     Log.Debug("alice already exists");
                 }
 
-                if (await userMgr.FindByNameAsync("bob") is null)
+                if (await userMgr.FindByNameAsync("BobSmith@email.com") is null)
                 {
                     var bob = new ApplicationUser
                     {
-                        UserName = "bob",
+                        UserName = "BobSmith@email.com",
                         Email = "BobSmith@email.com",
                         EmailConfirmed = true
                     };
@@ -168,7 +170,8 @@ namespace Identity
                             new Claim(ClaimTypes.Webpage, "http://bob.com"),
                             new Claim(ClaimTypes.Email, "bob@gmail.com"),
                             new Claim(ClaimTypes.MobilePhone, "519-666-7777"),
-                            new Claim("location", "somewhere")
+                            new Claim("location", "somewhere"),
+                            new Claim(Claims.Picture, "imge-url")
                         }).Result;
                     if (!result.Succeeded)
                     {
