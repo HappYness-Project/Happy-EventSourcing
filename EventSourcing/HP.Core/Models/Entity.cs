@@ -14,14 +14,38 @@ namespace HP.Core.Models
             Id = id;
             CreatedDate = DateTime.Now;
         }
-
-        private List<IDomainEvent> _domainEvents;
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
-        protected void AddDomainEvent(IDomainEvent domainEvent)
+        public string Version { get; private set; }
+        private List<IDomainEvent> _domainEvents = new();
+        public IEnumerable<IDomainEvent> GetUncommittedChanges()
+        {
+            return _domainEvents?.AsReadOnly();
+        }
+        public void MarkChangesAsCommitted()
+        {
+            _domainEvents.Clear();
+        }
+        private void AddDomainEvent(IDomainEvent @domainEvent, bool isNew)
         {
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();
-            _domainEvents.Add(domainEvent);
+            var method = this.GetType().GetMethod("Apply", new Type[] { @domainEvent.GetType() });
+            if(method == null)
+                throw new ArgumentNullException(nameof(method), $"This AddDomainEvent method was not found in the aggregate for {domainEvent.GetType().Name}");
+            
+            method.Invoke(this, new object[] {@domainEvent});
+            if(isNew)
+                _domainEvents.Add(@domainEvent);
         }
         protected abstract void When(IDomainEvent @event);
+        protected void ApplyChange(IDomainEvent @event)
+        {
+            AddDomainEvent(@event, true);
+        }
+        public void ReplayEvents(IEnumerable<IDomainEvent> @events)
+        {
+            foreach(var @event in events)
+            {
+                AddDomainEvent(@event, false);
+            }
+        }
     }
 }

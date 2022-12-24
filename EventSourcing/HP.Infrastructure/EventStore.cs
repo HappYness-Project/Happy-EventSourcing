@@ -1,7 +1,6 @@
 ﻿using HP.Core.Events;
 using HP.Core.Models;
 using HP.Infrastructure.DbAccess;
-using Microsoft.Extensions.Configuration;
 //https://github.com/bolicd/eventstore/blob/1fd6faa1b4751d83e065c3df32c7a4a8b0e5ef7b/Infrastructure/Repositories/EventStoreRepository.cs
 namespace HP.Infrastructure
 {
