@@ -9,6 +9,26 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
+            "program": "${workspaceFolder}/bin/Debug/net6.0/BlazorUI.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
             "program": "${workspaceFolder}/HP.Api/bin/Debug/net6.0/HP.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/HP.Api",
@@ -42,7 +62,7 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:5011"
+                "ASPNETCORE_URLS": "http://localhost:5048"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
