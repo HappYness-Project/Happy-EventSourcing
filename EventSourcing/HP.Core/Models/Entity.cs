@@ -14,7 +14,7 @@ namespace HP.Core.Models
             Id = id;
             CreatedDate = DateTime.Now;
         }
-        public string Version { get; private set; }
+        public int Version { get; set; }
         private List<IDomainEvent> _domainEvents = new();
         public IEnumerable<IDomainEvent> GetUncommittedChanges()
         {

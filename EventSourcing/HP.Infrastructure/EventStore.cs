@@ -11,7 +11,7 @@ namespace HP.Infrastructure
         private IEventProducer _eventProducer;
         public EventStore(IMongoDbContext mongoDbContext, IEventProducer eventProducer)
         {
-            _mongoDbContext = mongoDbContext;
+            _mongoDbContext = mongoDbContext ?? throw new ArgumentNullException(nameof(mongoDbContext));
             _eventProducer = eventProducer;
         }
         public void Save<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
@@ -24,7 +24,7 @@ namespace HP.Infrastructure
             var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
             await collection.InsertOneAsync(@event);
         }
-        public async Task<IReadOnlyCollection<TDomainEvent>> GetEventsAsync<TDomainEvent>(int aggregateId) where TDomainEvent : IDomainEvent
+        public async Task<IReadOnlyCollection<TDomainEvent>> GetEventsAsync<TDomainEvent>(Guid aggregateId) where TDomainEvent : IDomainEvent
         {
             var events = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
             //collection.FindAsync(aggregateId);
@@ -36,6 +36,10 @@ namespace HP.Infrastructure
             var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
             //var eventStream = a
             await collection.InsertManyAsync(events);
+        }
+        public async Task<List<IDomainEvent>> GetEventsAsync(Guid aggregateId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
