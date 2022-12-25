@@ -20,7 +20,7 @@ namespace HP.Application.EventHandlers
         private readonly ITodoRepository _todoRepository;
         public TodoEventHandlers(ITodoRepository todoRepository)
         {
-            _todoRepository = todoRepository;
+            _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }
 
         public Task Handle(TodoCreated notification, CancellationToken cancellationToken)

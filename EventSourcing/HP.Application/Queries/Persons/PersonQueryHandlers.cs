@@ -13,7 +13,7 @@ namespace HP.Application.Queries
         private readonly IPersonRepository _personRepository;
         public PersonQueryHandlers(IMapper mapper, IPersonRepository personRepository) : base(mapper)
         {
-            _personRepository = personRepository;
+            _personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }
         public async Task<IEnumerable<PersonDetailsDto>> Handle(GetPersonList request, CancellationToken cancellationToken)
         {
