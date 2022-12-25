@@ -26,8 +26,8 @@ namespace HP.Infrastructure
 
         public async Task SaveAsync(IAggregateRoot<Todo> aggregate)
         {
-            await _eventStore.SaveEventsAsync(aggregate., aggregate.GetUncommittedChanges(), aggregate.Version);
-            aggregate.MarkChangesAsCommitted();
+            // await _eventStore.SaveEventsAsync(aggregate., aggregate.GetUncommittedChanges(), aggregate.Version);
+            // aggregate.MarkChangesAsCommitted();
             throw new NotImplementedException();
         }
     }
