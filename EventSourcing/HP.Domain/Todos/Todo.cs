@@ -3,6 +3,7 @@ namespace HP.Domain
 {
     public class Todo : Entity, IAggregateRoot<Todo>
     {
+        public Todo(){ }
         protected Todo(string id) : base(id)
         {
             IsActive = true;
