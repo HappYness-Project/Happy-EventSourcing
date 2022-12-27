@@ -12,9 +12,5 @@ namespace HP.Domain.Categories
         public bool IsVisible { get; set; }
         public bool IsAllowPersonChange { get; set; }
         public bool IsFilterRequired { get; set; }
-        protected override void When(IDomainEvent @event)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using HP.Core.Models;
 namespace HP.Domain
 {
-    public class Todo : Entity
+    public class Todo : AggregateRoot<string>
     {
         protected Todo(string id) : base(id)
         {

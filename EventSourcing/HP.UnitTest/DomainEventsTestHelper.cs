@@ -7,7 +7,7 @@ namespace HP.test
 {
     public class DomainEventsTestHelper
     {
-        public static List<IDomainEvent> GetAllDomainEvents(Entity aggregate)
+        public static List<IDomainEvent> GetAllDomainEvents(AggregateRoot<string> aggregate)
         {
             List<IDomainEvent> domainEvents = new List<IDomainEvent>();
             if(aggregate.DomainEvents != null)

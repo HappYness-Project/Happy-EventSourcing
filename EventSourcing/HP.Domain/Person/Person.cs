@@ -1,7 +1,7 @@
 ﻿using HP.Core.Models;
 namespace HP.Domain
 {
-    public class Person : Entity
+    public class Person : AggregateRoot<string>
     {
         public string PersonId { get; private set; } 
         public string PersonType { get; private set; }
