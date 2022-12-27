@@ -5,8 +5,6 @@
         public AggregateRoot() { }
         public AggregateRoot(Guid id) : base(id) { }
         private List<IDomainEvent> _domainEvents;
-        protected Guid _id;
-        public Guid Id { get { return _id; } }
         public int Version { get; set; }
         public IReadOnlyCollection<IDomainEvent> UncommittedEvents => _domainEvents?.AsReadOnly();
         protected void AddDomainEvent(IDomainEvent domainEvent)
