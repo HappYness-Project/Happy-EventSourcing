@@ -21,7 +21,7 @@ namespace HP.Application.Queries.Todos
         private readonly ITodoRepository _todoRepository;
         public TodoQueryHandlers(IMapper mapper, ITodoRepository todoRepository) : base(mapper)
         {
-            _todoRepository = todoRepository;
+            _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }
 
         public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByUserId request, CancellationToken cancellationToken)

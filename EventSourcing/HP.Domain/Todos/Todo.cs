@@ -3,6 +3,7 @@ namespace HP.Domain
 {
     public class Todo : AggregateRoot<string>
     {
+        public Todo(){ }
         protected Todo(string id) : base(id)
         {
             IsActive = true;
@@ -24,7 +25,7 @@ namespace HP.Domain
             IsActive = true;
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
-            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, todoType.Name));
+            ApplyChange(new TodoDomainEvents.TodoCreated(Id, UserId, title, todoType.Name));
         }
         public string UserId { get; private set; }
         public string Title { get; private set; }
@@ -58,7 +59,7 @@ namespace HP.Domain
             this.TargetEndDate = targetEndDate ?? null;
             this.Tag = Tags;
             this.Updated = DateTime.Now;
-            this.AddDomainEvent(new TodoDomainEvents.TodoUpdated(UserId, Id, Title, Type.Name));
+            this.ApplyChange(new TodoDomainEvents.TodoUpdated(UserId, Id, Title, Type.Name));
         }
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
@@ -73,7 +74,7 @@ namespace HP.Domain
                 throw new Exception($"[Domain Excecption]Not Found TodoItem : {todoItemId}");
 
             SubTodos.Remove(todoItem);
-            this.AddDomainEvent(new TodoDomainEvents.TodoItemRemoved(todoItemId));
+            this.ApplyChange(new TodoDomainEvents.TodoItemRemoved(todoItemId));
         }
         public void UpdateTodoItem(string todoItemId, string newTitle, string newDesc, string newType)
         {
@@ -82,7 +83,7 @@ namespace HP.Domain
                 throw new Exception($"[Domain Excecption]Not Found TodoItem : {todoItemId}");
 
             todoItem.Update(newTitle, newType, newDesc);
-            this.AddDomainEvent(new TodoDomainEvents.TodoItemUpdated(todoItemId));
+            this.ApplyChange(new TodoDomainEvents.TodoItemUpdated(todoItemId));
         }
         protected override void When(IDomainEvent @event)
         {
@@ -111,16 +112,16 @@ namespace HP.Domain
         public void ActivateTodo(string todoId)
         {
             this.IsActive = true;
-            this.AddDomainEvent(new TodoDomainEvents.TodoActivated(todoId));
+            this.ApplyChange(new TodoDomainEvents.TodoActivated(todoId));
         }
         public void DeactivateTodo(string todoId)
         {
             this.IsActive = false;
-            this.AddDomainEvent(new TodoDomainEvents.TodoDeactivated(todoId));
+            this.ApplyChange(new TodoDomainEvents.TodoDeactivated(todoId));
         }
         public void Remove(string todoId)
         {
-            this.AddDomainEvent(new TodoDomainEvents.TodoRemoved(todoId));
+            this.ApplyChange(new TodoDomainEvents.TodoRemoved(todoId));
         }
         public void SetStatus(TodoStatus status, string? reason =null)
         {
@@ -129,19 +130,19 @@ namespace HP.Domain
                 case "pending":
                     this.Status = TodoStatus.Pending;
                     this.StatusDesc = $"Todo Id:{Id} of Title: {Title} is completed.";
-                    AddDomainEvent(new TodoDomainEvents.TodoStatusToPending(Id));
+                    ApplyChange(new TodoDomainEvents.TodoStatusToPending(Id));
                     break;
 
                 case "accept":
                     this.Status = TodoStatus.Accept;
                     this.StatusDesc = $"Todo Id:{Id} of Title: {Title} is accepted.";
-                    AddDomainEvent(new TodoDomainEvents.TodoStatusToAccepted(Id));
+                    ApplyChange(new TodoDomainEvents.TodoStatusToAccepted(Id));
                     break;
 
                 case "start":
                     this.Status = TodoStatus.Start;
                     this.StatusDesc = $"Todo Id:{Id}, has been started at {DateTime.Now}";
-                    AddDomainEvent(new TodoDomainEvents.TodoStarted(Id));
+                    ApplyChange(new TodoDomainEvents.TodoStarted(Id));
                     break;
 
                 case "complete":
@@ -149,7 +150,7 @@ namespace HP.Domain
                     this.StatusDesc = $"Todo Id:{Id} is completed. ";
                     this.IsDone = true;
                     this.Completed = DateTime.Now;
-                    AddDomainEvent(new TodoDomainEvents.TodoCompleted(Id));
+                    ApplyChange(new TodoDomainEvents.TodoCompleted(Id));
                     break;
 
                 case "stop":

@@ -24,7 +24,7 @@ namespace HP.Domain
             IsActive = true;
             GoalType = GoalType.NotDefined;
             Role = PersonRoleType.Normal.ToString(); // For now, Normal is the default Role.
-            AddDomainEvent(new PersonDomainEvents.PersonCreated(Id));
+            ApplyChange(new PersonDomainEvents.PersonCreated(Id));
         }
         public void UpdateRole(string role)
         {
@@ -33,12 +33,12 @@ namespace HP.Domain
 
             string preRole = this.Role;
             this.Role = role;
-            AddDomainEvent(new PersonDomainEvents.PersonRoleUpdated(Id, preRole, role));
+            ApplyChange(new PersonDomainEvents.PersonRoleUpdated(Id, preRole, role));
         }
         public void UpdateGroupId(int groupId)
         {
             this.GroupId = groupId;
-            AddDomainEvent(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
+            ApplyChange(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
         }
         public static Person Create(string userId= null)
         {

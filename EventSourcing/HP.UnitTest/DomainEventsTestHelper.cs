@@ -10,12 +10,11 @@ namespace HP.test
         public static List<IDomainEvent> GetAllDomainEvents(AggregateRoot<string> aggregate)
         {
             List<IDomainEvent> domainEvents = new List<IDomainEvent>();
-            if(aggregate.DomainEvents != null)
+            if(aggregate.GetUncommittedChanges != null)
             {
-                domainEvents.AddRange(aggregate.DomainEvents);
+                domainEvents.AddRange(aggregate.GetUncommittedChanges());
             }
             var fields = aggregate.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public).Concat(aggregate.GetType().BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public)).ToArray();
-
             return null;
         }
     }

@@ -3,19 +3,18 @@
     public abstract class DomainEventBase : IDomainEvent
     {
         protected DomainEventBase() { }
-
         public DomainEventBase(string entityType)
         {
-            EventId = Guid.NewGuid().ToString();
+            EventId = Guid.NewGuid();
             OccuredOn = DateTime.Now;
-            EntityType = entityType;
             EventType = this.GetType().Name;
+            EntityType = entityType;
         }
-        public DateTime OccuredOn { get; }
-        public string EntityType { get; }
-        public string EventId { get; }
-        public string EventType { get; }
+        public Guid EventId { get; }
         public Guid AggregateId { get; private set; }
+        public DateTime OccuredOn { get; }
+        public string EventType { get; }
+        public string EntityType {get; }
         public int AggregateVersion { get; private set; }
         public string EventData { get; private set; }
     }
