@@ -26,7 +26,7 @@ namespace HP.Application.Queries
 
         public async Task<PersonDetailsDto> Handle(GetPersonById request, CancellationToken cancellationToken)
         {
-            var check = await _personRepository.GetByIdAsync(request.Id.ToUpperInvariant());
+            var check = await _personRepository.GetByIdAsync(request.Id);
             if (check == null)
                 throw new ApplicationException($"Person not exist. Person ID:{request.Id}");
 

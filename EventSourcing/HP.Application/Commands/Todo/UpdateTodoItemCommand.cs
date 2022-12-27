@@ -3,7 +3,7 @@ using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record UpdateTodoItemCommand(string TodoId, string TodoItemId, string Title, string Desc, string Type) : BaseCommand;
+    public record UpdateTodoItemCommand(Guid TodoId, Guid TodoItemId, string Title, string Desc, string Type) : BaseCommand;
     public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
@@ -24,7 +24,7 @@ namespace HP.Application.Commands.Todo
             todo.UpdateTodoItem(request.TodoItemId, request.Title, request.Desc, request.Type);
             await _repository.UpdateAsync(todo);
             var @event = new TodoDomainEvents.TodoItemRemoved(request.TodoItemId);
-            return new CommandResult(true, "UpdateTodoItemCommand.", todo.Id);
+            return new CommandResult(true, "UpdateTodoItemCommand.", todo.Id.ToString());
         }
     }
 }

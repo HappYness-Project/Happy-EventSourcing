@@ -4,9 +4,9 @@ using MediatR;
 
 namespace HP.Application.Commands.Person
 {
-    public record DeletePersonCommand(string PersonId) : BaseCommand
+    public record DeletePersonCommand(Guid PersonId) : BaseCommand
     {
-        public static DeletePersonCommand Create(string personId)
+        public static DeletePersonCommand Create(Guid personId)
         {
             return new DeletePersonCommand(personId);
         }
@@ -25,7 +25,7 @@ namespace HP.Application.Commands.Person
                 throw new ApplicationException("Person doesn't exist in the database. ");
 
             await _repository.DeletePersonAsync(request.PersonId);
-            return new CommandResult(true, "Person is removed", person.Id);
+            return new CommandResult(true, "Person is removed", person.Id.ToString());
         }
     }
 }

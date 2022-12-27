@@ -4,12 +4,8 @@ namespace HP.Core.Models
     public abstract class Entity : BaseEntity
     { 
         public DateTime CreatedDate { get; private set; }
-        public Entity()
-        {
-            Id = ObjectId.GenerateNewId().ToString();
-            CreatedDate = DateTime.Now;
-        }
-        public Entity(string id)
+        public Entity() { }
+        public Entity(Guid id)
         {
             Id = id;
             CreatedDate = DateTime.Now;

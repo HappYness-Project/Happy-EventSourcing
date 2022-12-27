@@ -1,9 +1,9 @@
 ﻿using HP.Core.Models;
 namespace HP.Domain
 {
-    public class Person : AggregateRoot<string>
+    public class Person : AggregateRoot
     {
-        public string PersonId { get; private set; } 
+        public string PersonName { get; private set; } 
         public string PersonType { get; private set; }
         public string Description { get; private set; }
         public int GroupId { get; private set; }
@@ -20,11 +20,11 @@ namespace HP.Domain
         }
         public Person(string personId)
         {
-            PersonId = personId;
+            PersonName = personId;
             IsActive = true;
             GoalType = GoalType.NotDefined;
             Role = PersonRoleType.Normal.ToString(); // For now, Normal is the default Role.
-            ApplyChange(new PersonDomainEvents.PersonCreated(Id));
+            //AddDomainEvent(new PersonDomainEvents.PersonCreated(Id));
         }
         public void UpdateRole(string role)
         {
@@ -33,12 +33,12 @@ namespace HP.Domain
 
             string preRole = this.Role;
             this.Role = role;
-            ApplyChange(new PersonDomainEvents.PersonRoleUpdated(Id, preRole, role));
+            AddDomainEvent(new PersonDomainEvents.PersonRoleUpdated(Id, preRole, role));
         }
         public void UpdateGroupId(int groupId)
         {
             this.GroupId = groupId;
-            ApplyChange(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
+            AddDomainEvent(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
         }
         public static Person Create(string userId= null)
         {

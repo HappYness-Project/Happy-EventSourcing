@@ -9,8 +9,8 @@ namespace HP.Core.Common
         Task InsertManyAsync(ICollection<T> documents);
         Task UpdateAsync(T entity);
         Task DeleteOneAsync(Expression<Func<T, bool>> filterExpression);
-        Task DeleteByIdAsync(string id);
-        Task<T> GetByIdAsync(string id);
+        Task DeleteByIdAsync(Guid id);
+        Task<T> GetByIdAsync(Guid id);
         Task<IEnumerable<T>> GetAllAsync();
         IFindFluent<T, T> Find(FilterDefinition<T> filter);
         Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression);

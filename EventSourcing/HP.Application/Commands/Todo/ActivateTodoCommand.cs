@@ -3,7 +3,7 @@ using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record ActivateTodoCommand(string TodoId) : BaseCommand;
+    public record ActivateTodoCommand(Guid TodoId) : BaseCommand;
     public class ActivateTodoCommandHandler : IRequestHandler<ActivateTodoCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
@@ -20,7 +20,7 @@ namespace HP.Application.Commands.Todo
 
             todo.ActivateTodo(todo.Id);
             await _repository.UpdateAsync(todo);
-            return new CommandResult(true, "Successful", todo.Id);
+            return new CommandResult(true, "Successful", todo.Id.ToString());
         }
     }
 }

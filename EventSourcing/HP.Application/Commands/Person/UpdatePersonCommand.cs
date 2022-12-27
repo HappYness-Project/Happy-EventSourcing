@@ -4,7 +4,7 @@ using MediatR;
 
 namespace HP.Application.Commands.Person
 {
-    public record UpdatePersonCommand(string PersonId, string PersonType, int? GroupId = null) : BaseCommand;
+    public record UpdatePersonCommand(Guid PersonId, string PersonType, int? GroupId = null) : BaseCommand;
     public class UpdatePersonCommandHandler : IRequestHandler<UpdatePersonCommand, CommandResult>
     {
         private readonly IPersonRepository _repository;
@@ -14,15 +14,15 @@ namespace HP.Application.Commands.Person
         }
         public async Task<CommandResult> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
         {
-            var person = _repository.GetPersonByUserIdAsync(request.PersonId.ToUpper()).Result;
+            var person = _repository.GetPersonByUserIdAsync(request.PersonId.ToString()).Result;
             if (person == null)
                 throw new ApplicationException($"PersonId : {request.PersonId} is not exist.");
 
             person.UpdateBasicInfo(person.PersonType, person.GroupId);
             var check = await _repository.UpdatePersonAsync(person);
             if (check != null)
-                return new CommandResult(false, "Updated failure. ", person.Id);
-            return new CommandResult(true, "", person.Id);
+                return new CommandResult(false, "Updated failure. ", person.Id.ToString());
+            return new CommandResult(true, "", person.Id.ToString());
         }
     }
 }

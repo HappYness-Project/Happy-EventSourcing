@@ -4,7 +4,7 @@ using MediatR;
 
 namespace HP.Application.Commands.Todo
 {
-    public record DeactivateTodoItemCommand(string TodoId, string TodoItemId) : BaseCommand;
+    public record DeactivateTodoItemCommand(Guid TodoId, Guid TodoItemId) : BaseCommand;
     public class DeactivateTodoItemCommandHandler : IRequestHandler<DeactivateTodoItemCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
@@ -25,7 +25,7 @@ namespace HP.Application.Commands.Todo
 
             todoItem.IsActive = false;
             await _repository.UpdateAsync(todo);
-            return new CommandResult(true,$"Parent TodoID:{todo.Id}, todoItem:{todoItem.Id} Deactivated.", todoItem.Id);
+            return new CommandResult(true,$"Parent TodoID:{todo.Id}, todoItem:{todoItem.Id} Deactivated.", todoItem.Id.ToString());
         }
     }
 }

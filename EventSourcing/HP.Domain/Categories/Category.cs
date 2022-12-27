@@ -2,7 +2,7 @@
 
 namespace HP.Domain.Categories
 {
-    public class Category : Entity
+    public class Category : AggregateRoot
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
@@ -12,5 +12,9 @@ namespace HP.Domain.Categories
         public bool IsVisible { get; set; }
         public bool IsAllowPersonChange { get; set; }
         public bool IsFilterRequired { get; set; }
+        protected override void When(IDomainEvent @event)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace HP.Domain
         }
         public class PersonRoleUpdated : DomainEventBase
         {
-            public PersonRoleUpdated(string personId, string preRole, string curRole) : base(nameof(Person))
+            public PersonRoleUpdated(Guid personId, string preRole, string curRole) : base(nameof(Person))
             { }
 
            public string PreRole { get; set; }
@@ -47,12 +47,12 @@ namespace HP.Domain
         }
         public class PersonGroupUpdated : DomainEventBase
         {
-            public PersonGroupUpdated(string personId, int groupId) : base(entityType: nameof(Person))
+            public PersonGroupUpdated(Guid personId, int groupId) : base(entityType: nameof(Person))
             {
                 this.Id = personId;
                 this.GroupId = groupId;
             }
-            public string Id {get; }
+            public Guid Id {get; }
             public int GroupId {get;}
         }
     }

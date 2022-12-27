@@ -2,7 +2,7 @@
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record UpdateStatusTodoItemCommand(string TodoId, string TodoItemId, string Status) : IRequest<bool>;
+    public record UpdateStatusTodoItemCommand(Guid TodoId, Guid TodoItemId, string Status) : IRequest<bool>;
     public class UpdateStatusTodoItemCommandHandler : IRequestHandler<UpdateStatusTodoItemCommand, bool>
     {
         private readonly ITodoRepository _repository;

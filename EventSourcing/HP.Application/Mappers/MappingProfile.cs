@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
 using HP.Application.DTOs;
 using HP.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace HP.Application.Mappers
 {
     public class MappingProfile : Profile
@@ -15,7 +9,7 @@ namespace HP.Application.Mappers
         {
             CreateMap<Person, PersonDetailsDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.PersonId))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.PersonName))
                 .ForMember(dest => dest.GoalType, opt => opt.MapFrom(src => src.GoalType));
             CreateMap<Todo, TodoBasicInfoDto>()
                 .ForMember(dest => dest.TodoId, opt => opt.MapFrom(src => src.Id))

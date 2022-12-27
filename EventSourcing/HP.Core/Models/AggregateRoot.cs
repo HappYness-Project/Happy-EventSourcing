@@ -1,20 +1,49 @@
 ﻿namespace HP.Core.Models
 {
-    public abstract class AggregateRoot<T> : Entity, IAggregateRoot<T> 
+    public abstract class AggregateRoot : Entity, IAggregateRoot
     {
-        public AggregateRoot() {}
-        public AggregateRoot(string id) : base(id)
-        {
-
-        }
+        public AggregateRoot() { }
+        public AggregateRoot(Guid id) : base(id) { }
         private List<IDomainEvent> _domainEvents;
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
+        protected Guid _id;
+        public Guid Id { get { return _id; } }
+        public int Version { get; set; }
+        public IReadOnlyCollection<IDomainEvent> UncommittedEvents => _domainEvents?.AsReadOnly();
         protected void AddDomainEvent(IDomainEvent domainEvent)
         {
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();
             _domainEvents.Add(domainEvent);
         }
+        public void ClearDomainEvents()
+        {
+            _domainEvents?.Clear();
+        }
+
+        private void ApplyChange(IDomainEvent @event, bool isNew)
+        {
+            var method = this.GetType().GetMethod("Apply", new Type[] { @event.GetType() });
+            if (method == null)
+            {
+                throw new ArgumentNullException(nameof(method), $"This Apply method was not found in the aggregate for {@event.GetType().Name}");
+            }
+            method.Invoke(this, new object[] { @event });
+            if (isNew)
+            {
+                _domainEvents.Add(@event);
+            }
+        }
         protected abstract void When(IDomainEvent @event);
+        public void RaiseEvents(IDomainEvent @event)
+        {
+            ApplyChange(@event, true);
+        }
+        public void ReplayEvents(IEnumerable<IDomainEvent> events)
+        {
+            foreach (var @event in events)
+            {
+                ApplyChange(@event, false);
+            }
+        }
     }
 }
 //An aggregate is a collection of one or more related entities (and possibly value objects). 

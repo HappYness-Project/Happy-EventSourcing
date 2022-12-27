@@ -25,7 +25,7 @@ namespace HP.test
         [Test]
         public void EventStore_Save_For_TodoCreate()
         {
-            IDomainEvent domainEvent = new TodoCreated(Guid.NewGuid().ToString(), "HP09428", "Todo Application Event created.", TodoType.Others.Name);
+            IDomainEvent domainEvent = new TodoCreated(Guid.NewGuid(), "HP09428", "Todo Application Event created.", TodoType.Others.Name);
             _eventStore.Save(domainEvent);
         }
 
