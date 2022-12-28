@@ -16,7 +16,7 @@
         public string EventType { get; }
         public string EntityType {get; }
         public int AggregateVersion { get; private set; }
-        public string EventData { get; private set; }
+        public EventData EventData { get; private set; }
     }
 }
 
