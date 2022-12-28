@@ -5,5 +5,6 @@ namespace HP.Core.Events
     {
         Task SaveAsync(DomainEventBase eventModel);
         Task<List<DomainEventBase>> FindByAggregateId(Guid aggregateId);
+        Task<List<DomainEventBase>> FindAllAsync();
     }
 }

@@ -11,6 +11,11 @@ namespace HP.Infrastructure.Repository
         {
             _eventStoreCollection = mongoDbContext.GetCollection<DomainEventBase>("HP.EventStore");
         }
+
+        public async Task<List<DomainEventBase>> FindAllAsync()
+        {
+            return await _eventStoreCollection.Find(_ => true).ToListAsync().ConfigureAwait(false);
+        }
         public async Task<List<DomainEventBase>> FindByAggregateId(Guid aggregateId)
         {
             return await _eventStoreCollection.Find(x => x.AggregateId == aggregateId).ToListAsync().ConfigureAwait(false); 
