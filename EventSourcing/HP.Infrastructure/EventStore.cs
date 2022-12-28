@@ -7,22 +7,23 @@ namespace HP.Infrastructure
     public class EventStore : IEventStore
     {
         private string EventStoreTableName = "EventStore";
-        private readonly IMongoDbContext _mongoDbContext;
+        private readonly IEventStoreRepository _esRepository;
         private IEventProducer _eventProducer;
-        public EventStore(IMongoDbContext mongoDbContext, IEventProducer eventProducer)
+        public EventStore(IEventStoreRepository repository, IEventProducer eventProducer)
         {
-            _mongoDbContext = mongoDbContext ?? throw new ArgumentNullException(nameof(mongoDbContext));
-            _eventProducer = eventProducer;
+            _esRepository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _eventProducer = eventProducer ?? throw new ArgumentNullException(nameof(eventProducer));
         }
         public void Save<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
         {
-            var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
-            collection.InsertOne(@event);
+            // var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
+            // collection.InsertOne(@event);
         }
         public async Task SaveAsync<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
         {
-            var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
-            await collection.InsertOneAsync(@event);
+            // var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
+            // await collection.InsertOneAsync(@event);
+            throw new NotImplementedException();
         }
         // public async Task<IReadOnlyCollection<T>> GetEventsAsync<T>(Guid aggregateId) where T : IDomainEvent
         // {
@@ -30,16 +31,27 @@ namespace HP.Infrastructure
         //     //collection.FindAsync(aggregateId);
         //     return null;
         // }
-        public async Task SaveEventsAsync(string aggregateId, int originatingVersion, IReadOnlyCollection<IDomainEvent> events, string aggregateName)
+        public async Task SaveEventsAsync(Guid aggregateId, int originatingVersion, IReadOnlyCollection<IDomainEvent> events)
         {
-            if (events.Count == 0) return;
-            var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
-            //var eventStream = a
-            await collection.InsertManyAsync(events);
+            // if (events.Count == 0) return;
+            // var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
+            // //var eventStream = a
+            // var eventStream = await _eventStoreRepo.FindByAggregateId(aggregateId);        
+            // await collection.InsertManyAsync(events);
+            throw new NotImplementedException();
         }
         public async Task<List<IDomainEvent>> GetEventsAsync(Guid aggregateId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Guid>> GetAggregateIdAsync()
+        {
+            var eventStream = await _esRepository.FindAllAsync();
+            if (eventStream == null || !eventStream.Any())
+                throw new ArgumentNullException(nameof(eventStream), "Could not retrieve event stream from the event store!.");
+
+            return eventStream.Select(x => x.AggregateId).Distinct().ToList();
         }
     }
 }
