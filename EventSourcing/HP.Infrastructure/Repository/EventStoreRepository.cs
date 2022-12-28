@@ -16,6 +16,7 @@ namespace HP.Infrastructure.Repository
         {
             return await _eventStoreCollection.Find(_ => true).ToListAsync().ConfigureAwait(false);
         }
+
         public async Task<List<DomainEventBase>> FindByAggregateId(Guid aggregateId)
         {
             return await _eventStoreCollection.Find(x => x.AggregateId == aggregateId).ToListAsync().ConfigureAwait(false); 

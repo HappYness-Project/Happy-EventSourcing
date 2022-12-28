@@ -14,24 +14,13 @@ namespace HP.Infrastructure
             _esRepository = repository ?? throw new ArgumentNullException(nameof(repository));
             _eventProducer = eventProducer ?? throw new ArgumentNullException(nameof(eventProducer));
         }
-        public void Save<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
-        {
-            // var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
-            // collection.InsertOne(@event);
-        }
-        public async Task SaveAsync<TDomainEvent>(TDomainEvent @event) where TDomainEvent : IDomainEvent
-        {
-            // var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
-            // await collection.InsertOneAsync(@event);
-            throw new NotImplementedException();
-        }
         // public async Task<IReadOnlyCollection<T>> GetEventsAsync<T>(Guid aggregateId) where T : IDomainEvent
         // {
         //     var events = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
         //     //collection.FindAsync(aggregateId);
         //     return null;
         // }
-        public async Task SaveEventsAsync(Guid aggregateId, int originatingVersion, IReadOnlyCollection<IDomainEvent> events)
+        public async Task SaveEventsAsync(Guid aggregateId, int originatingVersion, IReadOnlyCollection<DomainEventBase> events)
         {
             // if (events.Count == 0) return;
             // var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
@@ -40,9 +29,13 @@ namespace HP.Infrastructure
             // await collection.InsertManyAsync(events);
             throw new NotImplementedException();
         }
-        public async Task<List<IDomainEvent>> GetEventsAsync(Guid aggregateId)
+        public async Task<List<EventData>> GetEventsAsync(Guid aggregateId)
         {
-            throw new NotImplementedException();
+            List<DomainEventBase> eventStream = await _esRepository.FindByAggregateId(aggregateId);
+            if(eventStream == null || !eventStream.Any()) 
+                throw new AggregateNotFoundException("Incorrect post ID provided.");
+
+            return eventStream.OrderBy(x => x.AggregateVersion).Select(x => x.EventData).ToList();
         }
 
         public async Task<List<Guid>> GetAggregateIdAsync()
