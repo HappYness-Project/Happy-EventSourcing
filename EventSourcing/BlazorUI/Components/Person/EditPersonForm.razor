@@ -14,7 +14,7 @@
             <DataAnnotationsValidator />
             <ValidationSummary />
             <div class="form-group">
-                <label for="dateInput">User ID: @person.UserId</label>
+                <label for="dateInput">User ID: @person.PersonName</label>
             </div>
             <div class="form-group">
                 <label for="dateInput">FirstName</label>
@@ -60,7 +60,7 @@
     {
         UpdatePersonRequest request = new UpdatePersonRequest
         {
-            PersonId = person.UserId,
+            PersonId = person.PersonName,
             GroupId = 0,
                 PersonType = person.PersonType
         };
