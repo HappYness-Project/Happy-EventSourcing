@@ -43,7 +43,7 @@ namespace HP.Infrastructure
             // await collection.InsertManyAsync(events);
             throw new NotImplementedException();
         }
-        public async Task<List<EventData>> GetEventsAsync(Guid aggregateId)
+        public async Task<List<DomainEventBase>> GetEventsAsync(Guid aggregateId)
         {
             List<DomainEventBase> eventStream = await _esRepository.FindByAggregateId(aggregateId);
             if(eventStream == null || !eventStream.Any()) 

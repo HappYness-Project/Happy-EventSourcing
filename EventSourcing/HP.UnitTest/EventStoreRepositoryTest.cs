@@ -13,26 +13,12 @@ namespace HP.test
     internal class EventStoreRepositoryTest : TestBase
     {
 
-        private IEventStore _eventStore = null;
-        private IEventProducer _eventProducer = null;
-        private IEventStoreRepository _eventStoreRepository = null;
-        [SetUp]
-        public void SetUp()
-        {
-            _eventProducer = new EventProducer(_producerConfig);
-            _eventStoreRepository = new EventStoreRepository(_mongoDbContext);
-             _eventStore = new EventStore(_eventStoreRepository, _eventProducer);
-        }
-
         [Test]
         public void EventStore_Save_For_TodoCreate()
         {
             var newGuid = Guid.NewGuid();
             IDomainEvent domainEvent = new TodoCreated(newGuid, "HP09428", "Todo Application Event created.", TodoType.Others.Name);
-            _eventStore.SaveEventsAsync(domainEvent);
-
-
-
+            // _eventStore.SaveEventsAsync(domainEvent);
         }
 
         [Test]

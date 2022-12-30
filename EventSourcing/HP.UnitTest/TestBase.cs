@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
 using Confluent.Kafka;
 using HP.Application.Mappers;
+using HP.Core.Events;
+using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
+using HP.Infrastructure.Kafka;
+using HP.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
@@ -20,6 +24,10 @@ namespace HP.test
         protected IMongoDbContext _mongoDbContext;
         protected IMapper _mapper;
         protected IOptions<ProducerConfig> _producerConfig;
+        protected IEventStoreRepository _esRepository;
+        protected IEventProducer _eventProducer;
+        protected IEventConsumer _eventConsumer;
+        protected IEventStore _eventStore;
         [SetUp]
         public async Task BeforeTestStart()
         {
@@ -34,6 +42,9 @@ namespace HP.test
                 IMapper mapper = mappingConfig.CreateMapper();
                 _mapper = mapper;
             }
+            _esRepository = new EventStoreRepository(_mongoDbContext);
+            _eventProducer = new EventProducer(_producerConfig);
+            _eventStore = new EventStore(_esRepository, _eventProducer);
         }
     }
 }
