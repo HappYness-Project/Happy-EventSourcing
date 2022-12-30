@@ -1,6 +1,5 @@
 ﻿using HP.Core.Models;
-using HP.Domain.Common;
-namespace HP.Infrastructure.Kafka
+namespace HP.Core.Events
 {
     public interface IEventProducer
     {

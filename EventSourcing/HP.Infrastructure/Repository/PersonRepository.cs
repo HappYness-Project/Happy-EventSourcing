@@ -13,14 +13,14 @@ namespace HP.Infrastructure.Repository
         {
             this._mongoCollection = dbContext.GetCollection<Person>() ?? throw new ArgumentNullException(nameof(dbContext));
         }
-        public Task<bool> DeletePersonAsync(string personId)
+        public Task<bool> DeletePersonAsync(Guid personId)
         {
             var check = _mongoCollection.DeleteOne(x => x.Id == personId);
             return Task.FromResult(check.DeletedCount > 0 ? true : false);
         }
         public async Task<Person> GetPersonByUserIdAsync(string UserId)
         {
-            return await _mongoCollection.Find(x => x.PersonId == UserId).FirstOrDefaultAsync();
+            return await _mongoCollection.Find(x => x.PersonName == UserId).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Person>> GetListByGroupIdAsync(int groupId)
@@ -36,7 +36,7 @@ namespace HP.Infrastructure.Repository
         public async Task<Person> UpdatePersonAsync(Person person)
         {
             // TODO :Requred to update this method for updating Person.
-            var filter = Builders<Person>.Filter.And(Builders<Person>.Filter.Eq("UserId", person.PersonId));
+            var filter = Builders<Person>.Filter.And(Builders<Person>.Filter.Eq("UserId", person.PersonName));
             var update = Builders<Person>.Update.Set("FirstName", "")
                                                 .Set("UpdateDate", DateTime.Now);
             var result = await _mongoCollection.FindOneAndUpdateAsync(filter, update,

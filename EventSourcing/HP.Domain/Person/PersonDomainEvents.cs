@@ -5,18 +5,18 @@ namespace HP.Domain
     {
         public class PersonCreated : DomainEventBase
         {
-            public PersonCreated(string personId) : base(nameof(Person))
+            public PersonCreated(string personId)
             {
             }
         }
         public class PersonUpdated : DomainEventBase
         {
-            public PersonUpdated(string personId) : base(nameof(Person))
+            public PersonUpdated(string personId) 
             {}
         }
         public class PersonRoleUpdated : DomainEventBase
         {
-            public PersonRoleUpdated(string personId, string preRole, string curRole) : base(nameof(Person))
+            public PersonRoleUpdated(Guid personId, string preRole, string curRole)
             { }
 
            public string PreRole { get; set; }
@@ -25,7 +25,7 @@ namespace HP.Domain
 
         public class AddressChanged : DomainEventBase
         {
-            public AddressChanged(string personId, string country, string city, string stress, string zipCode) : base(entityType: nameof(Address))
+            public AddressChanged(string personId, string country, string city, string stress, string zipCode)
             {
                 Country = country;
                 City = city;
@@ -39,7 +39,7 @@ namespace HP.Domain
         }
         public class PersonRoleSetAdminAssigned : DomainEventBase
         {
-            public PersonRoleSetAdminAssigned(string personId) : base(entityType: nameof(Person))
+            public PersonRoleSetAdminAssigned(string personId) 
             {
                 Id = personId;
             }
@@ -47,12 +47,12 @@ namespace HP.Domain
         }
         public class PersonGroupUpdated : DomainEventBase
         {
-            public PersonGroupUpdated(string personId, int groupId) : base(entityType: nameof(Person))
+            public PersonGroupUpdated(Guid personId, int groupId)
             {
                 this.Id = personId;
                 this.GroupId = groupId;
             }
-            public string Id {get; }
+            public Guid Id {get; }
             public int GroupId {get;}
         }
     }

@@ -33,7 +33,7 @@ namespace HP.UnitTest.Todos
 
             var mediator = new Mock<IMediator>();
             var controller = new TodosController(mediator.Object);
-            var result = await controller.GetTodoItemsByTodoId("6371a9b24337c5e8fcb86bf1");
+            var result = await controller.GetTodoItemsByTodoId(Guid.NewGuid());
             Assert.That(result, Is.Not.Null);
         }
         [Test]
@@ -50,7 +50,7 @@ namespace HP.UnitTest.Todos
                 TodoType = TodoType.Research.ToString(),
                 TargetEndDate = DateTime.Now,
             };
-            var result = await controller.Create("hyunbin7303", createRequest);
+            var result = await controller.Create(Guid.NewGuid(), createRequest);
             Assert.That(result, Is.Not.Null);
         }
     }

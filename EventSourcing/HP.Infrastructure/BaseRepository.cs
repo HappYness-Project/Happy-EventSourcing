@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace HP.Infrastructure
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : Entity
+    public class BaseRepository<T> : IBaseRepository<T> where T : AggregateRoot
     {
         private readonly IMongoCollection<T> _collection;
         public BaseRepository(IMongoDbContext dbContext)
@@ -26,7 +26,7 @@ namespace HP.Infrastructure
         {
             await _collection.ReplaceOneAsync(p => p.Id == entity.Id, entity, new ReplaceOptions() { IsUpsert = false });
         }
-        public virtual async Task<T> GetByIdAsync(string id)
+        public virtual async Task<T> GetByIdAsync(Guid id)
         {
             return await _collection.Find(e => e.Id == id).FirstOrDefaultAsync();
         }
@@ -69,7 +69,7 @@ namespace HP.Infrastructure
         {
             await _collection.InsertManyAsync(documents);
         }
-        public Task DeleteByIdAsync(string id)
+        public Task DeleteByIdAsync(Guid id)
         {
             return Task.Run(() =>
             {

@@ -19,11 +19,9 @@ namespace HP.UnitTest.Categories
     public class CategoryRepositoryTest : TestBase
     {
         private ICategoryRepository categoryRepository;
-        private IEventStore eventStore;
         public void Setup()
         {
-            eventStore = new EventStore(_configuration, _mongoDbContext);
-            categoryRepository = new CategoryRepository(_mongoDbContext, eventStore);
+            categoryRepository = new CategoryRepository(_mongoDbContext, _eventStore);
         }
     }
 }

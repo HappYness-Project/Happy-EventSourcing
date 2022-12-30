@@ -3,5 +3,5 @@ using MediatR;
 
 namespace HP.Application.Queries
 {
-    public record GetPersonById(string Id) : IRequest<PersonDetailsDto>;
+    public record GetPersonById(Guid Id) : IRequest<PersonDetailsDto>;
 }

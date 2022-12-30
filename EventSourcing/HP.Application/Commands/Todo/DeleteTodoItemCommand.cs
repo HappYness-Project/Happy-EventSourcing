@@ -2,7 +2,7 @@
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record DeleteTodoItemCommand(string TodoId, string TodoItemId) : IRequest<bool>;
+    public record DeleteTodoItemCommand(Guid TodoId, Guid TodoItemId) : IRequest<bool>;
     public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand, bool>
     {
         private readonly ITodoRepository _repository;

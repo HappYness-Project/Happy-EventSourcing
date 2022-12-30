@@ -3,7 +3,7 @@ using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record PendingTodoCommand(string TodoId, string? reason = null) : BaseCommand;
+    public record PendingTodoCommand(Guid TodoId, string? reason = null) : BaseCommand;
     public class PendingTodoCommandHandler : IRequestHandler<PendingTodoCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
@@ -20,7 +20,7 @@ namespace HP.Application.Commands.Todo
 
             todo.SetStatus(TodoStatus.Pending, cmd.reason);
             await _repository.UpdateAsync(todo);
-            return new CommandResult(true, "Updated successfully", todo.Id);
+            return new CommandResult(true, "Updated successfully", todo.Id.ToString());
         }
     }
 }

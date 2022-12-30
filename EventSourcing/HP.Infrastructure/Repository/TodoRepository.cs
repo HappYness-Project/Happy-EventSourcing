@@ -12,7 +12,7 @@ namespace HP.Infrastructure.Repository
         {
             _todos = dbContext.GetCollection<Todo>();
         }
-        public async Task<Todo> GetActiveTodoById(string todoId)
+        public async Task<Todo> GetActiveTodoById(Guid todoId)
         {
             return await _todos.Find(x => x.Id == todoId && x.IsActive).FirstOrDefaultAsync();
         }

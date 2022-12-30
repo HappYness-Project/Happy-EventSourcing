@@ -1,9 +1,9 @@
 ﻿using HP.Core.Models;
 namespace HP.Domain
 {
-    public class Person : Entity
+    public class Person : AggregateRoot
     {
-        public string PersonId { get; private set; } 
+        public string PersonName { get; private set; } 
         public string PersonType { get; private set; }
         public string Description { get; private set; }
         public int GroupId { get; private set; }
@@ -18,13 +18,14 @@ namespace HP.Domain
             IsActive = false;
             CurrentScore = 0;
         }
-        public Person(string personId)
+        public Person(string personName)
         {
-            PersonId = personId;
+            PersonName = personName;
             IsActive = true;
+            CurrentScore = 0;
             GoalType = GoalType.NotDefined;
-            Role = PersonRoleType.Normal.ToString(); // For now, Normal is the default Role.
-            AddDomainEvent(new PersonDomainEvents.PersonCreated(Id));
+            Role = PersonRole.TBD.ToString();
+            RaiseEvents(new PersonDomainEvents.PersonCreated(personName));
         }
         public void UpdateRole(string role)
         {
@@ -33,16 +34,16 @@ namespace HP.Domain
 
             string preRole = this.Role;
             this.Role = role;
-            AddDomainEvent(new PersonDomainEvents.PersonRoleUpdated(Id, preRole, role));
+            RaiseEvents(new PersonDomainEvents.PersonRoleUpdated(Id, preRole, role));
         }
         public void UpdateGroupId(int groupId)
         {
             this.GroupId = groupId;
-            AddDomainEvent(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
+            RaiseEvents(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
         }
-        public static Person Create(string userId= null)
+        public static Person Create(string? personName = null)
         {
-            return new Person(userId); 
+            return new Person(personName); 
         }
         public void UpdateBasicInfo(string PersonType, int? GroupId)
         {

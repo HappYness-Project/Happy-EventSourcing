@@ -32,7 +32,7 @@ namespace BlazorUI.Components.Todo
         {
             if (accepted)
             {
-                await _mediator.Send(new DeleteTodoCommand(DeleteTodoId));
+                await _mediator.Send(new DeleteTodoCommand(Guid.Parse(DeleteTodoId)));
                 DeleteTodoId = null;
             }
             DeleteDialogOpen = false;

@@ -3,7 +3,7 @@ using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record StopTodoCommand(string TodoId, string reason) : BaseCommand;
+    public record StopTodoCommand(Guid TodoId, string reason) : BaseCommand;
     public class StopTodoCommandHandler : IRequestHandler<StopTodoCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
@@ -20,7 +20,7 @@ namespace HP.Application.Commands.Todo
 
             todo.SetStatus(TodoStatus.Stop, cmd.reason);
             await _repository.UpdateAsync(todo);
-            return new CommandResult(true, "Todo status is changed.", todo.Id);
+            return new CommandResult(true, "Todo status is changed.", todo.Id.ToString());
         }
     }
 }

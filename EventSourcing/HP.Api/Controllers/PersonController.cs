@@ -25,7 +25,7 @@ namespace HP.Controllers
             return await _mediator.Send(new GetPersonList());
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id, CancellationToken token = default)
+        public async Task<IActionResult> Get(Guid id, CancellationToken token = default)
         {
             var person = await _mediator.Send(new GetPersonById(id)); 
             if(person == null)
@@ -39,14 +39,14 @@ namespace HP.Controllers
             if (request == null)
                 return BadRequest();
 
-            var cmd = new CreatePersonCommand(request.PersonId, request.PersonType, request.GroupId);
+            var cmd = new CreatePersonCommand(Guid.Parse(request.PersonName), request.PersonType, request.GroupId);
             //TODO : Since it is a Create, I think it's desirable to use Publish command e.g. var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
             return Ok(await _mediator.Send(cmd));
         }
         [HttpPut("{userid}")]
         public async Task<CommandResult> Update(string userid, [FromBody]UpdatePersonRequest request)
         {
-            var result = await _mediator.Send(new UpdatePersonCommand(request.PersonId, request.PersonType, request.GroupId));
+            var result = await _mediator.Send(new UpdatePersonCommand(Guid.Parse(request.PersonId), request.PersonType, request.GroupId));
             return result;
         }
         [HttpPut("{userid}/Role")]

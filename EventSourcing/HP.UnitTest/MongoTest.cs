@@ -20,5 +20,10 @@ namespace HP.test
             var check = _mongoDbContext.GetCollection<Todo>("todo");
             Assert.IsNotNull(check);
         }
+        [Test]
+        public void GetCollection_For_EventStore()
+        {
+
+        }
     }
 }

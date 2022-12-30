@@ -13,7 +13,7 @@ namespace HP.Application.Queries
         private readonly IPersonRepository _personRepository;
         public PersonQueryHandlers(IMapper mapper, IPersonRepository personRepository) : base(mapper)
         {
-            _personRepository = personRepository;
+            _personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }
         public async Task<IEnumerable<PersonDetailsDto>> Handle(GetPersonList request, CancellationToken cancellationToken)
         {
@@ -26,7 +26,7 @@ namespace HP.Application.Queries
 
         public async Task<PersonDetailsDto> Handle(GetPersonById request, CancellationToken cancellationToken)
         {
-            var check = await _personRepository.GetByIdAsync(request.Id.ToUpperInvariant());
+            var check = await _personRepository.GetByIdAsync(request.Id);
             if (check == null)
                 throw new ApplicationException($"Person not exist. Person ID:{request.Id}");
 

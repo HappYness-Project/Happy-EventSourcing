@@ -2,7 +2,7 @@
 
 namespace HP.Domain.Categories
 {
-    public class Category : Entity
+    public class Category : AggregateRoot
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }

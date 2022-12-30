@@ -27,7 +27,7 @@ namespace BlazorUI.Services.Person
             var getuser = _currentUserService.CurrentUser.UserName;
             var response = await _httpClient.PostAsJsonAsync("create", request);
             if (response.IsSuccessStatusCode)
-                return new Result<CommandResult> { IsSuccess = false, Msg = $"Failed to Create Person. {request.PersonId}" };
+                return new Result<CommandResult> { IsSuccess = false, Msg = $"Failed to Create Person. {request.PersonName}" };
 
             return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to create a person." };
         }

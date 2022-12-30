@@ -3,7 +3,7 @@ using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record DeleteTodoCommand(string Id) : BaseCommand;
+    public record DeleteTodoCommand(Guid TodoId) : BaseCommand;
     public class DeleteTodoCommandHandler : IRequestHandler<DeleteTodoCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
@@ -13,12 +13,12 @@ namespace HP.Application.Commands.Todo
         }
         public async Task<CommandResult> Handle(DeleteTodoCommand request, CancellationToken cancellationToken)
         {
-            var todo = await _repository.GetByIdAsync(request.Id);
+            var todo = await _repository.GetByIdAsync(request.TodoId);
             if (todo == null)
                 throw new ArgumentNullException(nameof(todo));
 
-            await _repository.DeleteByIdAsync(request.Id);
-            var @event = new TodoDomainEvents.TodoRemoved(request.Id);
+            await _repository.DeleteByIdAsync(request.TodoId);
+            var @event = new TodoDomainEvents.TodoRemoved(request.TodoId);
             return new CommandResult(true);
         }
     }

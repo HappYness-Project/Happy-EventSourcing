@@ -15,7 +15,7 @@ namespace HP.Application.EventHandlers
         private readonly IPersonRepository _personRepository;
         public PersonEventHandlers(IPersonRepository personRepository)
         {
-            _personRepository = personRepository;
+            _personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }
         public Task Handle(PersonCreated notification, CancellationToken cancellationToken)
         {

@@ -2,13 +2,14 @@
 
 namespace HP.Domain
 {
-    public class PersonRoleType : Enumeration
+    public class PersonRole : Enumeration
     {
-        public PersonRoleType(int id, string name) : base(id, name)
+        public PersonRole(int id, string name) : base(id, name)
         {
         }
-        public static PersonRoleType Master => new(0, "Master");
-        public static PersonRoleType Normal => new(1, "Admin");
-        public static PersonRoleType Admin => new(2, "Normal");
+        public static PersonRole Master => new(0, "Master");
+        public static PersonRole Normal => new(1, "Admin");
+        public static PersonRole Admin => new(2, "Normal");
+        public static PersonRole TBD => new(2, "TBD");
     }
 }

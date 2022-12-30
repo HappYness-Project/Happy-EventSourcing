@@ -14,12 +14,10 @@ namespace HP.UnitTest.Todos
     public class TodoRepositoryTest : TestBase
     {
         private ITodoRepository todoRepository;
-        private IEventStore eventStore = null;
         [SetUp]
         public void Setup()
         {
-            eventStore = new EventStore(_configuration, _mongoDbContext);
-            todoRepository = new TodoRepository(_mongoDbContext, eventStore);
+            todoRepository = new TodoRepository(_mongoDbContext, _eventStore);
             // Seed Data Insertion?
         }
         [Test]
@@ -41,9 +39,10 @@ namespace HP.UnitTest.Todos
             var expectedUserName = "TestUser123";
             var expectedTitle = "Creating Todo";
             var expectedDesc = "Description Testing";
+            var expectedType = "Normal";
 
             // Act
-            var todo = TodoFactory.Create(expectedUserName, expectedTitle, expectedDesc, true);
+            var todo = TodoFactory.Create(expectedUserName, expectedTitle, expectedType, expectedDesc);
             var todoObj = todoRepository.CreateAsync(todo)?.Result;
 
             // Assert

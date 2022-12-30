@@ -1,13 +1,8 @@
 ﻿using Confluent.Kafka;
+using HP.Core.Events;
 using HP.Core.Models;
-using HP.Domain.Common;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace HP.Infrastructure.Kafka
 {

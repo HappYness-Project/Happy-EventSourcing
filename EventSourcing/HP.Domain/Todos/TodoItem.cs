@@ -62,9 +62,5 @@ namespace HP.Domain
                     break;
             }
         }
-        protected override void When(IDomainEvent @event) 
-        {
-            throw new NotImplementedException();
-        }
     }
 }

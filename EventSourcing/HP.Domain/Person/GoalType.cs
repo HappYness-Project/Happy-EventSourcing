@@ -13,7 +13,7 @@ namespace HP.Domain
         public static GoalType FromName(string name)
         {
             var state = List().SingleOrDefault(s => string.Equals(s.Name, name, StringComparison.OrdinalIgnoreCase));
-            if (state == null)
+            if (state == null)  
             {
                 throw new PersonDomainException($"Possible GoalType Inputs : {string.Join(",", List().Select(s => s.Name))})");
             }

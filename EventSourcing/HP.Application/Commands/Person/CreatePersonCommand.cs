@@ -4,7 +4,7 @@ using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands.Person
 {
-    public record CreatePersonCommand(string PersonId, string PersonType, int? GroupId = null) : BaseCommand;
+    public record CreatePersonCommand(Guid PersonId, string PersonType, int? GroupId = null) : BaseCommand;
     public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, CommandResult>
     {
         private readonly IPersonRepository _repository;
@@ -16,12 +16,12 @@ namespace HP.Application.Commands.Person
         }
         public async Task<CommandResult> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
-            var person = await _repository.GetPersonByUserIdAsync(request.PersonId.ToUpper());
+            var person = await _repository.GetPersonByUserIdAsync(request.PersonId.ToString());
             if(person != null)
                 throw new ApplicationException($"The PersonId : {request.PersonId} Already exists.");
 
-            var newPerson = await _repository.CreateAsync(Domain.Person.Create(request.PersonId.ToUpper()));
-            return new CommandResult(true, "Successfully person has been created.", newPerson.Id);
+            var newPerson = await _repository.CreateAsync(Domain.Person.Create(request.PersonId.ToString()));
+            return new CommandResult(true, "Successfully person has been created.", newPerson.Id.ToString());
         }
     }
 }

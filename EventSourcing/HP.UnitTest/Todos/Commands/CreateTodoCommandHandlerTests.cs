@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using HP.Application.DTOs;
 using HP.Application.Commands.Todo;
+using System;
 
 namespace HP.UnitTest.Todos.Commands
 {
@@ -26,7 +27,7 @@ namespace HP.UnitTest.Todos.Commands
         public async Task Handle_Should_ReturnFailureResult_UserNotExist()
         {
             // Arrange
-            var cmd = new CreateTodoCommand("hyunbin7303", null, "Valid");
+            var cmd = new CreateTodoCommand(Guid.Parse("hyunbin7303"), null, "Valid");
             var handler = new CreateTodoCommandHandler(_mapper, _todoRepositoryMock.Object, _personRepositoryMock.Object);
 
             //_todoRepositoryMock.Setup(x => x.Find(x=> x.))
