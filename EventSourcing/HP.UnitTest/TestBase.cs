@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Confluent.Kafka;
 using HP.Application.Mappers;
 using HP.Infrastructure.DbAccess;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,7 @@ namespace HP.test
         protected IConfiguration _configuration;
         protected IMongoDbContext _mongoDbContext;
         protected IMapper _mapper;
+        protected IOptions<ProducerConfig> _producerConfig;
         [SetUp]
         public async Task BeforeTestStart()
         {

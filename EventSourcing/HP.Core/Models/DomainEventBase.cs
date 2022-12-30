@@ -1,22 +1,19 @@
 ﻿namespace HP.Core.Models
 {
-    public abstract class DomainEventBase : IDomainEvent
+    public class DomainEventBase : IDomainEvent
     {
-        protected DomainEventBase() { }
-        public DomainEventBase(string entityType)
-        {
+        public DomainEventBase() 
+        { 
             EventId = Guid.NewGuid();
             OccuredOn = DateTime.Now;
             EventType = this.GetType().Name;
-            EntityType = entityType;
         }
         public Guid EventId { get; }
-        public Guid AggregateId { get; private set; }
+        public Guid AggregateId { get; set; }
         public DateTime OccuredOn { get; }
         public string EventType { get; }
-        public string EntityType {get; }
-        public int AggregateVersion { get; private set; }
-        public EventData EventData { get; private set; }
+        public int AggregateVersion { get; set; }
+        public EventData EventData { get; set; }
     }
 }
 
