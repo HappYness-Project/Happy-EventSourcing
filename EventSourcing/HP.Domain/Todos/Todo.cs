@@ -1,14 +1,11 @@
 ﻿using HP.Core.Models;
+using static HP.Domain.TodoDomainEvents;
+
 namespace HP.Domain
 {
     public class Todo : AggregateRoot
     {
         public Todo() { }
-        protected Todo(Guid id) : base(id)
-        {
-            IsActive = true;
-            Tag = Array.Empty<string>();
-        }
         public Todo(Person person, string title, string description, TodoType todoType, string[] tag)
         {
             // TODO : CheckPolicies
@@ -89,26 +86,33 @@ namespace HP.Domain
         {
             switch (@event)
             {
-                case TodoDomainEvents.TodoCreated c:
-                    this.Title = c.TodoTitle;
-                    this.Type = TodoType.FromName(c.Type);
-                    this.UserId = c.UserId;
+                case TodoCreated todoCreated:
+                    //this.Title = c.TodoTitle;
+                    //this.Type = TodoType.FromName(c.Type);
+                    //this.UserId = c.UserId;
+                    Apply(todoCreated);
                     break;
 
-                case TodoDomainEvents.TodoUpdated u:
-                    this.UserId = u.UserId;
+                case TodoUpdated todoUpdated:
+                    //this.UserId = u.UserId;
+                    Apply(todoUpdated);
                     break;
 
-                case TodoDomainEvents.TodoActivated a:
-                    this.IsActive = true;
+                case TodoActivated todoActivated:
+                    //this.IsActive = true;
+                    Apply(todoActivated);
                     break;
 
-                case TodoDomainEvents.TodoDeactivated d:
-                    this.IsActive = false;
+                case TodoDeactivated todoDeactivated:
+                    //this.IsActive = false;
+                    Apply(todoDeactivated);
                     break;
             }
-
         }
+        private void Apply(TodoCreated @event) { }
+        private void Apply(TodoUpdated @event) { }
+        private void Apply(TodoActivated @event) { }
+        private void Apply(TodoDeactivated @event) { }
         public void ActivateTodo(Guid todoId)
         {
             this.IsActive = true;

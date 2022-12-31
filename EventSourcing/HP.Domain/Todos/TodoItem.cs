@@ -1,8 +1,9 @@
 ﻿using HP.Core.Models;
 namespace HP.Domain
 {
-    public class TodoItem : Entity
+    public class TodoItem 
     {
+        public Guid Id { get; set; }
         public string Title { get; private set; }
         public string TodoType {get; private set; }
         public string Description { get; private set; }

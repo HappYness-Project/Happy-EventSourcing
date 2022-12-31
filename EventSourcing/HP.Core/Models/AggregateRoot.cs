@@ -1,11 +1,11 @@
 ﻿namespace HP.Core.Models
 {
-    public abstract class AggregateRoot : Entity, IAggregateRoot
+    public abstract class AggregateRoot : IAggregateRoot
     {
         public AggregateRoot() { }
-        public AggregateRoot(Guid id) : base(id) { }
         private List<IDomainEvent> _domainEvents;
         public int Version { get; set; }
+        public Guid Id { get; protected set; } = default!;
         public IReadOnlyCollection<IDomainEvent> UncommittedEvents => _domainEvents?.AsReadOnly();
         protected void AddDomainEvent(IDomainEvent domainEvent)
         {
@@ -30,7 +30,6 @@
                 _domainEvents.Add(@event);
             }
         }
-        protected abstract void When(IDomainEvent @event);
         public void RaiseEvents(IDomainEvent @event)
         {
             ApplyChange(@event, true);
@@ -41,6 +40,12 @@
             {
                 ApplyChange(@event, false);
             }
+        }
+        protected abstract void When(IDomainEvent @event);
+
+        void IAggregateRoot<Guid>.AddDomainEvent(IDomainEvent domainEvent)
+        {
+            throw new NotImplementedException();
         }
     }
 }
