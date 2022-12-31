@@ -6,7 +6,6 @@ namespace HP.Domain
         public class TodoCreated : DomainEventBase
         {
             public TodoCreated(Guid todoId, string userId, string todoTitle, string todoType) 
-                : base(entityType:nameof(Todo))
             {
                 this.TodoId = todoId;
                 this.UserId = userId;
@@ -20,7 +19,7 @@ namespace HP.Domain
         }
         public class TodoUpdated : DomainEventBase
         {
-            public TodoUpdated(string userId, Guid id, string todoTitle, string type) : base(entityType: nameof(Todo))
+            public TodoUpdated(string userId, Guid id, string todoTitle, string type)
             {
                 UserId = userId;
                 TodoId = id;
@@ -34,7 +33,7 @@ namespace HP.Domain
         }
         public class TodoRemoved : DomainEventBase
         {
-            public TodoRemoved(Guid todoId) : base(entityType: nameof(Todo))
+            public TodoRemoved(Guid todoId)
             {
                 this.TodoId = todoId;   
             }
@@ -42,7 +41,7 @@ namespace HP.Domain
         }
         public class TodoStatusToPending : DomainEventBase
         {
-            public TodoStatusToPending(Guid todoId) : base(entityType: nameof(Todo))
+            public TodoStatusToPending(Guid todoId)
             {
                 this.TodoId = todoId;
             }
@@ -50,7 +49,7 @@ namespace HP.Domain
         }
         public class TodoStatusToAccepted : DomainEventBase
         {
-            public TodoStatusToAccepted(Guid todoId) : base(entityType: nameof(Todo))
+            public TodoStatusToAccepted(Guid todoId) 
             {
                 this.TodoId = todoId;
             }
@@ -60,7 +59,7 @@ namespace HP.Domain
 
         public class TodoActivated : DomainEventBase
         {
-            public TodoActivated(Guid todoId) : base(entityType: nameof(Todo))
+            public TodoActivated(Guid todoId) 
             {
                 this.TodoId = todoId;
             }
@@ -68,7 +67,7 @@ namespace HP.Domain
         }
         public class TodoDeactivated : DomainEventBase
         {
-            public TodoDeactivated(Guid todoId) : base(entityType: nameof(Todo))
+            public TodoDeactivated(Guid todoId)
             {
                 this.TodoId = todoId;
             }
@@ -76,7 +75,7 @@ namespace HP.Domain
         }
         public class TodoStarted : DomainEventBase
         {
-            public TodoStarted(Guid todoId) : base(entityType: nameof(Todo))
+            public TodoStarted(Guid todoId)
             {
                 this.TodoId = todoId;
             }
@@ -84,7 +83,7 @@ namespace HP.Domain
         } 
         public class TodoCompleted : DomainEventBase
         {
-            public TodoCompleted(Guid todoId) : base(entityType: nameof(Todo))
+            public TodoCompleted(Guid todoId)
             {
                 this.TodoId = todoId;
             }
@@ -92,7 +91,7 @@ namespace HP.Domain
         } 
         public class TodoItemRemoved : DomainEventBase
         {
-            public TodoItemRemoved(Guid todoItemId) : base(entityType: nameof(TodoItem))
+            public TodoItemRemoved(Guid todoItemId) 
             {
                 if (todoItemId == null)
                     throw new ArgumentNullException(nameof(todoItemId));
@@ -103,7 +102,7 @@ namespace HP.Domain
         }
         public class TodoItemUpdated : DomainEventBase
         {
-            public TodoItemUpdated(Guid todoItemId) : base(entityType: nameof(TodoItem))
+            public TodoItemUpdated(Guid todoItemId) 
             {
                 this.TodoItemId = todoItemId;
             }

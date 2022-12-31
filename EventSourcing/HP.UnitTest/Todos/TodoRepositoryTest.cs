@@ -14,13 +14,10 @@ namespace HP.UnitTest.Todos
     public class TodoRepositoryTest : TestBase
     {
         private ITodoRepository todoRepository;
-        private IEventStore eventStore = null;
-        private IEventProducer _eventProducer = null;
         [SetUp]
         public void Setup()
         {
-            eventStore = new EventStore(_mongoDbContext, _eventProducer);
-            todoRepository = new TodoRepository(_mongoDbContext, eventStore);
+            todoRepository = new TodoRepository(_mongoDbContext, _eventStore);
             // Seed Data Insertion?
         }
         [Test]
