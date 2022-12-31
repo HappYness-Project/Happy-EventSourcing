@@ -6,22 +6,22 @@ namespace HP.Infrastructure.Repository
 {
     public class EventStoreRepository : IEventStoreRepository
     {
-        private readonly IMongoCollection<DomainEventBase> _eventStoreCollection;
+        private readonly IMongoCollection<IDomainEvent> _eventStoreCollection;
         public EventStoreRepository(IMongoDbContext mongoDbContext)
         {
-            _eventStoreCollection = mongoDbContext.GetCollection<DomainEventBase>("HP.EventStore");
+            _eventStoreCollection = mongoDbContext.GetCollection<IDomainEvent>("HP.EventStore");
         }
 
-        public async Task<List<DomainEventBase>> FindAllAsync()
+        public async Task<List<IDomainEvent>> FindAllAsync()
         {
             return await _eventStoreCollection.Find(_ => true).ToListAsync().ConfigureAwait(false);
         }
 
-        public async Task<List<DomainEventBase>> FindByAggregateId(Guid aggregateId)
+        public async Task<List<IDomainEvent>> FindByAggregateId(Guid aggregateId)
         {
             return await _eventStoreCollection.Find(x => x.AggregateId == aggregateId).ToListAsync().ConfigureAwait(false); 
         }
-        public async Task SaveAsync(DomainEventBase @event)
+        public async Task SaveAsync(IDomainEvent @event)
         {
             await _eventStoreCollection.InsertOneAsync(@event).ConfigureAwait(false);
         }

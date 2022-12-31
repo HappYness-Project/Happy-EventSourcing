@@ -11,7 +11,6 @@ namespace HP.Core.Models
         public Guid AggregateId { get; }
         public int AggregateVersion { get; }
         public string EventType { get; }
-        public EventData EventData { get; }
         DateTime OccuredOn { get; }
     }
 }

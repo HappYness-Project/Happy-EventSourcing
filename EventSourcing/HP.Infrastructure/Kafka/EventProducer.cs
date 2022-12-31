@@ -18,7 +18,7 @@ namespace HP.Infrastructure.Kafka
                 BootstrapServers = "localhost:9092"
             };
         }
-        public async Task ProducerAsync<T>(string topic, T @event) where T : DomainEventBase
+        public async Task ProducerAsync<T>(string topic, T @event) where T : IDomainEvent
         {
             using var producer = new ProducerBuilder<string, string>(_config)
                 .SetKeySerializer(Serializers.Utf8)

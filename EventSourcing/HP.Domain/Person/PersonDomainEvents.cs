@@ -3,18 +3,20 @@ namespace HP.Domain
 {
     public static class PersonDomainEvents
     {
-        public class PersonCreated : DomainEventBase
+        public class PersonCreated : IDomainEvent
         {
-            public PersonCreated(string personId)
+            public PersonCreated(string personId, string personName)
             {
+                PersonName = personName;
             }
+            public string PersonName { get; set; }
         }
-        public class PersonUpdated : DomainEventBase
+        public class PersonUpdated : IDomainEvent
         {
             public PersonUpdated(string personId) 
             {}
         }
-        public class PersonRoleUpdated : DomainEventBase
+        public class PersonRoleUpdated : IDomainEvent
         {
             public PersonRoleUpdated(Guid personId, string preRole, string curRole)
             { }
@@ -23,7 +25,7 @@ namespace HP.Domain
             public string Role { get; set; }
         }
 
-        public class AddressChanged : DomainEventBase
+        public class AddressChanged : IDomainEvent
         {
             public AddressChanged(string personId, string country, string city, string stress, string zipCode)
             {
@@ -37,7 +39,7 @@ namespace HP.Domain
             public string Stress { get; }
             public string ZipCode { get; }
         }
-        public class PersonRoleSetAdminAssigned : DomainEventBase
+        public class PersonRoleSetAdminAssigned : IDomainEvent
         {
             public PersonRoleSetAdminAssigned(string personId) 
             {
@@ -45,7 +47,7 @@ namespace HP.Domain
             }
             public string Id { get; }
         }
-        public class PersonGroupUpdated : DomainEventBase
+        public class PersonGroupUpdated : IDomainEvent
         {
             public PersonGroupUpdated(Guid personId, int groupId)
             {

@@ -1,8 +1,8 @@
 ﻿namespace HP.Core.Models
 {
-    public class DomainEventBase : IDomainEvent
+    public class DomainEvent : IDomainEvent
     {
-        public DomainEventBase() 
+        public DomainEvent(Guid aggregateId, int aggregateVersion) 
         { 
             EventId = Guid.NewGuid();
             OccuredOn = DateTime.Now;
@@ -13,7 +13,6 @@
         public DateTime OccuredOn { get; }
         public string EventType { get; }
         public int AggregateVersion { get; set; }
-        public EventData EventData { get; set; }
     }
 }
 

@@ -3,8 +3,8 @@ namespace HP.Core.Events
 {
     public interface IEventStoreRepository
     {
-        Task SaveAsync(DomainEventBase eventModel);
-        Task<List<DomainEventBase>> FindByAggregateId(Guid aggregateId);
-        Task<List<DomainEventBase>> FindAllAsync();
+        Task SaveAsync(IDomainEvent eventModel);
+        Task<List<IDomainEvent>> FindByAggregateId(Guid aggregateId);
+        Task<List<IDomainEvent>> FindAllAsync();
     }
 }
