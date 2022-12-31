@@ -1,17 +1,17 @@
 ﻿namespace HP.Core.Models
 {
-    public abstract class AggregateRoot : IAggregateRoot
+    public abstract class AggregateRoot : BaseEntity, IAggregateRoot
     {
         public AggregateRoot() { }
         private List<IDomainEvent> _domainEvents;
         public int Version { get; set; }
-        public Guid Id { get; protected set; } = default!;
         public IReadOnlyCollection<IDomainEvent> UncommittedEvents => _domainEvents?.AsReadOnly();
-        protected void AddDomainEvent(IDomainEvent domainEvent)
+        public void AddDomainEvent(IDomainEvent domainEvent)
         {
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();
             _domainEvents.Add(domainEvent);
         }
+
         public void ClearDomainEvents()
         {
             _domainEvents?.Clear();
@@ -34,19 +34,9 @@
         {
             ApplyChange(@event, true);
         }
-        public void ReplayEvents(IEnumerable<IDomainEvent> events)
-        {
-            foreach (var @event in events)
-            {
-                ApplyChange(@event, false);
-            }
-        }
         protected abstract void When(IDomainEvent @event);
 
-        void IAggregateRoot<Guid>.AddDomainEvent(IDomainEvent domainEvent)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
 //An aggregate is a collection of one or more related entities (and possibly value objects). 
