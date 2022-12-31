@@ -15,41 +15,31 @@ namespace HP.Infrastructure
             _esRepository = repository ?? throw new ArgumentNullException(nameof(repository));
             _eventProducer = eventProducer ?? throw new ArgumentNullException(nameof(eventProducer));
         }
-        public async Task SaveEventsAsync(Guid aggregateId, int originatingVersion, IReadOnlyCollection<DomainEventBase> events, int expectedVersion)
+        public async Task SaveEventsAsync(Guid aggregateId, int originatingVersion, IReadOnlyCollection<IDomainEvent> events, int expectedVersion)
         {
             var eventStream = await _esRepository.FindByAggregateId(aggregateId);
             if(expectedVersion != -1 && eventStream[^1].AggregateVersion != expectedVersion)
                 throw new ConcurrencyException();
 
             var version = expectedVersion;
-            foreach(var @event in events){
+            foreach(var @event in events)
+            {
                 version++;
-                @event.AggregateVersion = version;
-                
-                var eventMoel = new DomainEventBase 
-                {
-                    AggregateId = aggregateId,
+                //@event.AggregateVersion = version;
+                //var eventMoel = new DomainEvent(@event.Id, version);
+                _esRepository.SaveAsync(@event);
 
-
-                };
-                _esRepository.SaveAsync(eventMoel);
-
+                var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC");
+                await _eventProducer.ProducerAsync(topic, @event);
             }
-
-            // if (events.Count == 0) return;
-            // var collection = _mongoDbContext.GetCollection<IDomainEvent>(EventStoreTableName);
-            // //var eventStream = a
-            // var eventStream = await _eventStoreRepo.FindByAggregateId(aggregateId);        
-            // await collection.InsertManyAsync(events);
-            throw new NotImplementedException();
         }
-        public async Task<List<DomainEventBase>> GetEventsAsync(Guid aggregateId)
+        public async Task<List<IDomainEvent>> GetEventsAsync(Guid aggregateId)
         {
-            List<DomainEventBase> eventStream = await _esRepository.FindByAggregateId(aggregateId);
+            List<IDomainEvent> eventStream = await _esRepository.FindByAggregateId(aggregateId);
             if(eventStream == null || !eventStream.Any()) 
                 throw new AggregateNotFoundException("Incorrect post ID provided.");
 
-            return eventStream.OrderBy(x => x.AggregateVersion).Select(x => x.EventData).ToList();
+            return eventStream.OrderBy(x => x.AggregateVersion).ToList();
         }
         public async Task<List<Guid>> GetAggregateIdAsync()
         {

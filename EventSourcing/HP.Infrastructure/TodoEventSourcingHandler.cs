@@ -19,15 +19,12 @@ namespace HP.Infrastructure
             var events = await _eventStore.GetEventsAsync(aggregateId);
             if(events == null || !events.Any()) return aggregate;
 
-            aggregate.ReplayEvents(events);
-            aggregate.Version = events.Select(x => x.AggregateVersion).Max();
+            aggregate.Version = events.Select(x => x.Version).Max();
             return aggregate;
         }
 
-        public async Task SaveAsync(IAggregateRoot<Todo> aggregate)
+        public async Task SaveAsync(IAggregateRoot aggregate)
         {
-            // await _eventStore.SaveEventsAsync(aggregate., aggregate.GetUncommittedChanges(), aggregate.Version);
-            // aggregate.MarkChangesAsCommitted();
             throw new NotImplementedException();
         }
     }
