@@ -27,6 +27,9 @@ namespace HP.Application.Commands.Todo
             var todo = Domain.Todo.Create(person, request.TodoTitle, request.Description, TodoType.FromName(request.TodoType), request.Tag);
             todo.SetStatus(TodoStatus.NotDefined);
             var checkTodo = await _repository.CreateAsync(todo);
+
+            // Domain Event for publishing?
+            // Should I call notification handler??
             return new CommandResult(true, "Todo is created.", todo.Id.ToString());
         }
     }

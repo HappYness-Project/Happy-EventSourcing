@@ -25,10 +25,8 @@ namespace HP.Infrastructure
             foreach(var @event in events)
             {
                 version++;
-                //@event.AggregateVersion = version;
-                //var eventMoel = new DomainEvent(@event.Id, version);
+                @event.AggregateVersion = version;
                 _esRepository.SaveAsync(@event);
-
                 var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC");
                 await _eventProducer.ProducerAsync(topic, @event);
             }

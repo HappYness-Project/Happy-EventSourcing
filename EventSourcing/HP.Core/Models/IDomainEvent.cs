@@ -9,7 +9,7 @@ namespace HP.Core.Models
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public Guid EventId { get; }
         public Guid AggregateId { get; }
-        public int AggregateVersion { get; }
+        public int AggregateVersion { get; set; }
         public string EventType { get; }
         DateTime OccuredOn { get; }
     }
