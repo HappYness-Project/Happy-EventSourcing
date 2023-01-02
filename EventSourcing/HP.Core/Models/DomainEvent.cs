@@ -2,7 +2,7 @@
 {
     public class DomainEvent : IDomainEvent
     {
-        public DomainEvent(Guid aggregateId, int aggregateVersion) 
+        public DomainEvent() 
         { 
             EventId = Guid.NewGuid();
             OccuredOn = DateTime.Now;

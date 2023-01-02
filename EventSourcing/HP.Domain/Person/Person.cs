@@ -25,7 +25,7 @@ namespace HP.Domain
             CurrentScore = 0;
             GoalType = GoalType.NotDefined;
             Role = PersonRole.TBD.ToString();
-            RaiseEvents(new PersonDomainEvents.PersonCreated(personName));
+            RaiseEvents(new PersonDomainEvents.PersonCreated(this.Id.ToString(),personName));
         }
         public void UpdateRole(string role)
         {
@@ -58,7 +58,7 @@ namespace HP.Domain
                 case PersonDomainEvents.PersonCreated created:
                     break;
 
-                case PersonDomainEvents.PersonUpdated u:
+                case PersonDomainEvents.PersonInfoUpdated u:
                     
                     break;
 

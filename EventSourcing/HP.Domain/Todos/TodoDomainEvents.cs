@@ -3,7 +3,7 @@ namespace HP.Domain
 {
     public static class TodoDomainEvents
     {
-        public class TodoCreated : IDomainEvent
+        public class TodoCreated : DomainEvent
         {
             public TodoCreated(Guid todoId, string userId, string todoTitle, string todoType) 
             {
@@ -17,7 +17,7 @@ namespace HP.Domain
             public string TodoTitle { get; }
             public string Type { get; }
         }
-        public class TodoUpdated : IDomainEvent
+        public class TodoUpdated : DomainEvent
         {
             public TodoUpdated(string userId, Guid id, string todoTitle, string type)
             {
@@ -31,7 +31,7 @@ namespace HP.Domain
             public string TodoTitle { get; set; }
             public string TodoType { get; set; }
         }
-        public class TodoRemoved : IDomainEvent
+        public class TodoRemoved : DomainEvent
         {
             public TodoRemoved(Guid todoId)
             {
@@ -39,7 +39,7 @@ namespace HP.Domain
             }
             public Guid TodoId { get; }
         }
-        public class TodoStatusToPending : IDomainEvent
+        public class TodoStatusToPending : DomainEvent
         {
             public TodoStatusToPending(Guid todoId)
             {
@@ -47,7 +47,7 @@ namespace HP.Domain
             }
             public Guid TodoId { get; }
         }
-        public class TodoStatusToAccepted : IDomainEvent
+        public class TodoStatusToAccepted : DomainEvent
         {
             public TodoStatusToAccepted(Guid todoId) 
             {
@@ -57,7 +57,7 @@ namespace HP.Domain
         }
 
 
-        public class TodoActivated : IDomainEvent
+        public class TodoActivated : DomainEvent
         {
             public TodoActivated(Guid todoId) 
             {
@@ -65,7 +65,7 @@ namespace HP.Domain
             }
             public Guid TodoId { get; }
         }
-        public class TodoDeactivated : IDomainEvent
+        public class TodoDeactivated : DomainEvent
         {
             public TodoDeactivated(Guid todoId)
             {
@@ -73,7 +73,7 @@ namespace HP.Domain
             }
             public Guid TodoId { get; }
         }
-        public class TodoStarted : IDomainEvent
+        public class TodoStarted : DomainEvent
         {
             public TodoStarted(Guid todoId)
             {
@@ -81,7 +81,7 @@ namespace HP.Domain
             }
             public Guid TodoId { get; }
         } 
-        public class TodoCompleted : IDomainEvent
+        public class TodoCompleted : DomainEvent
         {
             public TodoCompleted(Guid todoId)
             {
@@ -89,7 +89,7 @@ namespace HP.Domain
             }
             public Guid TodoId { get; }
         } 
-        public class TodoItemRemoved : IDomainEvent
+        public class TodoItemRemoved : DomainEvent
         {
             public TodoItemRemoved(Guid todoItemId) 
             {
@@ -100,7 +100,7 @@ namespace HP.Domain
             }
             public Guid TodoItemId { get; }
         }
-        public class TodoItemUpdated : IDomainEvent
+        public class TodoItemUpdated : DomainEvent
         {
             public TodoItemUpdated(Guid todoItemId) 
             {
