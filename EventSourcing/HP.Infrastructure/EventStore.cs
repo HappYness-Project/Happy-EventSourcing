@@ -15,7 +15,7 @@ namespace HP.Infrastructure
             _esRepository = repository ?? throw new ArgumentNullException(nameof(repository));
             _eventProducer = eventProducer ?? throw new ArgumentNullException(nameof(eventProducer));
         }
-        public async Task SaveEventsAsync(Guid aggregateId, int originatingVersion, IReadOnlyCollection<IDomainEvent> events, int expectedVersion)
+        public async Task SaveEventsAsync(Guid aggregateId, IReadOnlyCollection<IDomainEvent> events, int expectedVersion)
         {
             var eventStream = await _esRepository.FindByAggregateId(aggregateId);
             if(expectedVersion != -1 && eventStream[^1].AggregateVersion != expectedVersion)

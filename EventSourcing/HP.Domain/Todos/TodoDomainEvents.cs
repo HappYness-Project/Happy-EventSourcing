@@ -100,6 +100,17 @@ namespace HP.Domain
             }
             public Guid TodoItemId { get; }
         }
+        public class TodoItemCreated : DomainEvent
+        {
+            public TodoItemCreated(Guid todoItemId)
+            {
+                if (todoItemId == null)
+                    throw new ArgumentNullException(nameof(todoItemId));
+
+                this.TodoItemId = todoItemId;
+            }
+            public Guid TodoItemId { get; }
+        }
         public class TodoItemUpdated : DomainEvent
         {
             public TodoItemUpdated(Guid todoItemId) 

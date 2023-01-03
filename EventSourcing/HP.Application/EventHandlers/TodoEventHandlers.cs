@@ -1,4 +1,5 @@
-﻿using HP.Domain;
+﻿using HP.Application.IntegrationEvents;
+using HP.Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,14 @@ using System.Threading.Tasks;
 namespace HP.Application.EventHandlers
 {
     using static HP.Domain.TodoDomainEvents;
-    public class TodoEventHandlers : INotificationHandler<TodoCreated>,
-                                     INotificationHandler<TodoUpdated>,
-                                     INotificationHandler<TodoCompleted>,
-                                     INotificationHandler<TodoActivated>,
-                                     INotificationHandler<TodoDeactivated>,
-                                     INotificationHandler<TodoRemoved>
+    public class TodoEventHandlers :
+                                     IEventHandler<TodoCreated>,
+                                     IEventHandler<TodoUpdated>,
+                                     IEventHandler<TodoCompleted>,
+                                     IEventHandler<TodoActivated>,
+                                     IEventHandler<TodoDeactivated>,
+                                     IEventHandler<TodoRemoved>
+
 
     {
         private readonly ITodoRepository _todoRepository;
@@ -23,7 +26,7 @@ namespace HP.Application.EventHandlers
             _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }
 
-        public Task Handle(TodoCreated notification, CancellationToken cancellationToken)
+        public Task Handle(TodoCreated @event, CancellationToken ct)
         {
             throw new NotImplementedException();
         }
@@ -52,5 +55,7 @@ namespace HP.Application.EventHandlers
         {
             throw new NotImplementedException();
         }
+
+
     }
 }
