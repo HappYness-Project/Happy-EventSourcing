@@ -28,8 +28,7 @@ namespace HP.UnitTest.Todos.Commands
         {
             // Arrange
             var cmd = new CreateTodoCommand(Guid.Parse("hyunbin7303"), null, "Valid");
-            var handler = new CreateTodoCommandHandler(_mapper, _todoRepositoryMock.Object, _personRepositoryMock.Object);
-
+            var handler = new CreateTodoCommandHandler(_mapper, _todoRepositoryMock.Object, _personRepositoryMock.Object, _eventStore);
             //_todoRepositoryMock.Setup(x => x.Find(x=> x.))
 
             // Act

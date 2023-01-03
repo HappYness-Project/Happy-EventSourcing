@@ -1,8 +1,7 @@
 ﻿using static HP.Domain.TodoDomainEvents;
-
-namespace HP.Infrastructure
+namespace HP.Infrastructure.EventHandlers
 {
-    public class EventHandler : IEventHandler
+    public class EventHandler : ITodoEventHandler
     {
         public Task On(TodoCreated @event)
         {
