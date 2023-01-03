@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HP.Core.Commands;
+using HP.Core.Events;
 using HP.Domain;
 using MediatR;
 
@@ -11,11 +12,13 @@ namespace HP.Application.Commands.Todo
         private readonly IMapper _mapper;
         private readonly ITodoRepository _repository;
         private readonly IPersonRepository _personRepository;
-        public CreateTodoCommandHandler(IMapper mapper, ITodoRepository repository, IPersonRepository personRepository)
+        private readonly IEventStore _eventStore;
+        public CreateTodoCommandHandler(IMapper mapper, ITodoRepository repository, IPersonRepository personRepository, IEventStore eventStore)
         {
             _mapper = mapper;
             _repository = repository;
             _personRepository = personRepository;
+            _eventStore = eventStore;
         }
 
         public async Task<CommandResult> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
@@ -26,10 +29,9 @@ namespace HP.Application.Commands.Todo
 
             var todo = Domain.Todo.Create(person, request.TodoTitle, request.Description, TodoType.FromName(request.TodoType), request.Tag);
             todo.SetStatus(TodoStatus.NotDefined);
-            var checkTodo = await _repository.CreateAsync(todo);
+            var createdTodo = await _repository.CreateAsync(todo);
 
-            // Domain Event for publishing?
-            // Should I call notification handler??
+            await _eventStore.SaveEventsAsync(createdTodo.Id, createdTodo.UncommittedEvents, createdTodo.Version);
             return new CommandResult(true, "Todo is created.", todo.Id.ToString());
         }
     }

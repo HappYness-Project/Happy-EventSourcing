@@ -116,16 +116,16 @@ namespace HP.Domain
         public void ActivateTodo(Guid todoId)
         {
             this.IsActive = true;
-            this.AddDomainEvent(new TodoDomainEvents.TodoActivated(todoId));
+            this.AddDomainEvent(new TodoActivated(todoId));
         }
         public void DeactivateTodo(Guid todoId)
         {
             this.IsActive = false;
-            this.AddDomainEvent(new TodoDomainEvents.TodoDeactivated(todoId));
+            this.AddDomainEvent(new TodoDeactivated(todoId));
         }
         public void Remove(Guid todoId)
         {
-            this.AddDomainEvent(new TodoDomainEvents.TodoRemoved(todoId));
+            this.AddDomainEvent(new TodoRemoved(todoId));
         }
         public void SetStatus(TodoStatus status, string? reason = null)
         {
