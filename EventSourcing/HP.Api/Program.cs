@@ -1,9 +1,11 @@
 using Confluent.Kafka;
 using HP.Application;
+using HP.Application.EventHandlers;
 using HP.Core.Events;
 using HP.Domain;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
+using HP.Infrastructure.EventHandlers;
 using HP.Infrastructure.Kafka;
 using HP.Infrastructure.Repository;
 using MediatR;
@@ -19,6 +21,7 @@ builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection(name
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
 builder.Services.AddScoped<IEventStore, EventStore>();
+builder.Services.AddScoped<ITodoEventHandler, TodoEventHandlers>();
 builder.Services.AddScoped<IEventProducer, EventProducer>();
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 builder.Services.AddScoped<IEventStoreRepository, EventStoreRepository>();
