@@ -16,7 +16,7 @@ namespace HP.Application.Commands.Person
         }
         public async Task<CommandResult> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
-            var person = await _repository.GetPersonByUserIdAsync(request.PersonId.ToString());
+            var person = await _repository.GetByIdAsync(request.PersonId);
             if(person != null)
                 throw new ApplicationException($"The PersonId : {request.PersonId} Already exists.");
 

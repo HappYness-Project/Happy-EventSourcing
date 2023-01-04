@@ -18,9 +18,9 @@ namespace HP.Infrastructure.Repository
             var check = _mongoCollection.DeleteOne(x => x.Id == personId);
             return Task.FromResult(check.DeletedCount > 0 ? true : false);
         }
-        public async Task<Person> GetPersonByUserIdAsync(string UserId)
+        public async Task<Person> GetPersonByPersonNameAsync(string personName)
         {
-            return await _mongoCollection.Find(x => x.PersonName == UserId).FirstOrDefaultAsync();
+            return await _mongoCollection.Find(x => x.PersonName == personName).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Person>> GetListByGroupIdAsync(int groupId)
