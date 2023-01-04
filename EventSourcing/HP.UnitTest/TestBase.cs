@@ -2,8 +2,10 @@
 using Confluent.Kafka;
 using HP.Application.Mappers;
 using HP.Core.Events;
+using HP.Domain;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
+using HP.Infrastructure.EventHandlers;
 using HP.Infrastructure.Kafka;
 using HP.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
@@ -24,9 +26,11 @@ namespace HP.test
         protected IMongoDbContext _mongoDbContext;
         protected IMapper _mapper;
         protected IOptions<ProducerConfig> _producerConfig;
+        protected IOptions<ConsumerConfig> _consumerConfig;
         protected IEventStoreRepository _esRepository;
         protected IEventProducer _eventProducer;
         protected IEventConsumer _eventConsumer;
+        protected ITodoEventHandler _eventHandler;
         protected IEventStore _eventStore;
         [SetUp]
         public async Task BeforeTestStart()
@@ -44,7 +48,13 @@ namespace HP.test
             }
             _esRepository = new EventStoreRepository(_mongoDbContext);
             _eventProducer = new EventProducer(_producerConfig);
+            _eventConsumer = new EventConsumer(_consumerConfig,_eventHandler);
             _eventStore = new EventStore(_esRepository, _eventProducer);
+        }
+
+        [Test]
+        public void DbCotextReturnCollectionTodo()
+        {
         }
     }
 }

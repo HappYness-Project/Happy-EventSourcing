@@ -11,6 +11,7 @@ COPY ["HP.Api/HP.Api.csproj", "HP.Api/"]
 COPY ["HP.Application/HP.Application.csproj", "HP.Application/"]
 COPY ["HP.Domain/HP.Domain.csproj", "HP.Domain/"]
 COPY ["HP.Infrastructure/HP.Infrastructure.csproj", "HP.Infrastructure/"]
+COPY ["HP.Core/HP.Core.csproj", "HP.Core/"]
 RUN dotnet restore "HP.Api/HP.Api.csproj"
 COPY . .
 WORKDIR "/src/HP.Api"

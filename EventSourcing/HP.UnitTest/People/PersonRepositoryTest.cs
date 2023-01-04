@@ -42,8 +42,8 @@ namespace HP.UnitTest.People
         public void CreatePerson()
         {
             // Arrange
-            Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
             Person person = Person.Create("hyunbin7303@gmail.com");
+
             var personObj = personRepository.CreateAsync(person)?.Result;
             Assert.That(personObj, Is.Not.Null);
         }

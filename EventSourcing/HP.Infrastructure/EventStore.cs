@@ -26,7 +26,7 @@ namespace HP.Infrastructure
             {
                 version++;
                 @event.AggregateVersion = version;
-                _esRepository.SaveAsync(@event);
+                await _esRepository.SaveAsync(@event);
                 var topic = Environment.GetEnvironmentVariable("KAFKA_TOPIC");
                 await _eventProducer.ProducerAsync(topic, @event);
             }

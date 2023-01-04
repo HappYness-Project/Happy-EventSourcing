@@ -1,9 +1,12 @@
-﻿using HP.Core.Events;
+﻿using FluentAssertions;
+using HP.Core.Events;
 using HP.Core.Models;
 using HP.Domain;
 using HP.Infrastructure.Repository;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+
 namespace HP.test
 {
     using static HP.Domain.PersonDomainEvents;
@@ -16,12 +19,13 @@ namespace HP.test
         {
             var newGuid = Guid.NewGuid();
             IDomainEvent domainEvent = new TodoCreated(newGuid, "HP09428", "Todo Application Event created.", TodoType.Others.Name);
-            //_eventStore.SaveEventsAsync(Guid.NewGuid(), 0, domainEvent, 1);
+            List<IDomainEvent> events = new List<IDomainEvent>();
+            events.Add(domainEvent);
+            _eventStore.SaveEventsAsync(Guid.NewGuid(), events, 1);
         }
         [Test]
         public void EventStore_Save_For_PersonCreate()
         {
-            var addr = new Address("Canada", "Kitchener", "Ontario", "N2L 3M3");
             var domainEvent = new PersonCreated(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
         }
     }

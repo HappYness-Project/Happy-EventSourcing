@@ -9,14 +9,9 @@ namespace HP.Infrastructure.Kafka
     public class EventProducer : IEventProducer
     {
         private readonly ProducerConfig _config;
-
         public EventProducer(IOptions<ProducerConfig> config)
         {
             _config = config.Value;
-            var testConfig = new ProducerConfig
-            {
-                BootstrapServers = "localhost:9092"
-            };
         }
         public async Task ProducerAsync<T>(string topic, T @event) where T : IDomainEvent
         {

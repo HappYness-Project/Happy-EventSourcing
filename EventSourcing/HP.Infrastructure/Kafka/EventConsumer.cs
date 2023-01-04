@@ -15,10 +15,6 @@ namespace HP.Infrastructure.Kafka
         {
             _config = config.Value;
             _eventHandler = eventHandler;
-            var testConfig = new ProducerConfig
-            {
-                BootstrapServers = "localhost:9092"
-            };
         }
         public void Consumer(string topic)
         {
