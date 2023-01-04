@@ -40,7 +40,6 @@ namespace HP.Controllers
                 return BadRequest();
 
             var cmd = new CreatePersonCommand(Guid.Parse(request.PersonName), request.PersonType, request.GroupId);
-            //TODO : Since it is a Create, I think it's desirable to use Publish command e.g. var userId = await _domainMessageBroker.SendAsync(createUserCommand, CancellationToken.None);
             return Ok(await _mediator.Send(cmd));
         }
         [HttpPut("{userid}")]

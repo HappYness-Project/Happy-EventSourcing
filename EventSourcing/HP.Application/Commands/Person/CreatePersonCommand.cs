@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HP.Core.Commands;
+using HP.Core.Events;
 using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands.Person
@@ -8,11 +9,11 @@ namespace HP.Application.Commands.Person
     public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, CommandResult>
     {
         private readonly IPersonRepository _repository;
-        private readonly IMapper _mapper;   
-        public CreatePersonCommandHandler(IMapper mapper, IPersonRepository personRepository)
+        private readonly IEventStore _eventStore;
+        public CreatePersonCommandHandler(IPersonRepository personRepository, IEventStore eventStore)
         {
-            this._mapper = mapper;
-            this._repository = personRepository;
+            this._repository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
+            this._eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
         }
         public async Task<CommandResult> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
@@ -20,8 +21,11 @@ namespace HP.Application.Commands.Person
             if(person != null)
                 throw new ApplicationException($"The PersonId : {request.PersonId} Already exists.");
 
-            var newPerson = await _repository.CreateAsync(Domain.Person.Create(request.PersonId.ToString()));
-            return new CommandResult(true, "Successfully person has been created.", newPerson.Id.ToString());
+            var aggregate = await _repository.CreateAsync(Domain.Person.Create(request.PersonId.ToString()));
+            if (aggregate != null)
+                await _eventStore.SaveEventsAsync(aggregate.Id, aggregate.UncommittedEvents, aggregate.Version);
+
+            return new CommandResult(true, "Successfully person has been created.", aggregate.Id.ToString());
         }
     }
 }

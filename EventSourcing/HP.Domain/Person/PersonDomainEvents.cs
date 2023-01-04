@@ -13,18 +13,21 @@ namespace HP.Domain
         }
         public class PersonInfoUpdated : DomainEvent
         {
-            public PersonInfoUpdated(string personId) 
+            public PersonInfoUpdated(Guid personId) 
             {
                 this.PersonId = personId;   
             }
-            public string PersonId { get; set; }
+            public Guid PersonId { get; set; }
         }
         public class PersonRoleUpdated : DomainEvent
         {
             public PersonRoleUpdated(Guid personId, string preRole, string curRole)
-            { }
+            { 
 
-           public string PreRole { get; set; }
+                this.PreRole = preRole;
+            }
+            public Guid PersonId { get; set; }
+            public string PreRole { get; set; }
             public string Role { get; set; }
         }
 

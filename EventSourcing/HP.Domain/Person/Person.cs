@@ -1,4 +1,6 @@
 ﻿using HP.Core.Models;
+using static HP.Domain.TodoDomainEvents;
+
 namespace HP.Domain
 {
     public class Person : AggregateRoot
@@ -25,7 +27,8 @@ namespace HP.Domain
             CurrentScore = 0;
             GoalType = GoalType.NotDefined;
             Role = PersonRole.TBD.ToString();
-            RaiseEvents(new PersonDomainEvents.PersonCreated(this.Id.ToString(),personName));
+            AddDomainEvent(new PersonDomainEvents.PersonCreated(this.Id.ToString(), personName));
+
         }
         public void UpdateRole(string role)
         {
@@ -34,12 +37,12 @@ namespace HP.Domain
 
             string preRole = this.Role;
             this.Role = role;
-            RaiseEvents(new PersonDomainEvents.PersonRoleUpdated(Id, preRole, role));
+            AddDomainEvent(new PersonDomainEvents.PersonRoleUpdated(Id, preRole, role));
         }
         public void UpdateGroupId(int groupId)
         {
             this.GroupId = groupId;
-            RaiseEvents(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
+            AddDomainEvent(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
         }
         public static Person Create(string? personName = null)
         {
@@ -50,6 +53,7 @@ namespace HP.Domain
             // Todo : Do Api call or generate Kafka data.
             this.PersonType = PersonType;
             this.GroupId = GroupId.Value;
+            AddDomainEvent(new PersonDomainEvents.PersonInfoUpdated(this.Id));
         }
         protected override void When(IDomainEvent @event)
         {

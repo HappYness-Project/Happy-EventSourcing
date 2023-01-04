@@ -22,7 +22,7 @@ namespace HP.Domain
             IsActive = true;
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
-            AddDomainEvent(new TodoDomainEvents.TodoCreated(Id, UserId, title, todoType.Name));
+            AddDomainEvent(new TodoCreated(Id, UserId, title, todoType.Name));
         }
         public string UserId { get; private set; }
         public string Title { get; private set; }
@@ -56,7 +56,7 @@ namespace HP.Domain
             this.TargetEndDate = targetEndDate ?? null;
             this.Tag = Tags;
             this.Updated = DateTime.Now;
-            this.AddDomainEvent(new TodoDomainEvents.TodoUpdated(UserId, Id, Title, Type.Name));
+            this.AddDomainEvent(new TodoUpdated(UserId, Id, Title, Type.Name));
         }
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
