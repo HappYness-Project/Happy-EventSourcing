@@ -33,7 +33,6 @@ builder.Services.AddScoped<IEventStore, EventStore>();
 builder.Services.AddScoped<ITodoEventHandler, TodoEventHandlers>();
 builder.Services.AddScoped<IEventProducer, EventProducer>();
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
-builder.Services.AddScoped<IEventStoreRepository, EventStoreRepository>();
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
