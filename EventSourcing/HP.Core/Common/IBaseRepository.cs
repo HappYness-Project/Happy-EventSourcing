@@ -11,6 +11,7 @@ namespace HP.Core.Common
         Task DeleteOneAsync(Expression<Func<T, bool>> filterExpression);
         Task DeleteByIdAsync(Guid id);
         Task<T> GetByIdAsync(Guid id);
+        Task<List<T>> GetAllByAggregateId(Guid aggregateId);
         Task<IEnumerable<T>> GetAllAsync();
         IFindFluent<T, T> Find(FilterDefinition<T> filter);
         Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression);

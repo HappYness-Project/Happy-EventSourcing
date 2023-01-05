@@ -11,7 +11,7 @@ namespace HP.Infrastructure
         private readonly IMongoCollection<T> _collection;
         public BaseRepository(IMongoDbContext dbContext)
         {
-            _collection = dbContext.GetCollection<T>();
+            _collection = dbContext.GetCollection<T>() ?? throw new ArgumentNullException(nameof(dbContext));
         }
         public virtual async Task<T> CreateAsync(T entity)
         {
@@ -80,6 +80,11 @@ namespace HP.Infrastructure
         public virtual Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression)
         {
             return Task.Run(() => _collection.Find(filterExpression).FirstOrDefaultAsync());
+        }
+
+        public Task<List<T>> GetAllByAggregateId(Guid aggregateId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

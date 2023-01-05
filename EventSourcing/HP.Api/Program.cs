@@ -29,7 +29,6 @@ BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoUpdated>();
 builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
 builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection(nameof(ProducerConfig)));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<IEventStore, EventStore>();
 builder.Services.AddScoped<ITodoEventHandler, TodoEventHandlers>();
 builder.Services.AddScoped<IEventProducer, EventProducer>();
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
