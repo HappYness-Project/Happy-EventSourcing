@@ -39,7 +39,7 @@ namespace HP.Controllers
             if (request == null)
                 return BadRequest();
 
-            var cmd = new CreatePersonCommand(Guid.Parse(request.PersonName), request.PersonType, request.GroupId);
+            var cmd = new CreatePersonCommand(request.PersonName, request.PersonType, request.GroupId);
             return Ok(await _mediator.Send(cmd));
         }
         [HttpPut("{userid}")]

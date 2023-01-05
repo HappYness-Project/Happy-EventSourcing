@@ -17,8 +17,7 @@ namespace HP.UnitTest.Todos
         [SetUp]
         public void Setup()
         {
-            todoRepository = new TodoRepository(_mongoDbContext, _eventStore);
-            // Seed Data Insertion?
+            todoRepository = new TodoRepository(_mongoDbContext);
         }
         [Test]
         public void GetListByUserId_Return_Nothing()

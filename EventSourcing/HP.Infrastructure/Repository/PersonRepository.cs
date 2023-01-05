@@ -8,26 +8,25 @@ namespace HP.Infrastructure.Repository
 {
     public class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
-        private readonly IMongoCollection<Person> _mongoCollection;
         public PersonRepository(IMongoDbContext dbContext) : base(dbContext) {}
         public Task<bool> DeletePersonAsync(Guid personId)
         {
-            var check = _mongoCollection.DeleteOne(x => x.Id == personId);
+            var check = _collection.DeleteOne(x => x.Id == personId);
             return Task.FromResult(check.DeletedCount > 0 ? true : false);
         }
         public async Task<Person> GetPersonByPersonNameAsync(string personName)
         {
-            return await _mongoCollection.Find(x => x.PersonName == personName).FirstOrDefaultAsync();
+            return await _collection.Find(x => x.PersonName == personName).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Person>> GetListByGroupIdAsync(int groupId)
         {
-            return await _mongoCollection.Find(x => x.GroupId == groupId).ToListAsync();
+            return await _collection.Find(x => x.GroupId == groupId).ToListAsync();
         }
 
         public async Task<IEnumerable<Person>> GetListByRoleAsync(string role)
         {
-            return await _mongoCollection.Find(x => x.Role == role).ToListAsync();
+            return await _collection.Find(x => x.Role == role).ToListAsync();
         }
 
         public async Task<Person> UpdatePersonAsync(Person person)
@@ -36,7 +35,7 @@ namespace HP.Infrastructure.Repository
             var filter = Builders<Person>.Filter.And(Builders<Person>.Filter.Eq("UserId", person.PersonName));
             var update = Builders<Person>.Update.Set("FirstName", "")
                                                 .Set("UpdateDate", DateTime.Now);
-            var result = await _mongoCollection.FindOneAndUpdateAsync(filter, update,
+            var result = await _collection.FindOneAndUpdateAsync(filter, update,
                     options: new FindOneAndUpdateOptions<Person, BsonDocument>
                     {
                         IsUpsert = true,

@@ -21,7 +21,7 @@ namespace HP.UnitTest.Categories
         private ICategoryRepository categoryRepository;
         public void Setup()
         {
-            categoryRepository = new CategoryRepository(_mongoDbContext, _eventStore);
+            categoryRepository = new CategoryRepository(_mongoDbContext);
         }
     }
 }

@@ -21,7 +21,6 @@ namespace HP.test
             IDomainEvent domainEvent = new TodoCreated(newGuid, "HP09428", "Todo Application Event created.", TodoType.Others.Name);
             List<IDomainEvent> events = new List<IDomainEvent>();
             events.Add(domainEvent);
-            _eventStore.SaveEventsAsync(Guid.NewGuid(), events, 1);
         }
         [Test]
         public void EventStore_Save_For_PersonCreate()

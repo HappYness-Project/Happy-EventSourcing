@@ -20,7 +20,7 @@ namespace HP.UnitTest.People
         [SetUp]
         public void Setup()
         {
-            _personRepository = new PersonRepository(_mongoDbContext, _eventStore);
+            _personRepository = new PersonRepository(_mongoDbContext);
         }
     }
 }

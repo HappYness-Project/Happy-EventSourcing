@@ -29,7 +29,6 @@ builder.Services.AddScoped<IUserManager, UserManager>();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 builder.Services.AddSingleton<ItemEditService>();
 builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
-builder.Services.AddSingleton<IEventStore, EventStore>();
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();
 builder.Services.AddTransient<ITodoRepository, TodoRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();

@@ -8,7 +8,7 @@ namespace HP.Infrastructure
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : AggregateRoot
     {
-        private readonly IMongoCollection<T> _collection;
+        protected readonly IMongoCollection<T> _collection;
         public BaseRepository(IMongoDbContext dbContext)
         {
             _collection = dbContext.GetCollection<T>() ?? throw new ArgumentNullException(nameof(dbContext));
