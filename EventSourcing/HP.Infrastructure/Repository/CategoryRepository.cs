@@ -9,11 +9,9 @@ namespace HP.Infrastructure.Repository
     public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
         private readonly IMongoCollection<Category> _categories;
-        private readonly IEventStore _eventStore;
-        public CategoryRepository(IMongoDbContext dbContext, IEventStore eventStore) : base(dbContext)
+        public CategoryRepository(IMongoDbContext dbContext) : base(dbContext)
         {
             _categories = dbContext.GetCollection<Category>();
-            _eventStore = eventStore;
         }
         public Task<IEnumerable<Category>> GetCategoriesByUserId(string userId)
         {

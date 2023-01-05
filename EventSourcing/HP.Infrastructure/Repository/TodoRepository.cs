@@ -8,10 +8,7 @@ namespace HP.Infrastructure.Repository
     public class TodoRepository : BaseRepository<Todo>, ITodoRepository
     {
         private readonly IMongoCollection<Todo> _todos;
-        public TodoRepository(IMongoDbContext dbContext, IEventStore eventStore) : base(dbContext)
-        {
-            _todos = dbContext.GetCollection<Todo>();
-        }
+        public TodoRepository(IMongoDbContext dbContext) : base(dbContext){ }
         public async Task<Todo> GetActiveTodoById(Guid todoId)
         {
             return await _todos.Find(x => x.Id == todoId && x.IsActive).FirstOrDefaultAsync();
@@ -31,16 +28,6 @@ namespace HP.Infrastructure.Repository
             var todos = await _todos.FindAsync(filter).Result.ToListAsync();
             return todos;
         }
-//         public async Task<IEnumerable<Todo>> GetListByScoreOfUser(string userId, string targetScore)
-//         {
-//             var highExamScoreFilter = Builders<BsonDocument>.Filter.ElemMatch<BsonValue>
-//             (
-//                 "scores", new BsonDocument { { "type", "exam" },
-//                 { "score", new BsonDocument { { "$gte", 95 } } }
-//             });
-//   //          _todos.Find(highExamScoreFilter);
-
-//         }
         public IEnumerable<Todo> Search(int page, int recordsPerPage, string TodoTitle, out int totalCount)
         {
             throw new NotImplementedException();
