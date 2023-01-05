@@ -9,10 +9,7 @@ namespace HP.Infrastructure.Repository
     public class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
         private readonly IMongoCollection<Person> _mongoCollection;
-        public PersonRepository(IMongoDbContext dbContext, IEventStore eventStore) : base(dbContext)
-        {
-            this._mongoCollection = dbContext.GetCollection<Person>() ?? throw new ArgumentNullException(nameof(dbContext));
-        }
+        public PersonRepository(IMongoDbContext dbContext) : base(dbContext) {}
         public Task<bool> DeletePersonAsync(Guid personId)
         {
             var check = _mongoCollection.DeleteOne(x => x.Id == personId);

@@ -1,31 +1,28 @@
-﻿using AutoMapper;
-using HP.Core.Commands;
+﻿using HP.Core.Commands;
 using HP.Core.Events;
 using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands.Person
 {
-    public record CreatePersonCommand(Guid PersonId, string PersonType, int? GroupId = null) : BaseCommand;
-    public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, CommandResult>
+    public record CreatePersonCommand(string PersonName, string PersonType, int? GroupId = null) : BaseCommand;
+    public class CreatePersonCommandHandler : BaseCommandHandler,
+                                              IRequestHandler<CreatePersonCommand, CommandResult>
     {
         private readonly IPersonRepository _repository;
-        private readonly IEventStore _eventStore;
-        public CreatePersonCommandHandler(IPersonRepository personRepository, IEventStore eventStore)
+        public CreatePersonCommandHandler(IPersonRepository personRepository, IEventProducer eventProducer) : base(eventProducer)
         {
             this._repository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
-            this._eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
         }
         public async Task<CommandResult> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
-            var person = await _repository.GetByIdAsync(request.PersonId);
+            var person = await _repository.GetPersonByPersonNameAsync(request.PersonName);
             if(person != null)
-                throw new ApplicationException($"The PersonId : {request.PersonId} Already exists.");
+                throw new ApplicationException($"The PersonName : {request.PersonName} Already exists.");
 
-            var aggregate = await _repository.CreateAsync(Domain.Person.Create(request.PersonId.ToString()));
-            if (aggregate != null)
-                await _eventStore.SaveEventsAsync(aggregate.Id, aggregate.UncommittedEvents, aggregate.Version);
-
-            return new CommandResult(true, "Successfully person has been created.", aggregate.Id.ToString());
+            var newPerson = await _repository.CreateAsync(Domain.Person.Create(request.PersonName));
+            if (newPerson != null)
+                ProduceDomainEvents("", newPerson.UncommittedEvents);
+            return new CommandResult(true, "Successfully person has been created.", newPerson.Id.ToString());
         }
     }
 }
