@@ -22,6 +22,7 @@ namespace HP.Domain
             IsActive = true;
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
+            Updated = DateTime.Now;
             AddDomainEvent(new TodoCreated(Id, UserId, title, todoType.Name));
         }
         public string UserId { get; private set; }
