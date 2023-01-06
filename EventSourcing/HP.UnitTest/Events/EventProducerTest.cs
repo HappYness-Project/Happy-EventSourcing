@@ -25,7 +25,7 @@ namespace HP.UnitTest.Events
             string userId = Guid.NewGuid().ToString();
             TodoCreated todoCreated = new TodoCreated(Guid.NewGuid(), userId, "TodoTitle : new TOdo", "General");
 
-            _eventProducer.ProducerAsync("TestTopic", todoCreated);
+            _eventProducer.ProducerAsync(todoCreated);
         }
 
     }

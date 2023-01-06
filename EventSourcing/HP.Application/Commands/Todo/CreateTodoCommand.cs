@@ -27,8 +27,7 @@ namespace HP.Application.Commands.Todo
             todo.SetStatus(TodoStatus.NotDefined);
             var createdTodo = await _todoRepository.CreateAsync(todo);
 
-            //await _eventStore.SaveEventsAsync(createdTodo.Id, createdTodo.UncommittedEvents, createdTodo.Version);
-            ProduceDomainEvents("", createdTodo.UncommittedEvents);
+            await ProduceDomainEvents(createdTodo.UncommittedEvents);
             return new CommandResult(true, "Todo is created.", todo.Id.ToString());
         } 
     }

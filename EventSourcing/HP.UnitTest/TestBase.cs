@@ -44,7 +44,7 @@ namespace HP.test
                 IMapper mapper = mappingConfig.CreateMapper();
                 _mapper = mapper;
             }
-            _eventProducer = new EventProducer(_producerConfig);
+            _eventProducer = new EventProducer(_producerConfig, "HP");
             _eventConsumer = new EventConsumer(_consumerConfig,_eventHandler);
         }
 

@@ -39,8 +39,7 @@ namespace HP.Controllers
             if (request == null)
                 return BadRequest();
 
-            var cmd = new CreatePersonCommand(request.PersonName, request.PersonType, request.GroupId);
-            return Ok(await _mediator.Send(cmd));
+            return Ok(await _mediator.Send(new CreatePersonCommand(request.PersonName, request.PersonType, request.GroupId)));
         }
         [HttpPut("{userid}")]
         public async Task<CommandResult> Update(string userid, [FromBody]UpdatePersonRequest request)

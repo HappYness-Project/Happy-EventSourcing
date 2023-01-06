@@ -3,6 +3,6 @@ namespace HP.Core.Events
 {
     public interface IEventProducer
     {
-        Task ProducerAsync<T>(string topic, T @event) where T : IDomainEvent;
+        Task ProducerAsync<T>(T @event) where T : IDomainEvent;
     }
 }

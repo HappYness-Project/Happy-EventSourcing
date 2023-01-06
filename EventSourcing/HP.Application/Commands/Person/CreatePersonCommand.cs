@@ -21,7 +21,8 @@ namespace HP.Application.Commands.Person
 
             var newPerson = await _repository.CreateAsync(Domain.Person.Create(request.PersonName));
             if (newPerson != null)
-                ProduceDomainEvents("", newPerson.UncommittedEvents);
+                await ProduceDomainEvents(newPerson.UncommittedEvents);
+
             return new CommandResult(true, "Successfully person has been created.", newPerson.Id.ToString());
         }
     }

@@ -27,10 +27,11 @@ BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoUpdated>();
 
 
 builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
-builder.Services.Configure<ProducerConfig>(builder.Configuration.GetSection(nameof(ProducerConfig)));
+var getConfig = builder.Configuration;
+builder.Services.Configure<ProducerConfig>(getConfig.GetSection(nameof(ProducerConfig)));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ITodoEventHandler, TodoEventHandlers>();
-builder.Services.AddScoped<IEventProducer, EventProducer>();
+builder.Services.AddKafkaEventProducer(getConfig["KafkaTopicName"]);
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();

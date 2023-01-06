@@ -9,10 +9,10 @@ namespace HP.Application.Commands
         {
             this._eventProducer = eventProducer ?? throw new ArgumentNullException(nameof(eventProducer));
         }
-        protected async Task ProduceDomainEvents(string topic, IReadOnlyCollection<IDomainEvent> domainEvents)
+        protected async Task ProduceDomainEvents(IReadOnlyCollection<IDomainEvent> domainEvents)
         {
             foreach(var domainEvent in domainEvents)
-                await _eventProducer.ProducerAsync(topic, domainEvent);
+                await _eventProducer.ProducerAsync(domainEvent);
         }
     }
 }
