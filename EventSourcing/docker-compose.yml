@@ -36,6 +36,38 @@ services:
     networks:
       happy_network:
 
+  zookeeper:
+    image: bitnami/zookeeper
+    restart: always
+    ports:
+      - "2182:2182"
+    volumes:
+      - "zookeeper_data:/bitnami"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    image: bitnami/kafka
+    ports:
+      - "9093:9093"
+    restart: always
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2182
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_LISTENERS=PLAINTEXT://:9093
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9093
+    depends_on:
+      - zookeeper
+
+volumes:
+  zookeeper_data:
+    driver: local
+  kafka_data:
+    driver: local
+   
+
+
 
 networks:
   happy_network:
