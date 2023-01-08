@@ -70,7 +70,7 @@ namespace HP.UnitTest.Todos
             var todoItem = todo.AddTodoItem(Title, Type, Desc);
 
             //Assert
-            //todo.SubTodos.Should().HaveCount(1);
+            todo.SubTodos.Should().HaveCount(1);
         }
 
 

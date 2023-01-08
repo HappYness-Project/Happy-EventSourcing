@@ -14,7 +14,7 @@ namespace HP.Infrastructure.Repository
             var check = _collection.DeleteOne(x => x.Id == personId);
             return Task.FromResult(check.DeletedCount > 0 ? true : false);
         }
-        public async Task<Person> GetPersonByPersonNameAsync(string personName)
+        public async Task<Person> GetPersonByPersonNameAsync(string personName) 
         {
             return await _collection.Find(x => x.PersonName == personName).FirstOrDefaultAsync();
         }

@@ -32,11 +32,10 @@ namespace HP.Infrastructure.Kafka
 
                 var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
                 var @event = JsonSerializer.Deserialize<IDomainEvent>(consumerResult.Message.Value, options);
-                var handleMethod = _eventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
-                if (handleMethod == null)
-                    throw new ArgumentNullException(nameof(handleMethod), "Could not find evente handler method!");
-
-                handleMethod.Invoke(_eventHandler, new object[] { @event });
+                //var handleMethod = _eventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
+                //if (handleMethod == null)
+                //    throw new ArgumentNullException(nameof(handleMethod), "Could not find evente handler method!");
+                //handleMethod.Invoke(_eventHandler, new object[] { @event });
                 consumer.Commit(consumerResult);
             }
         }

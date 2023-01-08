@@ -49,6 +49,20 @@ namespace HP.UnitTest.Todos
             todoObj.Title.Should().Be(expectedTitle);
             todoObj.Description.Should().Be(expectedDesc);
         }
+        [Test]
+        public void Delete_ReturnFalseIfExist()
+        {
+
+        }
+        [Test]
+        public void Find_ReturnObjectIfExist()
+        {
+
+            var todo = TodoFactory.Create();
+
+            todoRepository.Find(x => x.AddDomainEvent== null);
+
+        }
 
 
 
