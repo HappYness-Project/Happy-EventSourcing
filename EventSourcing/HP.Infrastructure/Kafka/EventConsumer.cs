@@ -3,6 +3,7 @@ using HP.Core.Events;
 using HP.Core.Models;
 using HP.Infrastructure.EventHandlers;
 using Microsoft.Extensions.Options;
+using System;
 using System.Text.Json;
 
 namespace HP.Infrastructure.Kafka
@@ -11,10 +12,12 @@ namespace HP.Infrastructure.Kafka
     {
         private readonly ConsumerConfig _config;
         private readonly ITodoEventHandler _eventHandler;
-        public EventConsumer(IOptions<ConsumerConfig> config, ITodoEventHandler eventHandler)
+        private readonly string _topicName;
+        public EventConsumer(IOptions<ConsumerConfig> config, ITodoEventHandler eventHandler, string topicName)
         {
             _config = config.Value;
             _eventHandler = eventHandler;
+            _topicName = topicName;
         }
         public void Consumer(string topic)
         {
@@ -32,11 +35,12 @@ namespace HP.Infrastructure.Kafka
 
                 var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
                 var @event = JsonSerializer.Deserialize<IDomainEvent>(consumerResult.Message.Value, options);
-                //var handleMethod = _eventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
-                //if (handleMethod == null)
-                //    throw new ArgumentNullException(nameof(handleMethod), "Could not find evente handler method!");
-                //handleMethod.Invoke(_eventHandler, new object[] { @event });
-                consumer.Commit(consumerResult);
+                var handleMethod = _eventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
+                if (handleMethod == null)
+                    throw new ArgumentNullException(nameof(handleMethod), "Could not find evente handler method!");
+
+                handleMethod.Invoke(_eventHandler, new object[] { @event });
+                consumer.Commit(consumerResult);  
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Confluent.Kafka;
 using HP.Core.Events;
+using HP.Infrastructure.EventHandlers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -23,7 +24,8 @@ namespace HP.Infrastructure.Kafka
             {
                 var logger = c.GetRequiredService<ILogger<EventConsumer>>();
                 var getConfig = c.GetRequiredService<IOptions<ConsumerConfig>>();
-                return new EventConsumer(getConfig, topicName);
+                var eventHandler = c.GetRequiredService<ITodoEventHandler>();
+                return new EventConsumer(getConfig, eventHandler,topicName);
             });
         }
     }
