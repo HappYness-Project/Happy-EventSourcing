@@ -12,21 +12,21 @@ namespace HP.Infrastructure.Kafka
     {
         private readonly ConsumerConfig _config;
         private readonly ITodoEventHandler _eventHandler;
-        private readonly string _topicName;
+        private string _topicName;
         public EventConsumer(IOptions<ConsumerConfig> config, ITodoEventHandler eventHandler, string topicName)
         {
             _config = config.Value;
             _eventHandler = eventHandler;
             _topicName = topicName;
         }
-        public void Consumer(string topic)
+        public void Consumer()
         {
             using var consumer = new ConsumerBuilder<string, string>(_config)
                 .SetKeyDeserializer(Deserializers.Utf8)
                 .SetValueDeserializer(Deserializers.Utf8)
                 .Build();
 
-            consumer.Subscribe(topic);
+            consumer.Subscribe(_topicName);
 
             while (true)
             {

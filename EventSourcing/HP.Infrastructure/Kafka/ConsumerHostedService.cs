@@ -1,4 +1,5 @@
 ﻿using HP.Core.Events;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -26,7 +27,7 @@ namespace HP.Infrastructure.Kafka
             using(IServiceScope scope = _serviceProvider.CreateScope())
             {
                 var eventConsumer = scope.ServiceProvider.GetRequiredService<IEventConsumer>();
-                Task.Run(() => eventConsumer.Consumer(topic), cancellationToken);
+                Task.Run(() => eventConsumer.Consumer(), cancellationToken);
             }
             return Task.CompletedTask;
         }
