@@ -16,7 +16,7 @@ namespace HP.Application.Mappers
                 .ForMember(dest => dest.TodoTitle, opt => opt.MapFrom(src => src.Title));
             CreateMap<Domain.TodoItem, DTOs.TodoItemDto>();
             CreateMap<Todo, TodoDetailsDto>()
-                .ForMember(dest => dest.PersonName, opt => opt.MapFrom(src => src.PersonName))
+                .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
                 .ForMember(dest => dest.TodoId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.TodoTitle, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.TodoType, opt => opt.MapFrom(src => src.Type.Name))

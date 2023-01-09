@@ -1,4 +1,6 @@
 ﻿using HP.Core.Models;
+using static HP.Domain.PersonDomainEvents;
+
 namespace HP.Domain
 {
     public class Person : AggregateRoot
@@ -25,7 +27,7 @@ namespace HP.Domain
             CurrentScore = 0;
             GoalType = GoalType.NotDefined;
             Role = PersonRole.TBD.ToString();
-            AddDomainEvent(new PersonDomainEvents.PersonCreated(this.Id.ToString(), personName));
+            AddDomainEvent(new PersonCreated(this.Id.ToString(), personName));
 
         }
         public void UpdateRole(string role)
@@ -35,12 +37,12 @@ namespace HP.Domain
 
             string preRole = this.Role;
             this.Role = role;
-            AddDomainEvent(new PersonDomainEvents.PersonRoleUpdated(Id, preRole, role));
+            AddDomainEvent(new PersonRoleUpdated(Id, preRole, role));
         }
         public void UpdateGroupId(int groupId)
         {
             this.GroupId = groupId;
-            AddDomainEvent(new PersonDomainEvents.PersonGroupUpdated(Id, this.GroupId));
+            AddDomainEvent(new PersonGroupUpdated(Id, this.GroupId));
         }
         public static Person Create(string? personName = null)
         {
@@ -51,27 +53,46 @@ namespace HP.Domain
             // Todo : Do Api call or generate Kafka data.
             this.PersonType = PersonType;
             this.GroupId = GroupId.Value;
-            AddDomainEvent(new PersonDomainEvents.PersonInfoUpdated(this.Id));
+            AddDomainEvent(new PersonInfoUpdated(this.Id));
         }
         protected override void When(IDomainEvent @event)
         {
             switch(@event)
             {
-                case PersonDomainEvents.PersonCreated created:
+                case PersonCreated created:
+                    Apply(created);
                     break;
 
-                case PersonDomainEvents.PersonInfoUpdated u:
-                    
+                case PersonInfoUpdated updated:
+                    Apply(updated);
                     break;
 
-                case PersonDomainEvents.PersonRoleSetAdminAssigned a:
-
+                case PersonRoleSetAdminAssigned adminAssigned:
+                    Apply(adminAssigned);
                     break;
 
-                case PersonDomainEvents.PersonGroupUpdated d:
+                case PersonGroupUpdated groupupdated:
+                    Apply(groupupdated);
                     break;
             }
         }
+        private void Apply(PersonCreated @event)
+        {
+            
+        }
+        private void Apply(PersonInfoUpdated @event)
+        {
+
+        }
+        private void Apply(PersonRoleSetAdminAssigned @event)
+        {
+
+        }
+        private void Apply(PersonGroupUpdated @event)
+        {
+
+        }
+
     }
 }
             

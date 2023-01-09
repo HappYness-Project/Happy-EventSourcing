@@ -19,14 +19,12 @@ namespace HP.Domain
         }
         public class TodoUpdated : DomainEvent
         {
-            public TodoUpdated(string userId, Guid id, string todoTitle, string type)
+            public TodoUpdated(Guid id, string todoTitle, string type)
             {
-                UserId = userId;
                 TodoId = id;
                 TodoTitle = todoTitle;
                 TodoType = type;
             }
-            public string UserId { get; set; }
             public Guid TodoId { get; set; }
             public string TodoTitle { get; set; }
             public string TodoType { get; set; }

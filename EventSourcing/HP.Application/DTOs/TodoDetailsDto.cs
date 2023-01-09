@@ -2,7 +2,7 @@
 {
     public record TodoDetailsDto
     {
-        public string PersonName { get; set; }
+        public string PersonId { get; set; }
         public string TodoId { get; set; }
         public string TodoTitle { get; set; }
         public string Description { get; set; }

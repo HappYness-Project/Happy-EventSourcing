@@ -9,7 +9,7 @@ namespace HP.Domain
         protected Todo(Person person, string title, string description, TodoType todoType, string[] tag)
         {
             // TODO : CheckPolicies
-            PersonName = person.PersonName;
+            PersonId = person.Id.ToString();
             Title = title;
             Description = description;
             Type = todoType;
@@ -18,9 +18,9 @@ namespace HP.Domain
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
             Updated = DateTime.Now;
-            AddDomainEvent(new TodoCreated(Id, PersonName, title, todoType.Name));
+            AddDomainEvent(new TodoCreated(Id, PersonId, title, todoType.Name));
         }
-        public string PersonName { get; private set; }
+        public string PersonId { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string ProjectId { get; private set; }
@@ -55,7 +55,7 @@ namespace HP.Domain
             this.TargetEndDate = targetEndDate ?? null;
             this.Tag = Tags;
             this.Updated = DateTime.Now;
-            this.AddDomainEvent(new TodoUpdated(PersonName, Id, Title, Type.Name));
+            this.AddDomainEvent(new TodoUpdated(Id, Title, Type.Name));
         }
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
@@ -90,14 +90,10 @@ namespace HP.Domain
             switch (@event)
             {
                 case TodoCreated todoCreated:
-                    //this.Title = c.TodoTitle;
-                    //this.Type = TodoType.FromName(c.Type);
-                    //this.UserId = c.UserId;
                     Apply(todoCreated);
                     break;
 
                 case TodoUpdated todoUpdated:
-                    //this.UserId = u.UserId;
                     Apply(todoUpdated);
                     break;
 
@@ -114,9 +110,13 @@ namespace HP.Domain
         }
         private void Apply(TodoCreated @event) {
             Id = @event.TodoId;
-
+            PersonId = @event.PersonId;
+            Title = @event.TodoTitle;
+            Type = TodoType.FromName(@event.Type);
         }
-        private void Apply(TodoUpdated @event) { }
+        private void Apply(TodoUpdated @event) {
+            Id = @event.TodoId;
+        }
         private void Apply(TodoActivated @event) { }
         private void Apply(TodoDeactivated @event) { }
         public void ActivateTodo()

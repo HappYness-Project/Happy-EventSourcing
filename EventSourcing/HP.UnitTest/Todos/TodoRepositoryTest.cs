@@ -45,7 +45,7 @@ namespace HP.UnitTest.Todos
             var todoObj = todoRepository.CreateAsync(todo)?.Result;
 
             // Assert
-            todoObj.PersonName.Should().Be(expectedUserName);
+            todoObj.PersonId.Should().Be(expectedUserName);
             todoObj.Title.Should().Be(expectedTitle);
             todoObj.Description.Should().Be(expectedDesc);
         }

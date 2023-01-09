@@ -22,7 +22,6 @@ namespace HP.UnitTest.Todos.Commands
             _personRepositoryMock = new();
         }
 
-        //TODO unit testing for the COmmand handler.
         [Test]
         public async Task Handle_Should_ReturnFailureResult_UserNotExist()
         {
