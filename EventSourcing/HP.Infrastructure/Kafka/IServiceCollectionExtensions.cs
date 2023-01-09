@@ -18,15 +18,5 @@ namespace HP.Infrastructure.Kafka
                 return new EventProducer(getConfig, topicName);
             });
         }
-        public static IServiceCollection AddKafkaEventConsumer(this IServiceCollection services, string topicName)
-        {
-            return services.AddSingleton<IEventConsumer>(c =>
-            {
-                var logger = c.GetRequiredService<ILogger<EventConsumer>>();
-                var getConfig = c.GetRequiredService<IOptions<ConsumerConfig>>();
-                var eventHandler = c.GetRequiredService<ITodoEventHandler>();
-                return new EventConsumer(getConfig, eventHandler);
-            });
-        }
     }
 }
