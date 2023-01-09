@@ -28,7 +28,7 @@ namespace HP.UnitTest.Todos
             fakeTodo.Type.Should().NotBeNull().And.Be(TodoType.Others);
             fakeTodo.UncommittedEvents.Should().NotBeNull().And.HaveCount(1);
             var domainEvent = fakeTodo.UncommittedEvents.First();
-            domainEvent.EventType.Should().Be(expectedEventType);
+            domainEvent.Type.Should().Be(expectedEventType);
         }
 
         [Test]
@@ -45,10 +45,8 @@ namespace HP.UnitTest.Todos
             todo.IsActive.Should().BeTrue();
             todo.UncommittedEvents.Should().NotBeNull().And.HaveCount(2);
             var domainEvent = todo.UncommittedEvents.Last();
-            domainEvent.EventType.Should().Be(expectedEventType);
+            domainEvent.Type.Should().Be(expectedEventType);
         }
-
-
 
         [Test]
         public void Todo_Is_Deactivated_And_Raise_Event()
@@ -64,7 +62,7 @@ namespace HP.UnitTest.Todos
             todo.IsActive.Should().BeFalse();
             todo.UncommittedEvents.Should().NotBeNull().And.HaveCount(2);
             var domainEvent = todo.UncommittedEvents.Last();
-            domainEvent.EventType.Should().Be(expectedEventType);
+            domainEvent.Type.Should().Be(expectedEventType);
         }
 
         [Test]
@@ -80,8 +78,6 @@ namespace HP.UnitTest.Todos
             //todo.Updated
         }
 
-
-
         [Test]
         public void AddTodoTiem_Count_Should_Be_One()
         {
@@ -95,7 +91,6 @@ namespace HP.UnitTest.Todos
             todo.SubTodos.Should().HaveCount(1);
             todo.UncommittedEvents.Should().HaveCount(1);
         }
-
 
         [Test]
         public void DeleteTodoItem_Return_0()

@@ -16,8 +16,6 @@ namespace HP.UnitTest.Todos
         {
         }
 
-
-
         [Test]
         public async Task GetTodosByUser_Return_User()
         {

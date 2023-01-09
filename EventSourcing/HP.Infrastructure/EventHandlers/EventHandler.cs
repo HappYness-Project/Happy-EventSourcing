@@ -1,8 +1,20 @@
-﻿using static HP.Domain.TodoDomainEvents;
+﻿using HP.Domain;
+using static HP.Domain.TodoDomainEvents;
 namespace HP.Infrastructure.EventHandlers
 {
-    public class EventHandler : ITodoEventHandler
+    // This is Query side
+    public class TodoEventHandler : ITodoEventHandler
     {
+        private readonly ITodoRepository _todoRepository;
+
+        #region Ctors
+        public TodoEventHandler(ITodoRepository todoRepository)
+        {
+            _todoRepository = todoRepository;
+        }
+        #endregion
+
+        #region handlers
         public Task On(TodoCreated @event)
         {
             throw new NotImplementedException();
@@ -31,5 +43,7 @@ namespace HP.Infrastructure.EventHandlers
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

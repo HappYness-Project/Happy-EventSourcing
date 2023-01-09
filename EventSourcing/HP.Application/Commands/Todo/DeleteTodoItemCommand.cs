@@ -1,16 +1,18 @@
-﻿using HP.Domain;
+﻿using HP.Core.Commands;
+using HP.Core.Events;
+using HP.Domain;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record DeleteTodoItemCommand(Guid TodoId, Guid TodoItemId) : IRequest<bool>;
-    public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand, bool>
+    public record DeleteTodoItemCommand(Guid TodoId, Guid TodoItemId) : BaseCommand;
+    public class DeleteTodoItemCommandHandler : BaseCommandHandler, IRequestHandler<DeleteTodoItemCommand, CommandResult>
     {
         private readonly ITodoRepository _repository;
-        public DeleteTodoItemCommandHandler(ITodoRepository todoRepository)
+        public DeleteTodoItemCommandHandler(IEventProducer eventProducer, ITodoRepository todoRepository) : base(eventProducer)
         {
             _repository = todoRepository;
         }
-        public async Task<bool> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
         {
             var todo = await _repository.GetByIdAsync(request.TodoId);
             if (todo == null)
@@ -22,8 +24,9 @@ namespace HP.Application.Commands.Todo
 
             todo.DeleteTodoItem(request.TodoItemId);
             await _repository.UpdateAsync(todo);
-            var @event = new TodoDomainEvents.TodoItemRemoved(request.TodoItemId);
-            return true;
+
+            await ProduceDomainEvents(todo.UncommittedEvents);
+            return new CommandResult(true, $"TodoItem is removed from Todo ID: {todo.Id}", request.TodoItemId);
         }
     }
 }

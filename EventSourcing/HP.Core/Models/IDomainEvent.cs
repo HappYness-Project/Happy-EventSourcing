@@ -10,7 +10,7 @@ namespace HP.Core.Models
         public Guid EventId { get; }
         public Guid AggregateId { get; }
         public int AggregateVersion { get; set; }
-        public string EventType { get; }
+        public string Type { get; }
         DateTime OccuredOn { get; }
     }
 }

@@ -50,7 +50,6 @@ namespace HP.Domain
         }
         public void UpdateBasicInfo(string PersonType, int? GroupId)
         {
-            // Todo : Do Api call or generate Kafka data.
             this.PersonType = PersonType;
             this.GroupId = GroupId.Value;
             AddDomainEvent(new PersonInfoUpdated(this.Id));
