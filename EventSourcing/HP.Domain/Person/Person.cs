@@ -1,6 +1,4 @@
 ﻿using HP.Core.Models;
-using static HP.Domain.TodoDomainEvents;
-
 namespace HP.Domain
 {
     public class Person : AggregateRoot

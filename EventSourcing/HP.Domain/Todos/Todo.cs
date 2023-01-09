@@ -9,7 +9,7 @@ namespace HP.Domain
         protected Todo(Person person, string title, string description, TodoType todoType, string[] tag)
         {
             // TODO : CheckPolicies
-            UserId = person.PersonName;
+            PersonName = person.PersonName;
             Title = title;
             Description = description;
             Type = todoType;
@@ -18,9 +18,9 @@ namespace HP.Domain
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
             Updated = DateTime.Now;
-            AddDomainEvent(new TodoCreated(Id, UserId, title, todoType.Name));
+            AddDomainEvent(new TodoCreated(Id, PersonName, title, todoType.Name));
         }
-        public string UserId { get; private set; }
+        public string PersonName { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string ProjectId { get; private set; }
@@ -55,7 +55,7 @@ namespace HP.Domain
             this.TargetEndDate = targetEndDate ?? null;
             this.Tag = Tags;
             this.Updated = DateTime.Now;
-            this.AddDomainEvent(new TodoUpdated(UserId, Id, Title, Type.Name));
+            this.AddDomainEvent(new TodoUpdated(PersonName, Id, Title, Type.Name));
         }
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
@@ -112,7 +112,10 @@ namespace HP.Domain
                     break;
             }
         }
-        private void Apply(TodoCreated @event) { }
+        private void Apply(TodoCreated @event) {
+            Id = @event.TodoId;
+
+        }
         private void Apply(TodoUpdated @event) { }
         private void Apply(TodoActivated @event) { }
         private void Apply(TodoDeactivated @event) { }

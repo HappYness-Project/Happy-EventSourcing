@@ -114,6 +114,21 @@ namespace HP.UnitTest.Todos
             todo.SubTodos.Should().HaveCount(0);
         }
 
+        [Test]
+        public void Create_new_Todo_ThrowException_When_Person_Is_Null()
+        {
+            //Arrange
+            string[] faketags = { "Study", "Kevin", "DDD" };
+            Person person = new Person(Guid.NewGuid().ToString());
+            string todoTitle = "Fake Todo";
+            string todoDesc = "Fake Description";
+            var expectedEventType = nameof(TodoCreated);
+
+            // Act
+            Action act = () =>  Todo.Create(null, todoTitle, todoDesc, TodoType.Others, faketags);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
 
     }
 }
