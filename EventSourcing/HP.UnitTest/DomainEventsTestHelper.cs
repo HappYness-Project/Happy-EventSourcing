@@ -1,4 +1,5 @@
 ﻿using HP.Core.Models;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,7 +16,29 @@ namespace HP.test
                 domainEvents.AddRange(aggregate.UncommittedEvents);
             }
             var fields = aggregate.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public).Concat(aggregate.GetType().BaseType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public)).ToArray();
-            return null;
+            foreach(var field in fields)
+            {
+                var isAggregate = field.FieldType.IsAssignableFrom(typeof(AggregateRoot));
+                if (isAggregate)
+                {
+                    var aggregateRoot = field.GetValue(aggregate) as AggregateRoot;
+                    domainEvents.AddRange(GetAllDomainEvents(aggregateRoot).ToList());
+                }
+                if(field.FieldType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(field.FieldType))
+                {
+                    if(field.GetValue(aggregate) is IEnumerable enumerable)
+                    {
+                        foreach(var en in enumerable)
+                        {
+                            if(en is AggregateRoot entityItem)
+                            {
+                                domainEvents.AddRange(GetAllDomainEvents(entityItem));
+                            }
+                        }
+                    }
+                }
+            }
+            return domainEvents;
         }
     }
 }

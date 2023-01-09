@@ -19,6 +19,7 @@ namespace HP.Domain
         }
         public TodoItem(string title, string todoType, string desc)
         {
+            Id = Guid.NewGuid();
             Title = title;
             TodoType = todoType;
             Description = desc;

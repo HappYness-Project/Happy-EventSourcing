@@ -6,14 +6,9 @@ namespace HP.Domain
     public class Todo : AggregateRoot
     {
         public Todo() { }
-        public Todo(Person person, string title, string description, TodoType todoType, string[] tag)
+        protected Todo(Person person, string title, string description, TodoType todoType, string[] tag)
         {
             // TODO : CheckPolicies
-            if (person is null)
-                throw new ArgumentNullException(nameof(person));
-            if (string.IsNullOrWhiteSpace(title))
-                throw new ArgumentNullException(nameof(title));
-
             UserId = person.PersonName;
             Title = title;
             Description = description;
@@ -46,6 +41,9 @@ namespace HP.Domain
             if (person is null)
                 throw new ArgumentNullException(nameof(person));
 
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentNullException(nameof(title));
+
             return new(person, title, description, type, tags);
         }
         public void Update(string title, string type, string desc, string[] Tags, DateTime? targetStartDate = null, DateTime? targetEndDate = null)
@@ -61,8 +59,12 @@ namespace HP.Domain
         }
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentNullException(nameof(title));
+
             TodoItem todoItem = new TodoItem(title, type, desc);
             SubTodos.Add(todoItem);
+            this.AddDomainEvent(new TodoItemCreated(todoItem.Id));
             return todoItem;
         }
         public void DeleteTodoItem(Guid todoItemId)
@@ -72,7 +74,7 @@ namespace HP.Domain
                 throw new Exception($"[Domain Excecption]Not Found TodoItem : {todoItemId}");
 
             SubTodos.Remove(todoItem);
-            this.AddDomainEvent(new TodoDomainEvents.TodoItemRemoved(todoItemId));
+            this.AddDomainEvent(new TodoItemRemoved(todoItemId));
         }
         public void UpdateTodoItem(Guid todoItemId, string newTitle, string newDesc, string newType)
         {
@@ -81,7 +83,7 @@ namespace HP.Domain
                 throw new Exception($"[Domain Excecption]Not Found TodoItem : {todoItemId}");
 
             todoItem.Update(newTitle, newType, newDesc);
-            this.AddDomainEvent(new TodoDomainEvents.TodoItemUpdated(todoItemId));
+            this.AddDomainEvent(new TodoItemUpdated(todoItemId));
         }
         protected override void When(IDomainEvent @event)
         {
@@ -114,15 +116,15 @@ namespace HP.Domain
         private void Apply(TodoUpdated @event) { }
         private void Apply(TodoActivated @event) { }
         private void Apply(TodoDeactivated @event) { }
-        public void ActivateTodo(Guid todoId)
+        public void ActivateTodo()
         {
             this.IsActive = true;
-            this.AddDomainEvent(new TodoActivated(todoId));
+            this.AddDomainEvent(new TodoActivated(this.Id));
         }
-        public void DeactivateTodo(Guid todoId)
+        public void DeactivateTodo()
         {
             this.IsActive = false;
-            this.AddDomainEvent(new TodoDeactivated(todoId));
+            this.AddDomainEvent(new TodoDeactivated(this.Id));
         }
         public void Remove(Guid todoId)
         {

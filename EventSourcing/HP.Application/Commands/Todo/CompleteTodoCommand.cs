@@ -19,7 +19,7 @@ namespace HP.Application.Commands.Todo
                 throw new ApplicationException($"There is no active TodoId: {cmd.TodoId}");
 
             todo.SetStatus(TodoStatus.Complete);
-            todo.DeactivateTodo(cmd.TodoId);
+            todo.DeactivateTodo();
             await _repository.UpdateAsync(todo);
             return new CommandResult(true, "Successful", todo.Id.ToString());
 

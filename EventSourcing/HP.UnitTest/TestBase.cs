@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace HP.test
 {
-    public class TestBase
+    public abstract class TestBase
     {
         protected IConfiguration _configuration;
         protected IMongoDbContext _mongoDbContext;
@@ -46,11 +46,6 @@ namespace HP.test
             }
             _eventProducer = new EventProducer(_producerConfig, "HP");
             _eventConsumer = new EventConsumer(_consumerConfig,_eventHandler);
-        }
-
-        [Test]
-        public void DbCotextReturnCollectionTodo()
-        {
         }
     }
 }
