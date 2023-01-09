@@ -98,12 +98,10 @@ namespace HP.Domain
                     break;
 
                 case TodoActivated todoActivated:
-                    //this.IsActive = true;
                     Apply(todoActivated);
                     break;
 
                 case TodoDeactivated todoDeactivated:
-                    //this.IsActive = false;
                     Apply(todoDeactivated);
                     break;
             }
@@ -117,8 +115,12 @@ namespace HP.Domain
         private void Apply(TodoUpdated @event) {
             Id = @event.TodoId;
         }
-        private void Apply(TodoActivated @event) { }
-        private void Apply(TodoDeactivated @event) { }
+        private void Apply(TodoActivated @event) { 
+            this.Id = @event.TodoId;
+        }
+        private void Apply(TodoDeactivated @event) { 
+            this.Id = @event.TodoId;
+        }
         public void ActivateTodo()
         {
             this.IsActive = true;
@@ -129,9 +131,9 @@ namespace HP.Domain
             this.IsActive = false;
             this.AddDomainEvent(new TodoDeactivated(this.Id));
         }
-        public void Remove(Guid todoId)
+        public void Remove()
         {
-            this.AddDomainEvent(new TodoRemoved(todoId));
+            this.AddDomainEvent(new TodoRemoved(this.Id));
         }
         public void SetStatus(TodoStatus status, string? reason = null)
         {

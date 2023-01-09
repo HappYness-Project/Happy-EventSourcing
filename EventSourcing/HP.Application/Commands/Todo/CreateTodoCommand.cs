@@ -11,7 +11,6 @@ namespace HP.Application.Commands.Todo
     {
         private readonly ITodoRepository _todoRepository;
         private readonly IPersonRepository _personRepository;
-        private readonly IEventProducer _eventProducer;
         public CreateTodoCommandHandler(IEventProducer eventProducer, ITodoRepository repository, IPersonRepository personRepository) : base(eventProducer)
         {
             _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
