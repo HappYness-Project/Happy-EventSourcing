@@ -45,7 +45,7 @@ namespace HP.test
                 _mapper = mapper;
             }
             _eventProducer = new EventProducer(_producerConfig, "HP");
-            _eventConsumer = new EventConsumer(_consumerConfig,_eventHandler, "HP");
+            _eventConsumer = new EventConsumer(_consumerConfig,_eventHandler);
         }
 
         [Test]

@@ -29,13 +29,15 @@ BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoUpdated>();
 builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
 var getConfig = builder.Configuration;
 builder.Services.Configure<ProducerConfig>(getConfig.GetSection(nameof(ProducerConfig)));
+builder.Services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerConfig)));
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ITodoEventHandler, TodoEventHandlers>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddKafkaEventProducer(getConfig["KafkaTopicName"]);
-builder.Services.AddKafkaEventConsumer(getConfig["KafkaTopicName"]);
+//builder.Services.AddKafkaEventConsumer(getConfig["KafkaTopicName"]);
+builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 
 builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);

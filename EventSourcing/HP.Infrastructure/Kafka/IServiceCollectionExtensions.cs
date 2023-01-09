@@ -25,7 +25,7 @@ namespace HP.Infrastructure.Kafka
                 var logger = c.GetRequiredService<ILogger<EventConsumer>>();
                 var getConfig = c.GetRequiredService<IOptions<ConsumerConfig>>();
                 var eventHandler = c.GetRequiredService<ITodoEventHandler>();
-                return new EventConsumer(getConfig, eventHandler, topicName);
+                return new EventConsumer(getConfig, eventHandler);
             });
         }
     }

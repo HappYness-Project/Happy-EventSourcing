@@ -3,7 +3,7 @@ namespace HP.Core.Events
 {
     public interface IEventConsumer
     {
-        void Consumer();
+        void Consumer(string topicName);
 
     }
 }
