@@ -41,10 +41,10 @@ namespace HP.Controllers
 
             return Ok(await _mediator.Send(new CreatePersonCommand(request.PersonName, request.PersonType, request.GroupId)));
         }
-        [HttpPut("{userid}")]
-        public async Task<CommandResult> Update(string userid, [FromBody]UpdatePersonRequest request)
+        [HttpPut("{personId}")]
+        public async Task<CommandResult> Update(Guid personId, [FromBody]UpdatePersonRequest request)
         {
-            var result = await _mediator.Send(new UpdatePersonCommand(Guid.Parse(request.PersonId), request.PersonType, request.GroupId));
+            var result = await _mediator.Send(new UpdatePersonCommand(personId, request.PersonType, request.GoalType, request.GroupId));
             return result;
         }
         [HttpPut("{userid}/Role")]

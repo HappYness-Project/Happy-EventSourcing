@@ -54,11 +54,11 @@ namespace HP.Domain
         }
         public class PersonRoleSetAdminAssigned : DomainEvent
         {
-            public PersonRoleSetAdminAssigned(string personId) 
+            public PersonRoleSetAdminAssigned(Guid personId) 
             {
                 PersonId = personId;
             }
-            public string PersonId { get; }
+            public Guid PersonId { get; }
         }
         public class PersonGroupUpdated : DomainEvent
         {

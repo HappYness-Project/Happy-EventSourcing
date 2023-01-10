@@ -25,7 +25,7 @@ namespace HP.test
         [Test]
         public void EventStore_Save_For_PersonCreate()
         {
-            var domainEvent = new PersonCreated(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            var domainEvent = new PersonCreated(Guid.NewGuid(), Guid.NewGuid().ToString());
         }
     }
 }

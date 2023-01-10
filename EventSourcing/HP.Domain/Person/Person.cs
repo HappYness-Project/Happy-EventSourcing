@@ -27,7 +27,7 @@ namespace HP.Domain
             CurrentScore = 0;
             GoalType = GoalType.NotDefined;
             Role = PersonRole.TBD.ToString();
-            AddDomainEvent(new PersonCreated(this.Id.ToString(), personName));
+            AddDomainEvent(new PersonCreated(Id, personName));
 
         }
         public void UpdateRole(string role)
@@ -42,18 +42,18 @@ namespace HP.Domain
         public void UpdateGroupId(int groupId)
         {
             this.GroupId = groupId;
-            AddDomainEvent(new PersonGroupUpdated(Id, this.GroupId));
+            AddDomainEvent(new PersonGroupUpdated(Id, GroupId));
         }
         public static Person Create(string? personName = null)
         {
             return new Person(personName); 
         }
-        public void UpdateBasicInfo(string? PersonType,string? GoalType, int? GroupId)
+        public void UpdateBasicInfo(string? personType, string? goalType, int? groupId)
         {
-            this.PersonType = PersonType;
-            this.GoalType = GoalType.FromName(GoalType);
-            this.GroupId = GroupId.Value;
-            AddDomainEvent(new PersonInfoUpdated(this.Id));
+            this.PersonType = personType;
+            this.GoalType = GoalType.FromName(goalType);
+            this.GroupId = groupId.Value;
+            AddDomainEvent(new PersonInfoUpdated(Id, personType, goalType));
         }
         protected override void When(IDomainEvent @event)
         {
