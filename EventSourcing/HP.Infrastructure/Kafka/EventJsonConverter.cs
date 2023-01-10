@@ -1,6 +1,7 @@
 ﻿using HP.Core.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using static HP.Domain.PersonDomainEvents;
 using static HP.Domain.TodoDomainEvents;
 
 namespace HP.Infrastructure.Kafka
@@ -31,6 +32,17 @@ namespace HP.Infrastructure.Kafka
                 nameof(TodoActivated) => JsonSerializer.Deserialize<TodoActivated>(json, options),
                 nameof(TodoDeactivated) => JsonSerializer.Deserialize<TodoDeactivated>(json, options),
                 nameof(TodoStarted) => JsonSerializer.Deserialize<TodoStarted>(json, options),
+                nameof(TodoCompleted) => JsonSerializer.Deserialize<TodoCompleted>(json, options),
+                nameof(TodoItemCreated) => JsonSerializer.Deserialize<TodoItemCreated>(json, options),
+                nameof(TodoItemUpdated) => JsonSerializer.Deserialize<TodoItemUpdated>(json, options),
+                nameof(TodoItemRemoved) => JsonSerializer.Deserialize<TodoItemRemoved>(json, options),
+                nameof(TodoStatusToAccepted) => JsonSerializer.Deserialize<TodoStatusToAccepted>(json, options),
+                nameof(TodoStatusToPending) => JsonSerializer.Deserialize<TodoStatusToPending>(json, options),
+
+                nameof(PersonCreated) => JsonSerializer.Deserialize<PersonCreated>(json, options),
+                nameof(PersonInfoUpdated) => JsonSerializer.Deserialize<PersonInfoUpdated>(json, options),
+                nameof(PersonGroupUpdated) => JsonSerializer.Deserialize<PersonGroupUpdated>(json, options),
+
                 _ => throw new JsonException($"{typeDiscriminator} is not supported yet.")
             };
         }

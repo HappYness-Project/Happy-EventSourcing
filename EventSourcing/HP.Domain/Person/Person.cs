@@ -27,6 +27,7 @@ namespace HP.Domain
             CurrentScore = 0;
             GoalType = GoalType.NotDefined;
             Role = PersonRole.TBD.ToString();
+            UpdateDate = DateTime.Now;
             AddDomainEvent(new PersonCreated(Id, personName));
 
         }

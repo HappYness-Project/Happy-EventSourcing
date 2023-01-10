@@ -2,10 +2,15 @@
 {
     public abstract class AggregateRoot : BaseEntity, IAggregateRoot
     {
-        public AggregateRoot() { }
+        public AggregateRoot() {
+            this.Created = DateTime.Now;
+        }
         private List<IDomainEvent> _domainEvents;
         public int Version { get; set; }
         public IReadOnlyCollection<IDomainEvent> UncommittedEvents => _domainEvents?.AsReadOnly();
+
+        public DateTime? Created { get; }
+
         public void AddDomainEvent(IDomainEvent domainEvent)
         {
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();

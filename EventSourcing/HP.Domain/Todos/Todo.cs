@@ -142,19 +142,19 @@ namespace HP.Domain
                 case "pending":
                     this.Status = TodoStatus.Pending;
                     this.StatusDesc = $"Todo Id:{Id} of Title: {Title} is completed.";
-                    AddDomainEvent(new TodoDomainEvents.TodoStatusToPending(Id));
+                    AddDomainEvent(new TodoStatusToPending(Id));
                     break;
 
                 case "accept":
                     this.Status = TodoStatus.Accept;
                     this.StatusDesc = $"Todo Id:{Id} of Title: {Title} is accepted.";
-                    AddDomainEvent(new TodoDomainEvents.TodoStatusToAccepted(Id));
+                    AddDomainEvent(new TodoStatusToAccepted(Id));
                     break;
 
                 case "start":
                     this.Status = TodoStatus.Start;
                     this.StatusDesc = $"Todo Id:{Id}, has been started at {DateTime.Now}";
-                    AddDomainEvent(new TodoDomainEvents.TodoStarted(Id));
+                    AddDomainEvent(new TodoStarted(Id));
                     break;
 
                 case "complete":
@@ -162,7 +162,7 @@ namespace HP.Domain
                     this.StatusDesc = $"Todo Id:{Id} is completed. ";
                     this.IsDone = true;
                     this.Completed = DateTime.Now;
-                    AddDomainEvent(new TodoDomainEvents.TodoCompleted(Id));
+                    AddDomainEvent(new TodoCompleted(Id));
                     break;
 
                 case "stop":
