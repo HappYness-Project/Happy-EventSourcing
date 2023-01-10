@@ -48,9 +48,10 @@ namespace HP.Domain
         {
             return new Person(personName); 
         }
-        public void UpdateBasicInfo(string PersonType, int? GroupId)
+        public void UpdateBasicInfo(string? PersonType,string? GoalType, int? GroupId)
         {
             this.PersonType = PersonType;
+            this.GoalType = GoalType.FromName(GoalType);
             this.GroupId = GroupId.Value;
             AddDomainEvent(new PersonInfoUpdated(this.Id));
         }
@@ -77,19 +78,21 @@ namespace HP.Domain
         }
         private void Apply(PersonCreated @event)
         {
-            
+            Id = @event.PersonId;
+            PersonName = @event.PersonName;
         }
         private void Apply(PersonInfoUpdated @event)
         {
-
+            Id = @event.PersonId;
         }
         private void Apply(PersonRoleSetAdminAssigned @event)
         {
-
+            Id = @event.PersonId;
         }
         private void Apply(PersonGroupUpdated @event)
         {
-
+            Id = @event.PersonId;
+            GroupId = @event.GroupId;   
         }
 
     }

@@ -5,26 +5,33 @@ namespace HP.Domain
     {
         public class PersonCreated : DomainEvent
         {
-            public PersonCreated(string personId, string personName)
+            public PersonCreated(Guid personId, string personName)
             {
+                PersonId = personId;
                 PersonName = personName;
             }
+            public Guid PersonId { get; set; }
             public string PersonName { get; set; }
         }
         public class PersonInfoUpdated : DomainEvent
         {
-            public PersonInfoUpdated(Guid personId) 
+            public PersonInfoUpdated(Guid personId, string personType, string goalType) 
             {
-                this.PersonId = personId;   
+                PersonId = personId;
+                PersonType = personType;
+                GoalType = goalType;
             }
             public Guid PersonId { get; set; }
+            public string PersonType { get; set; }
+            public string GoalType { get; set; }
         }
         public class PersonRoleUpdated : DomainEvent
         {
             public PersonRoleUpdated(Guid personId, string preRole, string curRole)
-            { 
-
-                this.PreRole = preRole;
+            {
+                PersonId = personId;
+                PreRole = preRole;
+                Role = curRole;
             }
             public Guid PersonId { get; set; }
             public string PreRole { get; set; }
@@ -49,18 +56,18 @@ namespace HP.Domain
         {
             public PersonRoleSetAdminAssigned(string personId) 
             {
-                Id = personId;
+                PersonId = personId;
             }
-            public string Id { get; }
+            public string PersonId { get; }
         }
         public class PersonGroupUpdated : DomainEvent
         {
             public PersonGroupUpdated(Guid personId, int groupId)
             {
-                this.Id = personId;
+                this.PersonId = personId;
                 this.GroupId = groupId;
             }
-            public Guid Id {get; }
+            public Guid PersonId {get; }
             public int GroupId {get;}
         }
     }
