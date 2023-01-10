@@ -11,11 +11,13 @@ namespace HP.Infrastructure.Kafka
     public class EventConsumer : IEventConsumer
     {
         private readonly ConsumerConfig _config;
-        private readonly ITodoEventHandler _eventHandler;
-        public EventConsumer(IOptions<ConsumerConfig> config, ITodoEventHandler eventHandler)
+        private readonly ITodoEventHandler _todoEventHandler;
+        private readonly IPersonEventHandler _personEventHandler;
+        public EventConsumer(IOptions<ConsumerConfig> config, ITodoEventHandler todoEventHandler, IPersonEventHandler personEventHandler)
         {
             _config = config.Value;
-            _eventHandler = eventHandler;
+            _todoEventHandler = todoEventHandler;
+            _personEventHandler = personEventHandler;
         }
         public void Consumer(string topicName)
         {
@@ -33,11 +35,11 @@ namespace HP.Infrastructure.Kafka
 
                 var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
                 var @event = JsonSerializer.Deserialize<IDomainEvent>(consumerResult.Message.Value, options);
-                var handleMethod = _eventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
+                var handleMethod = _personEventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
                 if (handleMethod == null)
                     throw new ArgumentNullException(nameof(handleMethod), "Could not find evente handler method!");
 
-                handleMethod.Invoke(_eventHandler, new object[] { @event });
+                handleMethod.Invoke(_personEventHandler, new object[] { @event });
                 consumer.Commit(consumerResult);  
             }
         }

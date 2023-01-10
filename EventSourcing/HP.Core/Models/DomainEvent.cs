@@ -6,12 +6,12 @@
         { 
             EventId = Guid.NewGuid();
             OccuredOn = DateTime.Now;
-            Type = this.GetType().Name;
+            EventType = this.GetType().Name;
         }
         public Guid EventId { get; }
         public Guid AggregateId { get; set; }
         public DateTime OccuredOn { get; }
-        public string Type { get; }
+        public string EventType { get; }
         public int AggregateVersion { get; set; }
     }
 }

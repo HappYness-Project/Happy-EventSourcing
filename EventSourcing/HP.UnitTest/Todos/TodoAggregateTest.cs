@@ -28,7 +28,7 @@ namespace HP.UnitTest.Todos
             fakeTodo.Type.Should().NotBeNull().And.Be(TodoType.Others);
             fakeTodo.UncommittedEvents.Should().NotBeNull().And.HaveCount(1);
             var domainEvent = fakeTodo.UncommittedEvents.First();
-            domainEvent.Type.Should().Be(expectedEventType);
+            domainEvent.EventType.Should().Be(expectedEventType);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace HP.UnitTest.Todos
             todo.IsActive.Should().BeTrue();
             todo.UncommittedEvents.Should().NotBeNull().And.HaveCount(2);
             var domainEvent = todo.UncommittedEvents.Last();
-            domainEvent.Type.Should().Be(expectedEventType);
+            domainEvent.EventType.Should().Be(expectedEventType);
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace HP.UnitTest.Todos
             todo.IsActive.Should().BeFalse();
             todo.UncommittedEvents.Should().NotBeNull().And.HaveCount(2);
             var domainEvent = todo.UncommittedEvents.Last();
-            domainEvent.Type.Should().Be(expectedEventType);
+            domainEvent.EventType.Should().Be(expectedEventType);
         }
 
         [Test]
