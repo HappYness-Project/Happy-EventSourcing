@@ -11,7 +11,7 @@ namespace HP.UnitTest.Todos
     [TestFixture]
     public class TodoRepositoryTest : TestBase
     {
-        private ITodoRepository todoRepository;
+        private ITodoAggregateRepository todoRepository;
         [SetUp]
         public void Setup()
         {

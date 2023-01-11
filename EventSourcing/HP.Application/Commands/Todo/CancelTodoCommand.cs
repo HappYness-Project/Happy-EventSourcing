@@ -6,8 +6,8 @@ namespace HP.Application.Commands.Todo
     public record CancelTodoCommand(Guid todoId) : BaseCommand;
     public class CancelTodoCommandHandler : IRequestHandler<CancelTodoCommand, CommandResult>
     {
-        private readonly ITodoRepository _todoRepository;
-        public CancelTodoCommandHandler(ITodoRepository todoRepository)
+        private readonly ITodoAggregateRepository _todoRepository;
+        public CancelTodoCommandHandler(ITodoAggregateRepository todoRepository)
         {
             _todoRepository = todoRepository;
         }

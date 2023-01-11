@@ -18,8 +18,8 @@ namespace HP.Application.Queries.Todos
                                      IRequestHandler<GetStoppedTodoItemsByTodoId, IEnumerable<TodoItemDto>>
         
     {
-        private readonly ITodoRepository _todoRepository;
-        public TodoQueryHandlers(IMapper mapper, ITodoRepository todoRepository) : base(mapper)
+        private readonly ITodoAggregateRepository _todoRepository;
+        public TodoQueryHandlers(IMapper mapper, ITodoAggregateRepository todoRepository) : base(mapper)
         {
             _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }

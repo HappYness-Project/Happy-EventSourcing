@@ -5,8 +5,8 @@ namespace HP.Application.Commands.Person
     public record UpdatePersonRoleCommand(string UserName, string Role) : IRequest<Unit>;
     public class UpdatePersonRoleCommandHandler : IRequestHandler<UpdatePersonRoleCommand>
     {
-        private readonly IPersonRepository _repository;
-        public UpdatePersonRoleCommandHandler(IPersonRepository personRepository)
+        private readonly IPersonAggregateRepository _repository;
+        public UpdatePersonRoleCommandHandler(IPersonAggregateRepository personRepository)
         {
             _repository = personRepository;
         }

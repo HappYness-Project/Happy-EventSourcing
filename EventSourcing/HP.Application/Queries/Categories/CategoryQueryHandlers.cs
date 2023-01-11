@@ -9,9 +9,9 @@ namespace HP.Application.Queries
     public class CategoryQueryHandlers : BaseQueryHandler,
                                         IRequestHandler<GetCategories, IEnumerable<Category>>
     {
-        private readonly IPersonRepository _personRepository;
+        private readonly IPersonAggregateRepository _personRepository;
         private readonly ICategoryRepository _categoryRepository;
-        public CategoryQueryHandlers(IMapper mapper, ICategoryRepository categoryRepository, IPersonRepository personRepository) : base(mapper)
+        public CategoryQueryHandlers(IMapper mapper, ICategoryRepository categoryRepository, IPersonAggregateRepository personRepository) : base(mapper)
         {
             _personRepository = personRepository;
         }

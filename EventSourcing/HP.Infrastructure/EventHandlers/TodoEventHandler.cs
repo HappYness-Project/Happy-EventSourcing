@@ -5,10 +5,10 @@ namespace HP.Infrastructure.EventHandlers
     // This is Query side
     public class TodoEventHandler : ITodoEventHandler
     {
-        private readonly ITodoRepository _todoRepository;
+        private readonly ITodoAggregateRepository _todoRepository;
 
         #region Ctors
-        public TodoEventHandler(ITodoRepository todoRepository)
+        public TodoEventHandler(ITodoAggregateRepository todoRepository)
         {
             _todoRepository = todoRepository;
         }

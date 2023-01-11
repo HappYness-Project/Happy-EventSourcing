@@ -8,8 +8,8 @@ namespace HP.Application.Commands.Person
     public record UpdatePersonCommand(Guid PersonId, string? PersonType, string? GoalType, int? GroupId = null) : BaseCommand;
     public class UpdatePersonCommandHandler : BaseCommandHandler, IRequestHandler<UpdatePersonCommand, CommandResult>
     {
-        private readonly IPersonRepository _repository;
-        public UpdatePersonCommandHandler(IEventProducer eventProducer, IPersonRepository personRepository) : base(eventProducer)
+        private readonly IPersonAggregateRepository _repository;
+        public UpdatePersonCommandHandler(IEventProducer eventProducer, IPersonAggregateRepository personRepository) : base(eventProducer)
         {
             _repository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }

@@ -5,9 +5,9 @@ namespace HP.Infrastructure.EventHandlers
     // This is Query side
     public class PersonEventHandlers : IPersonEventHandler
     {
-        private readonly IPersonRepository _personRepository;
+        private readonly IPersonAggregateRepository _personRepository;
         #region Ctors
-        public PersonEventHandlers(IPersonRepository personRepository)
+        public PersonEventHandlers(IPersonAggregateRepository personRepository)
         {
             _personRepository = personRepository;
         }

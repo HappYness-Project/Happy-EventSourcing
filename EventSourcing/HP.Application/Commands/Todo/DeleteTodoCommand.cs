@@ -7,8 +7,8 @@ namespace HP.Application.Commands.Todo
     public record DeleteTodoCommand(Guid TodoId) : BaseCommand;
     public class DeleteTodoCommandHandler : BaseCommandHandler, IRequestHandler<DeleteTodoCommand, CommandResult>
     {
-        private readonly ITodoRepository _todoRepository;
-        public DeleteTodoCommandHandler(IEventProducer eventProducer, ITodoRepository todoRepository) : base(eventProducer)
+        private readonly ITodoAggregateRepository _todoRepository;
+        public DeleteTodoCommandHandler(IEventProducer eventProducer, ITodoAggregateRepository todoRepository) : base(eventProducer)
         {
             _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }

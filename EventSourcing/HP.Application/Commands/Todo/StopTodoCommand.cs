@@ -6,8 +6,8 @@ namespace HP.Application.Commands.Todo
     public record StopTodoCommand(Guid TodoId, string reason) : BaseCommand;
     public class StopTodoCommandHandler : IRequestHandler<StopTodoCommand, CommandResult>
     {
-        private readonly ITodoRepository _repository;
-        public StopTodoCommandHandler(ITodoRepository repository)
+        private readonly ITodoAggregateRepository _repository;
+        public StopTodoCommandHandler(ITodoAggregateRepository repository)
         {
             _repository = repository;
         }

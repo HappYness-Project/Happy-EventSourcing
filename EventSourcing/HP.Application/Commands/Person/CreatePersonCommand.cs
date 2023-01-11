@@ -8,8 +8,8 @@ namespace HP.Application.Commands.Person
     public class CreatePersonCommandHandler : BaseCommandHandler,
                                               IRequestHandler<CreatePersonCommand, CommandResult>
     {
-        private readonly IPersonRepository _repository;
-        public CreatePersonCommandHandler(IPersonRepository personRepository, IEventProducer eventProducer) : base(eventProducer)
+        private readonly IPersonAggregateRepository _repository;
+        public CreatePersonCommandHandler(IPersonAggregateRepository personRepository, IEventProducer eventProducer) : base(eventProducer)
         {
             this._repository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }

@@ -1,7 +1,7 @@
 ﻿using HP.Core.Common;
 namespace HP.Domain
 {
-    public interface IPersonRepository : IAggregateBaseRepository<Person>
+    public interface IPersonAggregateRepository : IAggregateBaseRepository<Person>
     {
         Task<Person> UpdatePersonAsync(Person person);
         Task<bool> DeletePersonAsync(Guid personId);

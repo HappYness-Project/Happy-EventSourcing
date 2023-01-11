@@ -10,8 +10,8 @@ namespace HP.Application.Queries
                                         IRequestHandler<GetPersonByName, PersonDetailsDto>,
                                         IRequestHandler<GetPersonUserId, PersonDetailsDto>
     {
-        private readonly IPersonRepository _personRepository;
-        public PersonQueryHandlers(IMapper mapper, IPersonRepository personRepository) : base(mapper)
+        private readonly IPersonAggregateRepository _personRepository;
+        public PersonQueryHandlers(IMapper mapper, IPersonAggregateRepository personRepository) : base(mapper)
         {
             _personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }

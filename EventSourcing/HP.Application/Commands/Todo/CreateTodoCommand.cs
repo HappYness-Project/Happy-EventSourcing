@@ -9,9 +9,9 @@ namespace HP.Application.Commands.Todo
     public record CreateTodoCommand(Guid PersonId, string TodoTitle, string TodoType, string? Description = null, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null, string[] Tag = null) : BaseCommand;
     public class CreateTodoCommandHandler : BaseCommandHandler, IRequestHandler<CreateTodoCommand, CommandResult>
     {
-        private readonly ITodoRepository _todoRepository;
-        private readonly IPersonRepository _personRepository;
-        public CreateTodoCommandHandler(IEventProducer eventProducer, ITodoRepository repository, IPersonRepository personRepository) : base(eventProducer)
+        private readonly ITodoAggregateRepository _todoRepository;
+        private readonly IPersonAggregateRepository _personRepository;
+        public CreateTodoCommandHandler(IEventProducer eventProducer, ITodoAggregateRepository repository, IPersonAggregateRepository personRepository) : base(eventProducer)
         {
             _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
             _personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));

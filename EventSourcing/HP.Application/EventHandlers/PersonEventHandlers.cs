@@ -12,8 +12,8 @@ namespace HP.Application.EventHandlers
     public class PersonEventHandlers : INotificationHandler<PersonCreated>
 
     {
-        private readonly IPersonRepository _personRepository;
-        public PersonEventHandlers(IPersonRepository personRepository)
+        private readonly IPersonAggregateRepository _personRepository;
+        public PersonEventHandlers(IPersonAggregateRepository personRepository)
         {
             _personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }

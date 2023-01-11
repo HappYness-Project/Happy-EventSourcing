@@ -13,8 +13,8 @@ namespace HP.UnitTest.Todos.Commands
 {
     public class CreateTodoCommandHandlerTests : TestBase
     {
-        private readonly Mock<ITodoRepository> _todoRepositoryMock;
-        private readonly Mock<IPersonRepository> _personRepositoryMock;
+        private readonly Mock<ITodoAggregateRepository> _todoRepositoryMock;
+        private readonly Mock<IPersonAggregateRepository> _personRepositoryMock;
 
         public CreateTodoCommandHandlerTests()
         {

@@ -5,8 +5,8 @@ namespace HP.Application.Commands.Todo
     public record UpdateStatusTodoItemCommand(Guid TodoId, Guid TodoItemId, string Status) : IRequest<bool>;
     public class UpdateStatusTodoItemCommandHandler : IRequestHandler<UpdateStatusTodoItemCommand, bool>
     {
-        private readonly ITodoRepository _repository;
-        public UpdateStatusTodoItemCommandHandler(ITodoRepository todoRepository)
+        private readonly ITodoAggregateRepository _repository;
+        public UpdateStatusTodoItemCommandHandler(ITodoAggregateRepository todoRepository)
         {
             _repository = todoRepository;
         }

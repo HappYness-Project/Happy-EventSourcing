@@ -6,8 +6,8 @@ namespace HP.Application.Commands.Todo
     public record UpdateTodoItemCommand(Guid TodoId, Guid TodoItemId, string Title, string Desc, string Type) : BaseCommand;
     public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemCommand, CommandResult>
     {
-        private readonly ITodoRepository _repository;
-        public UpdateTodoItemCommandHandler(ITodoRepository todoRepository)
+        private readonly ITodoAggregateRepository _repository;
+        public UpdateTodoItemCommandHandler(ITodoAggregateRepository todoRepository)
         {
             _repository = todoRepository;
         }

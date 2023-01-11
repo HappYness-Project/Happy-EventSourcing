@@ -12,8 +12,8 @@ namespace HP.Application.EventHandlers
     using static HP.Domain.TodoDomainEvents;
     public class TodoEventHandlers : ITodoEventHandler
     {
-        private readonly ITodoRepository _todoRepository;
-        public TodoEventHandlers(ITodoRepository todoRepository)
+        private readonly ITodoAggregateRepository _todoRepository;
+        public TodoEventHandlers(ITodoAggregateRepository todoRepository)
         {
             _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }

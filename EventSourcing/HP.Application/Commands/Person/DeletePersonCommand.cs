@@ -13,8 +13,8 @@ namespace HP.Application.Commands.Person
     }
     public class DeletePersonCommandHandler : IRequestHandler<DeletePersonCommand, CommandResult>
     {
-        private readonly IPersonRepository _repository;
-        public DeletePersonCommandHandler(IPersonRepository personRepository)
+        private readonly IPersonAggregateRepository _repository;
+        public DeletePersonCommandHandler(IPersonAggregateRepository personRepository)
         {
             _repository = personRepository;
         }

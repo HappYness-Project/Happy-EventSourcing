@@ -16,7 +16,7 @@ namespace HP.UnitTest.People
     public class PersonServiceTest : TestBase
     {
         IPersonService _personService = null;
-        IPersonRepository _personRepository = null;
+        IPersonAggregateRepository _personRepository = null;
         [SetUp]
         public void Setup()
         {

@@ -6,8 +6,8 @@ namespace HP.Application.Commands.Todo
     public record DeavtivateTodoCommand(Guid TodoId) : BaseCommand;
     public class DeavtivateTodoCommandHandler : IRequestHandler<DeavtivateTodoCommand, CommandResult>
     {
-        private readonly ITodoRepository _repository;
-        public DeavtivateTodoCommandHandler(ITodoRepository repository)
+        private readonly ITodoAggregateRepository _repository;
+        public DeavtivateTodoCommandHandler(ITodoAggregateRepository repository)
         {
             _repository = repository;
         }

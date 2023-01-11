@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace HP.Infrastructure.Repository
 {
-    public class PersonRepository : BaseRepository<Person>, IPersonRepository
+    public class PersonRepository : BaseRepository<Person>, IPersonAggregateRepository
     {
         public PersonRepository(IMongoDbContext dbContext) : base(dbContext) {}
         public Task<bool> DeletePersonAsync(Guid personId)

@@ -20,7 +20,7 @@ namespace HP.IntegrationTest
     }
     public class TodoQueryHandlerTest : TestBase
     {
-        private readonly Mock<ITodoRepository> _todoRepo;
+        private readonly Mock<ITodoAggregateRepository> _todoRepo;
         private readonly IMapper _mapper;
         private TodoQueryHandlers _queryHandler;
         [SetUp]

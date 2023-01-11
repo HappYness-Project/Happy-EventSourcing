@@ -7,8 +7,8 @@ namespace HP.Application.Commands.Todo
     public record ActivateTodoItemCommand(Guid TodoId, Guid TodoItemId) : BaseCommand;
     public class ActivateTodoItemCommandHandler : IRequestHandler<ActivateTodoItemCommand, CommandResult>
     {
-        private readonly ITodoRepository _repository;
-        public ActivateTodoItemCommandHandler(ITodoRepository repository)
+        private readonly ITodoAggregateRepository _repository;
+        public ActivateTodoItemCommandHandler(ITodoAggregateRepository repository)
         {
             _repository = repository;
         }

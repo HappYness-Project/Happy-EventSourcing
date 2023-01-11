@@ -8,8 +8,8 @@ namespace HP.Application.Commands.Todo
     public record CreateTodoItemCommand(Guid TodoId, string TodoTitle, string TodoType, string? Description, string[] Tag = null) : BaseCommand;
     public class CreateTodoItemCommandHandler : BaseCommandHandler, IRequestHandler<CreateTodoItemCommand, CommandResult>
     {
-        private readonly ITodoRepository _todoRepository;
-        public CreateTodoItemCommandHandler(IEventProducer eventProducer, ITodoRepository repository) : base(eventProducer)
+        private readonly ITodoAggregateRepository _todoRepository;
+        public CreateTodoItemCommandHandler(IEventProducer eventProducer, ITodoAggregateRepository repository) : base(eventProducer)
         {
             _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }

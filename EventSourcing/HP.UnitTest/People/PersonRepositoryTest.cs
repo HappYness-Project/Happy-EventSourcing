@@ -13,7 +13,7 @@ namespace HP.UnitTest.People
 {
     public class PersonRepositoryTest : TestBase
     {
-        private IPersonRepository personRepository = null;
+        private IPersonAggregateRepository personRepository = null;
         [SetUp]
         public void Setup()
         {

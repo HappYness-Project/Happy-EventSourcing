@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 namespace HP.Infrastructure.Repository
 {
-    public class TodoRepository : BaseRepository<Todo>, ITodoRepository
+    public class TodoRepository : BaseRepository<Todo>, ITodoAggregateRepository
     {
         public TodoRepository(IMongoDbContext dbContext) : base(dbContext){ }
         public async Task<Todo> GetActiveTodoById(Guid todoId)

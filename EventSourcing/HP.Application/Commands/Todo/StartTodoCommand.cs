@@ -6,8 +6,8 @@ namespace HP.Application.Commands.Todo
     public record StartTodoCommand(Guid TodoId) : BaseCommand;
     public class StartTodoCommandHandler : IRequestHandler<StartTodoCommand, CommandResult>
     {
-        private readonly ITodoRepository _repository;
-        public StartTodoCommandHandler(ITodoRepository repository)
+        private readonly ITodoAggregateRepository _repository;
+        public StartTodoCommandHandler(ITodoAggregateRepository repository)
         {
             _repository = repository;
         }
