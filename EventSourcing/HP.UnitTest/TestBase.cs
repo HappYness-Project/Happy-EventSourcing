@@ -29,7 +29,8 @@ namespace HP.test
         protected IOptions<ConsumerConfig> _consumerConfig;
         protected IEventProducer _eventProducer;
         protected IEventConsumer _eventConsumer;
-        protected ITodoEventHandler _eventHandler;
+        protected ITodoEventHandler _todoEventHandler;
+        protected IPersonEventHandler _personEventHandler;
         [SetUp]
         public async Task BeforeTestStart()
         {
@@ -45,7 +46,7 @@ namespace HP.test
                 _mapper = mapper;
             }
             _eventProducer = new EventProducer(_producerConfig, "HP");
-            _eventConsumer = new EventConsumer(_consumerConfig,_eventHandler);
+            _eventConsumer = new EventConsumer(_consumerConfig, _todoEventHandler, _personEventHandler);
         }
     }
 }

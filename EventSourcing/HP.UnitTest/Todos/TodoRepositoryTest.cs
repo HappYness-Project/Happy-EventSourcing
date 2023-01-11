@@ -1,9 +1,7 @@
 using FluentAssertions;
 using HP.Domain;
-using HP.Infrastructure;
 using HP.Infrastructure.Repository;
 using HP.test;
-using HP.Core.Events;
 using NUnit.Framework;
 
 namespace HP.UnitTest.Todos
@@ -22,7 +20,10 @@ namespace HP.UnitTest.Todos
         [Test]
         public void GetListByUserId_Return_Nothing()
         {
-            var check = todoRepository.GetListByUserId("userId7303");
+            var userId = "userId7303";
+
+            //Act
+            var check = todoRepository.GetListByPersonName(userId);
             Assert.That(check, Is.Not.Null);
         }
         [Test]

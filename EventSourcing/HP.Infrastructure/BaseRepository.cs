@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace HP.Infrastructure
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : AggregateRoot
+    public class BaseRepository<T> : IAggregateBaseRepository<T> where T : AggregateRoot
     {
         protected readonly IMongoCollection<T> _collection;
         public BaseRepository(IMongoDbContext dbContext)

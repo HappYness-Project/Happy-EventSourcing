@@ -26,7 +26,7 @@ namespace HP.Application.Queries.Todos
 
         public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByUserId request, CancellationToken cancellationToken)
         {
-            var todos = await _todoRepository.GetListByUserId(request.UserId);
+            var todos = await _todoRepository.GetListByPersonName(request.UserId);
             if (todos == null)
                 throw new ApplicationException($"Todos not exist for this user ID:{request.UserId}");
 

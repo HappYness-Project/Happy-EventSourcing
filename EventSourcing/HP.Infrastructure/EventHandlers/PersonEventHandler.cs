@@ -3,11 +3,11 @@ using static HP.Domain.PersonDomainEvents;
 namespace HP.Infrastructure.EventHandlers
 {
     // This is Query side
-    public class PersonEventHandler : IPersonEventHandler
+    public class PersonEventHandlers : IPersonEventHandler
     {
         private readonly IPersonRepository _personRepository;
         #region Ctors
-        public PersonEventHandler(IPersonRepository personRepository)
+        public PersonEventHandlers(IPersonRepository personRepository)
         {
             _personRepository = personRepository;
         }

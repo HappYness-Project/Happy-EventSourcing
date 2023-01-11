@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HP.Domain
 {
-    public interface ICategoryRepository : IBaseRepository<Category>
+    public interface ICategoryRepository : IAggregateBaseRepository<Category>
     {
         Task<IEnumerable<Category>> GetCategoriesByUserId(string userId);
     }

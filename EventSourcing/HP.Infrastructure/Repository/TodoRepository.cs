@@ -21,9 +21,9 @@ namespace HP.Infrastructure.Repository
             }
             throw new NotImplementedException();
         }
-        public async Task<IEnumerable<Todo>> GetListByUserId(string userId)
+        public async Task<IEnumerable<Todo>> GetListByPersonName(string personName)
         {
-            var filter = Builders<Todo>.Filter.Eq("UserId", userId.ToUpper());
+            var filter = Builders<Todo>.Filter.Eq("PersonName", personName.ToUpper());
             var todos = await _collection.FindAsync(filter).Result.ToListAsync();
             return todos;
         }

@@ -12,8 +12,7 @@ namespace HP.Domain
             PersonId = person.Id.ToString();
             Title = title;
             Description = description;
-            Type = todoType;
-            Tag = tag;
+             Tag = tag;
             IsActive = true;
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
