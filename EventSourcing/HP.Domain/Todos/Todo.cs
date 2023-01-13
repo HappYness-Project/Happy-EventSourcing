@@ -17,7 +17,7 @@ namespace HP.Domain
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
             Updated = DateTime.Now;
-            AddDomainEvent(new TodoCreated(Id, PersonId, title, todoType.Name));
+            AddDomainEvent(new TodoCreated(Id, PersonId, title, Description, todoType.Name));
         }
         public string PersonId { get; private set; }
         public string Title { get; private set; }

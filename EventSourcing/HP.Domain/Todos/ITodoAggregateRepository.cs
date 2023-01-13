@@ -1,4 +1,5 @@
 ﻿using HP.Core.Common;
+
 namespace HP.Domain
 {
     public interface ITodoAggregateRepository : IBaseRepository<Todo>

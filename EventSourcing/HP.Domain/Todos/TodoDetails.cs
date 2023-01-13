@@ -1,7 +1,7 @@
 ﻿using HP.Core.Models;
 namespace HP.Domain.Todos
 {
-    public class TodoDetails : BaseEntity
+    public class TodoDetails : BaseEntity, IReadModel
     {
         public TodoDetails(Guid Id) {
             this.Id = Id;
@@ -15,7 +15,6 @@ namespace HP.Domain.Todos
         public double Score { get; set; }
         public ICollection<TodoItem> SubTodos { get; set; }
         public string TodoStatus { get; set; }
-        public string StatusDesc { get; set; }
         public DateTime TargetStartDate { get; set; }
         public DateTime TargetEndDate { get; set; }
         public DateTime Updated { get; set; }
