@@ -18,6 +18,7 @@ namespace HP.Infrastructure.EventHandlers
         public async Task On(PersonCreated @event)
         {
             var check = @event;
+
         }
 
         public async Task On(PersonInfoUpdated @event)

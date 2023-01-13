@@ -1,6 +1,7 @@
 using Confluent.Kafka;
 using HP.Application;
 using HP.Application.EventHandlers;
+using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Models;
 using HP.Domain;
@@ -33,6 +34,9 @@ builder.Services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerC
 builder.Services.AddScoped<IPersonAggregateRepository, PersonRepository>();
 builder.Services.AddScoped<ITodoAggregateRepository, TodoRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
 builder.Services.AddScoped<ITodoEventHandler, TodoEventHandlers>();
 builder.Services.AddScoped<IPersonEventHandler, HP.Infrastructure.EventHandlers.PersonEventHandlers>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -1,5 +1,6 @@
 ﻿using HP.Core.Common;
 using HP.Core.Models;
+using HP.Infrastructure.DbAccess;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
@@ -7,72 +8,82 @@ namespace HP.Infrastructure
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        public Task<long> CountAsync()
+        protected readonly IMongoCollection<T> _collection;
+        private readonly IMongoDbContext _dbContext;
+        public BaseRepository(IMongoDbContext dbContext)
         {
-            throw new NotImplementedException();
+            _collection = dbContext.GetCollection<T>() ?? throw new ArgumentNullException(nameof(dbContext));
         }
-
-        public Task<T> CreateAsync(T entity)
+        public virtual async Task<T> CreateAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _collection.InsertOneAsync(entity);
+            return entity;
         }
-
-        public Task DeleteByIdAsync(Guid id)
+        public virtual async Task<long> CountAsync()
         {
-            throw new NotImplementedException();
+            return await _collection.CountDocumentsAsync(f => true);
         }
-
-        public Task DeleteOneAsync(Expression<Func<T, bool>> filterExpression)
+        public virtual async Task UpdateAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _collection.ReplaceOneAsync(p => p.Id == entity.Id, entity, new ReplaceOptions() { IsUpsert = false });
         }
-
-        public bool Exists(Expression<Func<T, bool>> predicate)
+        public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _collection.Find(e => e.Id == id).FirstOrDefaultAsync();
+        }
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _collection.AsQueryable().ToListAsync();
+        }
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+        }
+        public Task<T> FindOneAndReplaceAsync(FilterDefinition<T> filter, T replacement)
+        {
+            return _collection.FindOneAndReplaceAsync(filter, replacement);
         }
 
         public IFindFluent<T, T> Find(FilterDefinition<T> filter)
         {
-            throw new NotImplementedException();
+            return _collection.Find(filter);
         }
-
         public IFindFluent<T, T> Find(Expression<Func<T, bool>> filter)
         {
-            throw new NotImplementedException();
+            return _collection.Find(filter);
         }
 
-        public Task<T> FindOneAndReplaceAsync(FilterDefinition<T> filter, T replacement)
+        public Task DeleteOneAsync(Expression<Func<T, bool>> filterExpression)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => _collection.FindOneAndDelete(filterExpression));
         }
-
-        public Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression)
+        public bool Exists(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            var set = CreateSet();
+            return set.Any(predicate);
         }
-
-        public Task<IEnumerable<T>> GetAllAsync()
+        private IQueryable<T> CreateSet()
         {
-            throw new NotImplementedException();
+            return _collection.AsQueryable<T>();
+        }
+        public virtual async Task InsertManyAsync(ICollection<T> documents)
+        {
+            await _collection.InsertManyAsync(documents);
+        }
+        public Task DeleteByIdAsync(Guid id)
+        {
+            return Task.Run(() =>
+            {
+                var filter = Builders<T>.Filter.Eq(doc => doc.Id, id);
+                _collection.FindOneAndDeleteAsync(filter);
+            });
+        }
+        public virtual Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression)
+        {
+            return Task.Run(() => _collection.Find(filterExpression).FirstOrDefaultAsync());
         }
 
         public Task<List<T>> GetAllByAggregateId(Guid aggregateId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> GetByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task InsertManyAsync(ICollection<T> documents)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(T entity)
         {
             throw new NotImplementedException();
         }
