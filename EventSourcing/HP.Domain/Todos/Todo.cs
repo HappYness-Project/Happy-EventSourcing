@@ -109,7 +109,7 @@ namespace HP.Domain
             Id = @event.TodoId;
             PersonId = @event.PersonId;
             Title = @event.TodoTitle;
-            Type = TodoType.FromName(@event.Type);
+            Type = TodoType.FromName(@event.TodoType);
         }
         private void Apply(TodoUpdated @event) {
             Id = @event.TodoId;

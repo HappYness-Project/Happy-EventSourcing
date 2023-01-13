@@ -1,4 +1,7 @@
-﻿using HP.Domain;
+﻿using HP.Core.Common;
+using HP.Domain;
+using HP.Domain.Todos;
+using HP.Infrastructure.DbAccess;
 using static HP.Domain.TodoDomainEvents;
 namespace HP.Infrastructure.EventHandlers
 {
@@ -6,18 +9,20 @@ namespace HP.Infrastructure.EventHandlers
     public class TodoEventHandler : ITodoEventHandler
     {
         private readonly ITodoAggregateRepository _todoRepository;
-
         #region Ctors
         public TodoEventHandler(ITodoAggregateRepository todoRepository)
         {
-            _todoRepository = todoRepository;
+            this._todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }
         #endregion
 
         #region handlers
-        public Task On(TodoCreated @event)
+        public async Task On(TodoCreated @event)
         {
-            throw new NotImplementedException();
+            TodoDetails todoDetails = new TodoDetails(@event.TodoId);
+            todoDetails.PersonId = todoDetails.PersonId;
+            todoDetails.ProjectId = todoDetails.ProjectId;
+            //await _todoRepository.CreateAsync(todo);
         }
         public Task On(TodoUpdated @event)
         {
