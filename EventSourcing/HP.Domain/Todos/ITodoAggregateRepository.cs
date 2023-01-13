@@ -1,7 +1,7 @@
 ﻿using HP.Core.Common;
 namespace HP.Domain
 {
-    public interface ITodoAggregateRepository : IAggregateBaseRepository<Todo>
+    public interface ITodoAggregateRepository : IBaseRepository<Todo>
     {
         Task<Todo> GetActiveTodoById(Guid todoId);
         Task<IEnumerable<Todo>> GetListByPersonName(string personName);

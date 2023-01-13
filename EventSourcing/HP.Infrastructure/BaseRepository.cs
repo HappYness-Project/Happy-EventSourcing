@@ -6,10 +6,10 @@ using System.Linq.Expressions;
 
 namespace HP.Infrastructure
 {
-    public class BaseRepository<T> : IAggregateBaseRepository<T> where T : AggregateRoot
+    public class BaseAggregateRepository<T> : IBaseRepository<T> where T : AggregateRoot
     {
         protected readonly IMongoCollection<T> _collection;
-        public BaseRepository(IMongoDbContext dbContext)
+        public BaseAggregateRepository(IMongoDbContext dbContext)
         {
             _collection = dbContext.GetCollection<T>() ?? throw new ArgumentNullException(nameof(dbContext));
         }

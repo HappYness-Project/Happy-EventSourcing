@@ -3,7 +3,7 @@ using MongoDB.Driver;
 using System.Linq.Expressions;
 namespace HP.Core.Common
 {
-    public interface IAggregateBaseRepository<T> where T : AggregateRoot
+    public interface IBaseRepository<T> where T : class
     {
         Task<T> CreateAsync(T entity);
         Task InsertManyAsync(ICollection<T> documents);

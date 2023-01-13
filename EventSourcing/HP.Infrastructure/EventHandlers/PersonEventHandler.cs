@@ -1,40 +1,41 @@
 ﻿using HP.Domain;
+using HP.Infrastructure.DbAccess;
 using static HP.Domain.PersonDomainEvents;
 namespace HP.Infrastructure.EventHandlers
 {
     // This is Query side
     public class PersonEventHandlers : IPersonEventHandler
     {
-        private readonly IPersonAggregateRepository _personRepository;
+        private readonly IMongoDbContext _dbContext;
         #region Ctors
-        public PersonEventHandlers(IPersonAggregateRepository personRepository)
+        public PersonEventHandlers(IMongoDbContext dbContext)
         {
-            _personRepository = personRepository;
+            _dbContext = dbContext;
         }
         #endregion
 
         #region handlers
-        public Task On(PersonCreated @event)
+        public async Task On(PersonCreated @event)
+        {
+            var check = @event;
+        }
+
+        public async Task On(PersonInfoUpdated @event)
         {
             throw new NotImplementedException();
         }
 
-        public Task On(PersonInfoUpdated @event)
+        public async Task On(PersonGroupUpdated @event)
         {
             throw new NotImplementedException();
         }
 
-        public Task On(PersonGroupUpdated @event)
+        public async Task On(PersonRoleSetAdminAssigned @event)
         {
             throw new NotImplementedException();
         }
 
-        public Task On(PersonRoleSetAdminAssigned @event)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task On(PersonRoleUpdated @event)
+        public async Task On(PersonRoleUpdated @event)
         {
             throw new NotImplementedException();
         }

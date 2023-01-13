@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using MongoDB.Driver;
 namespace HP.Infrastructure.Repository
 {
-    public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
+    public class CategoryRepository : BaseAggregateRepository<Category>, ICategoryRepository
     {
         private readonly IMongoCollection<Category> _categories;
         public CategoryRepository(IMongoDbContext dbContext) : base(dbContext)
