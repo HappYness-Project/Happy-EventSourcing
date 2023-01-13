@@ -5,36 +5,39 @@ namespace HP.Domain
     {
         public class TodoCreated : DomainEvent
         {
-            public TodoCreated(Guid todoId, string PersonId, string todoTitle, string todoDesc, string todoType) 
+            public TodoCreated(Guid todoId, string PersonId, string todoTitle, string todoDesc, string todoType)
             {
                 this.TodoId = todoId;
                 this.PersonId = PersonId;
                 this.TodoTitle = todoTitle;
+                this.TodoDesc = todoDesc;
                 this.TodoType = todoType;
             }
             public Guid TodoId { get; }
             public string PersonId { get; }
             public string TodoTitle { get; }
-            public string TodoDesc { get; } 
+            public string TodoDesc { get; }
             public string TodoType { get; }
         }
         public class TodoUpdated : DomainEvent
         {
-            public TodoUpdated(Guid id, string todoTitle, string type)
+            public TodoUpdated(Guid id, string todoTitle, string todoDesc, string type)
             {
                 TodoId = id;
                 TodoTitle = todoTitle;
+                TodoDesc = todoDesc;
                 TodoType = type;
             }
-            public Guid TodoId { get; set; }
-            public string TodoTitle { get; set; }
-            public string TodoType { get; set; }
+            public Guid TodoId { get; }
+            public string TodoTitle { get; }
+            public string TodoDesc { get; }
+            public string TodoType { get; }
         }
         public class TodoRemoved : DomainEvent
         {
             public TodoRemoved(Guid todoId)
             {
-                this.TodoId = todoId;   
+                this.TodoId = todoId;
             }
             public Guid TodoId { get; }
         }
@@ -48,7 +51,7 @@ namespace HP.Domain
         }
         public class TodoStatusToAccepted : DomainEvent
         {
-            public TodoStatusToAccepted(Guid todoId) 
+            public TodoStatusToAccepted(Guid todoId)
             {
                 this.TodoId = todoId;
             }
@@ -58,7 +61,7 @@ namespace HP.Domain
 
         public class TodoActivated : DomainEvent
         {
-            public TodoActivated(Guid todoId) 
+            public TodoActivated(Guid todoId)
             {
                 this.TodoId = todoId;
             }
@@ -79,7 +82,7 @@ namespace HP.Domain
                 this.TodoId = todoId;
             }
             public Guid TodoId { get; }
-        } 
+        }
         public class TodoCompleted : DomainEvent
         {
             public TodoCompleted(Guid todoId)
@@ -87,10 +90,10 @@ namespace HP.Domain
                 this.TodoId = todoId;
             }
             public Guid TodoId { get; }
-        } 
+        }
         public class TodoItemRemoved : DomainEvent
         {
-            public TodoItemRemoved(Guid todoItemId) 
+            public TodoItemRemoved(Guid todoItemId)
             {
                 if (todoItemId == null)
                     throw new ArgumentNullException(nameof(todoItemId));
@@ -112,7 +115,7 @@ namespace HP.Domain
         }
         public class TodoItemUpdated : DomainEvent
         {
-            public TodoItemUpdated(Guid todoItemId) 
+            public TodoItemUpdated(Guid todoItemId)
             {
                 this.TodoItemId = todoItemId;
             }

@@ -12,7 +12,7 @@ namespace HP.Domain
             PersonId = person.Id.ToString();
             Title = title;
             Description = description;
-             Tag = tag;
+            Tag = tag;
             IsActive = true;
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
@@ -54,7 +54,7 @@ namespace HP.Domain
             this.TargetEndDate = targetEndDate ?? null;
             this.Tag = Tags;
             this.Updated = DateTime.Now;
-            this.AddDomainEvent(new TodoUpdated(Id, Title, Type.Name));
+            this.AddDomainEvent(new TodoUpdated(Id, Title, Description, Type.Name));
         }
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
@@ -105,19 +105,23 @@ namespace HP.Domain
                     break;
             }
         }
-        private void Apply(TodoCreated @event) {
+        private void Apply(TodoCreated @event)
+        {
             Id = @event.TodoId;
             PersonId = @event.PersonId;
             Title = @event.TodoTitle;
             Type = TodoType.FromName(@event.TodoType);
         }
-        private void Apply(TodoUpdated @event) {
+        private void Apply(TodoUpdated @event)
+        {
             Id = @event.TodoId;
         }
-        private void Apply(TodoActivated @event) { 
+        private void Apply(TodoActivated @event)
+        {
             this.Id = @event.TodoId;
         }
-        private void Apply(TodoDeactivated @event) { 
+        private void Apply(TodoDeactivated @event)
+        {
             this.Id = @event.TodoId;
         }
         public void ActivateTodo()

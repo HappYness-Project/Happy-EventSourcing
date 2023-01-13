@@ -1,16 +1,16 @@
-﻿using HP.Domain;
+﻿using HP.Core.Common;
+using HP.Domain;
 using HP.Domain.Todos;
-using Microsoft.EntityFrameworkCore.Metadata;
 using MongoDB.Driver;
 using static HP.Domain.TodoDomainEvents;
 namespace HP.Infrastructure.EventHandlers
 {
-    // This is Query side
     public class TodoEventHandler : ITodoEventHandler
     {
-        private readonly ITodoRepository _todoRepository;
+        //private readonly ITodoRepository _todoRepository;
+        private readonly IBaseRepository<TodoDetails> _todoRepository;
         #region Ctors
-        public TodoEventHandler(ITodoRepository todoRepository)
+        public TodoEventHandler(IBaseRepository<TodoDetails> todoRepository)
         {
             this._todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }
@@ -19,27 +19,41 @@ namespace HP.Infrastructure.EventHandlers
         #region handlers
         public async Task On(TodoCreated @event)
         {
-            TodoDetails todoDetails = new TodoDetails(@event.TodoId);
-            todoDetails.PersonId = todoDetails.PersonId;
-            todoDetails.ProjectId = todoDetails.ProjectId;
-
-            //await _todoRepository.CreateAsync(todo);
+            var todoDetails = new TodoDetails(@event.TodoId)
+            {
+                PersonId = @event.PersonId,
+                Title = @event.TodoTitle,
+                Description = @event.TodoDesc,
+                TodoType = @event.TodoType
+            };
+            await _todoRepository.CreateAsync(todoDetails);
         }
-        public Task On(TodoUpdated @event)
+        public async Task On(TodoUpdated @event)
         {
-            throw new NotImplementedException();
+            var todoDetails = new TodoDetails(@event.TodoId)
+            {
+                Title = @event.TodoTitle,
+                Description = @event.TodoDesc,
+                TodoType = @event.TodoType
+            };
+            await _todoRepository.UpdateAsync(todoDetails);
         }
-        public Task On(TodoActivated @event)
+        public async Task On(TodoActivated @event)
         {
-            throw new NotImplementedException();
+            var findTodo = await _todoRepository.FindOneAsync(x => x.Id == @event.TodoId);
+            if(findTodo != null)
+            {
+                findTodo.IsActive = true;
+                await _todoRepository.UpdateAsync(findTodo);
+            }
         }
         public Task On(TodoDeactivated @event)
         {
             throw new NotImplementedException();
         }
-        public Task On(TodoRemoved @event)
+        public async Task On(TodoRemoved @event)
         {
-            throw new NotImplementedException();
+            await _todoRepository.DeleteByIdAsync(@event.TodoId);
         }
         public Task On(TodoItemCreated @event)
         {

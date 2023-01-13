@@ -3,7 +3,8 @@ namespace HP.Domain.Todos
 {
     public class TodoDetails : BaseEntity, IReadModel
     {
-        public TodoDetails(Guid Id) {
+        public TodoDetails(Guid Id)
+        {
             this.Id = Id;
         }
         public string PersonId { get; set; }
@@ -13,6 +14,8 @@ namespace HP.Domain.Todos
         public string TodoType { get; set; }
         public string[] Tags { get; set; }
         public double Score { get; set; }
+        public bool IsDone { get; set; }
+        public bool IsActive { get; set; }
         public ICollection<TodoItem> SubTodos { get; set; }
         public string TodoStatus { get; set; }
         public DateTime TargetStartDate { get; set; }

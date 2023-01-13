@@ -21,9 +21,8 @@ namespace HP.UnitTest.Events
         [Test]
         public void GetCollection_For_EventStore()
         {
-            // Arrange, Create new event.
             string userId = Guid.NewGuid().ToString();
-            TodoCreated todoCreated = new TodoCreated(Guid.NewGuid(), userId, "TodoTitle : new TOdo", "General");
+            TodoCreated todoCreated = new TodoCreated(Guid.NewGuid(), userId, "TodoTitle : new TOdo","Desc", "General");
 
             _eventProducer.ProducerAsync(todoCreated);
         }
