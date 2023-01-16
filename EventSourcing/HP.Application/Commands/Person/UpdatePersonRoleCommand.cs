@@ -1,4 +1,4 @@
-﻿using HP.Domain;
+﻿using HP.Domain.People.Write;
 using MediatR;
 namespace HP.Application.Commands.Person
 {

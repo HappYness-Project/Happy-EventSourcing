@@ -5,11 +5,12 @@ using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Models;
 using HP.Domain;
+using HP.Domain.Todos.Write;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.EventHandlers;
 using HP.Infrastructure.Kafka;
-using HP.Infrastructure.Repository;
+using HP.Infrastructure.Repository.Write;
 using MediatR;
 using MongoDB.Bson.Serialization;
 
@@ -31,8 +32,8 @@ builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
 var getConfig = builder.Configuration;
 builder.Services.Configure<ProducerConfig>(getConfig.GetSection(nameof(ProducerConfig)));
 builder.Services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerConfig)));
-builder.Services.AddScoped<IPersonAggregateRepository, PersonRepository>();
-builder.Services.AddScoped<ITodoAggregateRepository, TodoRepository>();
+builder.Services.AddScoped<IPersonAggregateRepository, PersonAggregateRepository>();
+builder.Services.AddScoped<ITodoAggregateRepository, TodoAggregateRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));

@@ -1,20 +1,19 @@
-﻿using HP.Core.Events;
-using HP.Domain;
+﻿using HP.Domain;
 using HP.Infrastructure.DbAccess;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace HP.Infrastructure.Repository
+namespace HP.Infrastructure.Repository.Write
 {
-    public class PersonRepository : BaseAggregateRepository<Person>, IPersonAggregateRepository
+    public class PersonAggregateRepository : BaseAggregateRepository<Person>, IPersonAggregateRepository
     {
-        public PersonRepository(IMongoDbContext dbContext) : base(dbContext) {}
+        public PersonAggregateRepository(IMongoDbContext dbContext) : base(dbContext) { }
         public Task<bool> DeletePersonAsync(Guid personId)
         {
             var check = _collection.DeleteOne(x => x.Id == personId);
             return Task.FromResult(check.DeletedCount > 0 ? true : false);
         }
-        public async Task<Person> GetPersonByPersonNameAsync(string personName) 
+        public async Task<Person> GetPersonByPersonNameAsync(string personName)
         {
             return await _collection.Find(x => x.PersonName == personName).FirstOrDefaultAsync();
         }

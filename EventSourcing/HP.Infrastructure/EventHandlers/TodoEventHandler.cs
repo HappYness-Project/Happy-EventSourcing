@@ -1,6 +1,6 @@
 ﻿using HP.Core.Common;
 using HP.Domain;
-using HP.Domain.Todos;
+using HP.Domain.Todos.Read;
 using MongoDB.Driver;
 using static HP.Domain.TodoDomainEvents;
 namespace HP.Infrastructure.EventHandlers

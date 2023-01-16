@@ -1,10 +1,10 @@
 using HP.Application.Queries;
 using HP.Application.Queries.Todos;
-using HP.Domain;
 using Microsoft.Extensions.Configuration;
 using HP.Infrastructure.DbAccess;
 using AutoMapper;
 using Moq;
+using HP.Domain.Todos.Write;
 
 namespace HP.IntegrationTest
 {

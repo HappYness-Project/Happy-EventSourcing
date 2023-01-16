@@ -1,4 +1,4 @@
-﻿using HP.Domain;
+﻿using HP.Domain.People.Write;
 using MediatR;
 using System;
 using System.Collections.Generic;

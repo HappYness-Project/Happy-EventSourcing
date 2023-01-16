@@ -1,6 +1,6 @@
 ﻿using HP.Core.Commands;
 using HP.Core.Events;
-using HP.Domain;
+using HP.Domain.Todos.Write;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {

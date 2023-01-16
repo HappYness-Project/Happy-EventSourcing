@@ -1,6 +1,4 @@
-﻿using HP.Domain.Todos;
-
-namespace HP.Domain
+﻿namespace HP.Domain.Todos.Read
 {
     public interface ITodoRepository
     {

@@ -1,13 +1,14 @@
 ﻿using HP.Core.Events;
 using HP.Domain;
+using HP.Domain.Todos.Write;
 using HP.Infrastructure.DbAccess;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-namespace HP.Infrastructure.Repository
+namespace HP.Infrastructure.Repository.Write
 {
-    public class TodoRepository : BaseAggregateRepository<Todo>, ITodoAggregateRepository
+    public class TodoAggregateRepository : BaseAggregateRepository<Todo>, ITodoAggregateRepository
     {
-        public TodoRepository(IMongoDbContext dbContext) : base(dbContext){ }
+        public TodoAggregateRepository(IMongoDbContext dbContext) : base(dbContext) { }
         public async Task<Todo> GetActiveTodoById(Guid todoId)
         {
             return await _collection.Find(x => x.Id == todoId && x.IsActive).FirstOrDefaultAsync();

@@ -1,6 +1,6 @@
 ﻿using HP.Core.Common;
 
-namespace HP.Domain
+namespace HP.Domain.People.Write
 {
     public interface IPersonAggregateRepository : IBaseRepository<Person>
     {
@@ -10,8 +10,4 @@ namespace HP.Domain
         Task<IEnumerable<Person>> GetListByGroupIdAsync(int groupId);
         Task<IEnumerable<Person>> GetListByRoleAsync(string role);
     }
-    //public interface IPersonRepository : IEntityBaseRepository<Domain.Person.ReadModel.PersonModel>
-    //{
-        
-    //}
 }

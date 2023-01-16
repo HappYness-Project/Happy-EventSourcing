@@ -1,13 +1,12 @@
 ﻿using HP.Application.Commands;
-using HP.Domain;
 using HP.test;
 using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
-using FluentAssertions;
-using HP.Application.DTOs;
 using HP.Application.Commands.Todo;
 using System;
+using HP.Domain.Todos.Write;
+using HP.Domain.People.Write;
 
 namespace HP.UnitTest.Todos.Commands
 {

@@ -1,5 +1,6 @@
 ﻿using HP.Core.Models;
-namespace HP.Domain.Todos
+
+namespace HP.Domain.Todos.Read
 {
     public class TodoDetails : BaseEntity, IReadModel
     {

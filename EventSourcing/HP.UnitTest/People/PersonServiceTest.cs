@@ -1,15 +1,11 @@
 ﻿using HP.Core.Events;
-using HP.Domain;
 using HP.Infrastructure.Repository;
 using HP.Infrastructure;
 using HP.test;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HP.Shared.Contacts;
+using HP.Infrastructure.Repository.Write;
+using HP.Domain.People.Write;
 
 namespace HP.UnitTest.People
 {
@@ -20,7 +16,7 @@ namespace HP.UnitTest.People
         [SetUp]
         public void Setup()
         {
-            _personRepository = new PersonRepository(_mongoDbContext);
+            _personRepository = new PersonAggregateRepository(_mongoDbContext);
         }
     }
 }

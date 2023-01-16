@@ -1,6 +1,6 @@
 using FluentAssertions;
-using HP.Domain;
-using HP.Infrastructure.Repository;
+using HP.Domain.Todos.Write;
+using HP.Infrastructure.Repository.Write;
 using HP.test;
 using NUnit.Framework;
 
@@ -15,7 +15,7 @@ namespace HP.UnitTest.Todos
         [SetUp]
         public void Setup()
         {
-            todoRepository = new TodoRepository(_mongoDbContext);
+            todoRepository = new TodoAggregateRepository(_mongoDbContext);
         }
         [Test]
         public void GetListByUserId_Return_Nothing()

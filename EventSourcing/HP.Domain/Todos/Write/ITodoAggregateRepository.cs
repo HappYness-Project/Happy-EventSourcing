@@ -1,6 +1,6 @@
 ﻿using HP.Core.Common;
 
-namespace HP.Domain
+namespace HP.Domain.Todos.Write
 {
     public interface ITodoAggregateRepository : IBaseRepository<Todo>
     {

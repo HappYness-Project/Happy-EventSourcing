@@ -1,11 +1,9 @@
 using FluentAssertions;
 using HP.Core.Events;
 using HP.Domain;
-using HP.Infrastructure;
-using HP.Infrastructure.DbAccess;
-using HP.Infrastructure.Repository;
+using HP.Domain.People.Write;
+using HP.Infrastructure.Repository.Write;
 using HP.test;
-using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System.Collections;
 
@@ -17,7 +15,7 @@ namespace HP.UnitTest.People
         [SetUp]
         public void Setup()
         {
-            personRepository = new PersonRepository(_mongoDbContext);
+            personRepository = new PersonAggregateRepository(_mongoDbContext);
         }
 
         [Test]

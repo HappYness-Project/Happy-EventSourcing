@@ -4,7 +4,7 @@ using HP.Domain.Categories;
 using HP.Infrastructure.DbAccess;
 using Microsoft.EntityFrameworkCore.Metadata;
 using MongoDB.Driver;
-namespace HP.Infrastructure.Repository
+namespace HP.Infrastructure.Repository.Write
 {
     public class CategoryRepository : BaseAggregateRepository<Category>, ICategoryRepository
     {

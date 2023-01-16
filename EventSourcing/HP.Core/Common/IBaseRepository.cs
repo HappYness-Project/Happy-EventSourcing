@@ -1,5 +1,4 @@
-﻿using HP.Core.Models;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System.Linq.Expressions;
 namespace HP.Core.Common
 {
