@@ -5,6 +5,7 @@ using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Models;
 using HP.Domain;
+using HP.Domain.People.Write;
 using HP.Domain.Todos.Write;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;

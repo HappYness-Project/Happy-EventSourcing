@@ -1,4 +1,5 @@
 ﻿using HP.Domain;
+using HP.Domain.People.Write;
 using HP.Infrastructure.DbAccess;
 using MongoDB.Bson;
 using MongoDB.Driver;

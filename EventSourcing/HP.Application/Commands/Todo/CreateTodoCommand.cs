@@ -2,6 +2,7 @@
 using HP.Core.Commands;
 using HP.Core.Events;
 using HP.Domain;
+using HP.Domain.People.Write;
 using HP.Domain.Todos.Write;
 using MediatR;
 

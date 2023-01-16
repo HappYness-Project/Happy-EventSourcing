@@ -9,6 +9,7 @@ namespace HP.Domain
         protected Todo(Person person, string title, string description, TodoType todoType, string[] tag) : base()
         {
             // TODO : CheckPolicies
+            
             PersonId = person.Id.ToString();
             Title = title;
             Description = description;

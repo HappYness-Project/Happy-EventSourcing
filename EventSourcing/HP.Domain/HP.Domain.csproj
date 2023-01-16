@@ -16,8 +16,4 @@
     <ProjectReference Include="..\HP.Core\HP.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Person\Read\" />
-  </ItemGroup>
-
 </Project>

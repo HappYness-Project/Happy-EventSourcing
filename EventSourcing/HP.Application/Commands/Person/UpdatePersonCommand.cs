@@ -1,6 +1,6 @@
 ﻿using HP.Core.Commands;
 using HP.Core.Events;
-using HP.Domain;
+using HP.Domain.People.Write;
 using MediatR;
 
 namespace HP.Application.Commands.Person

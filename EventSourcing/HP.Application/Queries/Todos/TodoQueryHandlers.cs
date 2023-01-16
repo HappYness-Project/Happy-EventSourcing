@@ -3,6 +3,7 @@ using MediatR;
 using AutoMapper;
 using HP.Domain;
 using HP.Domain.Todos.Write;
+using HP.Domain.Todos.Read;
 
 namespace HP.Application.Queries.Todos
 {
@@ -20,6 +21,7 @@ namespace HP.Application.Queries.Todos
         
     {
         private readonly ITodoAggregateRepository _todoRepository;
+        private readonly ITodoRepository todoRepsotiry;
         public TodoQueryHandlers(IMapper mapper, ITodoAggregateRepository todoRepository) : base(mapper)
         {
             _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));

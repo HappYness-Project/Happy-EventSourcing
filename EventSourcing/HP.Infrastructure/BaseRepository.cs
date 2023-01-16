@@ -9,7 +9,6 @@ namespace HP.Infrastructure
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         protected readonly IMongoCollection<T> _collection;
-        private readonly IMongoDbContext _dbContext;
         public BaseRepository(IMongoDbContext dbContext)
         {
             _collection = dbContext.GetCollection<T>() ?? throw new ArgumentNullException(nameof(dbContext));

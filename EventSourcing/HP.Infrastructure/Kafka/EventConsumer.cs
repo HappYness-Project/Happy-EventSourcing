@@ -31,21 +31,19 @@ namespace HP.Infrastructure.Kafka
             while (true)
             {
                 var consumerResult = consumer.Consume();
-                if (consumerResult?.Message == null) continue;
+                if (consumerResult?.Message == null) 
+                    continue;
 
                 var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
                 var @event = JsonSerializer.Deserialize<IDomainEvent>(consumerResult.Message.Value, options);
-
-                // TODO : Find a way to filter Event Handler type.
                 // if( event handler is Person event handler)
-                // else if( event handler is Todo Event handler) 
+                // var handleMethod = _todoEventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
 
                 var handleMethod = _personEventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
                 if (handleMethod == null)
                     throw new ArgumentNullException(nameof(handleMethod), "Could not find evente handler method!");
 
                 // Should I publish from here?
-
                 handleMethod.Invoke(_personEventHandler, new object[] { @event });
                 consumer.Commit(consumerResult);  
             }
