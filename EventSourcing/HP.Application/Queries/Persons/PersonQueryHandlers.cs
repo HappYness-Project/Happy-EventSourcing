@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using HP.Application.DTOs;
-using HP.Domain;
 using MediatR;
 namespace HP.Application.Queries
 {
@@ -11,6 +10,7 @@ namespace HP.Application.Queries
                                         IRequestHandler<GetPersonUserId, PersonDetailsDto>
     {
         private readonly IPersonAggregateRepository _personRepository;
+        //private readonly IPersonRepository _personRepository;
         public PersonQueryHandlers(IMapper mapper, IPersonAggregateRepository personRepository) : base(mapper)
         {
             _personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
