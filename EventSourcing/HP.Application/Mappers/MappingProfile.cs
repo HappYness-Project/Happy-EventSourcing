@@ -19,7 +19,7 @@ namespace HP.Application.Mappers
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
                 .ForMember(dest => dest.TodoId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.TodoTitle, opt => opt.MapFrom(src => src.Title))
-                .ForMember(dest => dest.TodoType, opt => opt.MapFrom(src => src.Type.Name))
+                .ForMember(dest => dest.TodoType, opt => opt.MapFrom(src => src.TodoType.Name))
                 .ForMember(dest => dest.SubTodos, opt => opt.MapFrom(src => src.SubTodos))
                 .ForMember(dest => dest.TodoStatus, opt => opt.MapFrom(src => src.Status.Name));
             CreateMap<Todo, TodoBasicInfoDto>()

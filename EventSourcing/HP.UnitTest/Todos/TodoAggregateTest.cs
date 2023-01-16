@@ -25,7 +25,7 @@ namespace HP.UnitTest.Todos
             //Assert
             fakeTodo.Title.Should().NotBeNull().And.Be(todoTitle);
             fakeTodo.Description.Should().NotBeNull().And.Be(todoDesc);
-            fakeTodo.Type.Should().NotBeNull().And.Be(TodoType.Others);
+            fakeTodo.TodoType.Should().NotBeNull().And.Be(TodoType.Others);
             fakeTodo.UncommittedEvents.Should().NotBeNull().And.HaveCount(1);
             var domainEvent = fakeTodo.UncommittedEvents.First();
             domainEvent.EventType.Should().Be(expectedEventType);

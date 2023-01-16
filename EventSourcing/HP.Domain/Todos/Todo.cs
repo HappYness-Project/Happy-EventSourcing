@@ -6,7 +6,7 @@ namespace HP.Domain
     public class Todo : AggregateRoot
     {
         public Todo() { }
-        protected Todo(Person person, string title, string description, TodoType todoType, string[] tag)
+        protected Todo(Person person, string title, string description, TodoType todoType, string[] tag) : base()
         {
             // TODO : CheckPolicies
             PersonId = person.Id.ToString();
@@ -23,7 +23,7 @@ namespace HP.Domain
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string ProjectId { get; private set; }
-        public TodoType Type { get; private set; }
+        public TodoType TodoType { get; private set; }
         public string[] Tag { get; private set; }
         public bool IsDone { get; private set; }
         public bool IsActive { get; private set; }
@@ -49,12 +49,12 @@ namespace HP.Domain
         {
             this.Title = title;
             this.Description = desc;
-            this.Type = TodoType.FromName(type);
+            this.TodoType = TodoType.FromName(type);
             this.TargetStartDate = targetStartDate ?? null;
             this.TargetEndDate = targetEndDate ?? null;
             this.Tag = Tags;
             this.Updated = DateTime.Now;
-            this.AddDomainEvent(new TodoUpdated(Id, Title, Description, Type.Name));
+            this.AddDomainEvent(new TodoUpdated(Id, Title, Description, TodoType.Name));
         }
         public TodoItem AddTodoItem(string title, string type, string desc)
         {
@@ -110,7 +110,7 @@ namespace HP.Domain
             Id = @event.TodoId;
             PersonId = @event.PersonId;
             Title = @event.TodoTitle;
-            Type = TodoType.FromName(@event.TodoType);
+            TodoType = TodoType.FromName(@event.TodoType);
         }
         private void Apply(TodoUpdated @event)
         {

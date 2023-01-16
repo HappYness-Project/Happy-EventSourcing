@@ -15,12 +15,12 @@ namespace HP.Domain
         public bool IsActive { get; private set; }
         public decimal CurrentScore { get; private set; }
         public DateTime UpdateDate { get; private set; }
-        protected Person() 
+        protected Person() : base()
         {
             IsActive = false;
             CurrentScore = 0;
         }
-        public Person(string personName)
+        public Person(string personName) : base()
         {
             PersonName = personName;
             IsActive = true;

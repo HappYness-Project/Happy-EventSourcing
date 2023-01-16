@@ -6,6 +6,7 @@
     public abstract class AggregateRoot : BaseEntity, IAggregateRoot
     {
         public AggregateRoot() {
+            this.Id = Guid.NewGuid();
             this.Created = DateTime.Now;
         }
         private List<IDomainEvent> _domainEvents;
