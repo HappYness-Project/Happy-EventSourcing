@@ -18,6 +18,7 @@ namespace HP.Infrastructure.Kafka
             {
                 throw new JsonException($"Failed to parse {nameof(JsonDocument)}");
             }
+
             if (!doc.RootElement.TryGetProperty("EventType", out var type))
             {
                 throw new JsonException("Could not detect the Type discriminator property!");

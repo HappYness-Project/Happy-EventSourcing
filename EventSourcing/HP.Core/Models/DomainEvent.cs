@@ -2,8 +2,9 @@
 {
     public class DomainEvent : IDomainEvent
     {
-        public DomainEvent() 
-        { 
+        public DomainEvent(Guid aggregateId) 
+        {
+            AggregateId = aggregateId;
             EventId = Guid.NewGuid();
             OccuredOn = DateTime.Now;
             EventType = this.GetType().Name;

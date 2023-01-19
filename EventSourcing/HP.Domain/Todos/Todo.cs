@@ -64,7 +64,7 @@ namespace HP.Domain
 
             TodoItem todoItem = new TodoItem(title, type, desc);
             SubTodos.Add(todoItem);
-            this.AddDomainEvent(new TodoItemCreated(todoItem.Id));
+            this.AddDomainEvent(new TodoItemCreated(todoItem.Id, Id));
             return todoItem;
         }
         public void DeleteTodoItem(Guid todoItemId)

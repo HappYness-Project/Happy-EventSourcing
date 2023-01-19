@@ -5,6 +5,7 @@ using HP.Domain.Categories;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;
+using HP.Infrastructure.Repository.Write;
 using HP.test;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;

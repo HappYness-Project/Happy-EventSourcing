@@ -5,9 +5,9 @@ namespace HP.Domain
     {
         public class TodoCreated : DomainEvent
         {
-            public TodoCreated(Guid todoId, string PersonId, string todoTitle, string todoDesc, string todoType)
+            public TodoCreated(Guid id, string PersonId, string todoTitle, string todoDesc, string todoType) : base(id)
             {
-                this.TodoId = todoId;
+                this.TodoId = id;
                 this.PersonId = PersonId;
                 this.TodoTitle = todoTitle;
                 this.TodoDesc = todoDesc;
@@ -21,7 +21,7 @@ namespace HP.Domain
         }
         public class TodoUpdated : DomainEvent
         {
-            public TodoUpdated(Guid id, string todoTitle, string todoDesc, string type)
+            public TodoUpdated(Guid id, string todoTitle, string todoDesc, string type) : base(id)
             {
                 TodoId = id;
                 TodoTitle = todoTitle;
@@ -35,87 +35,62 @@ namespace HP.Domain
         }
         public class TodoRemoved : DomainEvent
         {
-            public TodoRemoved(Guid todoId)
-            {
-                this.TodoId = todoId;
-            }
+            public TodoRemoved(Guid id) : base(id) { this.TodoId = id; }
             public Guid TodoId { get; }
         }
         public class TodoStatusToPending : DomainEvent
         {
-            public TodoStatusToPending(Guid todoId)
-            {
-                this.TodoId = todoId;
-            }
+            public TodoStatusToPending(Guid id) : base(id) { this.TodoId = id; }
             public Guid TodoId { get; }
         }
         public class TodoStatusToAccepted : DomainEvent
         {
-            public TodoStatusToAccepted(Guid todoId)
-            {
-                this.TodoId = todoId;
-            }
+            public TodoStatusToAccepted(Guid id) : base(id) { this.TodoId = id; }
             public Guid TodoId { get; }
         }
-
-
         public class TodoActivated : DomainEvent
         {
-            public TodoActivated(Guid todoId)
-            {
-                this.TodoId = todoId;
-            }
+            public TodoActivated(Guid id) : base(id) { this.TodoId = id; }
             public Guid TodoId { get; }
         }
         public class TodoDeactivated : DomainEvent
         {
-            public TodoDeactivated(Guid todoId)
-            {
-                this.TodoId = todoId;
-            }
+            public TodoDeactivated(Guid id) : base(id) { this.TodoId = id; }
             public Guid TodoId { get; }
         }
         public class TodoStarted : DomainEvent
         {
-            public TodoStarted(Guid todoId)
-            {
-                this.TodoId = todoId;
-            }
+            public TodoStarted(Guid id) : base(id) { this.TodoId = id; }
             public Guid TodoId { get; }
         }
         public class TodoCompleted : DomainEvent
         {
-            public TodoCompleted(Guid todoId)
-            {
-                this.TodoId = todoId;
-            }
+            public TodoCompleted(Guid id) : base(id) { this.TodoId = id; }
             public Guid TodoId { get; }
         }
         public class TodoItemRemoved : DomainEvent
         {
-            public TodoItemRemoved(Guid todoItemId)
+            public TodoItemRemoved(Guid todoItemId) : base(todoItemId)
             {
                 if (todoItemId == null)
                     throw new ArgumentNullException(nameof(todoItemId));
-
                 this.TodoItemId = todoItemId;
             }
             public Guid TodoItemId { get; }
         }
         public class TodoItemCreated : DomainEvent
         {
-            public TodoItemCreated(Guid todoItemId)
+            public TodoItemCreated(Guid todoItemId, Guid todoId) : base(todoItemId) 
             {
-                if (todoItemId == null)
-                    throw new ArgumentNullException(nameof(todoItemId));
-
                 this.TodoItemId = todoItemId;
+                this.TOdoId = todoId;
             }
             public Guid TodoItemId { get; }
+            public Guid TOdoId { get; }
         }
         public class TodoItemUpdated : DomainEvent
         {
-            public TodoItemUpdated(Guid todoItemId)
+            public TodoItemUpdated(Guid todoItemId) : base(todoItemId)
             {
                 this.TodoItemId = todoItemId;
             }
