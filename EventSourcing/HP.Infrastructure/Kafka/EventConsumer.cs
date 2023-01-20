@@ -35,7 +35,10 @@ namespace HP.Infrastructure.Kafka
                     continue;
 
                 var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
-                var @event = JsonSerializer.Deserialize<IDomainEvent>(consumerResult.Message.Value, options);
+                options.IncludeFields = true;
+                var @event = JsonSerializer.Deserialize<DomainEvent>(consumerResult.Message.Value, options);
+                //var @event2 = JsonSerializer.Deserialize(consumerResult.Message.Value, eventType) as /*IIntegrationEvent*/;
+
                 // if( event handler is Person event handler)
                 // var handleMethod = _todoEventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
 

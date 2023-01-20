@@ -6,15 +6,15 @@ using static HP.Domain.TodoDomainEvents;
 
 namespace HP.Infrastructure.Kafka
 {
-    public class EventJsonConverter : JsonConverter<IDomainEvent>
+    public class EventJsonConverter : JsonConverter<DomainEvent>
     {
         public override bool CanConvert(Type typeToConvert)
         {
-            return typeToConvert.IsAssignableFrom(typeof(IDomainEvent));
+            return typeToConvert.IsAssignableFrom(typeof(DomainEvent));
         }
-        public override IDomainEvent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        { 
-            if(!JsonDocument.TryParseValue(ref reader, out var doc))
+        public override DomainEvent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            if (!JsonDocument.TryParseValue(ref reader, out var doc))
             {
                 throw new JsonException($"Failed to parse {nameof(JsonDocument)}");
             }
@@ -47,7 +47,7 @@ namespace HP.Infrastructure.Kafka
                 _ => throw new JsonException($"{typeDiscriminator} is not supported yet.")
             };
         }
-        public override void Write(Utf8JsonWriter writer, IDomainEvent value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, DomainEvent value, JsonSerializerOptions options)
         {
             throw new NotImplementedException();
         }

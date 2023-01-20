@@ -1,9 +1,8 @@
-﻿namespace HP.Domain.Todos.Read
+﻿using HP.Core.Common;
+
+namespace HP.Domain.Todos.Read
 {
-    public interface ITodoRepository
+    public interface ITodoDetailsRepository : IBaseRepository<TodoDetails>
     {
-        Task SaveTodoDetails(TodoDetails todo);
-        Task UpdateTodoDetails(TodoDetails todo);
-        Task RemoveTodoDetails(Guid id);
     }
 }
