@@ -7,12 +7,12 @@ namespace HP.Infrastructure.EventHandlers
 {
     public class TodoEventHandler : ITodoEventHandler
     {
-        private readonly ITodoDetailsRepository _todoRepository;
+        private readonly ITodoDetailsRepository _todoDetailsRepository;
         //private readonly IBaseRepository<TodoDetails> _todoRepository;
         #region Ctors
         public TodoEventHandler(ITodoDetailsRepository todoRepository)
         {
-            this._todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
+            this._todoDetailsRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }
         #endregion
 
@@ -26,7 +26,7 @@ namespace HP.Infrastructure.EventHandlers
                 Description = @event.TodoDesc,
                 TodoType = @event.TodoType
             };
-            await _todoRepository.CreateAsync(todoDetails);
+            await _todoDetailsRepository.CreateAsync(todoDetails);
         }
         public async Task On(TodoUpdated @event)
         {
@@ -36,30 +36,41 @@ namespace HP.Infrastructure.EventHandlers
                 Description = @event.TodoDesc,
                 TodoType = @event.TodoType
             };
-            await _todoRepository.UpdateAsync(todoDetails);
+            await _todoDetailsRepository.UpdateAsync(todoDetails);
         }
         public async Task On(TodoActivated @event)
         {
-            var findTodo = await _todoRepository.FindOneAsync(x => x.Id == @event.TodoId);
+            var findTodo = await _todoDetailsRepository.FindOneAsync(x => x.Id == @event.TodoId);
             if(findTodo != null)
             {
                 findTodo.IsActive = true;
-                await _todoRepository.UpdateAsync(findTodo);
+                await _todoDetailsRepository.UpdateAsync(findTodo);
             }
         }
-        public Task On(TodoDeactivated @event)
+        public async Task On(TodoDeactivated @event)
         {
-            throw new NotImplementedException();
+            var findTodo = await _todoDetailsRepository.FindOneAsync(x => x.Id == @event.AggregateId);
+            if(findTodo != null)
+            {
+                findTodo.IsActive = false;
+                await _todoDetailsRepository.UpdateAsync(findTodo);
+            }
         }
         public async Task On(TodoRemoved @event)
         {
-            await _todoRepository.DeleteByIdAsync(@event.TodoId);
+            await _todoDetailsRepository.DeleteByIdAsync(@event.TodoId);
         }
-        public Task On(TodoItemCreated @event)
+        public async Task On(TodoItemCreated @event)
         {
-            throw new NotImplementedException();
+            var findTodo = await _todoDetailsRepository.FindOneAsync(x => x.Id == @event.AggregateId);
+            if(findTodo !=null)
+            {
+                TodoItem todoItem = new TodoItem(@event.TodoTitle, @event.TodoDesc, @event.TodoType);
+                findTodo.SubTodos.Add(todoItem);
+                _todoDetailsRepository.UpdateAsync(findTodo);
+            }
         }
-        public Task On(TodoItemUpdated @event)
+        public async Task On(TodoItemUpdated @event)
         {
             throw new NotImplementedException();
         }

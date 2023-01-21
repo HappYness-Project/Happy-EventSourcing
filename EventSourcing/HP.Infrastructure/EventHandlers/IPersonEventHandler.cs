@@ -11,3 +11,4 @@ namespace HP.Infrastructure.EventHandlers
         Task On(PersonRoleUpdated @event);
     }
 }
+ 

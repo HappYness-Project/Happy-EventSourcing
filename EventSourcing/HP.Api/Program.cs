@@ -1,16 +1,17 @@
 using Confluent.Kafka;
 using HP.Application;
-using HP.Application.EventHandlers;
 using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Models;
 using HP.Domain;
 using HP.Domain.People.Write;
+using HP.Domain.Todos.Read;
 using HP.Domain.Todos.Write;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.EventHandlers;
 using HP.Infrastructure.Kafka;
+using HP.Infrastructure.Repository.Read;
 using HP.Infrastructure.Repository.Write;
 using MediatR;
 using MongoDB.Bson.Serialization;
@@ -33,13 +34,15 @@ builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
 var getConfig = builder.Configuration;
 builder.Services.Configure<ProducerConfig>(getConfig.GetSection(nameof(ProducerConfig)));
 builder.Services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerConfig)));
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<IPersonAggregateRepository, PersonAggregateRepository>();
 builder.Services.AddScoped<ITodoAggregateRepository, TodoAggregateRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
-builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped<ITodoDetailsRepository, TodoDetailsRepsitory>();
 
-builder.Services.AddScoped<ITodoEventHandler, TodoEventHandlers>();
+
+builder.Services.AddScoped<ITodoEventHandler, TodoEventHandler>();
 builder.Services.AddScoped<IPersonEventHandler, HP.Infrastructure.EventHandlers.PersonEventHandlers>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddKafkaEventProducer(getConfig["KafkaTopicName"]);

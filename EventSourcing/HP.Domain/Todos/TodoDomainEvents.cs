@@ -80,13 +80,22 @@ namespace HP.Domain
         }
         public class TodoItemCreated : DomainEvent
         {
-            public TodoItemCreated(Guid todoItemId, Guid todoId) : base(todoItemId) 
+            public TodoItemCreated(Guid todoItemId, Guid todoId, string title, string desc, string type, DateTime? created, DateTime? targetStartDate, DateTime? targetEndDate) : base(todoItemId) 
             {
-                this.TodoItemId = todoItemId;
-                this.TOdoId = todoId;
+                TodoItemId = todoItemId;
+                TodoId = todoId;
+                TodoTitle = title;
+                TodoDesc = desc;
+                TodoType = type;
             }
             public Guid TodoItemId { get; }
-            public Guid TOdoId { get; }
+            public Guid TodoId { get; }
+            public string TodoTitle { get; }
+            public string TodoDesc { get; }
+            public string TodoType { get; }
+            public DateTime Created { get; }
+            public DateTime TargetStartDate { get; }
+            public DateTime TargetEndDate { get; }
         }
         public class TodoItemUpdated : DomainEvent
         {

@@ -62,9 +62,9 @@ namespace HP.Domain
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentNullException(nameof(title));
 
-            TodoItem todoItem = new TodoItem(title, type, desc);
+            TodoItem todoItem = new TodoItem(title, desc, type);
             SubTodos.Add(todoItem);
-            this.AddDomainEvent(new TodoItemCreated(todoItem.Id, Id));
+            this.AddDomainEvent(new TodoItemCreated(todoItem.Id, Id, title, desc, type, DateTime.Now, null, null));
             return todoItem;
         }
         public void DeleteTodoItem(Guid todoItemId)
