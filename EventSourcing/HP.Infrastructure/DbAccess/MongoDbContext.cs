@@ -14,27 +14,14 @@ namespace HP.Infrastructure.DbAccess
         private readonly string _connStr;
         private readonly IMongoDatabase _mongoDb;
         private readonly IMongoClient _mongoClient;
-
         public MongoDbContext(IConfiguration configuration)
         {
-            //   _dbName = configuration["Mongo:Read:Database"];
-            //   _connStr = configuration["Mongo:Read:Connection"];
             _connStr = configuration["ConnectionStrings:mongo"];
             _dbName = configuration["ConnectionStrings:dbname"];
-
             MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(_connStr));
             _mongoClient = new MongoClient(settings);
             _mongoDb = _mongoClient.GetDatabase(_dbName);
         }
-
-        public IClientSessionHandle Session => throw new NotImplementedException();
-
-        public IList<string> Collections()
-        {
-            var collections = _mongoDb.ListCollections().ToList();
-            return collections.Select(c => c["name"].ToString()).ToList();
-        }
-
         public void CreateCollection<TEntity>(string name = "")
         {
             if (string.IsNullOrEmpty(name))

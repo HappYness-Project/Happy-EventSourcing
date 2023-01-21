@@ -8,7 +8,6 @@ namespace HP.Infrastructure.EventHandlers
     public class TodoEventHandler : ITodoEventHandler
     {
         private readonly ITodoDetailsRepository _todoDetailsRepository;
-        //private readonly IBaseRepository<TodoDetails> _todoRepository;
         #region Ctors
         public TodoEventHandler(ITodoDetailsRepository todoRepository)
         {
