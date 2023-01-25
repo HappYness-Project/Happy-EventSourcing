@@ -71,9 +71,15 @@ namespace HP.Infrastructure.EventHandlers
         }
         public async Task On(TodoItemUpdated @event)
         {
+            var findTodo = await _todoDetailsRepository.FindOneAsync(x => x.Id == @event.AggregateId);
+            if (findTodo != null)
+            {
+                TodoItem todoItem = new TodoItem(@event.TodoTitle, @event.TodoDesc, @event.TodoType);
+                findTodo.SubTodos.Add(todoItem);
+                _todoDetailsRepository.UpdateAsync(findTodo);
+            }
             throw new NotImplementedException();
         }
-
         #endregion
 
 

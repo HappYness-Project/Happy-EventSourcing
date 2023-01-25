@@ -38,36 +38,10 @@ namespace HP.Infrastructure
         {
             GC.SuppressFinalize(this);
         }
-        public Task<T> FindOneAndReplaceAsync(FilterDefinition<T> filter, T replacement)
-        {
-            return _collection.FindOneAndReplaceAsync(filter, replacement);
-        }
-
-        public IFindFluent<T, T> Find(FilterDefinition<T> filter)
-        {
-            return _collection.Find(filter);
-        }
-        public IFindFluent<T, T> Find(Expression<Func<T, bool>> filter)
-        {
-            return _collection.Find(filter);
-        }
-
-        public Task DeleteOneAsync(Expression<Func<T, bool>> filterExpression)
-        {
-            return Task.Run(() => _collection.FindOneAndDelete(filterExpression));
-        }
         public bool Exists(Expression<Func<T, bool>> predicate)
         {
-            var set = CreateSet();
+            var set = _collection.AsQueryable<T>();
             return set.Any(predicate);
-        }
-        private IQueryable<T> CreateSet()
-        {
-            return _collection.AsQueryable<T>();
-        }
-        public virtual async Task InsertManyAsync(ICollection<T> documents)
-        {
-            await _collection.InsertManyAsync(documents);
         }
         public Task DeleteByIdAsync(Guid id)
         {
@@ -80,11 +54,6 @@ namespace HP.Infrastructure
         public virtual Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression)
         {
             return Task.Run(() => _collection.Find(filterExpression).FirstOrDefaultAsync());
-        }
-
-        public Task<List<T>> GetAllByAggregateId(Guid aggregateId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

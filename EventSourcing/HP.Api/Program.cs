@@ -14,6 +14,7 @@ using HP.Infrastructure.Kafka;
 using HP.Infrastructure.Repository.Read;
 using HP.Infrastructure.Repository.Write;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,12 +27,17 @@ else
 
 BsonClassMap.RegisterClassMap<DomainEvent>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonCreated>();
+BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonInfoUpdated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoCreated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoUpdated>();
+BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoRemoved>();
+BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemCreated>();
 
+var getConfig = builder.Configuration;
 
 builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
-var getConfig = builder.Configuration;
+builder.Services.AddDbContext<HpReadDbContext>(options => options.UseNpgsql(getConfig.GetConnectionString("postgres")));
+//builder.Services.AddDbContextFactory
 builder.Services.Configure<ProducerConfig>(getConfig.GetSection(nameof(ProducerConfig)));
 builder.Services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerConfig)));
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));

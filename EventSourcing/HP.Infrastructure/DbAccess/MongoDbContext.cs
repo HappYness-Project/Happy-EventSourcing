@@ -22,14 +22,11 @@ namespace HP.Infrastructure.DbAccess
             _mongoClient = new MongoClient(settings);
             _mongoDb = _mongoClient.GetDatabase(_dbName);
         }
+
         public void CreateCollection<TEntity>(string name = "")
         {
-            if (string.IsNullOrEmpty(name))
-                name = typeof(TEntity).Name + "s";
-
-            _mongoDb.CreateCollection(name);
+            throw new NotImplementedException();
         }
-
         public IMongoCollection<TEntity> GetCollection<TEntity>(string name = "")
         {
             if (string.IsNullOrEmpty(name))

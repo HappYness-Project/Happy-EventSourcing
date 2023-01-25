@@ -1,90 +1,56 @@
 ﻿using HP.Core.Common;
 using HP.Core.Models;
 using HP.Infrastructure.DbAccess;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
+using System;
 using System.Linq.Expressions;
 
 namespace HP.Infrastructure
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        protected readonly IMongoCollection<T> _collection;
-        public BaseRepository(IMongoDbContext dbContext)
+        protected readonly HpReadDbContext _dbContext;
+
+        public BaseRepository(HpReadDbContext hpdbContext)
         {
-            _collection = dbContext.GetCollection<T>() ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = hpdbContext;
         }
         public virtual async Task<T> CreateAsync(T entity)
         {
-            await _collection.InsertOneAsync(entity);
+            _dbContext.Set<T>().Add(entity);
+            await _dbContext.SaveChangesAsync();
             return entity;
-        }
-        public virtual async Task<long> CountAsync()
-        {
-            return await _collection.CountDocumentsAsync(f => true);
         }
         public virtual async Task UpdateAsync(T entity)
         {
-            await _collection.ReplaceOneAsync(p => p.Id == entity.Id, entity, new ReplaceOptions() { IsUpsert = false });
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.AddRangeAsync();
         }
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            return await _collection.Find(e => e.Id == id).FirstOrDefaultAsync();
+            return await _dbContext.Set<T>().FindAsync(id);
         }
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _collection.AsQueryable().ToListAsync();
-        }
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
-        public Task<T> FindOneAndReplaceAsync(FilterDefinition<T> filter, T replacement)
-        {
-            return _collection.FindOneAndReplaceAsync(filter, replacement);
-        }
-
-        public IFindFluent<T, T> Find(FilterDefinition<T> filter)
-        {
-            return _collection.Find(filter);
-        }
-        public IFindFluent<T, T> Find(Expression<Func<T, bool>> filter)
-        {
-            return _collection.Find(filter);
-        }
-
-        public Task DeleteOneAsync(Expression<Func<T, bool>> filterExpression)
-        {
-            return Task.Run(() => _collection.FindOneAndDelete(filterExpression));
+            return await _dbContext.Set<T>().ToListAsync();
         }
         public bool Exists(Expression<Func<T, bool>> predicate)
         {
-            var set = CreateSet();
-            return set.Any(predicate);
+            return _dbContext.Set<T>().Where(predicate).Any();
         }
-        private IQueryable<T> CreateSet()
+        public async Task DeleteByIdAsync(Guid id)
         {
-            return _collection.AsQueryable<T>();
-        }
-        public virtual async Task InsertManyAsync(ICollection<T> documents)
-        {
-            await _collection.InsertManyAsync(documents);
-        }
-        public Task DeleteByIdAsync(Guid id)
-        {
-            return Task.Run(() =>
+            var entity = await _dbContext.Set<T>().FirstOrDefaultAsync();
+            if (entity != null)
             {
-                var filter = Builders<T>.Filter.Eq(doc => doc.Id, id);
-                _collection.FindOneAndDeleteAsync(filter);
-            });
+                _dbContext.Set<T>().Remove(entity);
+                await _dbContext.SaveChangesAsync();
+            }
         }
-        public virtual Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression)
+        public virtual async Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression)
         {
-            return Task.Run(() => _collection.Find(filterExpression).FirstOrDefaultAsync());
-        }
-
-        public Task<List<T>> GetAllByAggregateId(Guid aggregateId)
-        {
-            throw new NotImplementedException();
+            return await _dbContext.Set<T>().Where(filterExpression).FirstOrDefaultAsync();
         }
     }
 }

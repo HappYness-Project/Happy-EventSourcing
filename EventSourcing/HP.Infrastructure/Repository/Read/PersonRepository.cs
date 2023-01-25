@@ -8,7 +8,7 @@ namespace HP.Infrastructure.Repository.Read
     public class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
         // How to setup mongo DB Collection.
-        public PersonRepository(IMongoDbContext dbContext) : base(dbContext)
+        public PersonRepository(HpReadDbContext dbContext) : base(dbContext)
         {
         } 
     }

@@ -6,6 +6,6 @@ namespace HP.Infrastructure.Repository.Read
     public class TodoDetailsRepsitory : BaseRepository<TodoDetails>, ITodoDetailsRepository
     {
         // How to setup mongo DB Collection.
-        public TodoDetailsRepsitory(IMongoDbContext dbContext) : base(dbContext) { }
+        public TodoDetailsRepsitory(HpReadDbContext dbContext) : base(dbContext) { }
     }
 }

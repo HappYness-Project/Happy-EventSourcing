@@ -104,6 +104,12 @@ namespace HP.Domain
                 this.TodoItemId = todoItemId;
             }
             public Guid TodoItemId { get; }
+            public string TodoTitle { get; }
+            public string TodoDesc { get; }
+            public string TodoType { get; }
+            public DateTime Created { get; }
+            public DateTime TargetStartDate { get; }
+            public DateTime TargetEndDate { get; }
         }
     }
 }

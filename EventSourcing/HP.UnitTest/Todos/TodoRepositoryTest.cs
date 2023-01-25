@@ -58,10 +58,7 @@ namespace HP.UnitTest.Todos
         [Test]
         public void Find_ReturnObjectIfExist()
         {
-
             var todo = TodoFactory.Create();
-
-            todoRepository.Find(x => x.AddDomainEvent== null);
 
         }
 
