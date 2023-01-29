@@ -12,13 +12,14 @@ COPY ["HP.Application/HP.Application.csproj", "HP.Application/"]
 COPY ["HP.Domain/HP.Domain.csproj", "HP.Domain/"]
 COPY ["HP.Infrastructure/HP.Infrastructure.csproj", "HP.Infrastructure/"]
 COPY ["HP.Core/HP.Core.csproj", "HP.Core/"]
+COPY ["HP.Shared/HP.Shared.csproj", "HP.Core/"]
 RUN dotnet restore "HP.Api/HP.Api.csproj"
 COPY . .
-WORKDIR "/src/HP.Api"
-RUN dotnet build "HP.Api.csproj" -c Release -o /app/build
+WORKDIR /src
+RUN dotnet build "HP.Api/HP.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "HP.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "HP.Api/HP.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
