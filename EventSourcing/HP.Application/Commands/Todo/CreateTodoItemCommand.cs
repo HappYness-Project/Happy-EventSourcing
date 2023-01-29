@@ -5,7 +5,7 @@ using MediatR;
 
 namespace HP.Application.Commands.Todo
 {
-    public record CreateTodoItemCommand(Guid TodoId, string TodoTitle, string TodoType, string? Description, string[] Tag = null) : BaseCommand;
+    public record CreateTodoItemCommand(Guid TodoId, string TodoTitle, string TodoType, string? Description, string[] Tag = null, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null) : BaseCommand;
     public class CreateTodoItemCommandHandler : BaseCommandHandler, IRequestHandler<CreateTodoItemCommand, CommandResult>
     {
         private readonly ITodoAggregateRepository _todoRepository;
@@ -19,7 +19,7 @@ namespace HP.Application.Commands.Todo
             if (todo == null)
                 throw new ApplicationException($"There is no Todo Id {request.TodoId}");
 
-            var subTodo = todo.AddTodoItem(request.TodoTitle, request.TodoType, request.Description);
+            var subTodo = todo.AddTodoItem(request.TodoTitle, request.TodoType, request.Description, request.TargetStartDate, request.TargetEndDate);
             await _todoRepository.UpdateAsync(todo);
 
             await ProduceDomainEvents(todo.UncommittedEvents);

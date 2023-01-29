@@ -24,7 +24,7 @@ namespace HP.Application.Commands.Todo
 
             todo.UpdateTodoItem(request.TodoItemId, request.Title, request.Desc, request.Type);
             await _repository.UpdateAsync(todo);
-            var @event = new TodoDomainEvents.TodoItemRemoved(request.TodoItemId);
+            var @event = new TodoDomainEvents.TodoItemRemoved { TodoItemId = request.TodoItemId };
             return new CommandResult(true, "UpdateTodoItemCommand.", todo.Id.ToString());
         }
     }

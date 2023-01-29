@@ -1,10 +1,11 @@
-﻿namespace HP.Core.Models
+﻿using System.Text.Json.Serialization;
+
+namespace HP.Core.Models
 {
     public class DomainEvent : IDomainEvent
     {
-        public DomainEvent(Guid aggregateId) 
+        public DomainEvent()
         {
-            AggregateId = aggregateId;
             EventId = Guid.NewGuid();
             OccuredOn = DateTime.Now;
             EventType = this.GetType().Name;

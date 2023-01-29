@@ -17,7 +17,7 @@ namespace HP.Domain
             IsDone = false;
             TodoStatus = TodoStatus.NotDefined;
         }
-        public TodoItem(string title, string desc, string todoType)
+        public TodoItem(string title, string desc, string todoType, DateTime? targetStartDate = null, DateTime? targetEndDate = null)
         {
             Id = Guid.NewGuid();
             Title = title;

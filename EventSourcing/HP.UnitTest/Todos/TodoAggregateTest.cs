@@ -85,7 +85,7 @@ namespace HP.UnitTest.Todos
             var todo = TodoFactory.Create("", "MainTodo",TodoType.Others.ToString(), "Description");
 
             // Act
-            todo.AddTodoItem("Sub Todo Item #1", TodoType.Study.ToString(), "Description todo Item #1");
+            todo.AddTodoItem("Sub Todo Item #1", TodoType.Study.ToString(), "Description todo Item #1", null,null);
 
             //Assert
             todo.SubTodos.Should().HaveCount(1);
@@ -100,7 +100,9 @@ namespace HP.UnitTest.Todos
             string Title = "Sub Todo Item #1";
             string Type = "Study";
             string Desc = "Description todo Item #1";
-            var todoItem = todo.AddTodoItem(Title, Type, Desc);
+            DateTime? TargetStartDate = new DateTime(2022, 12, 25);
+            DateTime? TargetEndDate = new DateTime(2022, 12, 30);
+            var todoItem = todo.AddTodoItem(Title, Type, Desc, TargetStartDate, TargetEndDate);
 
             // Act
             todo.DeleteTodoItem(todoItem.Id);

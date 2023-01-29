@@ -1,4 +1,5 @@
 ﻿using HP.Core.Models;
+using HP.Domain;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using static HP.Domain.PersonDomainEvents;

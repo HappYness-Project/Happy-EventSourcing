@@ -1,6 +1,7 @@
 using Confluent.Kafka;
 using HP.Core.Events;
 using HP.Core.Models;
+using HP.Domain;
 using HP.Infrastructure.EventHandlers;
 using Microsoft.Extensions.Options;
 using System;
@@ -37,12 +38,10 @@ namespace HP.Infrastructure.Kafka
                 var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
                 options.IncludeFields = true;
                 var @event = JsonSerializer.Deserialize<DomainEvent>(consumerResult.Message.Value, options);
-                //var @event2 = JsonSerializer.Deserialize(consumerResult.Message.Value, eventType) as /*IIntegrationEvent*/;
 
                 // if( event handler is Person event handler)
-                // var handleMethod = _todoEventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
-
-                var handleMethod = _personEventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
+                 var handleMethod = _todoEventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
+                var handleMethod2 = _personEventHandler.GetType().GetMethod("On", new Type[] { @event.GetType() });
                 if (handleMethod == null)
                     throw new ArgumentNullException(nameof(handleMethod), "Could not find evente handler method!");
 

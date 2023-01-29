@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using HP.Domain;
+using MediatR;
 using static HP.Domain.TodoDomainEvents;
 namespace HP.Infrastructure.EventHandlers
 {

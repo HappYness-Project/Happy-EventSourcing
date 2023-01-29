@@ -9,7 +9,7 @@ namespace HP.Domain
         protected Todo(Person person, string title, string description, TodoType todoType, string[] tag) : base()
         {
             // TODO : CheckPolicies
-            
+
             PersonId = person.Id.ToString();
             Title = title;
             Description = description;
@@ -18,7 +18,7 @@ namespace HP.Domain
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
             Updated = DateTime.Now;
-            AddDomainEvent(new TodoCreated(Id, PersonId, title, Description, todoType.Name));
+            AddDomainEvent(new TodoCreated { TodoId = Id, PersonId = PersonId, TodoTitle = title, TodoDesc = Description, TodoType = todoType.Name });
         }
         public string PersonId { get; private set; }
         public string Title { get; private set; }
@@ -55,16 +55,25 @@ namespace HP.Domain
             this.TargetEndDate = targetEndDate ?? null;
             this.Tag = Tags;
             this.Updated = DateTime.Now;
-            this.AddDomainEvent(new TodoUpdated(Id, Title, Description, TodoType.Name));
+            this.AddDomainEvent(new TodoUpdated { TodoId = Id, TodoTitle = Title, TodoDesc = Description, TodoType = TodoType.Name });
         }
-        public TodoItem AddTodoItem(string title, string type, string desc)
+        public TodoItem AddTodoItem(string title, string type, string desc, DateTime? targetStartDate, DateTime? targetEndDate)
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentNullException(nameof(title));
 
-            TodoItem todoItem = new TodoItem(title, desc, type);
+            TodoItem todoItem = new TodoItem(title, desc, type, targetStartDate.Value, targetEndDate.Value);
             SubTodos.Add(todoItem);
-            this.AddDomainEvent(new TodoItemCreated(todoItem.Id, Id, title, desc, type, DateTime.Now, null, null));
+            this.AddDomainEvent(new TodoItemCreated
+            {
+                TodoItemId = todoItem.Id,
+                TodoId = Id,
+                TodoTitle = title,
+                TodoDesc = desc,
+                TodoType = type,
+                TargetStartDate = targetStartDate.HasValue ? targetStartDate.Value : null,
+                TargetEndDate = targetEndDate.HasValue ? targetEndDate.Value : null
+            });
             return todoItem;
         }
         public void DeleteTodoItem(Guid todoItemId)
@@ -74,7 +83,7 @@ namespace HP.Domain
                 throw new Exception($"[Domain Excecption]Not Found TodoItem : {todoItemId}");
 
             SubTodos.Remove(todoItem);
-            this.AddDomainEvent(new TodoItemRemoved(todoItemId));
+            this.AddDomainEvent(new TodoItemRemoved { TodoItemId = todoItemId });
         }
         public void UpdateTodoItem(Guid todoItemId, string newTitle, string newDesc, string newType)
         {
@@ -83,7 +92,7 @@ namespace HP.Domain
                 throw new Exception($"[Domain Excecption]Not Found TodoItem : {todoItemId}");
 
             todoItem.Update(newTitle, newType, newDesc);
-            this.AddDomainEvent(new TodoItemUpdated(todoItemId));
+            this.AddDomainEvent(new TodoItemUpdated { TodoItemId = todoItemId });
         }
         protected override void When(IDomainEvent @event)
         {
@@ -128,16 +137,16 @@ namespace HP.Domain
         public void ActivateTodo()
         {
             this.IsActive = true;
-            this.AddDomainEvent(new TodoActivated(this.Id));
+            this.AddDomainEvent(new TodoActivated { TodoId = Id });
         }
         public void DeactivateTodo()
         {
             this.IsActive = false;
-            this.AddDomainEvent(new TodoDeactivated(this.Id));
+            this.AddDomainEvent(new TodoDeactivated { TodoId = Id });
         }
         public void Remove()
         {
-            this.AddDomainEvent(new TodoRemoved(this.Id));
+            this.AddDomainEvent(new TodoRemoved { TodoId = Id });
         }
         public void SetStatus(TodoStatus status, string? reason = null)
         {
@@ -146,19 +155,19 @@ namespace HP.Domain
                 case "pending":
                     this.Status = TodoStatus.Pending;
                     this.StatusDesc = $"Todo Id:{Id} of Title: {Title} is completed.";
-                    AddDomainEvent(new TodoStatusToPending(Id));
+                    AddDomainEvent(new TodoStatusToPending { TodoId = Id });
                     break;
 
                 case "accept":
                     this.Status = TodoStatus.Accept;
                     this.StatusDesc = $"Todo Id:{Id} of Title: {Title} is accepted.";
-                    AddDomainEvent(new TodoStatusToAccepted(Id));
+                    AddDomainEvent(new TodoStatusToAccepted { TodoId = Id });
                     break;
 
                 case "start":
                     this.Status = TodoStatus.Start;
                     this.StatusDesc = $"Todo Id:{Id}, has been started at {DateTime.Now}";
-                    AddDomainEvent(new TodoStarted(Id));
+                    AddDomainEvent(new TodoStarted { TodoId = Id });
                     break;
 
                 case "complete":
@@ -166,7 +175,7 @@ namespace HP.Domain
                     this.StatusDesc = $"Todo Id:{Id} is completed. ";
                     this.IsDone = true;
                     this.Completed = DateTime.Now;
-                    AddDomainEvent(new TodoCompleted(Id));
+                    AddDomainEvent(new TodoCompleted { TodoId = Id });
                     break;
 
                 case "stop":

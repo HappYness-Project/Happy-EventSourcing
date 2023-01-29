@@ -32,6 +32,7 @@ BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoCreated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoUpdated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoRemoved>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemCreated>();
+BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemUpdated>();
 
 var getConfig = builder.Configuration;
 
