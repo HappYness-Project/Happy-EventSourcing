@@ -1,6 +1,4 @@
 ﻿using HP.Core.Models;
-using System.Text.Json.Serialization;
-
 namespace HP.Domain
 {
     public static class PersonDomainEvents
@@ -9,6 +7,8 @@ namespace HP.Domain
         {
             public Guid PersonId { get; set; }
             public string PersonName { get; set; }
+            public string PersonType { get; set; }
+            public string PersonRole { get; set; }
         }
         public class PersonInfoUpdated : DomainEvent
         {

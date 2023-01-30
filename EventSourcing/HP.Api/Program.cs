@@ -4,6 +4,7 @@ using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Models;
 using HP.Domain;
+using HP.Domain.People.Read;
 using HP.Domain.People.Write;
 using HP.Domain.Todos.Read;
 using HP.Domain.Todos.Write;
@@ -47,7 +48,7 @@ builder.Services.AddScoped<ITodoAggregateRepository, TodoAggregateRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddScoped<ITodoDetailsRepository, TodoDetailsRepsitory>();
-
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();  
 
 builder.Services.AddScoped<ITodoEventHandler, TodoEventHandler>();
 builder.Services.AddScoped<IPersonEventHandler, HP.Infrastructure.EventHandlers.PersonEventHandlers>();

@@ -1,4 +1,5 @@
 ﻿using HP.Domain;
+using HP.Domain.People.Read;
 using HP.Infrastructure.DbAccess;
 using static HP.Domain.PersonDomainEvents;
 namespace HP.Infrastructure.EventHandlers
@@ -6,21 +7,25 @@ namespace HP.Infrastructure.EventHandlers
     // This is Query side
     public class PersonEventHandlers : IPersonEventHandler
     {
-        private readonly IMongoDbContext _dbContext;
+        private readonly IPersonRepository _personRepository;
         #region Ctors
-        public PersonEventHandlers(IMongoDbContext dbContext)
+        public PersonEventHandlers(IPersonRepository personRepository)
         {
-            _dbContext = dbContext;
+            _personRepository = personRepository;
         }
         #endregion
 
         #region handlers
         public async Task On(PersonCreated @event)
         {
-            var check = @event;
-
+            PersonDetails personDetails = new PersonDetails(@event.PersonId)
+            {
+                PersonName = @event.PersonName,
+                PersonType = @event.PersonType,
+                PersonRole = @event.PersonRole,
+            };
+            _personRepository.CreateAsync(personDetails);
         }
-
         public async Task On(PersonInfoUpdated @event)
         {
             throw new NotImplementedException();
