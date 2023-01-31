@@ -38,8 +38,7 @@ BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemUpdated>();
 var getConfig = builder.Configuration;
 
 builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
-builder.Services.AddDbContext<HpReadDbContext>(options => options.UseNpgsql(getConfig.GetConnectionString("postgres")));
-//builder.Services.AddDbContextFactory
+builder.Services.AddEntityFrameworkNpgsql().AddDbContext<HpReadDbContext>(opt => opt.UseNpgsql(getConfig.GetConnectionString("postgres")));
 builder.Services.Configure<ProducerConfig>(getConfig.GetSection(nameof(ProducerConfig)));
 builder.Services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerConfig)));
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));

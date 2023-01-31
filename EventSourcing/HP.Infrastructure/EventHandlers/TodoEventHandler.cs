@@ -20,6 +20,7 @@ namespace HP.Infrastructure.EventHandlers
         {
             var todoDetails = new TodoDetails(@event.TodoId)
             {
+
                 PersonId = @event.PersonId,
                 Title = @event.TodoTitle,
                 Description = @event.TodoDesc,

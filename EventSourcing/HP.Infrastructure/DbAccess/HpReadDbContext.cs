@@ -1,4 +1,6 @@
-﻿using HP.Domain.Todos.Read;
+﻿//using HP.Domain.Todos.Read;
+using HP.Domain.People.Read;
+using HP.Domain.Todos.Read;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,15 +14,16 @@ namespace HP.Infrastructure.DbAccess
     public class HpReadDbContext : DbContext
     {
         protected readonly IConfiguration _configuration;
-        public HpReadDbContext(IConfiguration configuration)
+        public HpReadDbContext(IConfiguration configuration) 
         {
-            _configuration= configuration;
+            _configuration = configuration;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
+            var check = _configuration.GetConnectionString("postgres");
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("postgres"));
         }
         public DbSet<TodoDetails> TodoDetails { get; set; }
+        //public DbSet<PersonDetails> PersonDetails { get; set; }
     }
 }

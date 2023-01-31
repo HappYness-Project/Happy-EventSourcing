@@ -1,13 +1,16 @@
 ﻿using HP.Core.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HP.Domain.Todos.Read
 {
+    [Table("TodoDetails")]
     public class TodoDetails : BaseEntity, IReadModel
     {
         public TodoDetails(Guid Id)
         {
             this.Id = Id;
         }
+        public Guid Id { get; set; }
         public string PersonId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
