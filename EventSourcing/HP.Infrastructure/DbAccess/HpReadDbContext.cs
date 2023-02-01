@@ -23,6 +23,6 @@ namespace HP.Infrastructure.DbAccess
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("postgres"));
         }
         public DbSet<TodoDetails> TodoDetails { get; set; }
-        //public DbSet<PersonDetails> PersonDetails { get; set; }
+        public DbSet<PersonDetails> PersonDetails { get; set; }
     }
 }

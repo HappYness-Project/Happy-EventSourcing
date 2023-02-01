@@ -5,7 +5,11 @@ namespace HP.Domain.People.Read
     {
         public PersonDetails(Guid id)
         {
-            this.Id = id;
+            Id = id;
+            ProjectId = 0;
+            GroupId = 0;
+            IsActive = true;
+            GoalType = string.Empty;
         }
         public string PersonName { get; set; }
         public string PersonType { get; set; }
@@ -14,6 +18,5 @@ namespace HP.Domain.People.Read
         public int ProjectId { get; set; }
         public int GroupId { get; set; }
         public string GoalType { get; set; }
-
     }
 }

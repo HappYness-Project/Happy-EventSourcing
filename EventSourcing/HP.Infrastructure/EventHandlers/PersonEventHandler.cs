@@ -25,7 +25,7 @@ namespace HP.Infrastructure.EventHandlers
                 PersonType = @event.PersonType,
                 PersonRole = @event.PersonRole,
             };
-            _personRepository.CreateAsync(personDetails);
+            await _personRepository.CreateAsync(personDetails);
         }
         public async Task On(PersonInfoUpdated @event)
         {

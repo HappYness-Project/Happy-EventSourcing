@@ -17,7 +17,7 @@ namespace HP.Domain.Todos.Read
             TodoStatus = Domain.TodoStatus.NotDefined.ToString();
         }
         public Guid Id { get; set; }
-        public string PersonId { get; set; }
+        public string PersonName { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int ProjectId { get; set; }

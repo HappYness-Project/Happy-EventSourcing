@@ -43,7 +43,7 @@ namespace HP.UnitTest.DbConnection
                 Title = "Test",
                 Description = "Test Desc",
                 TodoType = "Normal",
-                PersonId = Guid.NewGuid().ToString(),
+                PersonName = Guid.NewGuid().ToString(),
                 Tags = Tags,
                 IsActive = true,
                 IsDone = false,

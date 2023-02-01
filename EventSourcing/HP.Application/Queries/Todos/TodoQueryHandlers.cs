@@ -4,12 +4,13 @@ using AutoMapper;
 using HP.Domain;
 using HP.Domain.Todos.Write;
 using HP.Domain.Todos.Read;
+using HP.Core.Common;
 
 namespace HP.Application.Queries.Todos
 {
     public class TodoQueryHandlers : BaseQueryHandler,
                                      IRequestHandler<GetTodos, IEnumerable<TodoBasicInfoDto>>,
-                                     IRequestHandler<GetTodosByUserId, IEnumerable<TodoDetailsDto>>,
+                                     IRequestHandler<GetTodosByPersonName, IEnumerable<TodoDetailsDto>>,
                                      IRequestHandler<GetTodoById, TodoDetailsDto>,
                                      IRequestHandler<GetTodosByProjectId, IEnumerable<TodoDetailsDto>>,
                                      IRequestHandler<GetActiveTodoItemsByTodoId, IEnumerable<TodoItem>>,
@@ -21,16 +22,19 @@ namespace HP.Application.Queries.Todos
         
     {
         private readonly ITodoAggregateRepository _todoRepository;
-        public TodoQueryHandlers(IMapper mapper, ITodoAggregateRepository todoRepository) : base(mapper)
+        private readonly IBaseRepository<TodoDetails> _todoDetailsRepository;
+        public TodoQueryHandlers(IMapper mapper, ITodoAggregateRepository todoRepository, IBaseRepository<TodoDetails> todoDetailsRepository) : base(mapper)
         {
             _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
+            _todoDetailsRepository = todoDetailsRepository ?? throw new ArgumentNullException(nameof(todoDetailsRepository));
         }
 
-        public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByUserId request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByPersonName request, CancellationToken cancellationToken)
         {
-            var todos = await _todoRepository.GetListByPersonName(request.UserId);
+            var todo = await _todoDetailsRepository.FindOneAsync(x => x.PersonName == request.PersonName);
+            var todos = await _todoRepository.GetListByPersonName(request.PersonName);
             if (todos == null)
-                throw new ApplicationException($"Todos not exist for this user ID:{request.UserId}");
+                throw new ApplicationException($"Todos not exist for this user ID:{request.PersonName}");
 
             return _mapper.Map<IEnumerable<TodoDetailsDto>>(todos);
         }

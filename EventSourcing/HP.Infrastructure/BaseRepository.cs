@@ -1,10 +1,8 @@
 ﻿using HP.Core.Common;
 using HP.Core.Models;
-using HP.Domain.Todos.Read;
 using HP.Infrastructure.DbAccess;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using System;
 using System.Linq.Expressions;
 
 namespace HP.Infrastructure
