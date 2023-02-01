@@ -1,7 +1,5 @@
 ﻿using HP.Core.Common;
-using HP.Domain;
 using HP.Domain.People.Read;
-using HP.Infrastructure.DbAccess;
 using static HP.Domain.PersonDomainEvents;
 namespace HP.Infrastructure.EventHandlers
 {
@@ -29,25 +27,33 @@ namespace HP.Infrastructure.EventHandlers
         }
         public async Task On(PersonInfoUpdated @event)
         {
-            throw new NotImplementedException();
+            var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            person.PersonType = @event.PersonType;
+            person.PersonRole = @event.PersonRole;
+            person.GoalType = @event.GoalType;
+            await _personRepository.UpdateAsync(person);
         }
 
         public async Task On(PersonGroupUpdated @event)
         {
-            throw new NotImplementedException();
+            var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            person.GroupId = @event.GroupId;
+            await _personRepository.UpdateAsync(person);
         }
 
         public async Task On(PersonRoleSetAdminAssigned @event)
         {
-            throw new NotImplementedException();
+            var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            person.PersonRole = "Admin";
+            await _personRepository.UpdateAsync(person);
         }
 
         public async Task On(PersonRoleUpdated @event)
         {
-            throw new NotImplementedException();
+            var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            person.PersonRole = @event.Role;
+            await _personRepository.UpdateAsync(person);
         }
-
-
 
         #endregion
     }

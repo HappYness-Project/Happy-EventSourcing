@@ -14,6 +14,7 @@ namespace HP.Domain
         {
             public Guid PersonId { get; set; }
             public string PersonType { get; set; }
+            public string PersonRole { get; set; }
             public string GoalType { get; set; }
         }
         public class PersonRoleUpdated : DomainEvent

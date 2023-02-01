@@ -18,10 +18,6 @@ namespace HP.Infrastructure
             await _collection.InsertOneAsync(entity);
             return entity;
         }
-        public virtual async Task<long> CountAsync()
-        {
-            return await _collection.CountDocumentsAsync(f => true);
-        }
         public virtual async Task UpdateAsync(T entity)
         {
             await _collection.ReplaceOneAsync(p => p.Id == entity.Id, entity, new ReplaceOptions() { IsUpsert = false });
@@ -33,10 +29,6 @@ namespace HP.Infrastructure
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _collection.AsQueryable().ToListAsync();
-        }
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
         }
         public bool Exists(Expression<Func<T, bool>> predicate)
         {
