@@ -1,4 +1,5 @@
-﻿using HP.Domain;
+﻿using HP.Core.Common;
+using HP.Domain;
 using HP.Domain.People.Read;
 using HP.Infrastructure.DbAccess;
 using static HP.Domain.PersonDomainEvents;
@@ -7,9 +8,9 @@ namespace HP.Infrastructure.EventHandlers
     // This is Query side
     public class PersonEventHandlers : IPersonEventHandler
     {
-        private readonly IPersonRepository _personRepository;
+        private readonly IBaseRepository<PersonDetails> _personRepository;
         #region Ctors
-        public PersonEventHandlers(IPersonRepository personRepository)
+        public PersonEventHandlers(IBaseRepository<PersonDetails> personRepository)
         {
             _personRepository = personRepository;
         }

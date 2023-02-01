@@ -1,5 +1,6 @@
 ﻿using HP.Core.Common;
 using HP.Core.Models;
+using HP.Domain.Todos.Read;
 using HP.Infrastructure.DbAccess;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
@@ -10,15 +11,14 @@ namespace HP.Infrastructure
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        protected readonly HpReadDbContext _dbContext;
-
+        protected HpReadDbContext _dbContext;
         public BaseRepository(HpReadDbContext hpdbContext)
         {
             _dbContext = hpdbContext;
         }
         public virtual async Task<T> CreateAsync(T entity)
         {
-            _dbContext.Set<T>().Add(entity);
+            await _dbContext.Set<T>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
         }
@@ -29,17 +29,17 @@ namespace HP.Infrastructure
         }
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            return await _dbContext.Set<T>().FindAsync(id);
+            return await _dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(e=> e.Id == id);
         }
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
-        public bool Exists(Expression<Func<T, bool>> predicate)
+        public virtual bool Exists(Expression<Func<T, bool>> predicate)
         {
             return _dbContext.Set<T>().Where(predicate).Any();
         }
-        public async Task DeleteByIdAsync(Guid id)
+        public virtual async Task DeleteByIdAsync(Guid id)
         {
             var entity = await _dbContext.Set<T>().FirstOrDefaultAsync();
             if (entity != null)

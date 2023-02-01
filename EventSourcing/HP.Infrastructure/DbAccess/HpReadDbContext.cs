@@ -14,13 +14,12 @@ namespace HP.Infrastructure.DbAccess
     public class HpReadDbContext : DbContext
     {
         protected readonly IConfiguration _configuration;
-        public HpReadDbContext(IConfiguration configuration) 
+        public HpReadDbContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var check = _configuration.GetConnectionString("postgres");
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString("postgres"));
         }
         public DbSet<TodoDetails> TodoDetails { get; set; }

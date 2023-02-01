@@ -9,6 +9,12 @@ namespace HP.Domain.Todos.Read
         public TodoDetails(Guid Id)
         {
             this.Id = Id;
+            Score = 0;
+            IsDone = false;
+            IsActive = true;
+            SubTodos = null;
+            Tags = new string[] { };
+            TodoStatus = Domain.TodoStatus.NotDefined.ToString();
         }
         public Guid Id { get; set; }
         public string PersonId { get; set; }

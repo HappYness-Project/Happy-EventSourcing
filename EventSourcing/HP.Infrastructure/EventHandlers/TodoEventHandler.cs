@@ -7,9 +7,9 @@ namespace HP.Infrastructure.EventHandlers
 {
     public class TodoEventHandler : ITodoEventHandler
     {
-        private readonly ITodoDetailsRepository _todoDetailsRepository;
+        private readonly IBaseRepository<TodoDetails> _todoDetailsRepository;
         #region Ctors
-        public TodoEventHandler(ITodoDetailsRepository todoRepository)
+        public TodoEventHandler(IBaseRepository<TodoDetails> todoRepository)
         {
             this._todoDetailsRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }

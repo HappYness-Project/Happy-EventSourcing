@@ -21,7 +21,6 @@ namespace HP.Application.Queries.Todos
         
     {
         private readonly ITodoAggregateRepository _todoRepository;
-        private readonly ITodoDetailsRepository todoRepsotiry;
         public TodoQueryHandlers(IMapper mapper, ITodoAggregateRepository todoRepository) : base(mapper)
         {
             _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
