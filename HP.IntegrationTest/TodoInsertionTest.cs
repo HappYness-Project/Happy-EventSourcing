@@ -12,9 +12,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HP.UnitTest.DbConnection
-{
-    public class PostgresConnectionTest
+namespace HP.IntegrationTest
+{ 
+    public class TodoInsertionTest
     {
 
         protected IConfiguration _configuration;

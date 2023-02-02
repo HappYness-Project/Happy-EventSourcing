@@ -3,8 +3,7 @@ using HP.Domain.Todos.Write;
 using HP.Infrastructure.Repository.Write;
 using HP.test;
 using NUnit.Framework;
-
-namespace HP.UnitTest.Todos
+namespace HP.IntegrationTest.Todos
 {
 
 

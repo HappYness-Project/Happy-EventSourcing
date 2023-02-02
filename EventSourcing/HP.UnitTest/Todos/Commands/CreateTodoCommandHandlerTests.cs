@@ -7,6 +7,8 @@ using HP.Application.Commands.Todo;
 using System;
 using HP.Domain.Todos.Write;
 using HP.Domain.People.Write;
+using FluentAssertions;
+using HP.Core.Commands;
 
 namespace HP.UnitTest.Todos.Commands
 {
@@ -14,7 +16,6 @@ namespace HP.UnitTest.Todos.Commands
     {
         private readonly Mock<ITodoAggregateRepository> _todoRepositoryMock;
         private readonly Mock<IPersonAggregateRepository> _personRepositoryMock;
-
         public CreateTodoCommandHandlerTests()
         {
             _todoRepositoryMock = new();
@@ -26,15 +27,22 @@ namespace HP.UnitTest.Todos.Commands
         {
             // Arrange
             var cmd = new CreateTodoCommand(Guid.Parse("hyunbin7303"), null, "Valid");
-            var handler = new CreateTodoCommandHandler(_eventProducer, _todoRepositoryMock.Object, _personRepositoryMock.Object);
+            var handler = new CreateTodoCommandHandler(_eventProducer.Object, _todoRepositoryMock.Object, _personRepositoryMock.Object);
 
             //_todoRepositoryMock.Setup(x => x.Find(x=> x.))
 
             // Act 
-            //var result = await handler.Handle(cmd, default);
+            CommandResult result = await handler.Handle(cmd, default);
 
             // Asset
-            //result.Should().BeNull(); 
+            result.IsSuccess.Should().BeFalse();
+            result.Message.Should().Contain("Error");
+        }
+
+        [Test]
+        public async Task Handle_Should_ReturnSuccessResult_UserExist()
+        {
+
         }
     }
 }
