@@ -4,7 +4,7 @@ using HP.Domain.Todos.Write;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record StopTodoCommand(Guid TodoId, string reason) : BaseCommand;
+    public record StopTodoCommand(Guid TodoId, string? reason = null) : BaseCommand;
     public class StopTodoCommandHandler : IRequestHandler<StopTodoCommand, CommandResult>
     {
         private readonly ITodoAggregateRepository _repository;
