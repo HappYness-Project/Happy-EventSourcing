@@ -7,7 +7,7 @@ using HP.test;
 using NUnit.Framework;
 using System.Collections;
 
-namespace HP.UnitTest.People
+namespace HP.IntegrationTest
 {
     public class PersonRepositoryTest : TestBase
     {
@@ -27,8 +27,6 @@ namespace HP.UnitTest.People
         [Test]
         public void Delete_Specific_person_by_PersonId()
         {
-            // Creating a person object into the db.
-            Address addr = new Address("Canada", "Waterloo", "ON", "n2l4m2");
             Person person = Person.Create("hyunbin7303@gmail.com");
             var newPerson = personRepository.CreateAsync(person).Result;
 

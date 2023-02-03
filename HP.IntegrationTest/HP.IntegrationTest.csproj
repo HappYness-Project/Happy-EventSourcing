@@ -26,4 +26,10 @@
     <ProjectReference Include="..\EventSourcing\HP.UnitTest\HP.UnitTest.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

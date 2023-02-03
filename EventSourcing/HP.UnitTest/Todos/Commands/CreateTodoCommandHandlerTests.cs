@@ -26,11 +26,9 @@ namespace HP.UnitTest.Todos.Commands
         public async Task Handle_Should_ReturnFailureResult_UserNotExist()
         {
             // Arrange
-            var cmd = new CreateTodoCommand(Guid.Parse("hyunbin7303"), null, "Valid");
+            var cmd = new CreateTodoCommand(Guid.NewGuid(), "TodoTitle", "Valid");
             var handler = new CreateTodoCommandHandler(_eventProducer.Object, _todoRepositoryMock.Object, _personRepositoryMock.Object);
-
             //_todoRepositoryMock.Setup(x => x.Find(x=> x.))
-
             // Act 
             CommandResult result = await handler.Handle(cmd, default);
 

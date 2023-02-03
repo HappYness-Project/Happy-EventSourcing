@@ -1,4 +1,5 @@
 ﻿using HP.Core.Models;
+using HP.Domain.Exceptions;
 using static HP.Domain.TodoDomainEvents;
 
 namespace HP.Domain
@@ -42,7 +43,7 @@ namespace HP.Domain
                 throw new ArgumentNullException(nameof(person));
 
             if (string.IsNullOrWhiteSpace(title))
-                throw new ArgumentNullException(nameof(title));
+                throw new TodoDomainException("[TodoException]TodoTitle cannot be empty.");
 
             return new(person, title, description, type, tags);
         }
