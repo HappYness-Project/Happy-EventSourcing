@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using HP.Application.DTOs;
+using HP.Core.Common;
+using HP.Domain.People.Read;
 using HP.Domain.People.Write;
 using MediatR;
 namespace HP.Application.Queries
@@ -7,15 +9,17 @@ namespace HP.Application.Queries
     public class PersonQueryHandlers : BaseQueryHandler,
                                         IRequestHandler<GetPersonList, IEnumerable<PersonDetailsDto>>,
                                         IRequestHandler<GetPersonById, PersonDetailsDto>,
-                                        IRequestHandler<GetPersonByName, PersonDetailsDto>,
-                                        IRequestHandler<GetPersonUserId, PersonDetailsDto>
+                                        IRequestHandler<GetPersonByName, PersonDetailsDto>
     {
-        private readonly IPersonAggregateRepository _personRepository;
-        //private readonly IPersonRepository _personRepository;
-        public PersonQueryHandlers(IMapper mapper, IPersonAggregateRepository personRepository) : base(mapper)
+        private readonly IBaseRepository<PersonDetails> _personRepository;
+        #region Ctors
+        public PersonQueryHandlers(IMapper mapper, IBaseRepository<PersonDetails> personRepository) : base(mapper)
         {
             _personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }
+        #endregion
+
+        #region handlers
         public async Task<IEnumerable<PersonDetailsDto>> Handle(GetPersonList request, CancellationToken cancellationToken)
         {
             var people = await _personRepository.GetAllAsync();
@@ -24,7 +28,6 @@ namespace HP.Application.Queries
 
             return _mapper.Map<IEnumerable<PersonDetailsDto>>(people);
         }
-
         public async Task<PersonDetailsDto> Handle(GetPersonById request, CancellationToken cancellationToken)
         {
             var person = await _personRepository.GetByIdAsync(request.Id);
@@ -33,23 +36,14 @@ namespace HP.Application.Queries
 
             return _mapper.Map<PersonDetailsDto>(person);
         }
-
         public async Task<PersonDetailsDto> Handle(GetPersonByName request, CancellationToken cancellationToken)
         {
-            var person = await _personRepository.GetPersonByPersonNameAsync(request.PersonName);
+            var person = await _personRepository.FindOneAsync(x=> x.PersonName == request.PersonName);
             if (person == null)
                 throw new ApplicationException($"Person not exist. Person Name:{request.PersonName}");
 
             return _mapper.Map<PersonDetailsDto>(person);
         }
-
-        public async Task<PersonDetailsDto> Handle(GetPersonUserId request, CancellationToken cancellationToken)
-        {
-            var person = await _personRepository.GetPersonByPersonNameAsync(request.UserId.ToUpperInvariant());
-            if (person == null)
-                throw new ApplicationException($"Person not exist. Person ID:{request.UserId}");
-
-            return _mapper.Map<PersonDetailsDto>(person);
-        }
+        #endregion
     }
 }
