@@ -1,4 +1,5 @@
 ﻿@using HP.Application.DTOs
+@using HP.Domain.People.Read;
 @inject MediatR.IMediator _mediator
 <h1>Showing all valid users</h1>
 <div class="container">
@@ -7,20 +8,20 @@
     <Grid GridName="Person Information" Items="people">
         <Header>
             <th scope="col">User name</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
+            <th scope="col">PersonType</th>
+            <th scope="col">PersonRole</th>
         </Header>
         <Row>
             <td>@context.PersonName</td>
-            <td>@context.FirstName</td>
-            <td>@context.LastName</td>
+            <td>@context.PersonType</td>
+            <td>@context.PersonRole</td>
         </Row>
     </Grid>
 </div>
 
 
 @code {
-    List<PersonDetailsDto> people = new List<PersonDetailsDto>();
+    List<PersonDetails> people = new();
     protected override async Task OnInitializedAsync()
     {
         var test =  await _mediator.Send(new GetPersonList());

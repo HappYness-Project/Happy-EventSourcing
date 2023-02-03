@@ -4,6 +4,7 @@ using HP.Application.Commands.Person;
 using HP.Application.DTOs;
 using HP.Application.Queries;
 using HP.Core.Commands;
+using HP.Domain.People.Read;
 using HP.Shared.Requests.People;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace HP.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IEnumerable<PersonDetailsDto>> Get()
+        public async Task<IEnumerable<PersonDetails>> Get()
         {
             return await _mediator.Send(new GetPersonList());
         }
