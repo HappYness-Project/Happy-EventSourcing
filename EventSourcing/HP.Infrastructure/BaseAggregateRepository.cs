@@ -2,6 +2,7 @@
 using HP.Core.Models;
 using HP.Infrastructure.DbAccess;
 using MongoDB.Driver;
+using System;
 using System.Linq.Expressions;
 
 namespace HP.Infrastructure
@@ -47,10 +48,9 @@ namespace HP.Infrastructure
         {
             return Task.Run(() => _collection.Find(filterExpression).FirstOrDefaultAsync());
         }
-
         public IList<T> FindAll(Expression<Func<T, bool>> filterExpression)
         {
-            throw new NotImplementedException();
+            return _collection.AsQueryable<T>().Where(filterExpression.Compile()).ToList();
         }
     }
 }

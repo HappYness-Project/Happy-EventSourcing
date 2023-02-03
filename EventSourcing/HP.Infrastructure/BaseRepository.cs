@@ -50,5 +50,9 @@ namespace HP.Infrastructure
         {
             return await _dbContext.Set<T>().Where(filterExpression).FirstOrDefaultAsync();
         }
+        public IList<T> FindAll(Expression<Func<T, bool>> filterExpression)
+        {
+            return _dbContext.Set<T>().Where(filterExpression).ToList();
+        }
     }
 }
