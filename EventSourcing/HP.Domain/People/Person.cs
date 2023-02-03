@@ -6,7 +6,7 @@ namespace HP.Domain
     public class Person : AggregateRoot
     {
         public string PersonName { get; private set; } 
-        public string PersonType { get; private set; }
+        public string Type { get; private set; }
         public string Description { get; private set; }
         public int GroupId { get; private set; }
         public int ProjectId { get; private set; }
@@ -25,10 +25,11 @@ namespace HP.Domain
             PersonName = personName;
             IsActive = true;
             CurrentScore = 0;
-            GoalType = GoalType.NotDefined;
+            GoalType = GoalType.TBD;
             Role = PersonRole.TBD.ToString();
             UpdateDate = DateTime.Now;
-            AddDomainEvent(new PersonCreated { PersonId = Id, PersonName = personName });
+            Type = "Normal";
+            AddDomainEvent(new PersonCreated { PersonId = Id, PersonName = personName, PersonRole = Role, PersonType = Type });
 
         }
         public void UpdateRole(string role)
@@ -51,7 +52,7 @@ namespace HP.Domain
         }
         public void UpdateBasicInfo(string? personType, string? goalType, int? groupId)
         {
-            this.PersonType = personType;
+            this.Type = personType;
             this.GoalType = GoalType.FromName(goalType);
             this.GroupId = groupId.Value;
             AddDomainEvent(new PersonInfoUpdated { PersonId = Id, PersonType = personType, GoalType = goalType });

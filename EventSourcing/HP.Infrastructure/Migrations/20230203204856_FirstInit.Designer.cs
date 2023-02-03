@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HP.Infrastructure.Migrations
 {
     [DbContext(typeof(HpReadDbContext))]
-    [Migration("20230131014548_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230203204856_FirstInit")]
+    partial class FirstInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,42 @@ namespace HP.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("HP.Domain.People.Read.PersonDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("GoalType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PersonName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PersonRole")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PersonType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PersonDetails");
+                });
 
             modelBuilder.Entity("HP.Domain.TodoItem", b =>
                 {
@@ -106,7 +142,7 @@ namespace HP.Infrastructure.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PersonId")
+                    b.Property<string>("PersonName")
                         .IsRequired()
                         .HasColumnType("text");
 

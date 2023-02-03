@@ -9,7 +9,8 @@ namespace HP.Domain.People.Read
             ProjectId = 0;
             GroupId = 0;
             IsActive = true;
-            GoalType = string.Empty;
+            this.PersonType = "Normal";
+            GoalType = "TBD";
         }
         public string PersonName { get; set; }
         public string PersonType { get; set; }

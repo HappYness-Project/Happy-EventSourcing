@@ -22,6 +22,42 @@ namespace HP.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("HP.Domain.People.Read.PersonDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("GoalType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PersonName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PersonRole")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PersonType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PersonDetails");
+                });
+
             modelBuilder.Entity("HP.Domain.TodoItem", b =>
                 {
                     b.Property<Guid>("Id")
@@ -103,7 +139,7 @@ namespace HP.Infrastructure.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PersonId")
+                    b.Property<string>("PersonName")
                         .IsRequired()
                         .HasColumnType("text");
 
