@@ -47,5 +47,10 @@ namespace HP.Infrastructure
         {
             return Task.Run(() => _collection.Find(filterExpression).FirstOrDefaultAsync());
         }
+
+        public IList<T> FindAll(Expression<Func<T, bool>> filterExpression)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

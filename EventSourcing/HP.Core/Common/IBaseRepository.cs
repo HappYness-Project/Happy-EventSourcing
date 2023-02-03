@@ -9,6 +9,7 @@ namespace HP.Core.Common
         Task<T> GetByIdAsync(Guid id);
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression);
-        public bool Exists(Expression<Func<T, bool>> predicate);
+        IList<T> FindAll(Expression<Func<T, bool>> filterExpression);
+        bool Exists(Expression<Func<T, bool>> predicate);
     }
 }

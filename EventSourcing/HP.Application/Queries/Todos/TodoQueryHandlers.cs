@@ -2,7 +2,6 @@
 using MediatR;
 using AutoMapper;
 using HP.Domain;
-using HP.Domain.Todos.Write;
 using HP.Domain.Todos.Read;
 using HP.Core.Common;
 
@@ -21,18 +20,18 @@ namespace HP.Application.Queries.Todos
                                      IRequestHandler<GetStoppedTodoItemsByTodoId, IEnumerable<TodoItemDto>>
         
     {
-        private readonly ITodoAggregateRepository _todoRepository;
         private readonly IBaseRepository<TodoDetails> _todoDetailsRepository;
-        public TodoQueryHandlers(IMapper mapper, ITodoAggregateRepository todoRepository, IBaseRepository<TodoDetails> todoDetailsRepository) : base(mapper)
+
+        #region Ctor
+        public TodoQueryHandlers(IMapper mapper, IBaseRepository<TodoDetails> todoDetailsRepository) : base(mapper)
         {
-            _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
             _todoDetailsRepository = todoDetailsRepository ?? throw new ArgumentNullException(nameof(todoDetailsRepository));
         }
-
+        #endregion
+        #region handlers
         public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByPersonName request, CancellationToken cancellationToken)
         {
-            var todo = await _todoDetailsRepository.FindOneAsync(x => x.PersonName == request.PersonName);
-            var todos = await _todoRepository.GetListByPersonName(request.PersonName);
+            var todos =  _todoDetailsRepository.FindAll(x => x.PersonName == request.PersonName);
             if (todos == null)
                 throw new ApplicationException($"Todos not exist for this user ID:{request.PersonName}");
 
@@ -40,7 +39,7 @@ namespace HP.Application.Queries.Todos
         }
         public async Task<TodoDetailsDto> Handle(GetTodoById request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetByIdAsync(request.Id);
+            var todo = await _todoDetailsRepository.FindOneAsync(x => x.Id == request.Id);
             if (todo is null)
                 throw new ApplicationException($"TodoId:{request.Id} does not exist.");
 
@@ -50,8 +49,7 @@ namespace HP.Application.Queries.Todos
 
         public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByProjectId request, CancellationToken cancellationToken)
         {
-            var todos = await _todoRepository.GetAllAsync();
-            var todoWithProjId = todos.Where(x => x.ProjectId == request.ProjectId);
+            var todoWithProjId =  _todoDetailsRepository.FindAll(x => x.ProjectId == request.ProjectId);
             if (todoWithProjId == null)
                 throw new ApplicationException($"Todo project does not exist. Project ID:{request.ProjectId}");
 
@@ -60,7 +58,7 @@ namespace HP.Application.Queries.Todos
 
         public async Task<IEnumerable<TodoBasicInfoDto>> Handle(GetTodos request, CancellationToken cancellationToken)
         {
-            var todos = await _todoRepository.GetAllAsync();
+            var todos = await _todoDetailsRepository.GetAllAsync();
             if (todos == null)
                 throw new ApplicationException($"Todos Null.");
 
@@ -69,16 +67,16 @@ namespace HP.Application.Queries.Todos
 
         public async Task<IEnumerable<TodoItem>> Handle(GetActiveTodoItemsByTodoId request, CancellationToken cancellationToken)
         {
-            Todo todo = await _todoRepository.GetActiveTodoById(request.todoId);
+            var todo = await _todoDetailsRepository.FindOneAsync(x => x.Id == request.TodoId);
             if (todo == null)
-                throw new ApplicationException($"Cannot find the Todo ID:{request.todoId}");
+                throw new ApplicationException($"Cannot find the Todo ID:{request.TodoId}");
 
             return todo.SubTodos.Where(x => x.IsDone);
         }
 
         public async Task<TodoItem> Handle(GetTodoItemByTodoItemId request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetActiveTodoById(request.TodoId);
+            var todo = await _todoDetailsRepository.FindOneAsync(x => x.Id == request.TodoId);
             if (todo == null)
                 throw new ApplicationException($"Cannot find the Todo ID:{request.TodoId}");
 
@@ -90,7 +88,7 @@ namespace HP.Application.Queries.Todos
         }
         public async Task<IEnumerable<TodoItemDto>> Handle(GetCompletedTodoItemsByTodoId request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetActiveTodoById(request.TodoId);
+            var todo = await _todoDetailsRepository.FindOneAsync(x => x.Id == request.TodoId && x.IsActive);
             if (todo == null)
                 throw new ApplicationException($"Cannot find the Todo ID:{request.TodoId}");
 
@@ -100,7 +98,7 @@ namespace HP.Application.Queries.Todos
         }
         public async Task<IEnumerable<TodoItemDto>> Handle(GetPendingTodoItemsByTodoId request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetActiveTodoById(request.todoId);
+            var todo = await _todoDetailsRepository.FindOneAsync(x => x.Id == request.todoId && x.IsActive);
             if (todo == null)
                 throw new ApplicationException($"Cannot find the Todo ID:{request.todoId}");
 
@@ -111,7 +109,7 @@ namespace HP.Application.Queries.Todos
 
         public async Task<IEnumerable<TodoItemDto>> Handle(GetStartedTodoItemsByTodoId request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetActiveTodoById(request.TodoId);
+            var todo = await _todoDetailsRepository.FindOneAsync(x => x.Id == request.TodoId && x.IsActive);
             if (todo == null)
                 throw new ApplicationException($"Cannot find the Todo ID:{request.TodoId}");
 
@@ -122,7 +120,7 @@ namespace HP.Application.Queries.Todos
 
         public async Task<IEnumerable<TodoItemDto>> Handle(GetStoppedTodoItemsByTodoId request, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetActiveTodoById(request.TodoId);
+            var todo = await _todoDetailsRepository.FindOneAsync(x => x.Id == request.TodoId && x.IsActive);
             if (todo == null)
                 throw new ApplicationException($"Cannot find the Todo ID:{request.TodoId}");
 
@@ -130,5 +128,6 @@ namespace HP.Application.Queries.Todos
             var todoItems = _mapper.Map<List<TodoItemDto>>(startedItems);
             return todoItems;
         }
+        #endregion
     }
 }

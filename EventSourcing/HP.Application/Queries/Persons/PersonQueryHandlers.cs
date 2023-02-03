@@ -2,7 +2,6 @@
 using HP.Application.DTOs;
 using HP.Core.Common;
 using HP.Domain.People.Read;
-using HP.Domain.People.Write;
 using MediatR;
 namespace HP.Application.Queries
 {

@@ -2,6 +2,6 @@
 using MediatR;
 namespace HP.Application.Queries.Todos
 {
-    public record GetTodosByProjectId(string ProjectId) : IRequest<IEnumerable<TodoDetailsDto>>;
+    public record GetTodosByProjectId(int ProjectId) : IRequest<IEnumerable<TodoDetailsDto>>;
 
 }
