@@ -16,8 +16,4 @@
     <ProjectReference Include="..\HP.Infrastructure\HP.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\Persons\" />
-  </ItemGroup>
-
 </Project>

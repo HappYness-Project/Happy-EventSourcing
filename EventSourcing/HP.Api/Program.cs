@@ -13,7 +13,9 @@ using HP.Infrastructure.Kafka;
 using HP.Infrastructure.Repository.Write;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -22,7 +24,7 @@ if (env == "Development")
 else
     builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).AddEnvironmentVariables();
 
-
+BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 BsonClassMap.RegisterClassMap<DomainEvent>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonCreated>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonInfoUpdated>();
