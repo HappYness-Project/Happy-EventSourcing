@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HP.Infrastructure.Migrations
 {
     [DbContext(typeof(HpReadDbContext))]
-    [Migration("20230203204856_FirstInit")]
+    [Migration("20230206000621_FirstInit")]
     partial class FirstInit
     {
         /// <inheritdoc />
@@ -142,9 +142,8 @@ namespace HP.Infrastructure.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PersonName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");

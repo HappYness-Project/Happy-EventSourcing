@@ -21,7 +21,7 @@ namespace HP.Application.Commands.Person
 
             person.UpdateBasicInfo(request.PersonType, request.GoalType, request.GroupId);
             var check = await _repository.UpdatePersonAsync(person);
-            if (check != null)
+            if (check == null)
                 return new CommandResult(false, "Updated failure. ", person.Id.ToString());
 
             await ProduceDomainEvents(person.UncommittedEvents);

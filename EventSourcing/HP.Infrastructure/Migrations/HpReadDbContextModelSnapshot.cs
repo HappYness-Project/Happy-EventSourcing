@@ -139,9 +139,8 @@ namespace HP.Infrastructure.Migrations
                     b.Property<bool>("IsDone")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PersonName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");

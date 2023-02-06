@@ -1,24 +1,29 @@
-﻿using HP.Domain.People.Write;
+﻿using HP.Core.Commands;
+using HP.Core.Events;
+using HP.Domain.People.Write;
+using HP.Infrastructure.Kafka;
 using MediatR;
 namespace HP.Application.Commands.Person
 {
-    public record UpdatePersonRoleCommand(string UserName, string Role) : IRequest<Unit>;
-    public class UpdatePersonRoleCommandHandler : IRequestHandler<UpdatePersonRoleCommand>
+    public record UpdatePersonRoleCommand(Guid personId, string Role) : BaseCommand;
+    public class UpdatePersonRoleCommandHandler : BaseCommandHandler,
+                                              IRequestHandler<UpdatePersonRoleCommand, CommandResult>
     {
         private readonly IPersonAggregateRepository _repository;
-        public UpdatePersonRoleCommandHandler(IPersonAggregateRepository personRepository)
+        public UpdatePersonRoleCommandHandler(IPersonAggregateRepository personRepository, IEventProducer eventProducer) : base(eventProducer)
         {
-            _repository = personRepository;
+            this._repository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }
-        public async Task<Unit> Handle(UpdatePersonRoleCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(UpdatePersonRoleCommand request, CancellationToken cancellationToken)
         {
-            var person = _repository.GetPersonByPersonNameAsync(request.UserName).Result;
+            var person = _repository.GetByIdAsync(request.personId).Result;
             if (person == null)
-                throw new ApplicationException($"UserId : {request.UserName} is not exist.");
+                throw new ApplicationException($"Person ID:{request.personId} doesn't exist.");
 
             person.UpdateRole(request.Role);
             await _repository.UpdateAsync(person);
-            return Unit.Value;
+            await ProduceDomainEvents(person.UncommittedEvents);
+            return new CommandResult(true, "Successfully person has been created.", person.Id.ToString());
         }
     }
 }

@@ -13,10 +13,10 @@ namespace HP.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PersonController : ControllerBase
+    public class PersonsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public PersonController(IMediator mediator)
+        public PersonsController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -48,13 +48,13 @@ namespace HP.Controllers
             var result = await _mediator.Send(new UpdatePersonCommand(personId, request.PersonType, request.GoalType, request.GroupId));
             return result;
         }
-        [HttpPut("{userid}/Role")]
-        public async Task UpdateRole(string userid, [FromBody]UpdateRoleRequest request)
+        [HttpPut("{personId}/Role")]
+        public async Task UpdateRole(Guid personId, [FromBody]UpdateRoleRequest request)
         {
-            await _mediator.Send(new UpdatePersonRoleCommand(userid, request.Role));
+            await _mediator.Send(new UpdatePersonRoleCommand(personId, request.Role));
         }
-        [HttpPut("{userid}/Group")]
-        public async Task UpdateGroup(string userid, [FromBody]UpdateGroupIdRequest request)
+        [HttpPut("{personId}/Group")]
+        public async Task UpdateGroup(string personId, [FromBody]UpdateGroupIdRequest request)
         {
             await _mediator.Send(new UpdatePersonGroupCommand(userid, request.GroupId));
         }
