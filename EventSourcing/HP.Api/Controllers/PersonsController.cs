@@ -54,9 +54,9 @@ namespace HP.Controllers
             await _mediator.Send(new UpdatePersonRoleCommand(personId, request.Role));
         }
         [HttpPut("{personId}/Group")]
-        public async Task UpdateGroup(string personId, [FromBody]UpdateGroupIdRequest request)
+        public async Task UpdateGroup(Guid personId, [FromBody]UpdateGroupIdRequest request)
         {
-            await _mediator.Send(new UpdatePersonGroupCommand(userid, request.GroupId));
+            await _mediator.Send(new UpdatePersonGroupCommand(personId, request.GroupId));
         }
     }
 }
