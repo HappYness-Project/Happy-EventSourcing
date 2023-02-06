@@ -25,7 +25,7 @@ namespace HP.Infrastructure
         }
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            return await _collection.Find(e => e.Id == id).FirstOrDefaultAsync();
+            return await _collection.Find(x=>x.Id == id).FirstOrDefaultAsync();
         }
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {

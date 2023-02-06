@@ -9,7 +9,7 @@ namespace HP.Application.Queries.Todos
 {
     public class TodoQueryHandlers : BaseQueryHandler,
                                      IRequestHandler<GetTodos, IEnumerable<TodoBasicInfoDto>>,
-                                     IRequestHandler<GetTodosByPersonName, IEnumerable<TodoDetailsDto>>,
+                                     IRequestHandler<GetTodosByPersonId, IEnumerable<TodoDetailsDto>>,
                                      IRequestHandler<GetTodoById, TodoDetailsDto>,
                                      IRequestHandler<GetTodosByProjectId, IEnumerable<TodoDetailsDto>>,
                                      IRequestHandler<GetActiveTodoItemsByTodoId, IEnumerable<TodoItem>>,
@@ -29,11 +29,11 @@ namespace HP.Application.Queries.Todos
         }
         #endregion
         #region handlers
-        public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByPersonName request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByPersonId request, CancellationToken cancellationToken)
         {
-            var todos =  _todoDetailsRepository.FindAll(x => x.PersonName == request.PersonName);
+            var todos =  _todoDetailsRepository.FindAll(x => x.PersonId == request.PersonId);
             if (todos == null)
-                throw new ApplicationException($"Todos not exist for this user ID:{request.PersonName}");
+                throw new ApplicationException($"Todos not exist for this Person ID:{request.PersonId}");
 
             return _mapper.Map<IEnumerable<TodoDetailsDto>>(todos);
         }

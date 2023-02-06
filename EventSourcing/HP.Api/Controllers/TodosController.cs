@@ -69,12 +69,12 @@ namespace HP.Controllers
             return Ok(items);
         }
         [HttpGet("People/{PersonName}")]
-        public async Task<IActionResult> GetTodosByUser([FromRoute] string personName, CancellationToken token = default)
+        public async Task<IActionResult> GetTodosByPersonId([FromRoute]Guid personId, CancellationToken token = default)
         {
-            if (personName == null)
+            if (personId == null)
                 return BadRequest();
 
-            var todo = await _mediator.Send(new GetTodosByPersonName(personName), token);
+            var todo = await _mediator.Send(new GetTodosByPersonId(personId), token);
             if (todo == null)
                 return NotFound();
 

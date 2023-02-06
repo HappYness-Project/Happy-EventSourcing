@@ -43,7 +43,7 @@ namespace HP.IntegrationTest
                 Title = "Test",
                 Description = "Test Desc",
                 TodoType = "Normal",
-                PersonName = Guid.NewGuid().ToString(),
+                PersonId = Guid.NewGuid(),
                 Tags = Tags,
                 IsActive = true,
                 IsDone = false,

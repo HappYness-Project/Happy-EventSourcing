@@ -11,9 +11,9 @@ namespace HP.Domain
         public static TodoType Research => new(2, "Research");
         public static TodoType Chores => new(3, "Chores");
         public static TodoType Work => new(4, "Work");
-
+        public static TodoType TBD => new(5, "TBD");
         public static IEnumerable<TodoType> List() =>
-            new[] { Others, Study, Research, Chores, Work };
+            new[] { Others, Study, Research, Chores, Work, TBD };
 
 
         public static TodoType FromName(string name)

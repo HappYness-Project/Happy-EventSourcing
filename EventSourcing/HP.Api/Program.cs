@@ -24,7 +24,6 @@ if (env == "Development")
 else
     builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).AddEnvironmentVariables();
 
-BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 BsonClassMap.RegisterClassMap<DomainEvent>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonCreated>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonInfoUpdated>();

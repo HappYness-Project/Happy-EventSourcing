@@ -11,7 +11,7 @@ namespace HP.Domain
         {
             // TODO : CheckPolicies
 
-            PersonId = person.Id.ToString();
+            PersonId = person.Id;
             Title = title;
             Description = description;
             Tag = tag;
@@ -21,7 +21,7 @@ namespace HP.Domain
             Updated = DateTime.Now;
             AddDomainEvent(new TodoCreated { TodoId = Id, PersonId = PersonId, TodoTitle = title, TodoDesc = Description, TodoType = todoType.Name });
         }
-        public string PersonId { get; private set; }
+        public Guid PersonId { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string ProjectId { get; private set; }
