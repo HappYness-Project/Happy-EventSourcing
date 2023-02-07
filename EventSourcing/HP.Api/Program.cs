@@ -10,6 +10,7 @@ using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.EventHandlers;
 using HP.Infrastructure.Kafka;
+using HP.Infrastructure.Repository;
 using HP.Infrastructure.Repository.Write;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

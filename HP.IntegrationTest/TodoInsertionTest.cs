@@ -2,15 +2,10 @@
 using HP.Core.Common;
 using HP.Domain;
 using HP.Domain.Todos.Read;
-using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
+using HP.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace HP.IntegrationTest
 { 

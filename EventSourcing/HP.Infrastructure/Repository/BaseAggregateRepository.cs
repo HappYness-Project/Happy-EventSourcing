@@ -5,7 +5,7 @@ using MongoDB.Driver;
 using System;
 using System.Linq.Expressions;
 
-namespace HP.Infrastructure
+namespace HP.Infrastructure.Repository
 {
     public class BaseAggregateRepository<T> : IBaseRepository<T> where T : AggregateRoot
     {
@@ -25,7 +25,7 @@ namespace HP.Infrastructure
         }
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            return await _collection.Find(x=>x.Id == id).FirstOrDefaultAsync();
+            return await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
@@ -33,7 +33,7 @@ namespace HP.Infrastructure
         }
         public bool Exists(Expression<Func<T, bool>> predicate)
         {
-            var set = _collection.AsQueryable<T>();
+            var set = _collection.AsQueryable();
             return set.Any(predicate);
         }
         public Task DeleteByIdAsync(Guid id)
@@ -50,7 +50,7 @@ namespace HP.Infrastructure
         }
         public IList<T> FindAll(Expression<Func<T, bool>> filterExpression)
         {
-            return _collection.AsQueryable<T>().Where(filterExpression.Compile()).ToList();
+            return _collection.AsQueryable().Where(filterExpression.Compile()).ToList();
         }
     }
 }

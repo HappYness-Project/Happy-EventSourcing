@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace HP.Infrastructure
+namespace HP.Infrastructure.Repository
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
@@ -27,7 +27,7 @@ namespace HP.Infrastructure
         }
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            return await _dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(e=> e.Id == id);
+            return await _dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
         }
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
