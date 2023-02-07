@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Confluent.Kafka;
 using HP.Application.Mappers;
+using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Models;
 using HP.Infrastructure.DbAccess;

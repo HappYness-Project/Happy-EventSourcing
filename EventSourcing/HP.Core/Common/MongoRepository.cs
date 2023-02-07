@@ -1,15 +1,13 @@
-﻿using HP.Core.Common;
-using HP.Core.Models;
-using HP.Infrastructure.DbAccess;
+﻿using HP.Core.Models;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
-namespace HP.Infrastructure.Repository
+namespace HP.Core.Common
 {
-    public class BaseAggregateRepository<T> : IBaseRepository<T> where T : BaseEntity
+    public class MongoRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         protected readonly IMongoCollection<T> _collection;
-        public BaseAggregateRepository(IMongoDbContext dbContext)
+        public MongoRepository(IMongoDbContext dbContext)
         {
             _collection = dbContext.GetCollection<T>() ?? throw new ArgumentNullException(nameof(dbContext));
         }

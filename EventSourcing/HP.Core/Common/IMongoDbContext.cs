@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace HP.Infrastructure.DbAccess
+namespace HP.Core.Common
 {
     public interface IMongoDbContext
     {

@@ -14,7 +14,7 @@ namespace HP.IntegrationTest.Todos
         [SetUp]
         public void Setup()
         {
-            todoRepository = new TodoAggregateRepository(_mongoDbContext);
+            //todoRepository = new TodoAggregateRepository(_mongoDbContext);
         }
         [Test]
         public void GetListByUserId_Return_Nothing()
