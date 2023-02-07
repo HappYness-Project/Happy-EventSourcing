@@ -1,8 +1,8 @@
 ﻿using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Models;
-using HP.Infrastructure.DbAccess;
 using MongoDB.Driver;
+
 namespace HP.Infrastructure.Repository
 {
     public class EventStoreRepository : IEventStoreRepository

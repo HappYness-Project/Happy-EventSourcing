@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using Confluent.Kafka;
 using HP.Application.Mappers;
-using HP.Core.Events;
+using HP.Core.Common;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.EventHandlers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using NUnit.Framework;
-using System.Threading.Tasks;
 namespace HP.IntegrationTest
 {
     public abstract class TestBase
