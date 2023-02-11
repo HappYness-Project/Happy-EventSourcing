@@ -24,6 +24,15 @@ namespace HP.Infrastructure.Repository.Write
                 return;
 
             var streamName = GetStreamName(aggregateRoot.Id);
+            var firstEvent = aggregateRoot.UncommittedEvents.First();
+            var version = firstEvent.AggregateVersion - 1;
+
+
+            // Get the all new events.
+            //
+
+
+
         }
 
         public Task<T> RehydrateAsync(Guid id, CancellationToken ct = default)

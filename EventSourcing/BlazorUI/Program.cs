@@ -12,9 +12,13 @@ using HP.Domain.People.Write;
 using HP.Domain.Todos.Write;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
+using HP.Infrastructure.EventHandlers;
+using HP.Infrastructure.Kafka;
+using HP.Infrastructure.Repository;
 using HP.Infrastructure.Repository.Write;
 using HP.Shared.Contacts;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,20 +28,13 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+//builder.Services.AddSingleton<IUserManager, UserManagerFake>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-//builder.Services.AddSingleton<IUserManager, UserManagerFake>();
-
-builder.Services.AddScoped<IUserManager, UserManager>();
+builder.Services.AddHttpClient<IUserManager, UserManager>();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
-builder.Services.AddSingleton<ItemEditService>();
-builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
-builder.Services.AddTransient<IPersonAggregateRepository, PersonAggregateRepository>();
-builder.Services.AddTransient<ITodoAggregateRepository, TodoAggregateRepository>();
-builder.Services.AddScoped<ITodoService, TodoService>();
-builder.Services.AddHttpClient<IPersonService, PersonService>(); 
-builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
-builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);
+builder.Services.AddHttpClient<ITodoService, TodoService>();
+builder.Services.AddHttpClient<IPersonService, PersonService>();
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).AddEnvironmentVariables();
 
 var app = builder.Build();

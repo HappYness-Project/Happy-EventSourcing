@@ -47,7 +47,6 @@ builder.Services.AddScoped<ITodoEventHandler, TodoEventHandler>();
 builder.Services.AddScoped<IPersonEventHandler, PersonEventHandlers>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddKafkaEventProducer(getConfig["KafkaTopicName"]);
-//builder.Services.AddKafkaEventConsumer(getConfig["KafkaTopicName"]);
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 
 builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
