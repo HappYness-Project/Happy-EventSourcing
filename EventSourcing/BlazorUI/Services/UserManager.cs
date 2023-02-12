@@ -25,15 +25,13 @@ namespace BlazorUI.Services
 
         public async Task<Result<User>> TrySignInAndGetUserAsync(UserLoginDto user)
         {
-            await _httpClient.GetFromJsonAsync<UserLoginDto>("");// Todo Signin Process
-            // Get the user process
-            var result = new Result<User>();
-            return result;
+            var response = await _httpClient.PostAsJsonAsync("api/auth/login", user);
+            return await response.Content.ReadFromJsonAsync<Result<User>>();
         }
         public async Task<Result<string>> RequestUserCreateAsync(UserCreateDto user)
         {
             var result = new Result<string>();
-            var response = await _httpClient.PostAsJsonAsync("/user/create", user); // Get the user information with the token
+            var response = await _httpClient.PostAsJsonAsync("api/user/register", user); // Get the user information with the token
             if(response.IsSuccessStatusCode)
             {
                 result.IsSuccess = true;

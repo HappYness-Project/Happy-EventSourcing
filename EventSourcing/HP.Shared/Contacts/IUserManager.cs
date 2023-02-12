@@ -7,9 +7,11 @@ namespace HP.Shared.Contacts
     {
         Task<Result<User>> TrySignInAndGetUserAsync(UserLoginDto user);
         Task<Result<string>> RequestUserCreateAsync(UserCreateDto user);
+        Task<Result<string>> UserUpdateAsync(UserUpdateDto user);
         Task<string> GetUserRole(string userId);
         Task<User> GetUserByAccessTokenAsync(string accessToken);
         Task<User> RefreshTokenAsync(RefreshRequest request);
+        Task<bool> IsUserAuthenticated();
     }
     public class RefreshRequest
     {
