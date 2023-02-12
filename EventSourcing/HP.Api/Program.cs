@@ -42,6 +42,7 @@ builder.Services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerC
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<IPersonAggregateRepository, PersonAggregateRepository>();
 builder.Services.AddScoped<ITodoAggregateRepository, TodoAggregateRepository>();
+builder.Services.AddScoped<IEventStoreRepository, EventStoreRepository>();
 
 builder.Services.AddScoped<ITodoEventHandler, TodoEventHandler>();
 builder.Services.AddScoped<IPersonEventHandler, PersonEventHandlers>();

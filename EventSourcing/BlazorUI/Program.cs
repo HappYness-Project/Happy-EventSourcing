@@ -1,29 +1,10 @@
-using BlazorUI;
 using BlazorUI.Data;
 using BlazorUI.Services;
-using BlazorUI.Services.ItemEdit;
 using BlazorUI.Services.Person;
 using BlazorUI.Services.Todo;
-using HP.Application;
-using HP.Core.Common;
-using HP.Core.Events;
-using HP.Domain;
-using HP.Domain.People.Write;
-using HP.Domain.Todos.Write;
-using HP.Infrastructure;
-using HP.Infrastructure.DbAccess;
-using HP.Infrastructure.EventHandlers;
-using HP.Infrastructure.Kafka;
-using HP.Infrastructure.Repository;
-using HP.Infrastructure.Repository.Write;
 using HP.Shared.Contacts;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
