@@ -59,6 +59,19 @@ namespace BlazorUI.Services
             throw new NotImplementedException();
         }
 
+        public Task<Result<string>> UserUpdateAsync(UserUpdateDto user)
+        {
+            throw new NotImplementedException();
+        }
 
+        public Task<bool> ChangePassword(UserChangePwdDto request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> IsUserAuthenticated()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

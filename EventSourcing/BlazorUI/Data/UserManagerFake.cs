@@ -8,6 +8,11 @@ namespace BlazorUI.Data
 {
     public class UserManagerFake : IUserManager
     {
+        public Task<bool> ChangePassword(UserChangePwdDto request)
+        {
+            throw new NotImplementedException();
+        }
+
         // Assuming that we received the token info.
         public async Task<User> GetUserByAccessTokenAsync(string accessToken)
         {
@@ -16,8 +21,15 @@ namespace BlazorUI.Data
         }
         public Task<string> GetUserRole(string userId)
         {
+
             throw new NotImplementedException();
         }
+
+        public Task<bool> IsUserAuthenticated()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<User> RefreshTokenAsync(RefreshRequest request)
         {
             throw new NotImplementedException();

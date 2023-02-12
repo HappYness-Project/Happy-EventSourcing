@@ -11,6 +11,7 @@ namespace HP.Shared.Contacts
         Task<string> GetUserRole(string userId);
         Task<User> GetUserByAccessTokenAsync(string accessToken);
         Task<User> RefreshTokenAsync(RefreshRequest request);
+        Task<bool> ChangePassword(UserChangePwdDto request);
         Task<bool> IsUserAuthenticated();
     }
     public class RefreshRequest
