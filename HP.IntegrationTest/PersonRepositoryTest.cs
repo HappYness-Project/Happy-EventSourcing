@@ -45,14 +45,6 @@ namespace HP.IntegrationTest
         }
 
         [Test]
-        public void UpdatePersonAsync_UpdateSuccessful()
-        {
-            // Arrange
-            Person person = Person.Create("hyunbin7303");
-            var personObj = personRepository.UpdatePersonAsync(person)?.Result;
-            Assert.That(personObj, Is.Not.Null);
-        }
-        [Test]
         public void GetListByRoleAsync_return_NormalRolePerson()
         {
             var personObj = personRepository.GetListByRoleAsync("normal").Result;

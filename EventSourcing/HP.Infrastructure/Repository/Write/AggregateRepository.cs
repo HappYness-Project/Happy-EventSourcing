@@ -6,14 +6,17 @@ namespace HP.Infrastructure.Repository.Write
 {
     public class AggregateRepository<T> : IAggregateRepository<T> where T : AggregateRoot
     {
-        private readonly IEventStoreRepository _esRepository;
+        private readonly IEventStore _eventStore;
         private readonly string _StreamBase;
-
-        public AggregateRepository(IEventStoreRepository eventStoreRepository)
+        public AggregateRepository(IEventStore eventStore)
         {
-            _esRepository = eventStoreRepository;
             var aggregateType = typeof(T);
             _StreamBase = aggregateType.Name;
+            _eventStore = eventStore;
+        }
+        public Task<List<Guid>> GetAggregateIdAsync()
+        {
+            throw new NotImplementedException();
         }
         public async Task PersistAsync(T aggregateRoot, CancellationToken ct = default)
         {
@@ -26,13 +29,7 @@ namespace HP.Infrastructure.Repository.Write
             var streamName = GetStreamName(aggregateRoot.Id);
             var firstEvent = aggregateRoot.UncommittedEvents.First();
             var version = firstEvent.AggregateVersion - 1;
-
-
-            // Get the all new events.
-            //
-
-
-
+            await _eventStore.SaveEventsAsync(aggregateRoot.Id, aggregateRoot.UncommittedEvents, version); 
         }
 
         public Task<T> RehydrateAsync(Guid id, CancellationToken ct = default)

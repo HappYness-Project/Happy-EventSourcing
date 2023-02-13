@@ -1,39 +1,38 @@
 ﻿using HP.Core.Events;
 using HP.Core.Exceptions;
 using HP.Core.Models;
+using MongoDB.Driver;
 namespace HP.Infrastructure
 {
     public class EventStore : IEventStore
     {
-        private readonly IEventStoreRepository _esRepository;
+        private readonly IMongoCollection<EventModel> _esCollection;
         private readonly IEventProducer _eventProducer;
-        public EventStore(IEventStoreRepository esRepository, IEventProducer eventProducer)
+        public EventStore(IMongoCollection<EventModel> esCollection, IEventProducer eventProducer)
         {
-            _esRepository = esRepository;
+            _esCollection = esCollection;
             _eventProducer = eventProducer;
         }
         public async Task<List<Guid>> GetAggregateIdAsync()
         {
-            var eventStream = await _esRepository.FindAllAsync();
+            var eventStream = await _esCollection.Find(_ => true).ToListAsync().ConfigureAwait(false);
             if (eventStream == null || !eventStream.Any())
                 throw new ArgumentNullException(nameof(eventStream), "Could not retrieve event stream from the event store!.");
 
             return eventStream.Select(x => x.AggregateIdentifier).Distinct().ToList();
         }
-
-        public async Task<List<DomainEvent>> GetEventsAsync(Guid aggregateId)
+        public async Task<List<IDomainEvent>> GetEventsAsync(Guid aggregateId)
         {
-            var eventStream = await _esRepository.FindByAggregateId(aggregateId);
+            var eventStream = await _esCollection.Find(x => x.AggregateIdentifier == aggregateId).ToListAsync().ConfigureAwait(false);
             if (eventStream == null || !eventStream.Any())
                 throw new AggregateNotFoundException("Incorrect post ID provided.");
 
             return eventStream.OrderBy(x => x.Version).Select(x => x.EventData).ToList();
         }
 
-        public async Task SaveEventsAsync(Guid aggregateId, IReadOnlyCollection<DomainEvent> events, int expectedVersion)
+        public async Task SaveEventsAsync(Guid aggregateId, IReadOnlyCollection<IDomainEvent> events, int expectedVersion)
         {
-            var eventStream = await _esRepository.FindByAggregateId(aggregateId);
-
+            var eventStream = await _esCollection.Find(x => x.AggregateIdentifier == aggregateId).ToListAsync().ConfigureAwait(false);
             if (expectedVersion != -1 && eventStream[^1].Version != expectedVersion)
                 throw new ConcurrencyException();
 
@@ -47,12 +46,11 @@ namespace HP.Infrastructure
                 {
                     TimeStamp = DateTime.Now,
                     AggregateIdentifier = aggregateId,
-                    AggregateType = @event.EventType,
                     Version = version,
-                    EventType = eventType,
+                    EventType = @event.EventType,
                     EventData = @event
                 };
-                await _esRepository.SaveAsync(eventModel);
+                await _esCollection.InsertOneAsync(eventModel).ConfigureAwait(false);
                 await _eventProducer.ProducerAsync(@event);
             }
         }
