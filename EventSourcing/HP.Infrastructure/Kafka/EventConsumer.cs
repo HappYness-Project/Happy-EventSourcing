@@ -33,13 +33,13 @@ namespace HP.Infrastructure.Kafka
             while (true)
             {
                 var consumerResult = consumer.Consume();
-                if (consumerResult?.Message == null) 
+                if (consumerResult?.Message == null)
                     continue;
 
                 var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
                 var @event = JsonSerializer.Deserialize<IDomainEvent>(consumerResult.Message.Value, options);
                 OnEventReceived(@event);
-                consumer.Commit(consumerResult);  
+                consumer.Commit(consumerResult);
             }
         }
         protected virtual Task OnEventReceived(IDomainEvent @event)

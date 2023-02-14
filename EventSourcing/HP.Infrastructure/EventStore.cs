@@ -1,16 +1,19 @@
-﻿using HP.Core.Events;
+﻿using HP.Core.Common;
+using HP.Core.Events;
 using HP.Core.Exceptions;
 using HP.Core.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 namespace HP.Infrastructure
 {
     public class EventStore : IEventStore
     {
-        private readonly IMongoCollection<EventModel> _esCollection;
+        protected readonly IMongoCollection<EventModel> _esCollection;
         private readonly IEventProducer _eventProducer;
-        public EventStore(IMongoCollection<EventModel> esCollection, IEventProducer eventProducer)
+        public EventStore(IMongoDbContext dbContext, IEventProducer eventProducer)
         {
-            _esCollection = esCollection;
+            _esCollection = dbContext.GetCollection<EventModel>() ?? throw new ArgumentNullException(nameof(dbContext));
             _eventProducer = eventProducer;
         }
         public async Task<List<Guid>> GetAggregateIdAsync()

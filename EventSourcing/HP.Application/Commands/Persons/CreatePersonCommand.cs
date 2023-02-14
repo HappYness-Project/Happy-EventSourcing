@@ -21,7 +21,6 @@ namespace HP.Application.Commands.Persons
             var newPerson = Domain.Person.Create(request.PersonName);
             await _repository.PersistAsync(newPerson);
 
-            // Should I
             return new CommandResult(true, "Successfully person has been created.", newPerson.Id.ToString());
         }
     }
