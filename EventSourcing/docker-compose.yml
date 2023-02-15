@@ -2,12 +2,12 @@ version: '3.4'
 
 name: HappYnessProject
 services:
-  db:
-    image: mongo:5.0
+  mongo:
+    image: mongo
+    restart: always
     ports:
-      - "28017:27017"
-    volumes:
-      - ~/apps/mongo:/data/db
+      - 28017:27017
+
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=secret
@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: HP.Api/Dockerfile
     depends_on:
-      - db
+      - mongo
     networks:
       - happy_network
 
@@ -30,9 +30,9 @@ services:
       context: .
       dockerfile: BlazorUI/Dockerfile
     depends_on:
-      - db
+      - mongo
     ports:
-      - "5555:80"
+      - 5555:80
     networks:
       - happy_network
 
