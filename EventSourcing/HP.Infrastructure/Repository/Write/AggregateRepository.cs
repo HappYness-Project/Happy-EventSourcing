@@ -26,17 +26,17 @@ namespace HP.Infrastructure.Repository.Write
             if (!aggregateRoot.UncommittedEvents.Any())
                 return;
 
-            var streamName = GetStreamName(aggregateRoot.Id);
+            var aggregateType = typeof(T).Name;
             var firstEvent = aggregateRoot.UncommittedEvents.First();
             var version = firstEvent.AggregateVersion - 1;
-            await _eventStore.SaveEventsAsync(aggregateRoot.Id, aggregateRoot.UncommittedEvents, version); 
+            await _eventStore.SaveEventsAsync(aggregateRoot.Id, aggregateType, aggregateRoot.UncommittedEvents, version); 
         }
 
         public Task<T> RehydrateAsync(Guid id, CancellationToken ct = default)
         {
             throw new NotImplementedException();
         }
-        private string GetStreamName(Guid aggregateId) => $"{_StreamBase}_{aggregateId}";
+        private string GetStreamName(Guid aggregateId) => $"{_StreamBase}_{aggregateId}"; // Not using it for now.
 
     }
 }

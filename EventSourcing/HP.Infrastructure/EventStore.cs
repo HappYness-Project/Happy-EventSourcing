@@ -3,7 +3,6 @@ using HP.Core.Events;
 using HP.Core.Exceptions;
 using HP.Core.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 namespace HP.Infrastructure
 {
@@ -13,7 +12,7 @@ namespace HP.Infrastructure
         private readonly IEventProducer _eventProducer;
         public EventStore(IMongoDbContext dbContext, IEventProducer eventProducer)
         {
-            _esCollection = dbContext.GetCollection<EventModel>() ?? throw new ArgumentNullException(nameof(dbContext));
+            _esCollection = dbContext.GetCollection<EventModel>("") ?? throw new ArgumentNullException(nameof(dbContext));
             _eventProducer = eventProducer;
         }
         public async Task<List<Guid>> GetAggregateIdAsync()
@@ -33,7 +32,7 @@ namespace HP.Infrastructure
             return eventStream.OrderBy(x => x.Version).Select(x => x.EventData).ToList();
         }
 
-        public async Task SaveEventsAsync(Guid aggregateId, IReadOnlyCollection<IDomainEvent> events, int expectedVersion)
+        public async Task SaveEventsAsync(Guid aggregateId, string aggregateType, IReadOnlyCollection<IDomainEvent> events,int expectedVersion)
         {
             var eventStream = await _esCollection.Find(x => x.AggregateIdentifier == aggregateId).ToListAsync().ConfigureAwait(false);
             if (expectedVersion != -1 && eventStream[^1].Version != expectedVersion)
@@ -49,7 +48,7 @@ namespace HP.Infrastructure
                 {
                     TimeStamp = DateTime.Now,
                     AggregateIdentifier = aggregateId,
-                    Version = version,
+                    AggregateType = aggregateType,
                     EventType = @event.EventType,
                     EventData = @event
                 };

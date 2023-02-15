@@ -9,26 +9,27 @@ Eventsourcing implementation for managing Human being's life.
 * Build the Broker Service(TBD, future objective) 
 
 
-# How to use:
-* You will need the latest Visual Studio 2022 and the latest .NET Core SDK.
-* Need to setup/download mongo DB in local.
-
-
 ## Technologies Used:
-* Asp.net core Dotnet 6.
+* Asp.net core Dotnet 7
 * AutoMapper
 * MediatR
-* Mongo Drive
+* Kafka Producer/Consumer
+* MongoDB
+
 
 ## Architecture Implemented:
-* Full architecture with responsibility separation concerns, SOLID and Clean Code
+* Full architecture with responsibility separation concerns, SOLID and Clean Code.
 * Domain Driven Design (Layers and Domain Model Pattern)
-* CQRS
-* Domain Events
+* CQRS 
 * Event Sourcing
-* Repository pattern 
-//Domain Notification
-//Domain Validations
+* Mediator Design Pattern - Multiple objects to communicate with each other without knowing each other's structure
+* Repository Layer for ReadDb.
+* Persistence Layer for WriteDb.
+* pub/sub architecture
+
+# How to use:
+* You will need the latest Visual Studio 2022 and the latest .NET Core SDK.
+* Docker setup for Kafka, MongoDB and Postgres.
 
 
 # Explanation of the Event Sourcing / CQRS pattern. 
@@ -42,8 +43,20 @@ Event sourcing is a way of capturing/storing an application's state through the 
 * Command - Insert/update/Delete
 Commands should be task-based, rather than data centric.
 
+## Event Store Implementation
+- Updating...
 
-Solution
+### Write Model and Persistence
+- Updating...
+
+### Read Model and Projection
+- Updating...
+
+### Snapshot
+Hasn't been updated yet. 
+
+
+## Solution
 CQRS separates reads and writes into different models, using commands to update data, and queries to read data.
 
 Commands should be task-based, rather than data centric. ("Book hotel room", not "set ReservationStatus to Reserved").
