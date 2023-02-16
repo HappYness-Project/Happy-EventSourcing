@@ -27,9 +27,16 @@ Eventsourcing implementation for managing Human being's life.
 * Persistence Layer for WriteDb.
 * pub/sub architecture
 
-# How to use:
-* You will need the latest Visual Studio 2022 and the latest .NET Core SDK.
-* Docker setup for Kafka, MongoDB and Postgres.
+# Getting Started.
+Need to check if Docker Desktop has been installed. If not, please install to run this application in Dev environment.
+Also, for the best practice, you will need the latest Visual Studio 2022 and the latest .NET Core SDK.
+
+```
+docker-compose build
+docker-compose up -d
+```
+
+
 
 
 # Explanation of the Event Sourcing / CQRS pattern. 

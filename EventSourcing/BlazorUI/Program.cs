@@ -38,7 +38,7 @@ builder.Services.AddAuthentication(options =>
         options.Scope.Add("profile");
         options.Scope.Add("api1");
         options.SaveTokens = true;
-        options.GetClaimsFromUserInfoEndpoint= true;
+        options.GetClaimsFromUserInfoEndpoint = true;
         options.Events = new OpenIdConnectEvents
         {
             OnAccessDenied = context =>

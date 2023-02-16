@@ -13,7 +13,6 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=secret
     networks:
       - happy_network
-
   hp.api:
     image: ${DOCKER_REGISTRY-}hpapi
     build:
@@ -23,7 +22,6 @@ services:
       - mongo
     networks:
       - happy_network
-
   hp.blazor:
     image: ${DOCKER_REGISTRY-}blazorui
     build:
@@ -35,7 +33,6 @@ services:
       - 5555:80
     networks:
       - happy_network
-
   zookeeper:
     image: bitnami/zookeeper
     restart: always
@@ -47,7 +44,6 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
     networks:
       - happy_network
-
   kafka:
     image: bitnami/kafka
     ports:
@@ -64,6 +60,17 @@ services:
       - zookeeper
     networks:
       - happy_network
+  postgres:
+    image: postgres
+    container_name: postgres_readdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Cc7594435!
+    ports:
+      - '5432:5432'
+    networks:
+      - happy_network
+
 volumes:
   zookeeper_data:
     driver: local
