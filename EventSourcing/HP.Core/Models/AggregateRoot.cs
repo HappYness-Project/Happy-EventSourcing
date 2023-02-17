@@ -17,6 +17,8 @@
         {
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();
             _domainEvents.Add(domainEvent);
+            this.When(domainEvent);
+            this.Version++;
         }
         public void ClearDomainEvents()
         {
