@@ -1,6 +1,6 @@
 Eventsourcing implementation for managing Human being's life. 
 
-# Eventsourcing Happiness project impelmentation
+# Eventsourcing Happiness project impelmentation 
 * CQRS implementation.
 * Evcent sourcing implement
 * Storing Event data in the Event Store db.
@@ -35,13 +35,13 @@ Also, for the best practice, you will need the latest Visual Studio 2022 and the
 docker-compose build
 docker-compose up -d
 ```
-
+# Services 
 
 
 
 # Explanation of the Event Sourcing / CQRS pattern. 
 
-Event sourcing is a way of capturing/storing an application's state through the history of events that have happened already. It provides a single source of truth about what occured in the whole application.
+Event sourcing is a way of capturing/storing an application's state through the history of events(As a sequence of domain events) that have happened already. It provides a single source of truth about what occured in the whole application. Since event means something that has happened so it should be immutable, and they are stored into a dat abase in an append-only.
 
 
 ## CQRS (Command and Query Responsibility Segregation)

@@ -19,5 +19,6 @@ namespace HP.Domain.People.Read
         public int ProjectId { get; set; }
         public int GroupId { get; set; }
         public string GoalType { get; set; }
+
     }
 }
