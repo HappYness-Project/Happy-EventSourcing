@@ -10,7 +10,6 @@ namespace HP.Domain
         protected Todo(Person person, string title, string description, TodoType todoType, string[] tag) : base()
         {
             // TODO : CheckPolicies
-
             PersonId = person.Id;
             Title = title;
             Description = description;
@@ -19,6 +18,7 @@ namespace HP.Domain
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
             Updated = DateTime.Now;
+            CountTodoItem = 0;
             AddDomainEvent(new TodoCreated { TodoId = Id, PersonId = PersonId, TodoTitle = title, TodoDesc = Description, TodoType = todoType.Name });
         }
         public Guid PersonId { get; private set; }
@@ -30,6 +30,7 @@ namespace HP.Domain
         public bool IsDone { get; private set; }
         public bool IsActive { get; private set; }
         public double Score { get; private set; }
+        public int CountTodoItem { get; private set; }
         public ICollection<TodoItem> SubTodos { get; private set; }
         public TodoStatus Status { get; private set; }
         public string StatusDesc { get; private set; }
@@ -65,6 +66,7 @@ namespace HP.Domain
 
             TodoItem todoItem = new TodoItem(title, desc, type, targetStartDate.Value, targetEndDate.Value);
             SubTodos.Add(todoItem);
+            CountTodoItem++;
             this.AddDomainEvent(new TodoItemCreated
             {
                 TodoItemId = todoItem.Id,
@@ -95,7 +97,22 @@ namespace HP.Domain
             todoItem.Update(newTitle, newType, newDesc);
             this.AddDomainEvent(new TodoItemUpdated { TodoItemId = todoItemId });
         }
-        protected override void When(IDomainEvent @event)
+        public void ActivateTodo()
+        {
+            this.IsActive = true;
+            this.AddDomainEvent(new TodoActivated { TodoId = Id });
+        }
+        public void DeactivateTodo()
+        {
+            this.IsActive = false;
+            this.AddDomainEvent(new TodoDeactivated { TodoId = Id });
+        }
+        public void Remove()
+        {
+            this.IsActive = false;
+            this.AddDomainEvent(new TodoRemoved { TodoId = Id });
+        }
+        public override void When(IDomainEvent @event)
         {
             switch (@event)
             {
@@ -114,6 +131,7 @@ namespace HP.Domain
                 case TodoDeactivated todoDeactivated:
                     Apply(todoDeactivated);
                     break;
+
             }
         }
         private void Apply(TodoCreated @event)
@@ -121,34 +139,27 @@ namespace HP.Domain
             Id = @event.TodoId;
             PersonId = @event.PersonId;
             Title = @event.TodoTitle;
+            Description = @event.TodoDesc;
             TodoType = TodoType.FromName(@event.TodoType);
         }
         private void Apply(TodoUpdated @event)
         {
             Id = @event.TodoId;
+            Title = @event.TodoTitle;
+            Description = @event.TodoDesc;
+            TodoType = TodoType.FromName(@event.TodoType);
         }
         private void Apply(TodoActivated @event)
         {
-            this.Id = @event.TodoId;
+            Id = @event.TodoId;
+            IsActive = true;
         }
         private void Apply(TodoDeactivated @event)
         {
-            this.Id = @event.TodoId;
+            Id = @event.TodoId;
+            IsActive = false;
         }
-        public void ActivateTodo()
-        {
-            this.IsActive = true;
-            this.AddDomainEvent(new TodoActivated { TodoId = Id });
-        }
-        public void DeactivateTodo()
-        {
-            this.IsActive = false;
-            this.AddDomainEvent(new TodoDeactivated { TodoId = Id });
-        }
-        public void Remove()
-        {
-            this.AddDomainEvent(new TodoRemoved { TodoId = Id });
-        }
+
         public void SetStatus(TodoStatus status, string? reason = null)
         {
             switch (status.Name)
