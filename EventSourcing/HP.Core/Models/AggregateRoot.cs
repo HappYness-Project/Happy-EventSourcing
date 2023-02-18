@@ -24,7 +24,7 @@
         {
             _domainEvents?.Clear();
         }
-        protected abstract void When(IDomainEvent @event);
+        public abstract void When(IDomainEvent @event);
     }
 }
 

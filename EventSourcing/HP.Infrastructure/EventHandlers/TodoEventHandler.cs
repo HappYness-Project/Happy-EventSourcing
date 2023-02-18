@@ -67,7 +67,7 @@ namespace HP.Infrastructure.EventHandlers
             {
                 TodoItem todoItem = new TodoItem(@event.TodoTitle, @event.TodoDesc, @event.TodoType);
                 findTodo.SubTodos.Add(todoItem);
-                _todoDetailsRepository.UpdateAsync(findTodo);
+                await _todoDetailsRepository.UpdateAsync(findTodo);
             }
         }
         public async Task On(TodoItemUpdated @event)
@@ -77,7 +77,7 @@ namespace HP.Infrastructure.EventHandlers
             {
                 TodoItem todoItem = new TodoItem(@event.TodoTitle, @event.TodoDesc, @event.TodoType);
                 findTodo.SubTodos.Add(todoItem);
-                _todoDetailsRepository.UpdateAsync(findTodo);
+                await _todoDetailsRepository.UpdateAsync(findTodo);
             }
             throw new NotImplementedException();
         }

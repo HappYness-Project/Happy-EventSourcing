@@ -15,7 +15,7 @@ namespace HP.Domain
         public bool IsActive { get; private set; }
         public decimal CurrentScore { get; private set; }
         public DateTime UpdateDate { get; private set; }
-        protected Person() : base()
+        public Person() : base()
         {
             IsActive = false;
             CurrentScore = 0;
@@ -57,7 +57,7 @@ namespace HP.Domain
             this.GroupId = groupId.Value;
             AddDomainEvent(new PersonInfoUpdated { PersonId = Id, PersonType = personType, GoalType = goalType });
         }
-        protected override void When(IDomainEvent @event)
+        public override void When(IDomainEvent @event)
         {
             switch(@event)
             {

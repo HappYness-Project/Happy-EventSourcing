@@ -18,7 +18,7 @@ namespace HP.Application.Commands.Todo
         }
         public async Task<CommandResult> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
         {
-            var person = await _personRepository.RehydrateAsync(request.PersonId);
+            var person = await _personRepository.GetByAggregateId<Domain.Person>(request.PersonId);
             if (person == null)
                 throw new ApplicationException($"There is no person for this person. User ID : {request.PersonId.ToString()}");
 

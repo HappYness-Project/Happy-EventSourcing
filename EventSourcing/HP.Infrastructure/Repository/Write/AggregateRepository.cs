@@ -1,10 +1,12 @@
 ﻿using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Models;
+using HP.Domain;
+using MongoDB.Driver;
 
 namespace HP.Infrastructure.Repository.Write
 {
-    public class AggregateRepository<T> : IAggregateRepository<T> where T : AggregateRoot
+    public class AggregateRepository<T> : IAggregateRepository<T> where T : IAggregateRoot
     {
         private readonly IEventStore _eventStore;
         private readonly string _StreamBase;
@@ -14,10 +16,25 @@ namespace HP.Infrastructure.Repository.Write
             _StreamBase = aggregateType.Name;
             _eventStore = eventStore;
         }
-        public Task<List<Guid>> GetAggregateIdAsync()
+        public async Task<List<Guid>> GetAggregateIdAsync()
         {
-            throw new NotImplementedException();
+            var eventStream = await _eventStore.GetAggregateIdAsync();
+            if (eventStream == null || !eventStream.Any())
+                throw new ArgumentNullException(nameof(eventStream), "Could not retrieve event stream from the event store!.");
+
+            return eventStream;
         }
+
+        public async Task<T> GetByAggregateId<T>(Guid id, CancellationToken ct = default) where T : AggregateRoot, new()
+        {
+            var events = await _eventStore.GetEventsAsync(id);
+            if (events == null || !events.Any()) return null;
+            AggregateRoot root = new T();
+            foreach (var eve in events)
+                root.When(eve);
+            return (T)root;
+        }
+
         public async Task PersistAsync(T aggregateRoot, CancellationToken ct = default)
         {
             if(aggregateRoot == null)
@@ -32,10 +49,7 @@ namespace HP.Infrastructure.Repository.Write
             await _eventStore.SaveEventsAsync(aggregateRoot.Id, aggregateType, aggregateRoot.UncommittedEvents, version); 
         }
 
-        public Task<T> RehydrateAsync(Guid id, CancellationToken ct = default)
-        {
-            throw new NotImplementedException();
-        }
+
         private string GetStreamName(Guid aggregateId) => $"{_StreamBase}_{aggregateId}"; // Not using it for now.
 
     }
