@@ -1,5 +1,6 @@
 ﻿using HP.Core.Commands;
-using HP.Domain.People.Write;
+using HP.Core.Common;
+using HP.Core.Events;
 using MediatR;
 
 namespace HP.Application.Commands.Person
@@ -11,20 +12,21 @@ namespace HP.Application.Commands.Person
             return new DeletePersonCommand(personId);
         }
     }
-    public class DeletePersonCommandHandler : IRequestHandler<DeletePersonCommand, CommandResult>
+    public class DeletePersonCommandHandler : BaseCommandHandler, IRequestHandler<DeletePersonCommand, CommandResult>
     {
-        private readonly IPersonAggregateRepository _repository;
-        public DeletePersonCommandHandler(IPersonAggregateRepository personRepository)
+        private readonly IAggregateRepository<Domain.Person> _personRepository;
+        public DeletePersonCommandHandler(IEventProducer eventProducer, IAggregateRepository<Domain.Person> personRepository) : base(eventProducer)
         {
-            _repository = personRepository;
+            _personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
         }
         public async Task<CommandResult> Handle(DeletePersonCommand request, CancellationToken cancellationToken)
         {
-            var person = await _repository.GetByIdAsync(request.PersonId);
+            var person = await _personRepository.GetByAggregateId<Domain.Person>(request.PersonId);
             if (person == null)
                 throw new ApplicationException("Person doesn't exist in the database. ");
 
-            await _repository.DeletePersonAsync(request.PersonId);
+            person.Remove();
+            await _personRepository.PersistAsync(person);
             return new CommandResult(true, "Person is removed", person.Id.ToString());
         }
     }

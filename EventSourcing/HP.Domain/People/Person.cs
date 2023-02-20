@@ -32,6 +32,10 @@ namespace HP.Domain
             AddDomainEvent(new PersonCreated { PersonId = Id, PersonName = personName, PersonRole = Role, PersonType = Type });
 
         }
+        public static Person Create(string? personName = null)
+        {
+            return new Person(personName);
+        }
         public void UpdateRole(string role)
         {
             if (role is null)
@@ -46,16 +50,17 @@ namespace HP.Domain
             this.GroupId = groupId;
             AddDomainEvent(new PersonGroupUpdated { PersonId = Id, GroupId = GroupId });
         }
-        public static Person Create(string? personName = null)
-        {
-            return new Person(personName); 
-        }
         public void UpdateBasicInfo(string? personType, string? goalType, int? groupId)
         {
             this.Type = personType;
             this.GoalType = GoalType.FromName(goalType);
             this.GroupId = groupId.Value;
             AddDomainEvent(new PersonInfoUpdated { PersonId = Id, PersonType = personType, GoalType = goalType });
+        }
+        public void Remove()
+        {
+            this.IsActive = false;
+            AddDomainEvent(new PersonRemoved { PersonId = Id });    
         }
         public override void When(IDomainEvent @event)
         {
@@ -76,6 +81,10 @@ namespace HP.Domain
                 case PersonGroupUpdated groupupdated:
                     Apply(groupupdated);
                     break;
+
+                case PersonRemoved removed:
+                    Apply(removed);
+                    break;
             }
         }
         private void Apply(PersonCreated @event)
@@ -95,6 +104,11 @@ namespace HP.Domain
         {
             Id = @event.PersonId;
             GroupId = @event.GroupId;   
+        }
+        private void Apply(PersonRemoved @event)
+        {
+            Id = @event.PersonId;
+            IsActive = false;
         }
 
     }

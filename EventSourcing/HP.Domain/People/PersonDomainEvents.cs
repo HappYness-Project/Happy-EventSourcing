@@ -37,8 +37,12 @@ namespace HP.Domain
         }
         public class PersonGroupUpdated : DomainEvent
         {
-            public Guid PersonId {get; set; }
-            public int GroupId {get; set; }
+            public Guid PersonId { get; set; }
+            public int GroupId { get; set; }
+        }
+        public class PersonRemoved : DomainEvent
+        {
+            public Guid PersonId { get; set;}
         }
     }
 }
