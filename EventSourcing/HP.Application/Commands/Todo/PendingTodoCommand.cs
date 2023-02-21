@@ -5,7 +5,7 @@ using MediatR;
 namespace HP.Application.Commands.Todo
 {
     public record PendingTodoCommand(Guid TodoId, string? reason = null) : BaseCommand;
-    public class PendingTodoCommandHandler : IRequestHandler<PendingTodoCommand, CommandResult>
+    public class PendingTodoCommandHandler : BaseCommandHandler, IRequestHandler<PendingTodoCommand, CommandResult>
     {
         private readonly ITodoAggregateRepository _repository;
         public PendingTodoCommandHandler(ITodoAggregateRepository repository)
