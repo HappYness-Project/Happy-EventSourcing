@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HP.UnitTest.People.Commands
+namespace HP.UnitTest.Persons.Commands
 {
     public class CreatePersonCommandHandlerTests : TestBase
     {

@@ -1,6 +1,6 @@
 ﻿using HP.Domain;
 
-namespace HP.UnitTest.People
+namespace HP.UnitTest.Persons
 {
     public class PersonFactory
     {

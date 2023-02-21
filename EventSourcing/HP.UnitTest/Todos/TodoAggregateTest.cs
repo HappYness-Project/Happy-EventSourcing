@@ -16,7 +16,8 @@ namespace HP.UnitTest.Todos
         {
             //Arrange
             string[] faketags = { "Study", "Kevin", "DDD" };
-            Person person = new Person(Guid.NewGuid().ToString());
+            string userId = "hyunbin7303";
+            Person person = new Person(userId);
             string todoTitle = "Fake Todo";
             string todoDesc = "Fake Description";
             var expectedEventType = nameof(TodoCreated);
@@ -28,8 +29,10 @@ namespace HP.UnitTest.Todos
             fakeTodo.Description.Should().NotBeNull().And.Be(todoDesc);
             fakeTodo.TodoType.Should().NotBeNull().And.Be(TodoType.Others);
             fakeTodo.UncommittedEvents.Should().NotBeNull().And.HaveCount(1);
+
             var domainEvent = fakeTodo.UncommittedEvents.First();
             domainEvent.EventType.Should().Be(expectedEventType);
+            domainEvent.AggregateVersion.Should().Be(0);    
         }
         [Test]
         public void Create_New_Todo_ThrowException_TodoTitle_Null()
@@ -118,35 +121,60 @@ namespace HP.UnitTest.Todos
 
         }
         [Test]
-        public void AddTodoTiem_Count_Should_Be_One()
+        public void Create_Todo_And_Add_TodoItem_Success()
         {
             // Arrange
             var todo = TodoFactory.Create("", "MainTodo",TodoType.Others.ToString(), "Description");
+            var expectedEventNum = 2; // CreateTodo Event, AddTodoItem Event
 
             // Act
             todo.AddTodoItem("Sub Todo Item #1", TodoType.Study.ToString(), "Description todo Item #1", null,null);
 
             //Assert
             todo.SubTodos.Should().HaveCount(1);
-            todo.UncommittedEvents.Should().HaveCount(1);
+            todo.CountTodoItem.Should().Be(1);
+            todo.UncommittedEvents.Should().HaveCount(expectedEventNum);
         }
         [Test]
-        public void DeleteTodoItem_Return_0()
+        public void Delete_TodoItem_Success()
         {
             // Arrange
             var todo = TodoFactory.Create();
+            int expectedEventCount = 3; 
             string Title = "Sub Todo Item #1";
-            string Type = "Study";
             string Desc = "Description todo Item #1";
             DateTime? TargetStartDate = new DateTime(2022, 12, 25);
             DateTime? TargetEndDate = new DateTime(2022, 12, 30);
-            var todoItem = todo.AddTodoItem(Title, Type, Desc, TargetStartDate, TargetEndDate);
+            var todoItem = todo.AddTodoItem(Title, TodoType.Study.ToString(), Desc, TargetStartDate, TargetEndDate);
 
             // Act
             todo.DeleteTodoItem(todoItem.Id);
 
             //Assert
             todo.SubTodos.Should().HaveCount(0);
+            todo.UncommittedEvents.Should().HaveCount(expectedEventCount);
         }
+
+
+        // validation Checking Method for SubTodoItem? 
+        [Test]
+        public void Create_Multiple_SubTodo_Should_Count_Valid()
+        {
+            var todo = TodoFactory.Create();
+            var todoItem = TodoFactory.CreateTodoItem("Sub Todo Item #1");
+            todo.SubTodos.Add(todoItem);
+
+            todo.CountTodoItem.Should().Be(1);
+
+            var todoItem2 = TodoFactory.CreateTodoItem("Sub Todo Item #2");
+            todo.SubTodos.Add(todoItem2);
+            todo.CountTodoItem.Should().Be(2);
+
+            var todoItem3 = TodoFactory.CreateTodoItem("Sub Todo Item #3");
+            todo.SubTodos.Add(todoItem3);
+            todo.CountTodoItem.Should().Be(3);
+            todo.SubTodos.Count().Should().Be(3);
+        }
+
     }
 }

@@ -64,7 +64,7 @@ namespace HP.Domain
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentNullException(nameof(title));
 
-            TodoItem todoItem = new TodoItem(title, desc, type, targetStartDate.Value, targetEndDate.Value);
+            TodoItem todoItem = new TodoItem(title, desc, type, targetStartDate, targetEndDate);
             SubTodos.Add(todoItem);
             CountTodoItem++;
             this.AddDomainEvent(new TodoItemCreated

@@ -1,4 +1,6 @@
 ﻿using HP.Domain;
+using System;
+
 namespace HP.test
 {
     public class TodoFactory
@@ -13,6 +15,13 @@ namespace HP.test
             Person person = Person.Create(userId);
             TodoType Type = TodoType.FromName(type);
             return Todo.Create(person, title, desc, Type, defaultTag ? tags : null);
+        }
+        public static TodoItem CreateTodoItem(string title)
+        {
+            string Desc = "Description for " + title;
+            DateTime? TargetStartDate = DateTime.UtcNow.AddDays(new Random().Next(90));
+            TodoItem todoItem = new TodoItem(title, TodoType.Study.ToString(), Desc, TargetStartDate, null);
+            return todoItem;
         }
     }
 }
