@@ -2,6 +2,7 @@
 using Confluent.Kafka;
 using HP.Application.Mappers;
 using HP.Core.Common;
+using HP.Core.Events;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.EventHandlers;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ namespace HP.IntegrationTest
         protected IConfiguration _configuration;
         protected IMongoDbContext _mongoDbContext;
         protected IMapper _mapper;
+        protected IEventStore _eventStore;
         protected IOptions<ProducerConfig> _producerConfig;
         protected IOptions<ConsumerConfig> _consumerConfig;
         protected ITodoEventHandler _todoEventHandler;

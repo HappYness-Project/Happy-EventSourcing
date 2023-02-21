@@ -1,25 +1,19 @@
-﻿using HP.Application.Commands;
-using HP.test;
+﻿using HP.test;
 using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
-using HP.Application.Commands.Todo;
-using System;
-using HP.Domain.Todos.Write;
-using HP.Domain.People.Write;
 using FluentAssertions;
-using HP.Core.Commands;
+using HP.Core.Common;
+using HP.Domain;
 
 namespace HP.UnitTest.Todos.Commands
 {
     public class CreateTodoCommandHandlerTests : TestBase
     {
-        private readonly Mock<ITodoAggregateRepository> _todoRepositoryMock;
-        private readonly Mock<IPersonAggregateRepository> _personRepositoryMock;
+        private readonly Mock<IAggregateRepository<Todo>> _todoAggregateRepoMock;
         public CreateTodoCommandHandlerTests()
         {
-            _todoRepositoryMock = new();
-            _personRepositoryMock = new();
+            _todoAggregateRepoMock = new();
         }
 
         [Test]

@@ -1,11 +1,8 @@
 using Confluent.Kafka;
 using HP.Core.Events;
 using HP.Core.Models;
-using HP.Domain;
 using HP.Infrastructure.EventHandlers;
 using Microsoft.Extensions.Options;
-using System;
-using System.Reflection;
 using System.Text.Json;
 
 namespace HP.Infrastructure.Kafka

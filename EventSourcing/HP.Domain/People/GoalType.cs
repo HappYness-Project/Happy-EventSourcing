@@ -10,8 +10,8 @@ namespace HP.Domain
         public static GoalType Intermediate => new(2, nameof(Intermediate).ToLowerInvariant());
         public static GoalType Expert => new(3, nameof(Expert).ToLowerInvariant());
         public static GoalType ShortTerm => new(4, nameof(ShortTerm).ToLowerInvariant());
-        public static GoalType LongTerm => new(4, nameof(LongTerm).ToLowerInvariant());
-        public static GoalType TimeBound => new(4, nameof(TimeBound).ToLowerInvariant());
+        public static GoalType LongTerm => new(5, nameof(LongTerm).ToLowerInvariant());
+        public static GoalType TimeBound => new(6, nameof(TimeBound).ToLowerInvariant());
         public static IEnumerable<GoalType> List() => new[] { TBD, Beginner, Intermediate, Expert, ShortTerm, LongTerm, TimeBound };
         public static GoalType FromName(string name)
         {

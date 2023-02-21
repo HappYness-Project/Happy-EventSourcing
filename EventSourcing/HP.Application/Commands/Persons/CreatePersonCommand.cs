@@ -19,7 +19,7 @@ namespace HP.Application.Commands.Persons
             : base(eventProducer)
         {
             this._peronRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
-            this._personDetailsRepository = _personDetailsRepository ?? throw new ArgumentNullException(nameof(personDetailsRepository));
+            this._personDetailsRepository = personDetailsRepository ?? throw new ArgumentNullException(nameof(personDetailsRepository));
         }
         public async Task<CommandResult> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {

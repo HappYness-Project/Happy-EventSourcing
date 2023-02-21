@@ -4,7 +4,6 @@ using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Models;
 using HP.Domain;
-using HP.Domain.People.Write;
 using HP.Domain.Todos.Write;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
@@ -42,7 +41,6 @@ builder.Services.Configure<ProducerConfig>(getConfig.GetSection(nameof(ProducerC
 builder.Services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerConfig)));
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped(typeof(IAggregateRepository<>), typeof(AggregateRepository<>));
-builder.Services.AddScoped<IPersonAggregateRepository, PersonAggregateRepository>();
 builder.Services.AddScoped<ITodoAggregateRepository, TodoAggregateRepository>();
 
 builder.Services.AddScoped<ITodoEventHandler, TodoEventHandler>();

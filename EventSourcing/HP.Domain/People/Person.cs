@@ -10,26 +10,29 @@ namespace HP.Domain
         public string Description { get; private set; }
         public int GroupId { get; private set; }
         public int ProjectId { get; private set; }
-        public string Role { get; private set; }
+        public PersonRole Role { get; private set; }
         public GoalType GoalType { get; private set; }
         public bool IsActive { get; private set; }
         public decimal CurrentScore { get; private set; }
         public DateTime UpdateDate { get; private set; }
-        public Person() : base()
+        private void InitSetup()
         {
-            IsActive = false;
+            IsActive = true;
+            Description = string.Empty;
             CurrentScore = 0;
+            ProjectId = 0;
+            GroupId = 0;
+            GoalType = GoalType.TBD;
+            Role = PersonRole.TBD;
+            Type = "Normal";
+            UpdateDate = DateTime.Now;
         }
+        public Person() : base() { }
         public Person(string personName) : base()
         {
+            InitSetup();
             PersonName = personName;
-            IsActive = true;
-            CurrentScore = 0;
-            GoalType = GoalType.TBD;
-            Role = PersonRole.TBD.ToString();
-            UpdateDate = DateTime.Now;
-            Type = "Normal";
-            AddDomainEvent(new PersonCreated { PersonId = Id, PersonName = personName, PersonRole = Role, PersonType = Type });
+            AddDomainEvent(new PersonCreated { PersonId = Id, PersonName = personName, PersonRole = Role.ToString(), PersonType = Type });
 
         }
         public static Person Create(string? personName = null)
@@ -41,8 +44,8 @@ namespace HP.Domain
             if (role is null)
                 throw new ArgumentNullException("Role input cannot be null");
 
-            string preRole = this.Role;
-            this.Role = role;
+            string preRole = Role.ToString();
+            Role = PersonRole.FromName(role);
             AddDomainEvent(new PersonRoleUpdated { PersonId = Id, PreRole = preRole, Role = role });
         }
         public void UpdateGroupId(int groupId)

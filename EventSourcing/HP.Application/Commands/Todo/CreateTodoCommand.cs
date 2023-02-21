@@ -19,7 +19,7 @@ namespace HP.Application.Commands.Todo
         {
             var person = await _personRepository.GetByAggregateId<Domain.Person>(request.PersonId);
             if (person == null)
-                throw new ApplicationException($"There is no person for this person. User ID : {request.PersonId.ToString()}");
+                throw new ApplicationException($"There is no person for this person. User ID : {request.PersonId}");
 
             var todo = Domain.Todo.Create(person, request.TodoTitle, request.Description, TodoType.FromName(request.TodoType), request.Tag);
             todo.SetStatus(TodoStatus.NotDefined);

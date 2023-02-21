@@ -1,8 +1,6 @@
 ﻿using HP.Core.Commands;
 using HP.Core.Common;
 using HP.Core.Events;
-using HP.Domain.People.Write;
-using HP.Infrastructure.Kafka;
 using MediatR;
 namespace HP.Application.Commands.Person
 {
