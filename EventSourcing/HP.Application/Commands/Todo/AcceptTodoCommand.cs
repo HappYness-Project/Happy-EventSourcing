@@ -13,7 +13,6 @@ namespace HP.Application.Commands.Todos
         {
             _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-
         public async Task<CommandResult> Handle(AcceptTodoCommand cmd, CancellationToken cancellationToken)
         {
             var todo = await _todoRepository.GetByAggregateId<Domain.Todo>(cmd.TodoId);

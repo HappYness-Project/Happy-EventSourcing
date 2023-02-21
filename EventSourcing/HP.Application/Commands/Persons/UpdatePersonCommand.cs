@@ -21,7 +21,6 @@ namespace HP.Application.Commands.Persons
 
             person.UpdateBasicInfo(request.PersonType, request.GoalType, request.GroupId);
             await _personRepository.PersistAsync(person);
-            await ProduceDomainEvents(person.UncommittedEvents);
             return new CommandResult(true, "", person.Id.ToString());
         }
     }

@@ -1,18 +1,18 @@
-﻿using HP.Core.Common;
+﻿using HP.Core.Commands;
+using HP.Core.Common;
 using HP.Core.Events;
-using HP.Domain.Todos.Write;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record UpdateStatusTodoItemCommand(Guid TodoId, Guid TodoItemId, string Status) : IRequest<bool>;
-    public class UpdateStatusTodoItemCommandHandler : BaseCommandHandler, IRequestHandler<UpdateStatusTodoItemCommand, bool>
+    public record UpdateStatusTodoItemCommand(Guid TodoId, Guid TodoItemId, string Status) : BaseCommand;
+    public class UpdateStatusTodoItemCommandHandler : BaseCommandHandler, IRequestHandler<UpdateStatusTodoItemCommand, CommandResult>
     {
         private readonly IAggregateRepository<Domain.Todo> _todoRepository;
         public UpdateStatusTodoItemCommandHandler(IEventProducer eventProducer, IAggregateRepository<Domain.Todo> repository) : base(eventProducer)
         {
             _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-        public async Task<bool> Handle(UpdateStatusTodoItemCommand cmd, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(UpdateStatusTodoItemCommand cmd, CancellationToken cancellationToken)
         {
             var todo = await _todoRepository.GetByAggregateId<Domain.Todo>(cmd.TodoId);
             if (todo == null)
@@ -24,7 +24,7 @@ namespace HP.Application.Commands.Todo
 
             todoItem.SetStatus(cmd.Status);
             await _todoRepository.PersistAsync(todo);
-            return true;
+            return new CommandResult(true, "Success", todo.Id.ToString());
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using HP.Core.Commands;
 using HP.Core.Common;
 using HP.Core.Events;
-using HP.Domain.Todos.Write;
 using MediatR;
 
 namespace HP.Application.Commands.Todo
@@ -22,7 +21,6 @@ namespace HP.Application.Commands.Todo
 
             var subTodo = todo.AddTodoItem(cmd.TodoTitle, cmd.TodoType, cmd.Description, cmd.TargetStartDate, cmd.TargetEndDate);
             await _todoRepository.PersistAsync(todo);
-            await ProduceDomainEvents(todo.UncommittedEvents);
             return new CommandResult(true, $"TodoItem has been created within TodoId: {todo.Id}, SubTodoId: {subTodo.Id}", subTodo.Id.ToString());
         }
     }

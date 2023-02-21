@@ -1,15 +1,14 @@
 ﻿using HP.Core.Commands;
 using HP.Core.Common;
-using HP.Domain.Todos.Write;
+using HP.Core.Events;
 using MediatR;
-
 namespace HP.Application.Commands.Todo
 {
     public record UpdateTodoCommand(Guid TodoId, string Title, string type, string Description, string[] Tags, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null) : BaseCommand;
     public class UpdateTodoCommandHandler : BaseCommandHandler, IRequestHandler<UpdateTodoCommand, CommandResult>
     {
         private readonly IAggregateRepository<Domain.Todo> _todoRepository;
-        public UpdateTodoCommandHandler(IAggregateRepository<Domain.Todo> todoRepository)
+        public UpdateTodoCommandHandler(IEventProducer eventProducer, IAggregateRepository<Domain.Todo> todoRepository) : base(eventProducer)
         {
             _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }

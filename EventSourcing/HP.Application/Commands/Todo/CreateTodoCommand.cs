@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using HP.Core.Commands;
+﻿using HP.Core.Commands;
 using HP.Core.Common;
 using HP.Core.Events;
 using HP.Domain;
@@ -26,7 +25,6 @@ namespace HP.Application.Commands.Todo
             todo.SetStatus(TodoStatus.NotDefined);
 
             await _todoRepository.PersistAsync(todo, cancellationToken);
-            await ProduceDomainEvents(todo.UncommittedEvents);
             return new CommandResult(true, "Todo is created.", todo.Id.ToString());
         } 
     }

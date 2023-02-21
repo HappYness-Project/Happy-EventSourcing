@@ -20,7 +20,6 @@ namespace HP.Application.Commands.Person
 
             person.UpdateGroupId(request.GroupId);
             await _personRepository.PersistAsync(person);
-            await ProduceDomainEvents(person.UncommittedEvents);
             return new CommandResult(true, "", person.Id.ToString());
         }
     }

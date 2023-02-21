@@ -23,14 +23,11 @@ namespace HP.Application.Commands.Persons
         }
         public async Task<CommandResult> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
-            bool isExist =  _personDetailsRepository.Exists(x => x.PersonName == request.PersonName);
+            if(_personDetailsRepository.Exists(x => x.PersonName == request.PersonName))
+                throw new ApplicationException($"The PersonName : {request.PersonName} Already exists.");
 
-            var person = await _peronRepository.GetByAggregateId<Domain.Person>(Guid.NewGuid());
-            //if(person != null)
-            //    throw new ApplicationException($"The PersonName : {request.PersonName} Already exists.");
             var newPerson = Domain.Person.Create(request.PersonName);
             await _peronRepository.PersistAsync(newPerson);
-
             return new CommandResult(true, "Successfully person has been created.", newPerson.Id.ToString());
         }
     }
