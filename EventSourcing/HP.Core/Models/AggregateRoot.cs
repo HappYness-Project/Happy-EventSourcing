@@ -7,7 +7,7 @@
     {
         public AggregateRoot() {
             this.Id = Guid.NewGuid();
-            this.Created = DateTime.Now;
+            this.Created = DateTime.UtcNow;
         }
         private List<IDomainEvent> _domainEvents;
         public int Version { get; set; }

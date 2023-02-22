@@ -7,7 +7,7 @@ namespace HP.Core.Models
         public DomainEvent()
         {
             EventId = Guid.NewGuid();
-            OccuredOn = DateTime.Now;
+            OccuredOn = DateTime.UtcNow;
             EventType = this.GetType().Name;
         }
         public Guid AggregateId { get; set; }
