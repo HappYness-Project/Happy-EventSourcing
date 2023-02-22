@@ -70,7 +70,7 @@ namespace HP.Application.Queries.Todos
             if (todo == null)
                 throw new ApplicationException($"Cannot find the Todo ID:{request.TodoId}");
 
-            return todo.SubTodos.Where(x => x.IsDone);
+            return todo.SubTodos.Where(x => x.IsActive);
         }
 
         public async Task<TodoItem> Handle(GetTodoItemByTodoItemId request, CancellationToken cancellationToken)

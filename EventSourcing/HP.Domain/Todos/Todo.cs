@@ -124,6 +124,14 @@ namespace HP.Domain
                     Apply(todoUpdated);
                     break;
 
+                case TodoRemoved todoRemoved:
+                    Apply(todoRemoved);
+                    break;
+
+                case TodoCompleted todoCompleted:
+                    Apply(todoCompleted);
+                    break;
+
                 case TodoActivated todoActivated:
                     Apply(todoActivated);
                     break;
@@ -131,6 +139,7 @@ namespace HP.Domain
                 case TodoDeactivated todoDeactivated:
                     Apply(todoDeactivated);
                     break;
+
 
             }
         }
@@ -149,6 +158,14 @@ namespace HP.Domain
             Title = @event.TodoTitle;
             Description = @event.TodoDesc;
             TodoType = TodoType.FromName(@event.TodoType);
+        }
+        private void Apply(TodoRemoved @event)
+        {
+            Id = @event.AggregateId;
+        }
+        private void Apply(TodoCompleted @event)
+        {
+            Id = @event.AggregateId;
         }
         private void Apply(TodoActivated @event)
         {
@@ -180,7 +197,7 @@ namespace HP.Domain
                 case "start":
                     this.Status = TodoStatus.Start;
                     this.StatusDesc = $"Todo Id:{Id}, has been started at {DateTime.Now}";
-                    AddDomainEvent(new TodoStarted { TodoId = Id });
+                    AddDomainEvent(new TodoStarted { AggregateId = Id });
                     break;
 
                 case "complete":
@@ -188,7 +205,7 @@ namespace HP.Domain
                     this.StatusDesc = $"Todo Id:{Id} is completed. ";
                     this.IsDone = true;
                     this.Completed = DateTime.Now;
-                    AddDomainEvent(new TodoCompleted { TodoId = Id });
+                    AddDomainEvent(new TodoCompleted { AggregateId = Id });
                     break;
 
                 case "stop":

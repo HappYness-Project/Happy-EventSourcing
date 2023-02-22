@@ -5,6 +5,8 @@ using MongoDB.Driver;
 using static HP.Domain.TodoDomainEvents;
 namespace HP.Infrastructure.EventHandlers
 {
+
+    // Logging Required for the whole Event handler.
     public class TodoEventHandler : ITodoEventHandler
     {
         private readonly IBaseRepository<TodoDetails> _todoDetailsRepository;
@@ -26,7 +28,7 @@ namespace HP.Infrastructure.EventHandlers
                 Description = @event.TodoDesc,
                 TodoType = @event.TodoType,
                 Created = @event.OccuredOn,
-                Updated = DateTime.Now,
+                Updated = DateTime.UtcNow,
             };
             await _todoDetailsRepository.CreateAsync(todoDetails);
         }
@@ -79,6 +81,18 @@ namespace HP.Infrastructure.EventHandlers
           
             TodoItem todoItem = new TodoItem(@event.TodoTitle, @event.TodoDesc, @event.TodoType);
             findTodo.SubTodos.Add(todoItem);
+            await _todoDetailsRepository.UpdateAsync(findTodo);
+        }
+
+        public async Task On(TodoItemRemoved @event)
+        {
+            var findTodo = await _todoDetailsRepository.FindOneAsync(x => x.Id == @event.AggregateId);
+            if (findTodo == null) return; 
+
+            var findTodoItem = findTodo.SubTodos.FirstOrDefault(x => x.Id == @event.TodoItemId);
+            if(findTodoItem == null) return;
+
+            findTodo.SubTodos.Remove(findTodoItem);
             await _todoDetailsRepository.UpdateAsync(findTodo);
         }
         #endregion

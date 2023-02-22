@@ -12,5 +12,6 @@ namespace HP.Infrastructure.EventHandlers
         Task On(TodoRemoved @event);
         Task On(TodoItemCreated @event);
         Task On(TodoItemUpdated @event);
+        Task On(TodoItemRemoved @event);
     }
 }

@@ -38,14 +38,8 @@ namespace HP.Domain
         {
             public Guid TodoId { get; set; }
         }
-        public class TodoStarted : DomainEvent
-        {
-            public Guid TodoId { get; set; }
-        }
-        public class TodoCompleted : DomainEvent
-        {
-            public Guid TodoId { get; set; }
-        }
+        public class TodoStarted : DomainEvent { }
+        public class TodoCompleted : DomainEvent { }
         public class TodoItemRemoved : DomainEvent
         {
             public Guid TodoItemId { get; set; }
