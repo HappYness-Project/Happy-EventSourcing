@@ -3,7 +3,6 @@ using HP.Domain.People.Read;
 using static HP.Domain.PersonDomainEvents;
 namespace HP.Infrastructure.EventHandlers
 {
-    // This is Query side
     public class PersonEventHandlers : IPersonEventHandler
     {
         private readonly IBaseRepository<PersonDetails> _personRepository;
@@ -28,6 +27,8 @@ namespace HP.Infrastructure.EventHandlers
         public async Task On(PersonInfoUpdated @event)
         {
             var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            if (person == null) return;
+
             person.PersonType = @event.PersonType;
             person.PersonRole = @event.PersonRole;
             person.GoalType = @event.GoalType;
@@ -37,6 +38,8 @@ namespace HP.Infrastructure.EventHandlers
         public async Task On(PersonGroupUpdated @event)
         {
             var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            if (person == null) return;
+
             person.GroupId = @event.GroupId;
             await _personRepository.UpdateAsync(person);
         }
@@ -44,6 +47,8 @@ namespace HP.Infrastructure.EventHandlers
         public async Task On(PersonRoleSetAdminAssigned @event)
         {
             var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            if (person == null) return;
+
             person.PersonRole = "Admin";
             await _personRepository.UpdateAsync(person);
         }
@@ -51,10 +56,11 @@ namespace HP.Infrastructure.EventHandlers
         public async Task On(PersonRoleUpdated @event)
         {
             var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            if (person == null) return;
+
             person.PersonRole = @event.Role;
             await _personRepository.UpdateAsync(person);
         }
-
         #endregion
     }
 }

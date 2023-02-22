@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HP.IntegrationTest
 {
-    public class EventStoreTest : IClassFixture
+    public class EventStoreTest 
     {
 
     }
