@@ -24,7 +24,9 @@ namespace HP.Infrastructure.EventHandlers
                 PersonId = @event.PersonId,
                 Title = @event.TodoTitle,
                 Description = @event.TodoDesc,
-                TodoType = @event.TodoType
+                TodoType = @event.TodoType,
+                Created = @event.OccuredOn,
+                Updated = DateTime.Now,
             };
             await _todoDetailsRepository.CreateAsync(todoDetails);
         }
@@ -34,7 +36,8 @@ namespace HP.Infrastructure.EventHandlers
             {
                 Title = @event.TodoTitle,
                 Description = @event.TodoDesc,
-                TodoType = @event.TodoType
+                TodoType = @event.TodoType,
+                Updated = DateTime.Now,
             };
             await _todoDetailsRepository.UpdateAsync(todoDetails);
         }
@@ -44,6 +47,7 @@ namespace HP.Infrastructure.EventHandlers
             if (findTodo == null) return;
 
             findTodo.IsActive = true;
+            findTodo.Updated = @event.OccuredOn;
             await _todoDetailsRepository.UpdateAsync(findTodo);
         }
         public async Task On(TodoDeactivated @event)
@@ -52,6 +56,7 @@ namespace HP.Infrastructure.EventHandlers
             if (findTodo == null) return;
 
             findTodo.IsActive = false;
+            findTodo.Updated = @event.OccuredOn;
             await _todoDetailsRepository.UpdateAsync(findTodo);
         }
         public async Task On(TodoRemoved @event)

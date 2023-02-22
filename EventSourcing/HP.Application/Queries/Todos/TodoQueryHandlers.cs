@@ -10,7 +10,7 @@ namespace HP.Application.Queries.Todos
     public class TodoQueryHandlers : BaseQueryHandler,
                                      IRequestHandler<GetTodos, IEnumerable<TodoBasicInfoDto>>,
                                      IRequestHandler<GetTodosByPersonId, IEnumerable<TodoDetailsDto>>,
-                                     IRequestHandler<GetTodoById, TodoDetailsDto>,
+                                     IRequestHandler<GetTodoById, TodoDetails>,
                                      IRequestHandler<GetTodosByProjectId, IEnumerable<TodoDetailsDto>>,
                                      IRequestHandler<GetActiveTodoItemsByTodoId, IEnumerable<TodoItem>>,
                                      IRequestHandler<GetTodoItemByTodoItemId, TodoItem>,
@@ -37,14 +37,13 @@ namespace HP.Application.Queries.Todos
 
             return _mapper.Map<IEnumerable<TodoDetailsDto>>(todos);
         }
-        public async Task<TodoDetailsDto> Handle(GetTodoById request, CancellationToken cancellationToken)
+        public async Task<TodoDetails> Handle(GetTodoById request, CancellationToken cancellationToken)
         {
             var todo = await _todoDetailsRepository.FindOneAsync(x => x.Id == request.Id);
             if (todo is null)
                 throw new ApplicationException($"TodoId:{request.Id} does not exist.");
 
-            todo.SubTodos.Where(x => x.IsActive);
-            return _mapper.Map<TodoDetailsDto>(todo);
+            return todo;
         }
 
         public async Task<IEnumerable<TodoDetailsDto>> Handle(GetTodosByProjectId request, CancellationToken cancellationToken)
@@ -60,7 +59,7 @@ namespace HP.Application.Queries.Todos
         {
             var todos = await _todoDetailsRepository.GetAllAsync();
             if (todos == null)
-                throw new ApplicationException($"Todos Null.");
+                throw new ApplicationException($"Cannot find any Todo in Read Database.");
 
             return _mapper.Map<List<TodoBasicInfoDto>>(todos);
         }

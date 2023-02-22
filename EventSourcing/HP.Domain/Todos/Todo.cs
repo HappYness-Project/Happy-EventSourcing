@@ -140,6 +140,7 @@ namespace HP.Domain
             PersonId = @event.PersonId;
             Title = @event.TodoTitle;
             Description = @event.TodoDesc;
+            Updated = @event.OccuredOn;
             TodoType = TodoType.FromName(@event.TodoType);
         }
         private void Apply(TodoUpdated @event)
