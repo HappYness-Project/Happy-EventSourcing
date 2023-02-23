@@ -31,10 +31,6 @@ namespace HP.Domain
             public string Stress { get; set; }
             public string ZipCode { get; set; }
         }
-        public class PersonRoleSetAdminAssigned : DomainEvent
-        {
-            public Guid PersonId { get; set; }
-        }
         public class PersonGroupUpdated : DomainEvent
         {
             public Guid PersonId { get; set; }

@@ -7,7 +7,6 @@ namespace HP.Infrastructure.EventHandlers
         Task On(PersonCreated @event);
         Task On(PersonInfoUpdated @event);
         Task On(PersonGroupUpdated @event);
-        Task On(PersonRoleSetAdminAssigned @event);
         Task On(PersonRoleUpdated @event);
     }
 }

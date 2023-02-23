@@ -44,15 +44,6 @@ namespace HP.Infrastructure.EventHandlers
             await _personRepository.UpdateAsync(person);
         }
 
-        public async Task On(PersonRoleSetAdminAssigned @event)
-        {
-            var person = await _personRepository.GetByIdAsync(@event.PersonId);
-            if (person == null) return;
-
-            person.PersonRole = "Admin";
-            await _personRepository.UpdateAsync(person);
-        }
-
         public async Task On(PersonRoleUpdated @event)
         {
             var person = await _personRepository.GetByIdAsync(@event.PersonId);

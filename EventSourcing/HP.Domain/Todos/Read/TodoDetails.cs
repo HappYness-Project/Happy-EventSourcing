@@ -18,7 +18,6 @@ namespace HP.Domain.Todos.Read
             Tags = new string[] { };
             TodoStatus = Domain.TodoStatus.NotDefined.ToString();
         }
-        public Guid Id { get; set; }
         public required Guid PersonId { get; set; }
         public required string Title { get; set; }
         public string Description { get; set; }

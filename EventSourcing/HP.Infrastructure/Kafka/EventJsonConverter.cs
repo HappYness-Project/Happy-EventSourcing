@@ -44,7 +44,7 @@ namespace HP.Infrastructure.Kafka
                 nameof(PersonCreated) => JsonSerializer.Deserialize<PersonCreated>(json, options),
                 nameof(PersonInfoUpdated) => JsonSerializer.Deserialize<PersonInfoUpdated>(json, options),
                 nameof(PersonGroupUpdated) => JsonSerializer.Deserialize<PersonGroupUpdated>(json, options),
-
+                nameof(PersonRoleUpdated) => JsonSerializer.Deserialize<PersonRoleUpdated>(json, options),
                 _ => throw new JsonException($"{typeDiscriminator} is not supported yet.")
             };
         }
