@@ -13,9 +13,7 @@ using HP.Infrastructure.Repository;
 using HP.Infrastructure.Repository.Write;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -26,12 +24,16 @@ else
 
 BsonClassMap.RegisterClassMap<DomainEvent>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonCreated>();
+BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonRemoved>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonInfoUpdated>();
+BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonRoleUpdated>();
+
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoCreated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoUpdated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoRemoved>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemCreated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemUpdated>();
+BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemRemoved>();
 
 var getConfig = builder.Configuration;
 builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();

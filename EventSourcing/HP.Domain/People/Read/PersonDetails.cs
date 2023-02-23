@@ -1,11 +1,14 @@
 ﻿using HP.Core.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace HP.Domain.People.Read
 {
+    [Table("PersonDetails")]
     public class PersonDetails : BaseEntity, IReadModel
     {
         public PersonDetails(Guid id)
         {
-            Id = id;
+            this.Id = id;
             ProjectId = 0;
             GroupId = 0;
             IsActive = true;

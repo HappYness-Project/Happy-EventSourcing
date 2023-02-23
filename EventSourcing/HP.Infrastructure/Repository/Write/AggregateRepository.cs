@@ -27,9 +27,9 @@ namespace HP.Infrastructure.Repository.Write
 
         public async Task<T> GetByAggregateId<T>(Guid id, CancellationToken ct = default) where T : AggregateRoot, new()
         {
-            var events = await _eventStore.GetEventsAsync(id);
+             var events = await _eventStore.GetEventsAsync(id);
             if (events == null || !events.Any()) return null;
-            AggregateRoot root = new T();
+            T root = new T();
             foreach (var eve in events)
                 root.When(eve);
             return (T)root;

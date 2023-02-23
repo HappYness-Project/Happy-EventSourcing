@@ -1,25 +1,31 @@
 ﻿using HP.Core.Models;
 using HP.Domain.Exceptions;
+using MongoDB.Driver;
+using System.Data;
+using System.Text.RegularExpressions;
 using static HP.Domain.TodoDomainEvents;
 
 namespace HP.Domain
 {
     public class Todo : AggregateRoot
     {
-        public Todo() { }
+        public Todo() { InitSetup(); }
         protected Todo(Person person, string title, string description, TodoType todoType, string[] tag) : base()
         {
-            // TODO : CheckPolicies
+            InitSetup();
             PersonId = person.Id;
             Title = title;
             Description = description;
             Tag = tag;
+            AddDomainEvent(new TodoCreated { TodoId = Id, PersonId = PersonId, TodoTitle = title, TodoDesc = Description, TodoType = todoType.Name });
+        }
+        private void InitSetup()
+        {
             IsActive = true;
             IsDone = false;
             SubTodos = new HashSet<TodoItem>();
-            Updated = DateTime.Now;
+            Updated = DateTime.UtcNow;
             CountTodoItem = 0;
-            AddDomainEvent(new TodoCreated { TodoId = Id, PersonId = PersonId, TodoTitle = title, TodoDesc = Description, TodoType = todoType.Name });
         }
         public Guid PersonId { get; private set; }
         public string Title { get; private set; }

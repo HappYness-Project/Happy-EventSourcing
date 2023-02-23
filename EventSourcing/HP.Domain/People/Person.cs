@@ -27,7 +27,9 @@ namespace HP.Domain
             Type = "Normal";
             UpdateDate = DateTime.Now;
         }
-        public Person() : base() { }
+        public Person() : base() {
+            InitSetup();
+        }
         public Person(string personName) : base()
         {
             InitSetup();
@@ -77,10 +79,6 @@ namespace HP.Domain
                     Apply(updated);
                     break;
 
-                case PersonRoleSetAdminAssigned adminAssigned:
-                    Apply(adminAssigned);
-                    break;
-
                 case PersonGroupUpdated groupupdated:
                     Apply(groupupdated);
                     break;
@@ -96,10 +94,6 @@ namespace HP.Domain
             PersonName = @event.PersonName;
         }
         private void Apply(PersonInfoUpdated @event)
-        {
-            Id = @event.PersonId;
-        }
-        private void Apply(PersonRoleSetAdminAssigned @event)
         {
             Id = @event.PersonId;
         }

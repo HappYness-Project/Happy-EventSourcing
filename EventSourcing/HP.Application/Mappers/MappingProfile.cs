@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HP.Application.DTOs;
 using HP.Domain;
+using HP.Domain.People.Read;
 using HP.Domain.Todos.Read;
 
 namespace HP.Application.Mappers
