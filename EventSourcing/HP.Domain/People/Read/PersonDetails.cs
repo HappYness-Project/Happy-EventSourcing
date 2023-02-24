@@ -14,6 +14,7 @@ namespace HP.Domain.People.Read
             IsActive = true;
             this.PersonType = "Normal";
             GoalType = "TBD";
+            UpdatedTime = DateTime.UtcNow;
         }
         public string PersonName { get; set; }
         public string PersonType { get; set; }
@@ -22,6 +23,7 @@ namespace HP.Domain.People.Read
         public int ProjectId { get; set; }
         public int GroupId { get; set; }
         public string GoalType { get; set; }
+        public DateTime UpdatedTime { get; set; }
 
     }
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HP.Infrastructure.Migrations
 {
     [DbContext(typeof(HpReadDbContext))]
-    [Migration("20230206000621_FirstInit")]
-    partial class FirstInit
+    [Migration("20230224191350_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,9 @@ namespace HP.Infrastructure.Migrations
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -126,10 +129,10 @@ namespace HP.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("Completed")
+                    b.Property<DateTime?>("CompletedTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -155,10 +158,10 @@ namespace HP.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
-                    b.Property<DateTime>("TargetEndDate")
+                    b.Property<DateTime?>("TargetEndDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("TargetStartDate")
+                    b.Property<DateTime?>("TargetStartDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
@@ -173,7 +176,7 @@ namespace HP.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Updated")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");

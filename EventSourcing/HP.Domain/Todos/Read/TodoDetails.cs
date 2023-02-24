@@ -29,10 +29,10 @@ namespace HP.Domain.Todos.Read
         public bool IsActive { get; set; }
         public ICollection<TodoItem> SubTodos { get; set; }
         public string TodoStatus { get; set; }
-        public DateTime TargetStartDate { get; set; }
-        public DateTime TargetEndDate { get; set; }
-        public DateTime Updated { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Completed { get; set; }
+        public DateTime? TargetStartDate { get; set; }
+        public DateTime? TargetEndDate { get; set; }
+        public DateTime? UpdatedTime { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime? CompletedTime { get; set; }
     }
 }

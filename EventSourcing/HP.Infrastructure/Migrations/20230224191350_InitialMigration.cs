@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HP.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstInit : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,7 +23,8 @@ namespace HP.Infrastructure.Migrations
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ProjectId = table.Column<int>(type: "integer", nullable: false),
                     GroupId = table.Column<int>(type: "integer", nullable: false),
-                    GoalType = table.Column<string>(type: "text", nullable: false)
+                    GoalType = table.Column<string>(type: "text", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,11 +46,11 @@ namespace HP.Infrastructure.Migrations
                     IsDone = table.Column<bool>(type: "boolean", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     TodoStatus = table.Column<string>(type: "text", nullable: false),
-                    TargetStartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    TargetEndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Completed = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    TargetStartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    TargetEndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CompletedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

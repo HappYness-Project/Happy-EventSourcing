@@ -17,6 +17,7 @@ namespace HP.IntegrationTest
         [Test]
         public void GetAggregateIdAsync()
         {
+
             var people = personRepository.GetAggregateIdAsync();
             people.Should().NotBeNull();
         }

@@ -219,6 +219,10 @@ namespace HP.Domain
                     this.StatusDesc = $"Todo Id:{Id}, has been stopped. Reason: {reason}";
                     //AddDomainEvent(new TodoDomainEvents.TodoStopped);
                     break;
+
+                case "tbd":
+                    this.Status = TodoStatus.NotDefined;
+                    break;
                 default:
                     break;
             }

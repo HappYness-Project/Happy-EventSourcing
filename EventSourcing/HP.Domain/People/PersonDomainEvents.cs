@@ -5,7 +5,6 @@ namespace HP.Domain
     {
         public class PersonCreated : DomainEvent
         {
-            public Guid PersonId { get; set; }
             public string PersonName { get; set; }
             public string PersonType { get; set; }
             public string PersonRole { get; set; }
