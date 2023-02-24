@@ -19,7 +19,7 @@ namespace HP.Application.Commands.Persons
             if (person == null)
                 throw new ApplicationException($"PersonId : {request.PersonId} is not exist.");
 
-            person.UpdateBasicInfo(request.PersonType, request.GoalType, request.GroupId);
+            person.UpdateBasicInfo(request.PersonType, request.GoalType);
             await _personRepository.PersistAsync(person);
             return new CommandResult(true, "", person.Id.ToString());
         }

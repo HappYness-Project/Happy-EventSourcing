@@ -16,7 +16,7 @@ namespace HP.Infrastructure.EventHandlers
         #region handlers
         public async Task On(PersonCreated @event)
         {
-            PersonDetails personDetails = new PersonDetails(@event.PersonId)
+            PersonDetails personDetails = new PersonDetails(@event.AggregateId)
             {
                 PersonName = @event.PersonName,
                 PersonType = @event.PersonType,
@@ -26,18 +26,17 @@ namespace HP.Infrastructure.EventHandlers
         }
         public async Task On(PersonInfoUpdated @event)
         {
-            var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            var person = await _personRepository.GetByIdAsync(@event.AggregateId);
             if (person == null) return;
 
             person.PersonType = @event.PersonType;
-            person.PersonRole = @event.PersonRole;
             person.GoalType = @event.GoalType;
             await _personRepository.UpdateAsync(person);
         }
 
         public async Task On(PersonGroupUpdated @event)
         {
-            var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            var person = await _personRepository.GetByIdAsync(@event.AggregateId);
             if (person == null) return;
 
             person.GroupId = @event.GroupId;
@@ -46,7 +45,7 @@ namespace HP.Infrastructure.EventHandlers
 
         public async Task On(PersonRoleUpdated @event)
         {
-            var person = await _personRepository.GetByIdAsync(@event.PersonId);
+            var person = await _personRepository.GetByIdAsync(@event.AggregateId);
             if (person == null) return;
 
             person.PersonRole = @event.Role;

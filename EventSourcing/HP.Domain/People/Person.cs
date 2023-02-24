@@ -48,24 +48,23 @@ namespace HP.Domain
 
             string preRole = Role.ToString();
             Role = PersonRole.FromName(role);
-            AddDomainEvent(new PersonRoleUpdated { PersonId = Id, PreRole = preRole, Role = role });
+            AddDomainEvent(new PersonRoleUpdated { PreRole = preRole, Role = role });
         }
         public void UpdateGroupId(int groupId)
         {
             this.GroupId = groupId;
-            AddDomainEvent(new PersonGroupUpdated { PersonId = Id, GroupId = GroupId });
+            AddDomainEvent(new PersonGroupUpdated { GroupId = GroupId });
         }
-        public void UpdateBasicInfo(string? personType, string? goalType, int? groupId)
+        public void UpdateBasicInfo(string? personType, string? goalType)
         {
             this.Type = personType;
             this.GoalType = GoalType.FromName(goalType);
-            this.GroupId = groupId.Value;
-            AddDomainEvent(new PersonInfoUpdated { PersonId = Id, PersonType = personType, GoalType = goalType });
+            AddDomainEvent(new PersonInfoUpdated { PersonType = personType, GoalType = goalType });
         }
         public void Remove()
         {
             this.IsActive = false;
-            AddDomainEvent(new PersonRemoved { PersonId = Id });    
+            AddDomainEvent(new PersonRemoved { AggregateId = this.Id });    
         }
         public override void When(IDomainEvent @event)
         {
@@ -83,30 +82,45 @@ namespace HP.Domain
                     Apply(groupupdated);
                     break;
 
+                case PersonRoleUpdated roleupdated:
+                    Apply(roleupdated);
+                    break;
+
                 case PersonRemoved removed:
                     Apply(removed);
                     break;
             }
         }
+        #region EventApply
         private void Apply(PersonCreated @event)
         {
             Id = @event.PersonId;
             PersonName = @event.PersonName;
+            Type = @event.PersonType;
+            Role = PersonRole.FromName(@event.PersonRole);
         }
         private void Apply(PersonInfoUpdated @event)
         {
-            Id = @event.PersonId;
+            Id = @event.AggregateId;
+            Type = @event.PersonType;
+            GoalType = GoalType.FromName(@event.GoalType);
         }
         private void Apply(PersonGroupUpdated @event)
         {
-            Id = @event.PersonId;
+            Id = @event.AggregateId;
             GroupId = @event.GroupId;   
         }
         private void Apply(PersonRemoved @event)
         {
-            Id = @event.PersonId;
+            Id = @event.AggregateId;
             IsActive = false;
         }
+        private void Apply(PersonRoleUpdated @event)
+        {
+            Id = @event.AggregateId;
+            Role = PersonRole.FromName(@event.Role);
+        }
+        #endregion
 
     }
 }
