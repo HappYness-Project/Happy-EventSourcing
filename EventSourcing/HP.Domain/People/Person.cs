@@ -34,7 +34,7 @@ namespace HP.Domain
         {
             InitSetup();
             PersonName = personName;
-            AddDomainEvent(new PersonCreated { PersonId = Id, PersonName = personName, PersonRole = Role.ToString(), PersonType = Type });
+            AddDomainEvent(new PersonCreated { AggregateId = Id, PersonName = personName, PersonRole = Role.ToString(), PersonType = Type });
 
         }
         public static Person Create(string? personName = null)
@@ -46,9 +46,7 @@ namespace HP.Domain
             if (role is null)
                 throw new ArgumentNullException("Role input cannot be null");
 
-            string preRole = Role.ToString();
-            Role = PersonRole.FromName(role);
-            AddDomainEvent(new PersonRoleUpdated { PreRole = preRole, Role = role });
+            AddDomainEvent(new PersonRoleUpdated { PreRole = Role.ToString(), Role = role });
         }
         public void UpdateGroupId(int groupId)
         {
@@ -94,7 +92,7 @@ namespace HP.Domain
         #region EventApply
         private void Apply(PersonCreated @event)
         {
-            Id = @event.PersonId;
+            Id = @event.AggregateId;
             PersonName = @event.PersonName;
             Type = @event.PersonType;
             Role = PersonRole.FromName(@event.PersonRole);
@@ -107,17 +105,14 @@ namespace HP.Domain
         }
         private void Apply(PersonGroupUpdated @event)
         {
-            Id = @event.AggregateId;
             GroupId = @event.GroupId;   
         }
         private void Apply(PersonRemoved @event)
         {
-            Id = @event.AggregateId;
             IsActive = false;
         }
         private void Apply(PersonRoleUpdated @event)
         {
-            Id = @event.AggregateId;
             Role = PersonRole.FromName(@event.Role);
         }
         #endregion

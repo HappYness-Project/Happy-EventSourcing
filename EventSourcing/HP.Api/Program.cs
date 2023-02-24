@@ -22,7 +22,12 @@ if (env == "Development")
 else
     builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).AddEnvironmentVariables();
 
-BsonClassMap.RegisterClassMap<DomainEvent>();
+
+BsonClassMap.RegisterClassMap<DomainEvent>(cm => {
+    cm.AutoMap();
+    cm.SetIsRootClass(true);
+});
+//BsonClassMap.RegisterClassMap<DomainEvent>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonCreated>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonRemoved>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonInfoUpdated>();

@@ -16,6 +16,7 @@
         public void AddDomainEvent(IDomainEvent domainEvent)
         {
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();
+            domainEvent.AggregateId = this.Id;
             _domainEvents.Add(domainEvent);
             this.When(domainEvent);
             this.Version++;

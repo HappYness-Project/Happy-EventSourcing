@@ -27,12 +27,14 @@ namespace HP.Infrastructure.Repository.Write
 
         public async Task<T> GetByAggregateId<T>(Guid id, CancellationToken ct = default) where T : AggregateRoot, new()
         {
-             var events = await _eventStore.GetEventsAsync(id);
-            if (events == null || !events.Any()) return null;
-            T root = new T();
+            T aggregate = new T();
+            var events = await _eventStore.GetEventsAsync(id);
+            if (events == null || !events.Any()) return aggregate;
             foreach (var eve in events)
-                root.When(eve);
-            return (T)root;
+                aggregate.When(eve);
+
+            aggregate.Version = events.Select(x => x.AggregateVersion).Max();
+            return (T)aggregate;
         }
 
         public async Task PersistAsync(T aggregateRoot, CancellationToken ct = default)
