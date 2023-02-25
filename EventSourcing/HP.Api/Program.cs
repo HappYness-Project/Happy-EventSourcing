@@ -43,7 +43,9 @@ BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemRemoved>();
 var getConfig = builder.Configuration;
 builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
 builder.Services.AddScoped<IEventStore, EventStore>();
-builder.Services.AddEntityFrameworkNpgsql().AddDbContext<HpReadDbContext>(opt => opt.UseNpgsql(getConfig.GetConnectionString("postgres")), ServiceLifetime.Singleton);
+builder.Services.AddEntityFrameworkNpgsql().AddDbContext<HpReadDbContext>(opt => 
+    opt.UseNpgsql(getConfig.GetConnectionString("postgres")), ServiceLifetime.Singleton
+);
 builder.Services.Configure<ProducerConfig>(getConfig.GetSection(nameof(ProducerConfig)));
 builder.Services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerConfig)));
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
