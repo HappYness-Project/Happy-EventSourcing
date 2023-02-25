@@ -16,14 +16,15 @@ namespace HP.Infrastructure.Repository
         }
         public virtual async Task<T> CreateAsync(T entity)
         {
-            await _dbContext.Set<T>().AddAsync(entity);
+            _dbContext.Set<T>().Add(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
         }
         public virtual async Task UpdateAsync(T entity)
         {
-            _dbContext.Set<T>().Update(entity);
-            await _dbContext.SaveChangesAsync();
+             _dbContext.Entry(entity).State = EntityState.Modified;
+            //_dbContext.Set<T>().Update(entity);
+            //await _dbContext.SaveChangesAsync();
         }
         public virtual async Task<T> GetByIdAsync(Guid id)
         {

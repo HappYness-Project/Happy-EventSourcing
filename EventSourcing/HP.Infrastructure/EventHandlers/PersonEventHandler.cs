@@ -31,6 +31,7 @@ namespace HP.Infrastructure.EventHandlers
 
             person.PersonType = @event.PersonType;
             person.GoalType = @event.GoalType;
+            person.UpdatedTime = DateTime.UtcNow;
             await _personRepository.UpdateAsync(person);
         }
 
@@ -40,6 +41,7 @@ namespace HP.Infrastructure.EventHandlers
             if (person == null) return;
 
             person.GroupId = @event.GroupId;
+            person.UpdatedTime = DateTime.UtcNow;
             await _personRepository.UpdateAsync(person);
         }
 
@@ -49,6 +51,7 @@ namespace HP.Infrastructure.EventHandlers
             if (person == null) return;
 
             person.PersonRole = @event.Role;
+            person.UpdatedTime = DateTime.UtcNow;
             await _personRepository.UpdateAsync(person);
         }
         #endregion

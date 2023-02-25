@@ -39,7 +39,7 @@ namespace HP.Infrastructure.EventHandlers
                 Title = @event.TodoTitle,
                 Description = @event.TodoDesc,
                 TodoType = @event.TodoType,
-                UpdatedTime = DateTime.Now,
+                UpdatedTime = DateTime.UtcNow,
             };
             await _todoDetailsRepository.UpdateAsync(todoDetails);
         }
