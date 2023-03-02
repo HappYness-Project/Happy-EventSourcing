@@ -249,6 +249,17 @@ namespace Identity.Controllers
             {
                 claim.SetDestinations(GetDestinations(claim, principal));
             }
+            /*principal.SetDestinations(static claim => claim.Type switch
+            {
+                Claims.Name when claim.Subject.HasScope(Scopes.Profile)
+                        => new[] { Destinations.AccessToken, Destinations.IdentityToken },
+                Claims.Email when claim.Subject.HasScope(Scopes.Email)
+                    => new[] { Destinations.AccessToken, Destinations.IdentityToken },
+                Claims.Role when claim.Subject.HasScope(Scopes.Roles)
+                    => new[] { Destinations.AccessToken, Destinations.IdentityToken },
+                "AspNet.Identity.SecurityStamp"=> new[] {""},
+                _ => new[] { Destinations.AccessToken }
+            });*/
 
             // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
             return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
