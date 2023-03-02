@@ -14,7 +14,7 @@ namespace DemoClient.Pages
             return Challenge(new AuthenticationProperties
             {
                 RedirectUri = !string.IsNullOrEmpty(redirectUri) ? redirectUri : "/"
-            });
+            },"OpenIdConnect");
         }
     }
 }
