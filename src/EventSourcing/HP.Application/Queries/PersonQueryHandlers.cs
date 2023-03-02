@@ -15,7 +15,7 @@ namespace HP.Application.Queries
                                         IRequestHandler<GetPersonByName, PersonDetails>
     {
         private readonly IBaseRepository<PersonDetails> _personRepository;
-Please check out if this is the main reason not work!
+//Please check out if this is the main reason not work!
         #region Ctors
         public PersonQueryHandlers(IMapper mapper, IBaseRepository<PersonDetails> personRepository) : base(mapper)
         {

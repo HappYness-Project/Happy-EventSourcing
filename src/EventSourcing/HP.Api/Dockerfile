@@ -7,12 +7,12 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["HP.Api/HP.Api.csproj", "HP.Api/"]
-COPY ["HP.Application/HP.Application.csproj", "HP.Application/"]
-COPY ["HP.Domain/HP.Domain.csproj", "HP.Domain/"]
-COPY ["HP.Infrastructure/HP.Infrastructure.csproj", "HP.Infrastructure/"]
 COPY ["HP.Core/HP.Core.csproj", "HP.Core/"]
-COPY ["HP.Shared/HP.Shared.csproj", "HP.Core/"]
+COPY ["HP.Shared/HP.Shared.csproj", "HP.Shared/"]
+COPY ["HP.Domain/HP.Domain.csproj", "HP.Domain/"]
+COPY ["HP.Application/HP.Application.csproj", "HP.Application/"]
+COPY ["HP.Infrastructure/HP.Infrastructure.csproj", "HP.Infrastructure/"]
+COPY ["HP.Api/HP.Api.csproj", "HP.Api/"]
 RUN dotnet restore "HP.Api/HP.Api.csproj"
 COPY . .
 WORKDIR /src
