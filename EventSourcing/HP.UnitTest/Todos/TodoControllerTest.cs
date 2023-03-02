@@ -22,7 +22,7 @@ namespace HP.UnitTest.Todos
 
             var mediator = new Mock<IMediator>();
             var controller = new TodosController(mediator.Object);
-            var result = await controller.GetTodosByUser("hyunbin7303");
+            var result = await controller.GetTodosByPersonId(Guid.NewGuid());
             Assert.That(result, Is.Not.Null);
         }
         [Test]

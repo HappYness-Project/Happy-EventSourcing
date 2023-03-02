@@ -1,27 +1,28 @@
 ﻿using HP.Core.Commands;
+using HP.Core.Common;
+using HP.Core.Events;
 using HP.Domain;
-using HP.Domain.Todos.Write;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
     public record CompleteTodoCommand(Guid TodoId) : BaseCommand;
-    public class CompleteTodoCommandHandler : IRequestHandler<CompleteTodoCommand, CommandResult>
+    public class CompleteTodoCommandHandler : BaseCommandHandler, IRequestHandler<CompleteTodoCommand, CommandResult>
     {
-        private readonly ITodoAggregateRepository _repository;
-        public CompleteTodoCommandHandler(ITodoAggregateRepository repository)
+        private readonly IAggregateRepository<Domain.Todo> _todoRepository;
+        public CompleteTodoCommandHandler(IEventProducer eventProducer, IAggregateRepository<Domain.Todo> repository) : base(eventProducer)
         {
-            _repository = repository;
+            _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public async Task<CommandResult> Handle(CompleteTodoCommand cmd, CancellationToken cancellationToken)
         {
-            var todo = await _repository.GetActiveTodoById(cmd.TodoId);
+            var todo = await _todoRepository.GetByAggregateId<Domain.Todo>(cmd.TodoId);
             if (todo == null)
                 throw new ApplicationException($"There is no active TodoId: {cmd.TodoId}");
 
             todo.SetStatus(TodoStatus.Complete);
             todo.DeactivateTodo();
-            await _repository.UpdateAsync(todo);
+            await _todoRepository.PersistAsync(todo);
             return new CommandResult(true, "Successful", todo.Id.ToString());
 
         }

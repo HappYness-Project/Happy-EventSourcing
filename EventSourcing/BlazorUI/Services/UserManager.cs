@@ -25,15 +25,17 @@ namespace BlazorUI.Services
 
         public async Task<Result<User>> TrySignInAndGetUserAsync(UserLoginDto user)
         {
-            await _httpClient.GetFromJsonAsync<UserLoginDto>("");// Todo Signin Process
-            // Get the user process
-            var result = new Result<User>();
-            return result;
+
+            // 1. Post request 를 public async Task<IActionResult> Authorize() - Identity 에 한다.
+            // 2. Identity service 가 Request를받아서 redirect 해서 Callback으로 보낸다. callback endpoint를 만들어야 함. 
+            //callback pass. 정보는 쿠키안에 저장이 되어 있다.
+            //return await response.Content.ReadFromJsonAsync<Result<User>>();
+            return null;
         }
         public async Task<Result<string>> RequestUserCreateAsync(UserCreateDto user)
         {
             var result = new Result<string>();
-            var response = await _httpClient.PostAsJsonAsync("/user/create", user); // Get the user information with the token
+            var response = await _httpClient.PostAsJsonAsync("api/user/register", user); // Get the user information with the token
             if(response.IsSuccessStatusCode)
             {
                 result.IsSuccess = true;
@@ -61,6 +63,19 @@ namespace BlazorUI.Services
             throw new NotImplementedException();
         }
 
+        public Task<Result<string>> UserUpdateAsync(UserUpdateDto user)
+        {
+            throw new NotImplementedException();
+        }
 
+        public Task<bool> ChangePassword(UserChangePwdDto request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> IsUserAuthenticated()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

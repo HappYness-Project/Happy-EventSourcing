@@ -1,0 +1,48 @@
+﻿@page "/Persons"
+@using HP.Application.DTOs
+@using HP.Application.Queries
+@using HP.Shared.Contacts
+
+<PageTitle>Index Page Title</PageTitle>
+
+
+
+<div class="items-container">
+    <div class="items-list-container">
+        <BlazorUI.Components.Person.DisplayPersonList></BlazorUI.Components.Person.DisplayPersonList>
+    </div>
+
+    @if(ShowEdit)
+    {
+        <div class="item-edit-container">
+            <BlazorUI.Components.Person.EditPersonForm OnSubmitCallback="@Refresh"></BlazorUI.Components.Person.EditPersonForm>
+        </div>
+    }
+</div>
+
+
+@code {
+    [Parameter] public PersonDetailsDto MainUser { get; set; } 
+    IEnumerable<PersonDetailsDto> PeopleDtos { get; set; } 
+    [Inject] private ICurrentUserService CurrentUserService { get; set; }
+    [Inject] private IPersonService _personService { get; set; }
+    [Parameter] public bool ShowEdit { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        PeopleDtos = new List<PersonDetailsDto>();
+        var result = await _personService.GetPersonByPersonId(CurrentUserService.CurrentUser.UserName);
+        if(result.IsSuccess)
+            MainUser = result.Data;
+
+        await LoadData();
+    }
+    private async Task LoadData()
+    {
+        PeopleDtos = await _personService.GetPeopleList();
+        StateHasChanged();
+    }
+    public async void Refresh()
+    {
+        await LoadData();
+    }
+}

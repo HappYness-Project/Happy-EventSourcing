@@ -1,30 +1,29 @@
 ﻿using HP.Core.Commands;
-using HP.Domain;
-using HP.Domain.Todos.Write;
+using HP.Core.Common;
+using HP.Core.Events;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
     public record UpdateTodoItemCommand(Guid TodoId, Guid TodoItemId, string Title, string Desc, string Type) : BaseCommand;
-    public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemCommand, CommandResult>
+    public class UpdateTodoItemCommandHandler : BaseCommandHandler, IRequestHandler<UpdateTodoItemCommand, CommandResult>
     {
-        private readonly ITodoAggregateRepository _repository;
-        public UpdateTodoItemCommandHandler(ITodoAggregateRepository todoRepository)
+        private readonly IAggregateRepository<Domain.Todo> _todoRepository;
+        public UpdateTodoItemCommandHandler(IEventProducer eventProducer, IAggregateRepository<Domain.Todo> repository) : base(eventProducer)
         {
-            _repository = todoRepository;
+            _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-        public async Task<CommandResult> Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(UpdateTodoItemCommand cmd, CancellationToken cancellationToken)
         {
-            var todo = await _repository.GetByIdAsync(request.TodoId);
+            var todo = await _todoRepository.GetByAggregateId<Domain.Todo>(cmd.TodoId);
             if (todo == null)
                 throw new ApplicationException($"TodoId:{todo.Id} doesn't exist. ");
 
-            var todoItem = todo.SubTodos.Where(x => x.Id == request.TodoItemId).FirstOrDefault();
+            var todoItem = todo.SubTodos.Where(x => x.Id == cmd.TodoItemId).FirstOrDefault();
             if (todoItem == null)
-                throw new ApplicationException($"{request.TodoItemId} does not exist in the TodoId: {todo.Id}");
+                throw new ApplicationException($"{cmd.TodoItemId} does not exist in the TodoId: {todo.Id}");
 
-            todo.UpdateTodoItem(request.TodoItemId, request.Title, request.Desc, request.Type);
-            await _repository.UpdateAsync(todo);
-            var @event = new TodoDomainEvents.TodoItemRemoved { TodoItemId = request.TodoItemId };
+            todo.UpdateTodoItem(cmd.TodoItemId, cmd.Title, cmd.Desc, cmd.Type);
+            await _todoRepository.PersistAsync(todo);
             return new CommandResult(true, "UpdateTodoItemCommand.", todo.Id.ToString());
         }
     }

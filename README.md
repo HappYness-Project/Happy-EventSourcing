@@ -1,6 +1,6 @@
 Eventsourcing implementation for managing Human being's life. 
 
-# Eventsourcing Happiness project impelmentation
+# Eventsourcing Happiness project impelmentation 
 * CQRS implementation.
 * Evcent sourcing implement
 * Storing Event data in the Event Store db.
@@ -9,31 +9,39 @@ Eventsourcing implementation for managing Human being's life.
 * Build the Broker Service(TBD, future objective) 
 
 
-# How to use:
-* You will need the latest Visual Studio 2022 and the latest .NET Core SDK.
-* Need to setup/download mongo DB in local.
-
-
 ## Technologies Used:
-* Asp.net core Dotnet 6.
+* Asp.net core Dotnet 7
 * AutoMapper
 * MediatR
-* Mongo Drive
+* Kafka Producer/Consumer
+* MongoDB
+
 
 ## Architecture Implemented:
-* Full architecture with responsibility separation concerns, SOLID and Clean Code
+* Full architecture with responsibility separation concerns, SOLID and Clean Code.
 * Domain Driven Design (Layers and Domain Model Pattern)
-* CQRS
-* Domain Events
+* CQRS 
 * Event Sourcing
-* Repository pattern 
-//Domain Notification
-//Domain Validations
+* Mediator Design Pattern - Multiple objects to communicate with each other without knowing each other's structure
+* Repository Layer for ReadDb.
+* Persistence Layer for WriteDb.
+* pub/sub architecture
+
+# Getting Started.
+Need to check if Docker Desktop has been installed. If not, please install to run this application in Dev environment.
+Also, for the best practice, you will need the latest Visual Studio 2022 and the latest .NET Core SDK.
+
+```
+docker-compose build
+docker-compose up -d
+```
+# Services 
+
 
 
 # Explanation of the Event Sourcing / CQRS pattern. 
 
-Event sourcing is a way of capturing/storing an application's state through the history of events that have happened already. It provides a single source of truth about what occured in the whole application.
+Event sourcing is a way of capturing/storing an application's state through the history of events(As a sequence of domain events) that have happened already. It provides a single source of truth about what occured in the whole application. Since event means something that has happened so it should be immutable, and they are stored into a dat abase in an append-only.
 
 
 ## CQRS (Command and Query Responsibility Segregation)
@@ -42,8 +50,20 @@ Event sourcing is a way of capturing/storing an application's state through the 
 * Command - Insert/update/Delete
 Commands should be task-based, rather than data centric.
 
+## Event Store Implementation
+- Updating...
 
-Solution
+### Write Model and Persistence
+- Updating...
+
+### Read Model and Projection
+- Updating...
+
+### Snapshot
+Hasn't been updated yet. 
+
+
+## Solution
 CQRS separates reads and writes into different models, using commands to update data, and queries to read data.
 
 Commands should be task-based, rather than data centric. ("Book hotel room", not "set ReservationStatus to Reserved").

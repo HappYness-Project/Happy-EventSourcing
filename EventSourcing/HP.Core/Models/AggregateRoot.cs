@@ -7,7 +7,7 @@
     {
         public AggregateRoot() {
             this.Id = Guid.NewGuid();
-            this.Created = DateTime.Now;
+            this.Created = DateTime.UtcNow;
         }
         private List<IDomainEvent> _domainEvents;
         public int Version { get; set; }
@@ -16,13 +16,16 @@
         public void AddDomainEvent(IDomainEvent domainEvent)
         {
             _domainEvents = _domainEvents ?? new List<IDomainEvent>();
+            domainEvent.AggregateId = this.Id;
             _domainEvents.Add(domainEvent);
+            this.When(domainEvent);
+            this.Version++;
         }
         public void ClearDomainEvents()
         {
             _domainEvents?.Clear();
         }
-        protected abstract void When(IDomainEvent @event);
+        public abstract void When(IDomainEvent @event);
     }
 }
 

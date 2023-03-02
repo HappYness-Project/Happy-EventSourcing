@@ -1,21 +1,17 @@
 ﻿using AutoMapper;
 using Confluent.Kafka;
 using HP.Application.Mappers;
+using HP.Core.Common;
 using HP.Core.Events;
-using HP.Domain;
-using HP.Infrastructure;
+using HP.Core.Models;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.EventHandlers;
-using HP.Infrastructure.Kafka;
-using HP.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HP.test
@@ -23,30 +19,33 @@ namespace HP.test
     public abstract class TestBase
     {
         protected IConfiguration _configuration;
-        protected IMongoDbContext _mongoDbContext;
-        protected IMapper _mapper;
         protected IOptions<ProducerConfig> _producerConfig;
         protected IOptions<ConsumerConfig> _consumerConfig;
-        protected IEventProducer _eventProducer;
-        protected IEventConsumer _eventConsumer;
-        protected ITodoEventHandler _todoEventHandler;
-        protected IPersonEventHandler _personEventHandler;
+        protected Mock<IMapper> _mapperMock;
+        protected Mock<IEventProducer> _eventProducer;
+        protected Mock<IEventConsumer> _eventConsumer;
+        protected Mock<IMongoDbContext> _mongoDbContext;
+
         [SetUp]
         public async Task BeforeTestStart()
         {
-            _configuration = new ConfigurationBuilder().AddJsonFile(@"appsettings.json", optional:false, true).Build();
-            _mongoDbContext = new MongoDbContext(_configuration);
-            if(_mapper == null)
+
+            _eventProducer = new();
+            _eventConsumer = new();
+            _mongoDbContext = new();
+            _mapperMock = new();
+
+        }
+
+
+        public static T AssertPubblishedDoaminEvent<T>(AggregateRoot aggregate) where T : IDomainEvent
+        {
+            var domainEvent = DomainEventsTestHelper.GetAllDomainEvents(aggregate).OfType<T>().SingleOrDefault();
+            if (domainEvent == null)
             {
-                var mappingConfig = new MapperConfiguration(mc =>
-                {
-                    mc.AddProfile(new MappingProfile());
-                });
-                IMapper mapper = mappingConfig.CreateMapper();
-                _mapper = mapper;
+                throw new Exception($"{typeof(T).Name} event not published");
             }
-            _eventProducer = new EventProducer(_producerConfig, "HP");
-            _eventConsumer = new EventConsumer(_consumerConfig, _todoEventHandler, _personEventHandler);
+            return domainEvent;
         }
     }
 }

@@ -68,13 +68,13 @@ namespace HP.Controllers
 
             return Ok(items);
         }
-        [HttpGet("users/{id}")]
-        public async Task<IActionResult> GetTodosByUser([FromRoute] string id, CancellationToken token = default)
+        [HttpGet("People/{PersonName}")]
+        public async Task<IActionResult> GetTodosByPersonId([FromRoute]Guid personId, CancellationToken token = default)
         {
-            if (id == null)
+            if (personId == null)
                 return BadRequest();
 
-            var todo = await _mediator.Send(new GetTodosByUserId(id), token);
+            var todo = await _mediator.Send(new GetTodosByPersonId(personId), token);
             if (todo == null)
                 return NotFound();
 
@@ -133,37 +133,27 @@ namespace HP.Controllers
 
             return Ok(await _mediator.Send(new DeavtivateTodoCommand(todoId), token));
         }
-        [HttpPatch("{todoId}/start")]
-        public async Task<IActionResult> StartTodo([FromRoute] Guid todoId, CancellationToken token = default)
+        [HttpPatch("{todoId}/status")]
+        public async Task<IActionResult> UpdateTodoStatus([FromRoute] Guid todoId, [FromBody] TodoStatusChangeRequest request, CancellationToken token = default)
         {
             if (Guid.Empty == todoId)
                 return BadRequest($"TodoId is null.");
 
-            return Ok(await _mediator.Send(new StartTodoCommand(todoId), token));
-        }
-        [HttpPatch("{todoId}/pending")]
-        public async Task<IActionResult> PendingTodo(Guid todoId, [FromBody] TodoStatusChangeRequest request, CancellationToken token = default)
-        {
-            if (Guid.Empty == todoId)
-                return BadRequest($"TodoId is null.");
+            switch (request.status.ToLower())
+            {
+                case "start":
+                    return Ok(await _mediator.Send(new StartTodoCommand(todoId), token));
 
-            return Ok(await _mediator.Send(new PendingTodoCommand(todoId), token));
-        }
-        [HttpPatch("{todoId}/stop")]
-        public async Task<IActionResult> StopTodo(Guid todoId, [FromBody] TodoStatusChangeRequest request, CancellationToken token = default)
-        {
-            if (Guid.Empty == todoId)
-                return BadRequest($"TodoId is null.");
+                case "stop":
+                    return Ok(await _mediator.Send(new StopTodoCommand(todoId, request.reason), token));
 
-            return Ok(await _mediator.Send(new StopTodoCommand(todoId, request.reason), token));
-        }
-        [HttpPatch("{todoId}/complete")]
-        public async Task<IActionResult> CompleteTodo(Guid todoId, [FromBody] TodoStatusChangeRequest request, CancellationToken token = default)
-        {
-            if (Guid.Empty == todoId)
-                return BadRequest($"TodoId is null.");
+                case "pending":
+                    return Ok(await _mediator.Send(new PendingTodoCommand(todoId, request.reason), token));
 
-            return Ok(await _mediator.Send(new CompleteTodoCommand(todoId), token));
+                case "complete":
+                    return Ok(await _mediator.Send(new CompleteTodoCommand(todoId), token));
+            }
+            return Ok();
         }
 
         [HttpPut("{todoId}/todoItems/{todoItemId}")]

@@ -6,7 +6,7 @@ namespace HP.Domain
         public class TodoCreated : DomainEvent
         {
             public Guid TodoId { get; set; }
-            public string PersonId { get; set; }
+            public Guid PersonId { get; set; }
             public string TodoTitle { get; set; }
             public string TodoDesc { get; set; }
             public string TodoType { get; set; }
@@ -38,14 +38,8 @@ namespace HP.Domain
         {
             public Guid TodoId { get; set; }
         }
-        public class TodoStarted : DomainEvent
-        {
-            public Guid TodoId { get; set; }
-        }
-        public class TodoCompleted : DomainEvent
-        {
-            public Guid TodoId { get; set; }
-        }
+        public class TodoStarted : DomainEvent { }
+        public class TodoCompleted : DomainEvent { }
         public class TodoItemRemoved : DomainEvent
         {
             public Guid TodoItemId { get; set; }

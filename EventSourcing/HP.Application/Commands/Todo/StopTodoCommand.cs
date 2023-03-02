@@ -1,26 +1,27 @@
 ﻿using HP.Core.Commands;
+using HP.Core.Common;
+using HP.Core.Events;
 using HP.Domain;
 using HP.Domain.Todos.Write;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
-    public record StopTodoCommand(Guid TodoId, string reason) : BaseCommand;
-    public class StopTodoCommandHandler : IRequestHandler<StopTodoCommand, CommandResult>
+    public record StopTodoCommand(Guid TodoId, string? reason = null) : BaseCommand;
+    public class StopTodoCommandHandler : BaseCommandHandler, IRequestHandler<StopTodoCommand, CommandResult>
     {
-        private readonly ITodoAggregateRepository _repository;
-        public StopTodoCommandHandler(ITodoAggregateRepository repository)
+        private readonly IAggregateRepository<Domain.Todo> _todoRepository;
+        public StopTodoCommandHandler(IEventProducer eventProducer, IAggregateRepository<Domain.Todo> repository) : base(eventProducer)
         {
-            _repository = repository;
+            _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-
         public async Task<CommandResult> Handle(StopTodoCommand cmd, CancellationToken cancellationToken)
         {
-            var todo = await _repository.GetActiveTodoById(cmd.TodoId);
+            var todo = await _todoRepository.GetByAggregateId<Domain.Todo>(cmd.TodoId);
             if (todo == null)
                 throw new ApplicationException($"Todo ID: {cmd.TodoId} does not exist.");
 
             todo.SetStatus(TodoStatus.Stop, cmd.reason);
-            await _repository.UpdateAsync(todo);
+            await _todoRepository.PersistAsync(todo);
             return new CommandResult(true, "Todo status is changed.", todo.Id.ToString());
         }
     }

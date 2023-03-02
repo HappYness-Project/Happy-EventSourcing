@@ -1,27 +1,25 @@
 ﻿using HP.Core.Commands;
+using HP.Core.Common;
 using HP.Core.Events;
-using HP.Domain.Todos.Write;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
     public record DeleteTodoCommand(Guid TodoId) : BaseCommand;
     public class DeleteTodoCommandHandler : BaseCommandHandler, IRequestHandler<DeleteTodoCommand, CommandResult>
     {
-        private readonly ITodoAggregateRepository _todoRepository;
-        public DeleteTodoCommandHandler(IEventProducer eventProducer, ITodoAggregateRepository todoRepository) : base(eventProducer)
+        private readonly IAggregateRepository<Domain.Todo> _todoRepository;
+        public DeleteTodoCommandHandler(IEventProducer eventProducer, IAggregateRepository<Domain.Todo> repository) : base(eventProducer)
         {
-            _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
+            _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-        public async Task<CommandResult> Handle(DeleteTodoCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(DeleteTodoCommand cmd, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetByIdAsync(request.TodoId);
+            var todo = await _todoRepository.GetByAggregateId<Domain.Todo>(cmd.TodoId);
             if (todo == null)
                 throw new ArgumentNullException(nameof(todo));
 
             todo.Remove();
-            await _todoRepository.DeleteByIdAsync(request.TodoId);
-
-            await ProduceDomainEvents(todo.UncommittedEvents);
+            await _todoRepository.PersistAsync(todo);
             return new CommandResult(true);
         }
     }

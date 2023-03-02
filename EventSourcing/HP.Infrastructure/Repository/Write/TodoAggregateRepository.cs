@@ -1,9 +1,9 @@
-﻿using HP.Core.Events;
+﻿using HP.Core.Common;
 using HP.Domain;
 using HP.Domain.Todos.Write;
-using HP.Infrastructure.DbAccess;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
+
 namespace HP.Infrastructure.Repository.Write
 {
     public class TodoAggregateRepository : BaseAggregateRepository<Todo>, ITodoAggregateRepository

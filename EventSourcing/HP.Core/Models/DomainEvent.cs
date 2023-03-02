@@ -7,10 +7,10 @@ namespace HP.Core.Models
         public DomainEvent()
         {
             EventId = Guid.NewGuid();
-            OccuredOn = DateTime.Now;
+            OccuredOn = DateTime.UtcNow;
             EventType = this.GetType().Name;
         }
-        public Guid AggregateId { get; }
+        public Guid AggregateId { get; set; }
         public Guid EventId { get; }
         public DateTime OccuredOn { get; }
         public string EventType { get; }

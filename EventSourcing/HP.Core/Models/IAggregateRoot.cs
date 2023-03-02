@@ -1,6 +1,6 @@
 ﻿namespace HP.Core.Models
 {
-    public interface IAggregateRoot
+    public interface IAggregateRoot : IEntity
     {
         int Version { get; }
         public DateTime? Created { get; }

@@ -4,14 +4,12 @@ using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Models;
 using HP.Domain;
-using HP.Domain.People.Write;
-using HP.Domain.Todos.Read;
 using HP.Domain.Todos.Write;
 using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.EventHandlers;
 using HP.Infrastructure.Kafka;
-using HP.Infrastructure.Repository.Read;
+using HP.Infrastructure.Repository;
 using HP.Infrastructure.Repository.Write;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,35 +23,42 @@ else
     builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).AddEnvironmentVariables();
 
 
-BsonClassMap.RegisterClassMap<DomainEvent>();
+BsonClassMap.RegisterClassMap<DomainEvent>(cm => {
+    cm.AutoMap();
+    cm.SetIsRootClass(true);
+});
+//BsonClassMap.RegisterClassMap<DomainEvent>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonCreated>();
+BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonRemoved>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonInfoUpdated>();
+BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonRoleUpdated>();
+BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonGroupUpdated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoCreated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoUpdated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoRemoved>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemCreated>();
 BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemUpdated>();
+BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemRemoved>();
 
 var getConfig = builder.Configuration;
-
 builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
-builder.Services.AddDbContext<HpReadDbContext>(options => options.UseNpgsql(getConfig.GetConnectionString("postgres")));
-//builder.Services.AddDbContextFactory
+builder.Services.AddScoped<IEventStore, EventStore>();
+builder.Services.AddDbContext<HpReadDbContext>();
+//builder.Services.AddEntityFrameworkNpgsql().AddDbContext<HpReadDbContext>(opt =>
+//{
+//    opt.EnableSensitiveDataLogging();
+//    opt.UseNpgsql(getConfig.GetConnectionString("postgres"));
+//});
 builder.Services.Configure<ProducerConfig>(getConfig.GetSection(nameof(ProducerConfig)));
 builder.Services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerConfig)));
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-builder.Services.AddScoped<IPersonAggregateRepository, PersonAggregateRepository>();
+builder.Services.AddScoped(typeof(IAggregateRepository<>), typeof(AggregateRepository<>));
 builder.Services.AddScoped<ITodoAggregateRepository, TodoAggregateRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-
-builder.Services.AddScoped<ITodoDetailsRepository, TodoDetailsRepsitory>();
-
 
 builder.Services.AddScoped<ITodoEventHandler, TodoEventHandler>();
-builder.Services.AddScoped<IPersonEventHandler, HP.Infrastructure.EventHandlers.PersonEventHandlers>();
+builder.Services.AddScoped<IPersonEventHandler, PersonEventHandlers>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddKafkaEventProducer(getConfig["KafkaTopicName"]);
-//builder.Services.AddKafkaEventConsumer(getConfig["KafkaTopicName"]);
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 
 builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();

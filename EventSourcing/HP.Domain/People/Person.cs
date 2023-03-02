@@ -6,57 +6,65 @@ namespace HP.Domain
     public class Person : AggregateRoot
     {
         public string PersonName { get; private set; } 
-        public string PersonType { get; private set; }
+        public string Type { get; private set; }
         public string Description { get; private set; }
         public int GroupId { get; private set; }
         public int ProjectId { get; private set; }
-        public string Role { get; private set; }
+        public PersonRole Role { get; private set; }
         public GoalType GoalType { get; private set; }
         public bool IsActive { get; private set; }
         public decimal CurrentScore { get; private set; }
         public DateTime UpdateDate { get; private set; }
-        protected Person() : base()
+        private void InitSetup()
         {
-            IsActive = false;
+            IsActive = true;
+            Description = string.Empty;
             CurrentScore = 0;
+            ProjectId = 0;
+            GroupId = 0;
+            GoalType = GoalType.TBD;
+            Role = PersonRole.TBD;
+            Type = "Normal";
+            UpdateDate = DateTime.Now;
+        }
+        public Person() : base() {
+            InitSetup();
         }
         public Person(string personName) : base()
         {
+            InitSetup();
             PersonName = personName;
-            IsActive = true;
-            CurrentScore = 0;
-            GoalType = GoalType.NotDefined;
-            Role = PersonRole.TBD.ToString();
-            UpdateDate = DateTime.Now;
-            AddDomainEvent(new PersonCreated { PersonId = Id, PersonName = personName });
+            AddDomainEvent(new PersonCreated { AggregateId = Id, PersonName = personName, PersonRole = Role.ToString(), PersonType = Type });
 
+        }
+        public static Person Create(string? personName = null)
+        {
+            return new Person(personName);
         }
         public void UpdateRole(string role)
         {
             if (role is null)
                 throw new ArgumentNullException("Role input cannot be null");
 
-            string preRole = this.Role;
-            this.Role = role;
-            AddDomainEvent(new PersonRoleUpdated { PersonId = Id, PreRole = preRole, Role = role });
+            AddDomainEvent(new PersonRoleUpdated { PreRole = Role.ToString(), Role = role });
         }
         public void UpdateGroupId(int groupId)
         {
             this.GroupId = groupId;
-            AddDomainEvent(new PersonGroupUpdated { PersonId = Id, GroupId = GroupId });
+            AddDomainEvent(new PersonGroupUpdated { GroupId = GroupId });
         }
-        public static Person Create(string? personName = null)
+        public void UpdateBasicInfo(string? personType, string? goalType)
         {
-            return new Person(personName); 
-        }
-        public void UpdateBasicInfo(string? personType, string? goalType, int? groupId)
-        {
-            this.PersonType = personType;
+            this.Type = personType;
             this.GoalType = GoalType.FromName(goalType);
-            this.GroupId = groupId.Value;
-            AddDomainEvent(new PersonInfoUpdated { PersonId = Id, PersonType = personType, GoalType = goalType });
+            AddDomainEvent(new PersonInfoUpdated { PersonType = personType, GoalType = goalType });
         }
-        protected override void When(IDomainEvent @event)
+        public void Remove()
+        {
+            this.IsActive = false;
+            AddDomainEvent(new PersonRemoved { AggregateId = this.Id });    
+        }
+        public override void When(IDomainEvent @event)
         {
             switch(@event)
             {
@@ -68,33 +76,46 @@ namespace HP.Domain
                     Apply(updated);
                     break;
 
-                case PersonRoleSetAdminAssigned adminAssigned:
-                    Apply(adminAssigned);
-                    break;
-
                 case PersonGroupUpdated groupupdated:
                     Apply(groupupdated);
                     break;
+
+                case PersonRoleUpdated roleupdated:
+                    Apply(roleupdated);
+                    break;
+
+                case PersonRemoved removed:
+                    Apply(removed);
+                    break;
             }
         }
+        #region EventApply
         private void Apply(PersonCreated @event)
         {
-            Id = @event.PersonId;
+            Id = @event.AggregateId;
             PersonName = @event.PersonName;
+            Type = @event.PersonType;
+            Role = PersonRole.FromName(@event.PersonRole);
         }
         private void Apply(PersonInfoUpdated @event)
         {
-            Id = @event.PersonId;
-        }
-        private void Apply(PersonRoleSetAdminAssigned @event)
-        {
-            Id = @event.PersonId;
+            Id = @event.AggregateId;
+            Type = @event.PersonType;
+            GoalType = GoalType.FromName(@event.GoalType);
         }
         private void Apply(PersonGroupUpdated @event)
         {
-            Id = @event.PersonId;
             GroupId = @event.GroupId;   
         }
+        private void Apply(PersonRemoved @event)
+        {
+            IsActive = false;
+        }
+        private void Apply(PersonRoleUpdated @event)
+        {
+            Role = PersonRole.FromName(@event.Role);
+        }
+        #endregion
 
     }
 }

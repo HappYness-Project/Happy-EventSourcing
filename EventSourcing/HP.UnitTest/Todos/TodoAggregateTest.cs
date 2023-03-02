@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using HP.Domain;
+using HP.Domain.Exceptions;
 using HP.test;
 using NUnit.Framework;
 using System;
@@ -15,7 +16,8 @@ namespace HP.UnitTest.Todos
         {
             //Arrange
             string[] faketags = { "Study", "Kevin", "DDD" };
-            Person person = new Person(Guid.NewGuid().ToString());
+            string userId = "hyunbin7303";
+            Person person = new Person(userId);
             string todoTitle = "Fake Todo";
             string todoDesc = "Fake Description";
             var expectedEventType = nameof(TodoCreated);
@@ -27,12 +29,43 @@ namespace HP.UnitTest.Todos
             fakeTodo.Description.Should().NotBeNull().And.Be(todoDesc);
             fakeTodo.TodoType.Should().NotBeNull().And.Be(TodoType.Others);
             fakeTodo.UncommittedEvents.Should().NotBeNull().And.HaveCount(1);
+
             var domainEvent = fakeTodo.UncommittedEvents.First();
             domainEvent.EventType.Should().Be(expectedEventType);
+            domainEvent.AggregateVersion.Should().Be(0);    
         }
-
         [Test]
-        public void Todo_Is_Activated_And_Raise_Event()
+        public void Create_New_Todo_ThrowException_TodoTitle_Null()
+        {
+            //Arrange
+            string[] faketags = { "Study", "Kevin", "DDD" };
+            Person person = new Person(Guid.NewGuid().ToString());
+            string todoTitle = string.Empty;
+            string todoDesc = "Fake Description";
+            var expectedEventType = nameof(TodoCreated);
+            // Act
+            Action act = () => Todo.Create(person, todoTitle, todoDesc, TodoType.Others, faketags);
+
+            //Assert
+            act.Should().Throw<TodoDomainException>("[TodoException]TodoTitle cannot be empty.");
+        }
+        [Test]
+        public void Create_new_Todo_ThrowException_When_Person_Is_Null()
+        {
+            //Arrange
+            string[] faketags = { "Study", "Kevin", "DDD" };
+            Person person = new Person(Guid.NewGuid().ToString());
+            string todoTitle = "Fake Todo";
+            string todoDesc = "Fake Description";
+            var expectedEventType = nameof(TodoCreated);
+
+            // Act
+            Action act = () => Todo.Create(null, todoTitle, todoDesc, TodoType.Others, faketags);
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+        [Test]
+        public void Todo_Activate_Success()
         {
             // Arrange
             var todo = TodoFactory.Create();
@@ -47,9 +80,8 @@ namespace HP.UnitTest.Todos
             var domainEvent = todo.UncommittedEvents.Last();
             domainEvent.EventType.Should().Be(expectedEventType);
         }
-
         [Test]
-        public void Todo_Is_Deactivated_And_Raise_Event()
+        public void Todo_Deactivate_Success()
         {
             // Arrange
             var todo = TodoFactory.Create();
@@ -64,67 +96,84 @@ namespace HP.UnitTest.Todos
             var domainEvent = todo.UncommittedEvents.Last();
             domainEvent.EventType.Should().Be(expectedEventType);
         }
-
         [Test]
-        public void Todo_Is_Updated_And_Raise_Event()
+        public void Todo_Update_Success()
         {
             // Arrange
-            var todo = TodoFactory.Create("Hyunbin7303", type: "",todoTitle:"Testing the new Todo", desc:"Description");
+            string todoTitle = "Updated Todo Title";
+            string todoType = "Study";
+            string todoDesc = "Description updated";
+            DateTime targetStartDate = new DateTime(2023, 1, 1);
+            var todo = TodoFactory.Create("Hyunbin7303", "Testing the new Todo", "Others", desc:"Description");
 
             // Act
-            todo.Update("Updated Todo Title", type: "Study", "Description updated", null);
+            todo.Update(todoTitle, todoType, todoDesc, null, targetStartDate: targetStartDate);
 
             // Assert.
-            //todo.Updated
+            todo.UncommittedEvents.Count().Should().Be(2);
+            todo.Title.Should().Be(todoTitle);
+            todo.Description.Should().Be(todoDesc);
+            todo.TodoType.Name.Should().Be(todoType);    
         }
-
         [Test]
-        public void AddTodoTiem_Count_Should_Be_One()
+        public void Todo_Update_ThrowException_When_TodoTitle_Is_Null()
+        {
+
+        }
+        [Test]
+        public void Create_Todo_And_Add_TodoItem_Success()
         {
             // Arrange
             var todo = TodoFactory.Create("", "MainTodo",TodoType.Others.ToString(), "Description");
+            var expectedEventNum = 2; // CreateTodo Event, AddTodoItem Event
 
             // Act
             todo.AddTodoItem("Sub Todo Item #1", TodoType.Study.ToString(), "Description todo Item #1", null,null);
 
             //Assert
             todo.SubTodos.Should().HaveCount(1);
-            todo.UncommittedEvents.Should().HaveCount(1);
+            todo.CountTodoItem.Should().Be(1);
+            todo.UncommittedEvents.Should().HaveCount(expectedEventNum);
         }
-
         [Test]
-        public void DeleteTodoItem_Return_0()
+        public void Delete_TodoItem_Success()
         {
             // Arrange
             var todo = TodoFactory.Create();
+            int expectedEventCount = 3; 
             string Title = "Sub Todo Item #1";
-            string Type = "Study";
             string Desc = "Description todo Item #1";
             DateTime? TargetStartDate = new DateTime(2022, 12, 25);
             DateTime? TargetEndDate = new DateTime(2022, 12, 30);
-            var todoItem = todo.AddTodoItem(Title, Type, Desc, TargetStartDate, TargetEndDate);
+            var todoItem = todo.AddTodoItem(Title, TodoType.Study.ToString(), Desc, TargetStartDate, TargetEndDate);
 
             // Act
             todo.DeleteTodoItem(todoItem.Id);
 
             //Assert
             todo.SubTodos.Should().HaveCount(0);
+            todo.UncommittedEvents.Should().HaveCount(expectedEventCount);
         }
 
+
+        // validation Checking Method for SubTodoItem? 
         [Test]
-        public void Create_new_Todo_ThrowException_When_Person_Is_Null()
+        public void Create_Multiple_SubTodo_Should_Count_Valid()
         {
-            //Arrange
-            string[] faketags = { "Study", "Kevin", "DDD" };
-            Person person = new Person(Guid.NewGuid().ToString());
-            string todoTitle = "Fake Todo";
-            string todoDesc = "Fake Description";
-            var expectedEventType = nameof(TodoCreated);
+            var todo = TodoFactory.Create();
+            var todoItem = TodoFactory.CreateTodoItem("Sub Todo Item #1");
+            todo.SubTodos.Add(todoItem);
 
-            // Act
-            Action act = () =>  Todo.Create(null, todoTitle, todoDesc, TodoType.Others, faketags);
+            todo.CountTodoItem.Should().Be(1);
 
-            act.Should().Throw<ArgumentNullException>();
+            var todoItem2 = TodoFactory.CreateTodoItem("Sub Todo Item #2");
+            todo.SubTodos.Add(todoItem2);
+            todo.CountTodoItem.Should().Be(2);
+
+            var todoItem3 = TodoFactory.CreateTodoItem("Sub Todo Item #3");
+            todo.SubTodos.Add(todoItem3);
+            todo.CountTodoItem.Should().Be(3);
+            todo.SubTodos.Count().Should().Be(3);
         }
 
     }

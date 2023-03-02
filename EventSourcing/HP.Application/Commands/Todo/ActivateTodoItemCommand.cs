@@ -1,22 +1,22 @@
 ﻿using HP.Core.Commands;
+using HP.Core.Common;
+using HP.Core.Events;
 using HP.Domain;
-using HP.Domain.Todos.Write;
 using MediatR;
 
 namespace HP.Application.Commands.Todo
 {
     public record ActivateTodoItemCommand(Guid TodoId, Guid TodoItemId) : BaseCommand;
-    public class ActivateTodoItemCommandHandler : IRequestHandler<ActivateTodoItemCommand, CommandResult>
+    public class ActivateTodoItemCommandHandler : BaseCommandHandler, IRequestHandler<ActivateTodoItemCommand, CommandResult>
     {
-        private readonly ITodoAggregateRepository _repository;
-        public ActivateTodoItemCommandHandler(ITodoAggregateRepository repository)
+        private readonly IAggregateRepository<Domain.Todo> _todoRepository;
+        public ActivateTodoItemCommandHandler(IEventProducer eventProducer, IAggregateRepository<Domain.Todo> repository) : base(eventProducer)
         {
-            _repository = repository;
+            _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-
         public async Task<CommandResult> Handle(ActivateTodoItemCommand cmd, CancellationToken cancellationToken)
         {
-            var todo = await _repository.GetByIdAsync(cmd.TodoId);
+            var todo = await _todoRepository.GetByAggregateId<Domain.Todo>(cmd.TodoId);
             if (todo == null)
                 throw new ApplicationException($"There is no Todo ID: {cmd.TodoId}.");
 
@@ -25,7 +25,7 @@ namespace HP.Application.Commands.Todo
                 throw new ApplicationException($"there is no todo Item ID :{cmd.TodoItemId}");
 
             todoItem.IsActive = true;
-            await _repository.UpdateAsync(todo);
+            await _todoRepository.PersistAsync(todo);
             return new CommandResult(true, $"ParentTodo:{todo.Id}, TodoItem is actiavated", todoItem.Id.ToString());
         }
     }

@@ -1,44 +1,55 @@
-using BlazorUI;
 using BlazorUI.Data;
 using BlazorUI.Services;
-using BlazorUI.Services.ItemEdit;
 using BlazorUI.Services.Person;
 using BlazorUI.Services.Todo;
-using HP.Application;
-using HP.Core.Events;
-using HP.Domain;
-using HP.Domain.People.Write;
-using HP.Domain.Todos.Write;
-using HP.Infrastructure;
-using HP.Infrastructure.DbAccess;
-using HP.Infrastructure.Repository.Write;
 using HP.Shared.Contacts;
-using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 //builder.Services.AddSingleton<IUserManager, UserManagerFake>();
-
-builder.Services.AddScoped<IUserManager, UserManager>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
-builder.Services.AddSingleton<ItemEditService>();
-builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
-builder.Services.AddTransient<IPersonAggregateRepository, PersonAggregateRepository>();
-builder.Services.AddTransient<ITodoAggregateRepository, TodoAggregateRepository>();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ITodoService, TodoService>();
-builder.Services.AddHttpClient<IPersonService, PersonService>(); 
-builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
-builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);
+builder.Services.AddHttpClient<IUserManager, UserManager>();
+builder.Services.AddHttpClient<ITodoService, TodoService>();
+builder.Services.AddHttpClient<IPersonService, PersonService>();
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).AddEnvironmentVariables();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+})
+    .AddCookie()
+    .AddOpenIdConnect(options =>
+    {
+        options.SignInScheme = "Cookies";
+        options.Authority = "https://localhost:72181";
+        options.ClientId = "blazorcodeflowpkceclient";
+        options.ClientSecret = "codeflow_pkce_client_secret";
+        options.RequireHttpsMetadata = true;
+        options.ResponseType = OpenIdConnectResponseType.Code;
+        options.Scope.Add("profile");
+        options.Scope.Add("api1");
+        options.SaveTokens = true;
+        options.GetClaimsFromUserInfoEndpoint = true;
+        options.Events = new OpenIdConnectEvents
+        {
+            OnAccessDenied = context =>
+            {
+                context.HandleResponse();
+                context.Response.Redirect("/");
+                return Task.CompletedTask;
+            }
+        };
+    });
+
 
 var app = builder.Build();
 var currentUserService = app.Services.GetRequiredService<ICurrentUserService>();

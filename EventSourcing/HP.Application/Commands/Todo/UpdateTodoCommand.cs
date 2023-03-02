@@ -1,25 +1,25 @@
 ﻿using HP.Core.Commands;
-using HP.Domain.Todos.Write;
+using HP.Core.Common;
+using HP.Core.Events;
 using MediatR;
-
 namespace HP.Application.Commands.Todo
 {
     public record UpdateTodoCommand(Guid TodoId, string Title, string type, string Description, string[] Tags, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null) : BaseCommand;
-    public class UpdateTodoCommandHandler : IRequestHandler<UpdateTodoCommand, CommandResult>
+    public class UpdateTodoCommandHandler : BaseCommandHandler, IRequestHandler<UpdateTodoCommand, CommandResult>
     {
-        private readonly ITodoAggregateRepository _repository;
-        public UpdateTodoCommandHandler(ITodoAggregateRepository todoRepository)
+        private readonly IAggregateRepository<Domain.Todo> _todoRepository;
+        public UpdateTodoCommandHandler(IEventProducer eventProducer, IAggregateRepository<Domain.Todo> todoRepository) : base(eventProducer)
         {
-            _repository = todoRepository;
+            _todoRepository = todoRepository ?? throw new ArgumentNullException(nameof(todoRepository));
         }
-        public async Task<CommandResult> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(UpdateTodoCommand cmd, CancellationToken cancellationToken)
         {
-            var todo = await _repository.GetByIdAsync(request.TodoId);
+            var todo = await _todoRepository.GetByAggregateId<Domain.Todo>(cmd.TodoId);
             if (todo == null)
-                throw new ApplicationException($"TodoId:{request.TodoId}, does not exist.");
+                throw new ApplicationException($"TodoId:{cmd.TodoId}, does not exist.");
 
-            todo.Update(request.Title, request.type, request.Description, request.Tags, request.TargetStartDate, request.TargetEndDate);
-            await _repository.UpdateAsync(todo);
+            todo.Update(cmd.Title, cmd.type, cmd.Description, cmd.Tags, cmd.TargetStartDate, cmd.TargetEndDate);
+            await _todoRepository.PersistAsync(todo);
             return new CommandResult(true, "Todo information has been changed", todo.Id.ToString());
         }
     }

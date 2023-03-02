@@ -1,25 +1,26 @@
 ﻿using HP.Core.Commands;
-using HP.Domain.Todos.Write;
+using HP.Core.Common;
+using HP.Core.Events;
 using MediatR;
 namespace HP.Application.Commands.Todo
 {
     public record DeavtivateTodoCommand(Guid TodoId) : BaseCommand;
-    public class DeavtivateTodoCommandHandler : IRequestHandler<DeavtivateTodoCommand, CommandResult>
+    public class DeavtivateTodoCommandHandler : BaseCommandHandler, IRequestHandler<DeavtivateTodoCommand, CommandResult>
     {
-        private readonly ITodoAggregateRepository _repository;
-        public DeavtivateTodoCommandHandler(ITodoAggregateRepository repository)
+        private readonly IAggregateRepository<Domain.Todo> _todoRepository;
+        public DeavtivateTodoCommandHandler(IEventProducer eventProducer, IAggregateRepository<Domain.Todo> repository) : base(eventProducer)
         {
-            _repository = repository;
+            _todoRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public async Task<CommandResult> Handle(DeavtivateTodoCommand cmd, CancellationToken cancellationToken)
         {
-            var todo = await _repository.GetByIdAsync(cmd.TodoId);
+            var todo = await _todoRepository.GetByAggregateId<Domain.Todo>(cmd.TodoId);
             if (todo == null)
                 throw new ApplicationException($"There is no Todo ID: {cmd.TodoId}.");
 
             todo.DeactivateTodo();
-            await _repository.UpdateAsync(todo);
+            await _todoRepository.PersistAsync(todo);
             return new CommandResult(true, "Todo is deactiavated", todo.Id.ToString());
         }
     }
