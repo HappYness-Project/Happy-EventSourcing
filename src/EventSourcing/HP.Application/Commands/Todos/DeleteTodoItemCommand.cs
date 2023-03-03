@@ -2,7 +2,7 @@
 using HP.Core.Events;
 using HP.Domain.Todos.Write;
 using MediatR;
-namespace HP.Application.Commands.Todo
+namespace HP.Application.Commands.Todos
 {
     public record DeleteTodoItemCommand(Guid TodoId, Guid TodoItemId) : BaseCommand;
     public class DeleteTodoItemCommandHandler : BaseCommandHandler, IRequestHandler<DeleteTodoItemCommand, CommandResult>

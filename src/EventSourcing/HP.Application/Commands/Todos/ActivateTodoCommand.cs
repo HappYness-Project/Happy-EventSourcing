@@ -2,7 +2,7 @@
 using HP.Core.Common;
 using HP.Core.Events;
 using MediatR;
-namespace HP.Application.Commands.Todo
+namespace HP.Application.Commands.Todos
 {
     public record ActivateTodoCommand(Guid TodoId) : BaseCommand;
     public class ActivateTodoCommandHandler : BaseCommandHandler, IRequestHandler<ActivateTodoCommand, CommandResult>

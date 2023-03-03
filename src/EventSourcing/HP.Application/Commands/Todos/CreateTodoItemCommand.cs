@@ -3,7 +3,7 @@ using HP.Core.Common;
 using HP.Core.Events;
 using MediatR;
 
-namespace HP.Application.Commands.Todo
+namespace HP.Application.Commands.Todos
 {
     public record CreateTodoItemCommand(Guid TodoId, string TodoTitle, string TodoType, string? Description, string[] Tag = null, DateTime? TargetStartDate = null, DateTime? TargetEndDate = null) : BaseCommand;
     public class CreateTodoItemCommandHandler : BaseCommandHandler, IRequestHandler<CreateTodoItemCommand, CommandResult>

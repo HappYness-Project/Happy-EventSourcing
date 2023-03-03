@@ -2,7 +2,7 @@
 using HP.Core.Common;
 using HP.Core.Events;
 using MediatR;
-namespace HP.Application.Commands.Person
+namespace HP.Application.Commands.Persons
 {
     public record UpdatePersonRoleCommand(Guid PersonId, string Role) : BaseCommand;
     public class UpdatePersonRoleCommandHandler : BaseCommandHandler, IRequestHandler<UpdatePersonRoleCommand, CommandResult>

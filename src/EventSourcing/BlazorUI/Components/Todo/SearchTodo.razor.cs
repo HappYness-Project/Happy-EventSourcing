@@ -1,4 +1,4 @@
-﻿using HP.Application.Commands.Todo;
+﻿using HP.Application.Commands.Todos;
 using HP.Application.DTOs;
 using HP.Shared.Contacts;
 using MediatR;

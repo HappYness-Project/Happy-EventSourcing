@@ -3,7 +3,7 @@ using HP.Core.Common;
 using HP.Core.Events;
 using HP.Domain;
 using MediatR;
-namespace HP.Application.Commands.Todo
+namespace HP.Application.Commands.Todos
 {
     public record DeactivateTodoItemCommand(Guid TodoId, Guid TodoItemId) : BaseCommand;
     public class DeactivateTodoItemCommandHandler : BaseCommandHandler, IRequestHandler<DeactivateTodoItemCommand, CommandResult>

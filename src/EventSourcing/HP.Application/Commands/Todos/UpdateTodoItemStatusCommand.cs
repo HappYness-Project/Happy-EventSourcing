@@ -3,7 +3,7 @@ using HP.Core.Common;
 using HP.Core.Events;
 using MediatR;
 
-namespace HP.Application.Commands.Todo
+namespace HP.Application.Commands.Todos
 {
     public record UpdateTodoItemStatusCommand(Guid TodoId, Guid TodoItemId, string NewStatus) : BaseCommand;
     public class UpdateTodoItemStatusCommandHandler : BaseCommandHandler, IRequestHandler<UpdateTodoItemStatusCommand, CommandResult>

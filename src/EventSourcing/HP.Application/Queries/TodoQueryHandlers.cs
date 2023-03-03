@@ -5,8 +5,21 @@ using HP.Domain;
 using HP.Domain.Todos.Read;
 using HP.Core.Common;
 
-namespace HP.Application.Queries.Todos
+namespace HP.Application.Queries
 {
+    #region QueryModels
+    public record GetTodosByPersonId(Guid PersonId) : IRequest<IEnumerable<TodoDetailsDto>>;
+    public record GetTodosByProjectId(int ProjectId) : IRequest<IEnumerable<TodoDetailsDto>>;
+    public record GetTodos() : IRequest<IEnumerable<TodoBasicInfoDto>>;
+    public record GetActiveTodoItemsByTodoId(Guid TodoId) : IRequest<IEnumerable<TodoItem>>;
+    public record GetTodoItemByTodoItemId(Guid TodoId, Guid TodoItemId) : IRequest<TodoItem>;
+    public record GetTodoById(Guid Id) : IRequest<TodoDetails>;
+    public record GetStoppedTodoItemsByTodoId(Guid TodoId) : IRequest<IEnumerable<TodoItemDto>>;
+    public record GetStartedTodoItemsByTodoId(Guid TodoId) : IRequest<IEnumerable<TodoItemDto>>;
+    public record GetPendingTodoItemsByTodoId(Guid todoId) : IRequest<IEnumerable<TodoItemDto>>;
+    public record GetCompletedTodoItemsByTodoId(Guid TodoId) : IRequest<IEnumerable<TodoItemDto>>;
+    #endregion
+
     public class TodoQueryHandlers : BaseQueryHandler,
                                      IRequestHandler<GetTodos, IEnumerable<TodoBasicInfoDto>>,
                                      IRequestHandler<GetTodosByPersonId, IEnumerable<TodoDetailsDto>>,

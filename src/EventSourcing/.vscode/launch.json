@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net6.0/BlazorUI.dll",
+            "program": "${workspaceFolder}/bin/Debug/net7.0/BlazorUI.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
@@ -25,11 +25,11 @@
             }
         },
         {
-            "name": ".NET Core Launch (web)",
+            "name": "Hp Api Configuration debug",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/HP.Api/bin/Debug/net6.0/HP.Api.dll",
+            "program": "${workspaceFolder}/HP.Api/bin/Debug/net7.0/HP.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/HP.Api",
             "stopAtEntry": false,
@@ -51,7 +51,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/BlazorUI/bin/Debug/net6.0/BlazorUI.dll",
+            "program": "${workspaceFolder}/bin/Debug/net7.0/BlazorUI.dll",
             "args": [],
             "cwd": "${workspaceFolder}/BlazorUI",
             "stopAtEntry": false,

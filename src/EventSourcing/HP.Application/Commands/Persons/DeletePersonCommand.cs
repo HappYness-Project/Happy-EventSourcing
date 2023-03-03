@@ -3,7 +3,7 @@ using HP.Core.Common;
 using HP.Core.Events;
 using MediatR;
 
-namespace HP.Application.Commands.Person
+namespace HP.Application.Commands.Persons
 {
     public record DeletePersonCommand(Guid PersonId) : BaseCommand
     {

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HP.Infrastructure.DbAccess
 {
-    public class    HpReadDbContext : DbContext
+    public class HpReadDbContext : DbContext
     {
         protected readonly IConfiguration _configuration;
         public HpReadDbContext(IConfiguration configuration)

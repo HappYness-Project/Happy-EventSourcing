@@ -2,9 +2,8 @@
 using HP.Core.Common;
 using HP.Core.Events;
 using HP.Domain;
-using HP.Domain.Todos.Write;
 using MediatR;
-namespace HP.Application.Commands.Todo
+namespace HP.Application.Commands.Todos
 {
     public record StopTodoCommand(Guid TodoId, string? reason = null) : BaseCommand;
     public class StopTodoCommandHandler : BaseCommandHandler, IRequestHandler<StopTodoCommand, CommandResult>

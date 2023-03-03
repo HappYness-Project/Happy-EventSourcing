@@ -1,8 +1,4 @@
-﻿using HP.Api.Requests;
-using HP.Application.Commands;
-using HP.Application.Commands.Person;
-using HP.Application.Commands.Persons;
-using HP.Application.DTOs;
+﻿using HP.Application.Commands.Persons;
 using HP.Application.Queries;
 using HP.Core.Commands;
 using HP.Domain.People.Read;
