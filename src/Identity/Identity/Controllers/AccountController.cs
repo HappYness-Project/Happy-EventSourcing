@@ -26,7 +26,7 @@ namespace Identity.Controllers
             return View("Register");
         }
         [HttpPost("register")]
-        public IActionResult RegisterPost(CreateUser request)
+        public IActionResult RegisterPost([FromBody]CreateUser request)
         {
             var alice = new ApplicationUser
             {
@@ -41,13 +41,9 @@ namespace Identity.Controllers
             }
 
             result = _userManager.AddClaimsAsync(alice, new Claim[]{
-                            new Claim(ClaimTypes.Name, "Alice Smith"),
-                            new Claim(ClaimTypes.GivenName, "Alice"),
-                            new Claim(ClaimTypes.Surname, "Smith"),
-                            new Claim(ClaimTypes.Webpage, "http://alice.com"),
-                            new Claim(ClaimTypes.StreetAddress, "72 Pinnacle Drive"),
-                            new Claim(ClaimTypes.StateOrProvince, "Ontario"),
-                            new Claim(ClaimTypes.PostalCode, "N2P 1C5"),
+                            new Claim(ClaimTypes.GivenName, request.FirstName),
+                            new Claim(ClaimTypes.Surname, request.LastName),
+                            new Claim(ClaimTypes.Email, request.Email)
                         }).Result;
             if (!result.Succeeded)
             {

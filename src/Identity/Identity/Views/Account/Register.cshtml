@@ -7,6 +7,8 @@
 @using (Html.BeginForm("register", "Account", FormMethod.Post))
 {
     @Html.TextBoxFor(m => m.Email)
+    @Html.TextBoxFor(m => m.FirstName)
+    @Html.TextBoxFor(m => m.LastName)
     @Html.PasswordFor(m => m.Password)
     <input type="submit" value="Submit"/>
 }
