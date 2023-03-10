@@ -28,19 +28,20 @@ namespace Identity.Controllers
         [HttpPost("register")]
         public IActionResult RegisterPost([FromBody]CreateUser request)
         {
-            var alice = new ApplicationUser
+            var newUser = new ApplicationUser
             {
                 UserName = request.Email,
                 Email = request.Email,
                 EmailConfirmed = true,
             };
-            var result = _userManager.CreateAsync(alice, request.Password).Result;
+            var result = _userManager.CreateAsync(newUser, request.Password).Result;
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
             }
 
-            result = _userManager.AddClaimsAsync(alice, new Claim[]{
+            result = _userManager.AddClaimsAsync(newUser, new Claim[]{
+                            new Claim(ClaimTypes.Name, $"{request.FirstName} {request.LastName}"),
                             new Claim(ClaimTypes.GivenName, request.FirstName),
                             new Claim(ClaimTypes.Surname, request.LastName),
                             new Claim(ClaimTypes.Email, request.Email)

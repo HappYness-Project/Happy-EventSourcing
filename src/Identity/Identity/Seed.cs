@@ -120,6 +120,38 @@ namespace Identity
                         }
                     });
                 }
+                if (await manager.FindByClientIdAsync("hp_service_client") is null)
+                {
+                    await manager.CreateAsync(new OpenIddictApplicationDescriptor
+                    {
+                        ClientId = "hp_service_client",
+                        ClientSecret = "hp_service_secret",
+                        ConsentType = ConsentTypes.Explicit,
+                        DisplayName = "hp service Client",
+                        RedirectUris =
+                        {
+                            new Uri("https://oauth.pstmn.io/v1/callback")
+                        },
+                        Permissions =
+                        {
+                            Permissions.Endpoints.Introspection,
+                            Permissions.Endpoints.Authorization,
+                            Permissions.Endpoints.Logout,
+                            Permissions.Endpoints.Token,
+                            Permissions.GrantTypes.AuthorizationCode,
+                            Permissions.ResponseTypes.Code,
+                            Permissions.Scopes.Email,
+                            Permissions.Scopes.Profile,
+                            Permissions.Scopes.Roles,
+                            Permissions.Prefixes.Scope + "api1"
+                        },
+                        Requirements =
+                        {
+                            Requirements.Features.ProofKeyForCodeExchange
+                        }
+                    });
+                }
+
             }
 
             static async Task RegisterScopesAsync(IServiceProvider provider)
@@ -147,61 +179,25 @@ namespace Identity
             static async Task RegisterUsersAsync(IServiceProvider provider)
             {
                 var userMgr = provider.GetRequiredService<UserManager<ApplicationUser>>();
-                if (await userMgr.FindByNameAsync("AliceSmith@email.com") is null)
-                {
-                    var alice = new ApplicationUser
-                    {
-                        UserName = "AliceSmith@email.com",
-                        Email = "AliceSmith@email.com",
-                        EmailConfirmed = true,
-                    };
-                    var result = await userMgr.CreateAsync(alice, "Pass123$");
-                    if (!result.Succeeded)
-                    {
-                        throw new Exception(result.Errors.First().Description);
-                    }
-
-                    result = await userMgr.AddClaimsAsync(alice, new Claim[]{
-                            new Claim(ClaimTypes.Name, "Alice Smith"),
-                            new Claim(ClaimTypes.GivenName, "Alice"),
-                            new Claim(ClaimTypes.Surname, "Smith"),
-                            new Claim(ClaimTypes.Webpage, "http://alice.com"),
-                            new Claim(ClaimTypes.StreetAddress, "72 Pinnacle Drive"),
-                            new Claim(ClaimTypes.StateOrProvince, "Ontario"),
-                            new Claim(ClaimTypes.PostalCode, "N2P 1C5"),
-                    });
-                    if (!result.Succeeded)
-                    {
-                        throw new Exception(result.Errors.First().Description);
-                    }
-                    Log.Debug("alice created");
-                }
-                else
-                {
-                    Log.Debug("alice already exists");
-                }
-
-                if (await userMgr.FindByNameAsync("BobSmith@email.com") is null)
+                if (await userMgr.FindByNameAsync("HpAdmin@email.com") is null)
                 {
                     var bob = new ApplicationUser
                     {
-                        UserName = "BobSmith@email.com",
-                        Email = "BobSmith@email.com",
+                        UserName = "HpAdmin@email.com",
+                        Email = "HpAdmin@email.com",
                         EmailConfirmed = true
                     };
-                    var result = await userMgr.CreateAsync(bob, "Pass123$");
+                    var result = await userMgr.CreateAsync(bob, "Happy#1234!");
                     if (!result.Succeeded)
                     {
                         throw new Exception(result.Errors.First().Description);
                     }
 
                     result = await userMgr.AddClaimsAsync(bob, new Claim[]{
-                            new Claim(ClaimTypes.Name, "Bob Smith"),
-                            new Claim(ClaimTypes.GivenName, "Bob"),
-                            new Claim(ClaimTypes.Surname, "Smith"),
-                            new Claim(ClaimTypes.Webpage, "http://bob.com"),
-                            new Claim(ClaimTypes.Email, "bob@gmail.com"),
-                            new Claim(ClaimTypes.MobilePhone, "519-666-7777"),
+                            new Claim(ClaimTypes.Name, "Happy Ness"),
+                            new Claim(ClaimTypes.GivenName, "Happy"),
+                            new Claim(ClaimTypes.Surname, "Ness"),
+                            new Claim(ClaimTypes.Email, "HpAdmin@gmail.com"),
                             new Claim("location", "somewhere"),
                             new Claim(Claims.Picture, "imge-url")
                     });
@@ -209,7 +205,7 @@ namespace Identity
                     {
                         throw new Exception(result.Errors.First().Description);
                     }
-                    Log.Debug("bob created");
+                    Log.Debug("Happyness admin created");
                 }
                 else
                 {
