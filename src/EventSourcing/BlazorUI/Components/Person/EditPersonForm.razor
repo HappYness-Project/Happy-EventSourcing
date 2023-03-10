@@ -1,0 +1,69 @@
+﻿@using HP.Application.DTOs
+@using HP.Domain
+@using HP.Shared.Contacts;
+@using HP.Shared.Requests.People;
+
+<div class="card">
+    <div class="card-header">
+        Update Person.
+    </div>
+    <div class="card-body">
+        <EditForm Model="@person" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <label for="dateInput">User ID: @person.PersonName</label>
+            </div>
+            <div class="form-group">
+                <label for="dateInput">FirstName</label>
+                <InputText class="form-check control mx-2" @bind-Value="person.FirstName"/>
+            </div>
+            <div class="form-group">
+                <label for="dateInput">LastName</label>
+                <InputText class="form-check control mx-2" @bind-Value="person.LastName"/>
+            </div>
+            <div class="form-group">
+                <CustomInputSelect @bind-Value="person.ProjectId" class="form-control">
+                    @foreach(var proj in Projects)
+                    {
+                        <option value = "@proj.ProjectId">@proj.ProjectName</option>
+                    }
+                </CustomInputSelect>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+@code {
+    [Inject] public IPersonService _personService { get; set; }
+    [Parameter] public PersonDetailsDto person { get; set; } = new();
+    [Parameter] public IList<Project> Projects { get; set; } = new List<Project>();
+    [Parameter] public EventCallback OnSubmitCallback { get; set; }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Project p1 = new Project { ProjectId = 1, ProjectName = "Programming",     ProjectType = "Programming" };
+        Project p2 = new Project { ProjectId = 2, ProjectName = "Dotnet Research", ProjectType = "Study" };
+        Project p3 = new Project { ProjectId = 3, ProjectName = "English Study",   ProjectType = "Study" };
+        Projects.Add(p1);
+        Projects.Add(p2);
+        Projects.Add(p3);
+    }
+
+    public async void HandleValidSubmit()
+    {
+        UpdatePersonRequest request = new UpdatePersonRequest
+        {
+            PersonId = person.PersonName,
+            GroupId = 0,
+                PersonType = person.PersonType
+        };
+        var result = _personService.UpdateAsync(request);
+        await OnSubmitCallback.InvokeAsync();
+    }
+
+}
