@@ -12,8 +12,11 @@ using HP.Infrastructure.Kafka;
 using HP.Infrastructure.Repository;
 using HP.Infrastructure.Repository.Write;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson.Serialization;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -69,6 +72,41 @@ builder.Services.AddHostedService<ConsumerHostedService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+})
+    .AddCookie()
+    .AddOpenIdConnect(options =>
+    {
+        options.SignInScheme = "Cookies";
+        options.Authority = "https://localhost:7281";
+        options.ClientId = "hp_service_client";
+        options.ClientSecret = "hp_service_secret";
+        options.RequireHttpsMetadata = true;
+        options.ResponseType = OpenIdConnectResponseType.Code;
+        options.Scope.Add("profile");
+        options.Scope.Add("api1");
+        options.SaveTokens = true;
+        options.GetClaimsFromUserInfoEndpoint = true;
+        options.Events = new OpenIdConnectEvents
+        {
+            OnAccessDenied = context =>
+            {
+                context.HandleResponse();
+                context.Response.Redirect("/");
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+
+
+
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
