@@ -60,15 +60,22 @@ services:
       ALLOW_PLAINTEXT_LISTENER: "yes"
       KAFKA_LISTENERS: PLAINTEXT://:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-# KAFKA_LISTENERS: LISTENER_INTERN://kafka:9093,LISTENER_EXTERN://0.0.0.0:9092
-#   KAFKA_ADVERTISED_LISTENERS: LISTENER_INTERN://kafka:9093,LISTENER_EXTERN://127.0.0.1:9092
-#   KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_INTERN:PLAINTEXT,LISTENER_EXTERN:PLAINTEXT
-#   KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_INTERN
     depends_on:
       - zookeeper
     networks:
       - happy_network
-      
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    restart: "no"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka:9092"
+    ports:
+      - 9000:9000
+    depends_on:
+      - kafka 
+    networks:
+      - happy_network
   postgres:
     image: postgres
     container_name: postgres_readdb
