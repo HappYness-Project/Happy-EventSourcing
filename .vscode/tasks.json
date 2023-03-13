@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/EventSourcing/BlazorUI/BlazorUI.csproj",
+                "${workspaceFolder}/src/EventSourcing/HP.Api/HP.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/EventSourcing/BlazorUI/BlazorUI.csproj",
+                "${workspaceFolder}/src/EventSourcing/HP.Api/HP.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,65 +33,9 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/EventSourcing/BlazorUI/BlazorUI.csproj"
+                "${workspaceFolder}/src/EventSourcing/HP.Api/HP.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
-        },
-        {
-            "type": "docker-build",
-            "label": "docker-build: debug",
-            "dependsOn": [
-                "build"
-            ],
-            "dockerBuild": {
-                "tag": "happyeventsourcing:dev",
-                "target": "base",
-                "dockerfile": "${workspaceFolder}/EventSourcing/BlazorUI/Dockerfile",
-                "context": "${workspaceFolder}",
-                "pull": true
-            },
-            "netCore": {
-                "appProject": "${workspaceFolder}/EventSourcing/BlazorUI/BlazorUI.csproj"
-            }
-        },
-        {
-            "type": "docker-build",
-            "label": "docker-build: release",
-            "dependsOn": [
-                "build"
-            ],
-            "dockerBuild": {
-                "tag": "happyeventsourcing:latest",
-                "dockerfile": "${workspaceFolder}/EventSourcing/BlazorUI/Dockerfile",
-                "context": "${workspaceFolder}",
-                "pull": true
-            },
-            "netCore": {
-                "appProject": "${workspaceFolder}/EventSourcing/BlazorUI/BlazorUI.csproj"
-            }
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: debug",
-            "dependsOn": [
-                "docker-build: debug"
-            ],
-            "dockerRun": {},
-            "netCore": {
-                "appProject": "${workspaceFolder}/EventSourcing/BlazorUI/BlazorUI.csproj",
-                "enableDebugging": true
-            }
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: release",
-            "dependsOn": [
-                "docker-build: release"
-            ],
-            "dockerRun": {},
-            "netCore": {
-                "appProject": "${workspaceFolder}/EventSourcing/BlazorUI/BlazorUI.csproj"
-            }
         }
     ]
 }
