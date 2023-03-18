@@ -68,7 +68,7 @@ builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);
 
 builder.Services.AddControllers();
-builder.Services.AddHostedService<ConsumerHostedService>();
+//builder.Services.AddHostedService<ConsumerHostedService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
