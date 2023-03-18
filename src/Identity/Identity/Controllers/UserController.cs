@@ -36,9 +36,9 @@ namespace Identity.Controllers
             }
 
             result = await _userManager.AddClaimsAsync(alice, new Claim[]{
-                            new Claim(ClaimTypes.Name, request.FirstName + " " + request.Lastname),
+                            new Claim(ClaimTypes.Name, request.FirstName + " " + request.LastName),
                             new Claim(ClaimTypes.GivenName, request.FirstName),
-                            new Claim(ClaimTypes.Surname, request.Lastname),
+                            new Claim(ClaimTypes.Surname, request.LastName),
                             new Claim(ClaimTypes.Email, request.Email),
                         });
             if (!result.Succeeded)

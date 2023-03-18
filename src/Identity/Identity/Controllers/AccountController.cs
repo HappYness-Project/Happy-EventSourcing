@@ -57,18 +57,15 @@ namespace Identity.Controllers
                 throw new Exception(result.Errors.First().Description);
             }
 
-            result = _userManager.AddClaimsAsync(alice, new Claim[]{
-                            new Claim(ClaimTypes.Name, "Alice Smith"),
-                            new Claim(ClaimTypes.GivenName, "Alice"),
-                            new Claim(ClaimTypes.Surname, "Smith"),
-                            new Claim(ClaimTypes.Webpage, "http://alice.com"),
-                            new Claim(ClaimTypes.StreetAddress, "72 Pinnacle Drive"),
-                            new Claim(ClaimTypes.StateOrProvince, "Ontario"),
-                            new Claim(ClaimTypes.PostalCode, "N2P 1C5"),
+            result = _userManager.AddClaimsAsync(user, new Claim[]{
+                            new Claim(ClaimTypes.Name,  user.UserName),
+                            new Claim(ClaimTypes.GivenName, request.FirstName),
+                            new Claim(ClaimTypes.Surname, request.LastName),
+                            new Claim(ClaimTypes.Email, request.Email),
+                            // new Claim(ClaimTypes.StateOrProvince, "Ontario"),
+                            // new Claim(ClaimTypes.PostalCode, "N2P 1C5"),
                         }).Result;
-                            new Claim(ClaimTypes.StateOrProvince, "Ontario"),
-                            new Claim(ClaimTypes.PostalCode, "N2P 1C5"),
-                        }).Result;
+
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);

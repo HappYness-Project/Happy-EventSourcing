@@ -33,7 +33,7 @@ namespace BlazorUI.Services.Person
         }
         public async Task<Result<CommandResult>> UpdateAsync(UpdatePersonRequest request)
         {
-            var response = await _httpClient.PostAsJsonAsync("people/Update", request);
+            var response = await _httpClient.PostAsJsonAsync("persons/update", request);
             if (!response.IsSuccessStatusCode)
                 return new Result<CommandResult> { IsSuccess = false, Msg = $"Failed to update Person. {request.PersonId}" };
 
@@ -41,12 +41,13 @@ namespace BlazorUI.Services.Person
         }
         public async Task<Result<PersonDetailsDto>> GetPersonByPersonId(string id)
         {
-            PersonDetailsDto? response = await _httpClient.GetFromJsonAsync<PersonDetailsDto>($"people/{id}");
+            PersonDetailsDto? response = await _httpClient.GetFromJsonAsync<PersonDetailsDto>($"persons/{id}");
             return new Result<PersonDetailsDto> { IsSuccess = true, Data = response, Msg = $"Success to get the person data. personId: {id}" };
         }
         public async Task<IEnumerable<PersonDetailsDto>> GetPeopleList()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<PersonDetailsDto>>($"people");
+            var persons = await _httpClient.GetFromJsonAsync<IEnumerable<PersonDetailsDto>>($"persons");
+            return persons;
         }
     }
 }
