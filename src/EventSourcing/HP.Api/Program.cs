@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson.Serialization;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
+
 var builder = WebApplication.CreateBuilder(args);
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 if (env == "Development")
@@ -63,12 +64,11 @@ builder.Services.AddScoped<IPersonEventHandler, PersonEventHandlers>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddKafkaEventProducer(getConfig["KafkaTopicName"]);
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
-
 builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);
 
 builder.Services.AddControllers();
-builder.Services.AddHostedService<ConsumerHostedService>();
+//builder.Services.AddHostedService<ConsumerHostedService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -3,6 +3,7 @@ using HP.Application.DTOs;
 using HP.Domain;
 using HP.Domain.People.Read;
 using HP.Domain.Todos.Read;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace HP.Application.Mappers
 {
@@ -14,6 +15,14 @@ namespace HP.Application.Mappers
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.PersonName, opt => opt.MapFrom(src => src.PersonName))
                 .ForMember(dest => dest.GoalType, opt => opt.MapFrom(src => src.GoalType));
+
+            CreateMap<PersonDetails, PersonDetailsDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.PersonName, opt => opt.MapFrom(src => src.PersonName))
+                .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId))
+                .ForMember(dest => dest.PersonType, opt => opt.MapFrom(src => src.PersonType));
+
+
 
             CreateMap<Todo, TodoBasicInfoDto>()
                 .ForMember(dest => dest.TodoId, opt => opt.MapFrom(src => src.Id))

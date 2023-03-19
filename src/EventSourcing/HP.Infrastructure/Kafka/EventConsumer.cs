@@ -18,7 +18,7 @@ namespace HP.Infrastructure.Kafka
             _todoEventHandler = todoEventHandler;
             _personEventHandler = personEventHandler;
         }
-        public void Consumer(string topicName)
+        public async Task Consumer(string topicName)
         {
             using var consumer = new ConsumerBuilder<string, string>(_config)
                 .SetKeyDeserializer(Deserializers.Utf8)
@@ -35,7 +35,7 @@ namespace HP.Infrastructure.Kafka
 
                 var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
                 var @event = JsonSerializer.Deserialize<IDomainEvent>(consumerResult.Message.Value, options);
-                OnEventReceived(@event);
+                await OnEventReceived(@event);
                 consumer.Commit(consumerResult);
             }
         }

@@ -6,8 +6,6 @@ using HP.Shared.Contacts;
 using HP.Shared.Requests.Todos;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text;
 
 namespace BlazorUI.Services.Todo
 {
