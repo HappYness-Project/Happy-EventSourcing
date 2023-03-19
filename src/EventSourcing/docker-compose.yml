@@ -37,6 +37,16 @@ services:
     networks:
       - happy_network
 
+
+  hp.consumerworker:
+    image: ${DOCKER_REGISTRY-}hpconsumerworker
+    build:
+      context: .
+      dockerfile: Hp.ConsumerWorker/Dockerfile
+    depends_on:
+      - postgres
+    networks:
+      - happy_network
   hp.blazor:
     image: ${DOCKER_REGISTRY-}blazorui
     build:
@@ -98,7 +108,8 @@ volumes:
     driver: local
   kafka_data:
     driver: local
-   
+  mongodb_data:
+    driver: local
 
 
 
