@@ -45,8 +45,11 @@ services:
       dockerfile: Hp.ConsumerWorker/Dockerfile
     depends_on:
       - postgres
+      - kafka
+      - zookeeper
     networks:
       - happy_network
+
   hp.blazor:
     image: ${DOCKER_REGISTRY-}blazorui
     build:
@@ -83,8 +86,8 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       ALLOW_PLAINTEXT_LISTENER: "yes"
-      KAFKA_LISTENERS: PLAINTEXT://:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://:9092,PLAINTEXT_HOST://kafka:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_HOST://kafka:29092
     depends_on:
       - zookeeper
     networks:
@@ -93,8 +96,7 @@ services:
     image: obsidiandynamics/kafdrop
     restart: "no"
     environment:
-      KAFKA_BROKERCONNECT: "kafka:9092"
-      JVM_OPTS: -Xms32M -Xmx64M
+      KAFKA_BROKERCONNECT: kafka:29092
     ports:
       - 9100:9000
     depends_on:

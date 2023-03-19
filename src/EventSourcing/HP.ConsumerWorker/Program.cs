@@ -25,11 +25,6 @@ IHost host = Host.CreateDefaultBuilder(args)
             opt.EnableSensitiveDataLogging();
             opt.UseNpgsql(connstr_postgres);
         });
-        // services.AddEntityFrameworkNpgsql().AddDbContext<HpReadDbContext>(opt =>
-        // {
-        //     opt.EnableSensitiveDataLogging();
-        //     opt.UseNpgsql(connstr_postgres);
-        // });
         services.Configure<ConsumerConfig>(getConfig.GetSection(nameof(ConsumerConfig)));
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<ITodoEventHandler, TodoEventHandler>();
