@@ -13,6 +13,19 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=secret
     networks:
       - happy_network
+
+  postgres:
+     image: postgres:latest
+     container_name: readdb
+     environment:
+       - POSTGRES_USER=postgres
+       - POSTGRES_PASSWORD=postgres
+       - POSTGRES_DB=HP
+     ports:
+       - '2345:5432'
+     networks:
+       - happy_network
+
   hp.api:
     image: ${DOCKER_REGISTRY-}hpapi
     build:
@@ -20,8 +33,10 @@ services:
       dockerfile: HP.Api/Dockerfile
     depends_on:
       - mongo
+      - postgres
     networks:
       - happy_network
+
   hp.blazor:
     image: ${DOCKER_REGISTRY-}blazorui
     build:
@@ -64,7 +79,6 @@ services:
       - zookeeper
     networks:
       - happy_network
-
   kafdrop:
     image: obsidiandynamics/kafdrop
     restart: "no"
@@ -77,16 +91,7 @@ services:
       - kafka 
     networks:
       - happy_network
-  postgres:
-    image: postgres
-    container_name: postgres_readdb
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - '5432:5432'
-    networks:
-      - happy_network
+
 
 volumes:
   zookeeper_data:
