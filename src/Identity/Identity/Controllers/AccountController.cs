@@ -38,7 +38,7 @@ namespace Identity.Controllers
         }
 
         [HttpPost("register/user")]
-        public async Task<IActionResult> RegisterUser(CreateUser request)
+        public async Task<IActionResult> RegisterUser([FromBody]CreateUser request)
         {
             //create user, use AspNetCore.identity
             if (!ModelState.IsValid)
@@ -96,9 +96,6 @@ namespace Identity.Controllers
 
 
         }*/
-
-
-
         [HttpGet("register/api")]
         public IActionResult RegisterApi()
         {

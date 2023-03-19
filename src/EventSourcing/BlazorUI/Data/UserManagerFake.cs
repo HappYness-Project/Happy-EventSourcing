@@ -34,7 +34,7 @@ namespace BlazorUI.Data
         {
             throw new NotImplementedException();
         }
-        public Task<Result<string>> RequestUserCreateAsync(UserCreateDto user)
+        public Task<Result<string>> RequestUserCreateAsync(CreateUser user)
         {
             throw new NotImplementedException();
         }

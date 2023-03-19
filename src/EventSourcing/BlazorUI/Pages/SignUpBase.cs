@@ -52,10 +52,10 @@ namespace BlazorUI.Pages
                 User.UserName = sv;
             }
         }
-        protected void OnValidSubmit()
+        protected async Task OnValidSubmit()
         {
             string userType = "Normal";
-            UserCreateDto newUser = new()
+            CreateUser newUser = new()
             {
                 UserName = User.UserName,
                 Password = User.Password,
@@ -63,8 +63,7 @@ namespace BlazorUI.Pages
                 FirstName = User.FirstName,
                 LastName = User.LastName,
             };
-            var response = _userManager.RequestUserCreateAsync(newUser).Result;
-            // Decription should happen in here?
+            var response = await _userManager.RequestUserCreateAsync(newUser);
             if(response.IsSuccess)
             {
                 CreatePersonRequest request = new CreatePersonRequest

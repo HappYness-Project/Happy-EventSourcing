@@ -8,7 +8,7 @@ namespace HP.Shared.Contacts
     public interface IPersonService
     {
         Task<Result<CommandResult>> CreateAsync(CreatePersonRequest request);
-        Task<Result<CommandResult>> UpdateAsync(UpdatePersonRequest request);
+        Task<Result<CommandResult>> UpdateAsync(string personId, UpdatePersonRequest request);
         Task<Result<PersonDetailsDto>> GetPersonByPersonId(string id);
         Task<IEnumerable<PersonDetailsDto>> GetPeopleList();
     }

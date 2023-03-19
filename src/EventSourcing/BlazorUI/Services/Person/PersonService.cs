@@ -6,6 +6,8 @@ using HP.Shared.Contacts;
 using HP.Shared.Requests.People;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
+using System.Text;
+
 namespace BlazorUI.Services.Person
 {
     public class PersonService : IPersonService
@@ -23,21 +25,19 @@ namespace BlazorUI.Services.Person
         }
         public async Task<Result<CommandResult>> CreateAsync(CreatePersonRequest request)
         {
-
-            var getuser = _currentUserService.CurrentUser.UserName;
-            var response = await _httpClient.PostAsJsonAsync("create", request);
+            var response = await _httpClient.PostAsJsonAsync("persons", request);
             if (response.IsSuccessStatusCode)
                 return new Result<CommandResult> { IsSuccess = false, Msg = $"Failed to Create Person. {request.PersonName}" };
 
             return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to create a person." };
         }
-        public async Task<Result<CommandResult>> UpdateAsync(UpdatePersonRequest request)
+        public async Task<Result<CommandResult>> UpdateAsync(string personId, UpdatePersonRequest request)
         {
-            var response = await _httpClient.PostAsJsonAsync("persons/update", request);
+            var response = await _httpClient.PutAsJsonAsync($"persons/{personId}", request);
             if (!response.IsSuccessStatusCode)
-                return new Result<CommandResult> { IsSuccess = false, Msg = $"Failed to update Person. {request.PersonId}" };
+                return new Result<CommandResult> { IsSuccess = false, Msg = $"Failed to update Person." };
 
-            return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to update a person. {request.PersonId}" };
+            return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to update a person." };
         }
         public async Task<Result<PersonDetailsDto>> GetPersonByPersonId(string id)
         {
