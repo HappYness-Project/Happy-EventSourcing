@@ -21,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EventSourcing\HP.Application\HP.Application.csproj" />
-    <ProjectReference Include="..\EventSourcing\HP.Infrastructure\HP.Infrastructure.csproj" />
-    <ProjectReference Include="..\EventSourcing\HP.UnitTest\HP.UnitTest.csproj" />
+    <ProjectReference Include="..\HP.Application\HP.Application.csproj" />
+    <ProjectReference Include="..\HP.Infrastructure\HP.Infrastructure.csproj" />
+    <ProjectReference Include="..\HP.UnitTest\HP.UnitTest.csproj" />
   </ItemGroup>
 
   <ItemGroup>
