@@ -3,7 +3,7 @@ using HP.Application.DTOs;
 using HP.Core.Commands;
 using HP.Shared.Common;
 using HP.Shared.Contacts;
-using HP.Shared.Requests.People;
+using HP.Shared.Requests.Persons;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text;
@@ -23,7 +23,7 @@ namespace BlazorUI.Services.Person
             _httpClient = httpClient;
             _currentUserService = currentUserService;
         }
-        public async Task<Result<CommandResult>> CreateAsync(CreatePersonRequest request)
+        public async Task<Result<CommandResult>> CreateAsync(CreatePersonDto request)
         {
             var response = await _httpClient.PostAsJsonAsync("persons", request);
             if (response.IsSuccessStatusCode)
@@ -31,7 +31,7 @@ namespace BlazorUI.Services.Person
 
             return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to create a person." };
         }
-        public async Task<Result<CommandResult>> UpdateAsync(string personId, UpdatePersonRequest request)
+        public async Task<Result<CommandResult>> UpdateAsync(string personId, UpdatePersonDto request)
         {
             var response = await _httpClient.PutAsJsonAsync($"persons/{personId}", request);
             if (!response.IsSuccessStatusCode)

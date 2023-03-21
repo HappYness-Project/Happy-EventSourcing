@@ -1,6 +1,6 @@
-﻿namespace HP.Shared.Requests.People
+﻿namespace HP.Shared.Requests.Persons
 {
-    public record UpdatePersonRequest
+    public record UpdatePersonDto
     {
         public string PersonType { get; set; }
         public int GroupId { get; set; }

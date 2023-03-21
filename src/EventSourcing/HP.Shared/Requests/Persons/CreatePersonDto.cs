@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace HP.Shared.Requests.People
+namespace HP.Shared.Requests.Persons
 {
-    public record UpdateRoleRequest(string Role);
-    public record UpdateGroupIdRequest(int GroupId);
-    public record CreatePersonRequest
+    public record CreatePersonDto
     {
         [Required] public string PersonName { get; set; }
         [Required] public string PersonType { get; set; }

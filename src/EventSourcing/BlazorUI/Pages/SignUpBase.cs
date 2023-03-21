@@ -2,7 +2,7 @@
 using HP.Shared;
 using HP.Shared.Contacts;
 using HP.Shared.Enums;
-using HP.Shared.Requests.People;
+using HP.Shared.Requests.Persons;
 using HP.Shared.Requests.Users;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
@@ -66,7 +66,7 @@ namespace BlazorUI.Pages
             var response = await _userManager.RequestUserCreateAsync(newUser);
             if(response.IsSuccess)
             {
-                CreatePersonRequest request = new CreatePersonRequest
+                CreatePersonDto request = new CreatePersonDto
                 {
                     //PersonId = response,
                     PersonType = userType

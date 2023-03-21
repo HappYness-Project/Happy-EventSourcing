@@ -1,7 +1,7 @@
 ﻿@using HP.Application.DTOs
 @using HP.Domain
 @using HP.Shared.Contacts;
-@using HP.Shared.Requests.People;
+@using HP.Shared.Requests.Persons;
 
 <div class="card">
     <div class="card-header">
@@ -56,7 +56,7 @@
 
     public async void HandleValidSubmit()
     {
-        UpdatePersonRequest request = new UpdatePersonRequest
+        UpdatePersonDto request = new UpdatePersonDto
         {
             GroupId = 0,
             PersonType = person.PersonType

@@ -7,10 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HP.Controllers
 {
-    [ApiController]
     [ApiVersion("1.0")]
-    [Route("[controller]")]
-    public class TodosController : ControllerBase
+    public class TodosController : BaseApiController
     {
         private readonly IMediator _mediator;
         public TodosController(IMediator mediator)
@@ -81,7 +79,7 @@ namespace HP.Controllers
         }
         [IgnoreAntiforgeryToken]
         [HttpPost("{personId}")]
-        public async Task<IActionResult> Create(Guid personId, [FromBody] CreateTodoDto request, CancellationToken token = default)
+        public async Task<IActionResult> Create(Guid personId, CreateTodoDto request, CancellationToken token = default)
         {
             if (Guid.Empty == personId)
                 return BadRequest($"TodoId is null.");
@@ -91,7 +89,7 @@ namespace HP.Controllers
             return Ok(todo);
         }
         [HttpPost("{todoId}/todoItems")]
-        public async Task<IActionResult> CreateTodoItem(Guid todoId, [FromBody] CreateTodoItemDto request, CancellationToken token = default)
+        public async Task<IActionResult> CreateTodoItem(Guid todoId, CreateTodoItemDto request, CancellationToken token = default)
         {
             if (Guid.Empty == todoId)
                 return BadRequest();
@@ -109,7 +107,7 @@ namespace HP.Controllers
             return Ok(todo);
         }
         [HttpPut("{todoId}")]
-        public async Task<IActionResult> Update(Guid todoId, [FromBody] UpdateTodoDto request, CancellationToken token = default)
+        public async Task<IActionResult> Update(Guid todoId, UpdateTodoDto request, CancellationToken token = default)
         {
             if (Guid.Empty == todoId)
                 return BadRequest($"TodoId is null.");
@@ -125,7 +123,7 @@ namespace HP.Controllers
             return Ok(await _mediator.Send(new ActivateTodoCommand(todoId), token));
         }
         [HttpPatch("{todoId}/Deactivation")]
-        public async Task<IActionResult> DeactivateTodo([FromRoute] Guid todoId, CancellationToken token = default)
+        public async Task<IActionResult> DeactivateTodo(Guid todoId, CancellationToken token = default)
         {
             if (Guid.Empty == todoId)
                 return BadRequest($"TodoId is null.");
@@ -133,7 +131,7 @@ namespace HP.Controllers
             return Ok(await _mediator.Send(new DeavtivateTodoCommand(todoId), token));
         }
         [HttpPatch("{todoId}/status")]
-        public async Task<IActionResult> UpdateTodoStatus([FromRoute] Guid todoId, [FromBody] TodoStatusChangeRequest request, CancellationToken token = default)
+        public async Task<IActionResult> UpdateTodoStatus( Guid todoId, TodoStatusChangeRequest request, CancellationToken token = default)
         {
             if (Guid.Empty == todoId)
                 return BadRequest($"TodoId is null.");
@@ -156,7 +154,7 @@ namespace HP.Controllers
         }
 
         [HttpPut("{todoId}/todoItems/{todoItemId}")]
-        public async Task<IActionResult> UpdateTodoItem(Guid todoId, Guid todoItemId, [FromBody]UpdateTodoItemDto todoItem, CancellationToken token = default)
+        public async Task<IActionResult> UpdateTodoItem(Guid todoId, Guid todoItemId, UpdateTodoItemDto todoItem, CancellationToken token = default)
         {
             if (Guid.Empty == todoId)
                 return BadRequest($"TodoId is null.");
@@ -166,7 +164,7 @@ namespace HP.Controllers
         }
 
         [HttpPut("{todoId}/todoItems/{todoItemId}/status")]
-        public async Task<IActionResult> UpdateTodoItemStatus(Guid todoId, Guid todoItemId, [FromBody]UpdateTodoStatusDto dto, CancellationToken token = default)
+        public async Task<IActionResult> UpdateTodoItemStatus(Guid todoId, Guid todoItemId, UpdateTodoStatusDto dto, CancellationToken token = default)
         {
             if (todoId == null || todoItemId == null)
                 return BadRequest();

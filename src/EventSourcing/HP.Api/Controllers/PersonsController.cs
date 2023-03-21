@@ -2,15 +2,13 @@
 using HP.Application.DTOs;
 using HP.Application.Queries;
 using HP.Core.Commands;
-using HP.Shared.Requests.People;
+using HP.Shared.Requests.Persons;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HP.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class PersonsController : ControllerBase
+    public class PersonsController : BaseApiController
     {
         private readonly IMediator _mediator;
         public PersonsController(IMediator mediator)
@@ -32,7 +30,7 @@ namespace HP.Controllers
             return Ok(person);
         }
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreatePersonRequest request, CancellationToken token = default)
+        public async Task<IActionResult> Create(CreatePersonDto request, CancellationToken token = default)
         {
             if (request == null)
                 return BadRequest();
@@ -40,18 +38,21 @@ namespace HP.Controllers
             return Ok(await _mediator.Send(new CreatePersonCommand(request.PersonName, request.PersonType, request.GroupId)));
         }
         [HttpPut("{personId}")]
-        public async Task<CommandResult> Update(Guid personId, [FromBody]UpdatePersonRequest request)
+        public async Task<CommandResult> Update(Guid personId, UpdatePersonDto request)
         {
             var result = await _mediator.Send(new UpdatePersonCommand(personId, request.PersonType, request.GoalType, request.GroupId));
             return result;
         }
+
+        public record UpdateRoleDto(string Role);
         [HttpPut("{personId}/Role")]
-        public async Task UpdateRole(Guid personId, [FromBody]UpdateRoleRequest request)
+        public async Task UpdateRole(Guid personId, UpdateRoleDto request)
         {
             await _mediator.Send(new UpdatePersonRoleCommand(personId, request.Role));
         }
+        public record UpdateGroupdIdDto(int GroupId);
         [HttpPut("{personId}/Group")]
-        public async Task UpdateGroup(Guid personId, [FromBody]UpdateGroupIdRequest request)
+        public async Task UpdateGroup(Guid personId, UpdateGroupdIdDto request)
         {
             await _mediator.Send(new UpdatePersonGroupCommand(personId, request.GroupId));
         }
