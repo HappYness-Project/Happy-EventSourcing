@@ -26,7 +26,7 @@ namespace BlazorUI.Services.Person
         public async Task<Result<CommandResult>> CreateAsync(CreatePersonDto request)
         {
             var response = await _httpClient.PostAsJsonAsync("persons", request);
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
                 return new Result<CommandResult> { IsSuccess = false, Msg = $"Failed to Create Person. {request.PersonName}" };
 
             return new Result<CommandResult> { IsSuccess = true, Msg = $"Success to create a person." };

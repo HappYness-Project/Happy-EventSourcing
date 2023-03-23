@@ -9,6 +9,9 @@ using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
+using System.Net;
+using System.Net.Security;
+using System.Security.Authentication;
 
 namespace BlazorUI.Services
 {
@@ -23,6 +26,8 @@ namespace BlazorUI.Services
             httpClient.BaseAddress  = new Uri(_appSettings.IdentityApiBaseAddress);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient             = httpClient;
+
+
 
         }
 
