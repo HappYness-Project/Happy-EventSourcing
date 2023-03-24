@@ -27,22 +27,25 @@ namespace BlazorUI.Services
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient             = httpClient;
         }
-        public async Task<Result<User>> TrySignInAndGetUserAsync(UserLoginDto user)
-        {
-            return null;
-        }
-        public async Task<Result<string>> RequestUserCreateAsync(CreateUser user)
+        public async Task<Result<string>> TrySignInAndCheckStatus(UserLoginDto user)
         {
             var result = new Result<string>();
-            var response = await _httpClient.PostAsJsonAsync("register/user", user); 
-            if(response.IsSuccessStatusCode)
-            {
-                result.IsSuccess = true;
-                result.Data = await response.Content.ReadAsStringAsync();
-                return result;
-            }
-            result.IsSuccess = false;
-            result.Msg = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.PostAsJsonAsync("/user/login", user);
+            result.Data = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                result.IsSuccess = false;
+
+            return result;
+        }
+        public async Task<Result<string>> RequestUserCreateAsync(CreateUserDto user)
+        {
+            var result = new Result<string>();
+            var response = await _httpClient.PostAsJsonAsync("/user/signup", user);
+
+            result.Data = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                result.IsSuccess = false;
+
             return result;
         }
         public Task<string> GetUserRole(string userId)

@@ -37,7 +37,7 @@ namespace BlazorUI.Pages
                 Password = User.Password,
             };
 
-            var authenticatedUser = await UserManager.TrySignInAndGetUserAsync(user);
+            var authenticatedUser = await UserManager.TrySignInAndCheckStatus(user);
             if(authenticatedUser != null)
             {
                 NavigationManager.NavigateTo("items");

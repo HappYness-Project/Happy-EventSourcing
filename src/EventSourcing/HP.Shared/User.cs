@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 namespace HP.Shared
 {
-    // GOing to be used for the Identity service in the future.
     public class User 
     {
         public int Id { get; set; }

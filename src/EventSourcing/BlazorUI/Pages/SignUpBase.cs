@@ -54,7 +54,7 @@ namespace BlazorUI.Pages
         }
         protected async Task OnValidSubmit()
         {
-            CreateUser newUser = new()
+            CreateUserDto newUser = new()
             {
                 UserName = User.UserName,
                 Password = User.Password,
