@@ -1,6 +1,6 @@
-﻿namespace Identity.Models
+﻿namespace Identity.DTOs
 {
-    public class RegisterApi
+    public class RegisterApiDto
     {
         public string ApplicationName { get; set; }
         public string Email { get; set; }

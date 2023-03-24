@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model Identity.Models.CreateUser
+@model Identity.DTOs.CreateUserDto
 @using (Html.BeginForm("login", "Account", FormMethod.Post))
 {
     @Html.TextBoxFor(m => m.Email)

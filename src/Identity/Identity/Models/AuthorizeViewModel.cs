@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
-
 namespace Identity.Models
 {
     public class AuthorizeViewModel

@@ -1,11 +1,11 @@
-﻿using Identity.Data;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 using System.Security.Claims;
 using Identity.Models;
+using Identity.DTOs;
 
 namespace Identity.Controllers
 {
@@ -21,7 +21,7 @@ namespace Identity.Controllers
             _appManager = appManager;
         }
         [HttpPost]
-        public async Task<IActionResult> SignUp(CreateUser request)
+        public async Task<IActionResult> SignUp(CreateUserDto request)
         {
             var alice = new ApplicationUser
             {
