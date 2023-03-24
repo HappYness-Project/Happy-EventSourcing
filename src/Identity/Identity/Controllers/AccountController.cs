@@ -39,7 +39,7 @@ namespace Identity.Controllers
         }
 
         [HttpPost("register/user")]
-        public async Task<IActionResult> RegisterUser(CreateUser request)
+        public async Task<IActionResult> RegisterUser([FromBody]CreateUser request)
         {
             //create user, use AspNetCore.identity
             if (!ModelState.IsValid)
@@ -72,6 +72,28 @@ namespace Identity.Controllers
             return Ok(result);
         }
 
+        [HttpGet("update")]
+        public IActionResult UpdateUser()
+        {
+            //get user
+            //get application
+            return View("Update");
+        }
+        /*[HttpPost("update")]
+        public async Task<IActionResult> UpdateUser(UpdatesUser request)
+        {
+            //update user
+            var user = await _userManager.FindByIdAsync(request.Id);
+            var existingClaims = await _userManager.GetClaimsAsync(user);
+            await _userManager.UpdateAsync(user);
+            foreach(var claim in existingClaims)
+            {
+                if (claim.Type == ClaimTypes.Email)
+                    await _userManager.ReplaceClaimAsync(claim, new Claim(ClaimTypes.Email, request.Email));
+            }
+
+
+        }*/
 
 
 

@@ -6,7 +6,7 @@ namespace HP.Shared.Contacts
     public interface IUserManager
     {
         Task<Result<User>> TrySignInAndGetUserAsync(UserLoginDto user);
-        Task<Result<string>> RequestUserCreateAsync(UserCreateDto user);
+        Task<Result<string>> RequestUserCreateAsync(CreateUser user);
         Task<Result<string>> UserUpdateAsync(UserUpdateDto user);
         Task<string> GetUserRole(string userId);
         Task<User> GetUserByAccessTokenAsync(string accessToken);

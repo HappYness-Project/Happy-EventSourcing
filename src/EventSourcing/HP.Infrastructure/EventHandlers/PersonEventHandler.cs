@@ -18,7 +18,7 @@ namespace HP.Infrastructure.EventHandlers
         {
             PersonDetails personDetails = new PersonDetails(@event.AggregateId)
             {
-                PersonName = @event.PersonName,
+                PersonName = @event.PersonName.ToUpper(),
                 PersonType = @event.PersonType,
                 PersonRole = @event.PersonRole,
             };

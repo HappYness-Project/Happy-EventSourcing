@@ -1,7 +1,4 @@
-﻿@using HP.Application.DTOs
-@using HP.Domain.People.Read;
-@inject MediatR.IMediator _mediator
-<h1>Showing all valid users</h1>
+﻿<h1>Showing all valid Persons</h1>
 <div class="container">
 
 
@@ -9,23 +6,14 @@
         <Header>
             <th scope="col">User name</th>
             <th scope="col">PersonType</th>
-            <th scope="col">PersonRole</th>
+            <th scope="col">PersonType</th>
         </Header>
         <Row>
             <td>@context.PersonName</td>
             <td>@context.PersonType</td>
-            <td>@context.PersonRole</td>
+            <td>@context.PersonType</td>
         </Row>
     </Grid>
 </div>
 
 
-@code {
-    List<PersonDetails> people = new();
-    protected override async Task OnInitializedAsync()
-    {
-        var test =  await _mediator.Send(new GetPersonList());
-        if (test != null)
-            people = test.ToList();
-    }
-}

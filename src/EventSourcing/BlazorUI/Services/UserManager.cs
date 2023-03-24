@@ -3,9 +3,12 @@ using HP.Shared;
 using HP.Shared.Common;
 using HP.Shared.Contacts;
 using HP.Shared.Requests.Users;
+using MediatR;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Text;
 
 namespace BlazorUI.Services
 {
@@ -32,10 +35,10 @@ namespace BlazorUI.Services
             //return await response.Content.ReadFromJsonAsync<Result<User>>();
             return null;
         }
-        public async Task<Result<string>> RequestUserCreateAsync(UserCreateDto user)
+        public async Task<Result<string>> RequestUserCreateAsync(CreateUser user)
         {
             var result = new Result<string>();
-            var response = await _httpClient.PostAsJsonAsync("api/user/register", user); // Get the user information with the token
+            var response = await _httpClient.PostAsJsonAsync("register/user", user); 
             if(response.IsSuccessStatusCode)
             {
                 result.IsSuccess = true;

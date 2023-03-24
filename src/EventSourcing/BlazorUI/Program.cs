@@ -30,9 +30,9 @@ builder.Services.AddAuthentication(options =>
     .AddOpenIdConnect(options =>
     {
         options.SignInScheme = "Cookies";
-        options.Authority = "https://localhost:72181";
-        options.ClientId = "blazorcodeflowpkceclient";
-        options.ClientSecret = "codeflow_pkce_client_secret";
+        options.Authority = "https://localhost:7281";
+        options.ClientId = "hp_service_client";
+        options.ClientSecret = "hp_service_secret";
         options.RequireHttpsMetadata = true;
         options.ResponseType = OpenIdConnectResponseType.Code;
         options.Scope.Add("profile");
