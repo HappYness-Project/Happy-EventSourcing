@@ -54,7 +54,6 @@ namespace BlazorUI.Pages
         }
         protected async Task OnValidSubmit()
         {
-            string userType = "Normal";
             CreateUser newUser = new()
             {
                 UserName = User.UserName,
@@ -68,10 +67,10 @@ namespace BlazorUI.Pages
             {
                 CreatePersonDto request = new CreatePersonDto
                 {
-                    //PersonId = response,
-                    PersonType = userType
+                    PersonName = User.UserName,
+                    PersonType = "TBD"
                 };
-                _personService.CreateAsync(request);
+                await _personService.CreateAsync(request);
                 NavigationManager.NavigateTo("signin");
             }
         }

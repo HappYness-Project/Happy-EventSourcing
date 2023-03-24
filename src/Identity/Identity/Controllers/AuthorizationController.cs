@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Server.AspNetCore;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 using System.Security.Claims;
-using Identity.Data;
 using OpenIddict.Abstractions;
 using Identity.Helper;
 using System.Collections.Immutable;

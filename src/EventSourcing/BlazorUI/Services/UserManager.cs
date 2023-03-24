@@ -9,6 +9,9 @@ using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
+using System.Net;
+using System.Net.Security;
+using System.Security.Authentication;
 
 namespace BlazorUI.Services
 {
@@ -23,16 +26,9 @@ namespace BlazorUI.Services
             httpClient.BaseAddress  = new Uri(_appSettings.IdentityApiBaseAddress);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient             = httpClient;
-
         }
-
         public async Task<Result<User>> TrySignInAndGetUserAsync(UserLoginDto user)
         {
-
-            // 1. Post request 를 public async Task<IActionResult> Authorize() - Identity 에 한다.
-            // 2. Identity service 가 Request를받아서 redirect 해서 Callback으로 보낸다. callback endpoint를 만들어야 함. 
-            //callback pass. 정보는 쿠키안에 저장이 되어 있다.
-            //return await response.Content.ReadFromJsonAsync<Result<User>>();
             return null;
         }
         public async Task<Result<string>> RequestUserCreateAsync(CreateUser user)

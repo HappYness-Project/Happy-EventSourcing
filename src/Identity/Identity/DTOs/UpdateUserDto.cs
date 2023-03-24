@@ -1,6 +1,6 @@
-namespace Identity.Models
+namespace Identity.DTOs
 {
-    public class UpdatesUser
+    public class UpdateUserDto
     {
         public string Id { get; set; }
         public string UserName { get; set; }

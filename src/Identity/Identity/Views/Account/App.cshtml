@@ -7,7 +7,7 @@
         new SelectListItem { Text = "Web App", Value = "Web" } 
     };
 }
-@model Identity.Models.RegisterApp
+@model Identity.DTOs.RegisterAppDto
 @using (Html.BeginForm("RegisterApp", "Account", FormMethod.Post))
 {
     @*<div>

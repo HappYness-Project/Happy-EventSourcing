@@ -1,4 +1,5 @@
 ﻿using Identity.Data;
+using Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
 using Serilog;

@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-
-namespace Identity.Models
+namespace Identity.DTOs
 {
-    public class RegisterApp
+    public class RegisterAppDto
     {
         public string ApplicationName { get; set; }
         public string Email { get; set; }

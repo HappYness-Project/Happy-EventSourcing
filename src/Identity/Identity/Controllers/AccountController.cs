@@ -1,4 +1,4 @@
-﻿using Identity.Data;
+﻿using Identity.DTOs;
 using Identity.Helper;
 using Identity.Models;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +39,7 @@ namespace Identity.Controllers
         }
 
         [HttpPost("register/user")]
-        public async Task<IActionResult> RegisterUser([FromBody]CreateUser request)
+        public async Task<IActionResult> RegisterUser([FromBody]CreateUserDto request)
         {
             //create user, use AspNetCore.identity
             if (!ModelState.IsValid)
@@ -103,7 +103,7 @@ namespace Identity.Controllers
             return View("Api");
         }
         [HttpPost("register/api")]
-        public async Task<IActionResult> RegisterApi(RegisterApp request)
+        public async Task<IActionResult> RegisterApi(RegisterAppDto request)
         {
             var clientId = request.ApplicationName + ".randomly.generated.clientId.api";
             var clientPassword = "hashedPassword";
@@ -160,7 +160,7 @@ namespace Identity.Controllers
             return View("App");
         }
         [HttpPost("register/application")]
-        public async Task<IActionResult> RegisterApp(RegisterApp request)
+        public async Task<IActionResult> RegisterApp(RegisterAppDto request)
         {
             var clientId = request.ApplicationName + ".randomly.generated.clientId.app";
             var clientPassword = "hashedPassword";
