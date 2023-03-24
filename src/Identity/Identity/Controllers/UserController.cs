@@ -14,15 +14,17 @@ namespace Identity.Controllers
     public class UserController : ControllerBase
     {
         private UserManager<ApplicationUser> _userManager;
+        private SignInManager<ApplicationUser> _signInManager;  
         private IOpenIddictApplicationManager _appManager;
-        public UserController(UserManager<ApplicationUser> userManager, IOpenIddictApplicationManager appManager)
+        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IOpenIddictApplicationManager appManager)
         {
             _userManager = userManager;
             _appManager = appManager;
+            _signInManager = signInManager;
         }
 
         // API로 user 등록하기
-        [HttpPost]
+        [HttpPost("signup")]
         public async Task<IActionResult> SignUp(CreateUser request)
         {
             var alice = new ApplicationUser
@@ -49,6 +51,22 @@ namespace Identity.Controllers
             }
 
             return Ok(result);
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, false);
+            if (result.Succeeded)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok();
         }
     }
 }
