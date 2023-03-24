@@ -31,6 +31,7 @@ namespace Identity.Controllers
         }
 
 
+        // MVC로 user 등록하기
         [HttpGet("register/user")]
         public IActionResult RegisterGet()
         {
@@ -47,7 +48,7 @@ namespace Identity.Controllers
             }
             var user = new ApplicationUser
             {
-                UserName = request.UserName,
+                UserName = request.Email,
                 Email = request.Email,
                 EmailConfirmed = true,
             };
@@ -57,15 +58,12 @@ namespace Identity.Controllers
                 throw new Exception(result.Errors.First().Description);
             }
 
-            result = _userManager.AddClaimsAsync(user, new Claim[]{
-                            new Claim(ClaimTypes.Name,  user.UserName),
+            result = await _userManager.AddClaimsAsync(user, new Claim[]{
+                            new Claim(ClaimTypes.Name, request.UserName),
                             new Claim(ClaimTypes.GivenName, request.FirstName),
                             new Claim(ClaimTypes.Surname, request.LastName),
                             new Claim(ClaimTypes.Email, request.Email),
-                            // new Claim(ClaimTypes.StateOrProvince, "Ontario"),
-                            // new Claim(ClaimTypes.PostalCode, "N2P 1C5"),
-                        }).Result;
-
+                        });
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
@@ -96,6 +94,9 @@ namespace Identity.Controllers
 
 
         }*/
+
+
+
         [HttpGet("register/api")]
         public IActionResult RegisterApi()
         {
@@ -212,21 +213,5 @@ namespace Identity.Controllers
             
         }
 
-        /*[HttpGet("login")]
-        public IActionResult LoginGet()
-        {
-            return View("login");
-        }
-        [HttpPost("login")]
-        public async Task<IActionResult> LoginPost(CreateUser request)
-        {
-            var user = await _userManager.FindByEmailAsync(request.Email);
-            var result = await _signInManager.PasswordSignInAsync(user,request.Password,false,false);
-            if (result.Succeeded)
-            {
-
-            }
-            return Ok(result);
-        }*/
     }
 }
