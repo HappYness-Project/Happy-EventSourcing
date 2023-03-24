@@ -31,6 +31,7 @@ namespace Identity.Controllers
         }
 
 
+        // MVC로 user 등록하기
         [HttpGet("register/user")]
         public IActionResult RegisterGet()
         {
@@ -47,7 +48,7 @@ namespace Identity.Controllers
             }
             var user = new ApplicationUser
             {
-                UserName = request.UserName,
+                UserName = request.Email,
                 Email = request.Email,
                 EmailConfirmed = true,
             };
@@ -57,18 +58,12 @@ namespace Identity.Controllers
                 throw new Exception(result.Errors.First().Description);
             }
 
-            result = _userManager.AddClaimsAsync(alice, new Claim[]{
-                            new Claim(ClaimTypes.Name, "Alice Smith"),
-                            new Claim(ClaimTypes.GivenName, "Alice"),
-                            new Claim(ClaimTypes.Surname, "Smith"),
-                            new Claim(ClaimTypes.Webpage, "http://alice.com"),
-                            new Claim(ClaimTypes.StreetAddress, "72 Pinnacle Drive"),
-                            new Claim(ClaimTypes.StateOrProvince, "Ontario"),
-                            new Claim(ClaimTypes.PostalCode, "N2P 1C5"),
-                        }).Result;
-                            new Claim(ClaimTypes.StateOrProvince, "Ontario"),
-                            new Claim(ClaimTypes.PostalCode, "N2P 1C5"),
-                        }).Result;
+            result = await _userManager.AddClaimsAsync(user, new Claim[]{
+                            new Claim(ClaimTypes.Name, request.UserName),
+                            new Claim(ClaimTypes.GivenName, request.FirstName),
+                            new Claim(ClaimTypes.Surname, request.LastName),
+                            new Claim(ClaimTypes.Email, request.Email),
+                        });
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
@@ -77,28 +72,6 @@ namespace Identity.Controllers
             return Ok(result);
         }
 
-        [HttpGet("update")]
-        public IActionResult UpdateUser()
-        {
-            //get user
-            //get application
-            return View("Update");
-        }
-        /*[HttpPost("update")]
-        public async Task<IActionResult> UpdateUser(UpdatesUser request)
-        {
-            //update user
-            var user = await _userManager.FindByIdAsync(request.Id);
-            var existingClaims = await _userManager.GetClaimsAsync(user);
-            await _userManager.UpdateAsync(user);
-            foreach(var claim in existingClaims)
-            {
-                if (claim.Type == ClaimTypes.Email)
-                    await _userManager.ReplaceClaimAsync(claim, new Claim(ClaimTypes.Email, request.Email));
-            }
-
-
-        }*/
 
 
 
@@ -218,21 +191,5 @@ namespace Identity.Controllers
             
         }
 
-        /*[HttpGet("login")]
-        public IActionResult LoginGet()
-        {
-            return View("login");
-        }
-        [HttpPost("login")]
-        public async Task<IActionResult> LoginPost(CreateUser request)
-        {
-            var user = await _userManager.FindByEmailAsync(request.Email);
-            var result = await _signInManager.PasswordSignInAsync(user,request.Password,false,false);
-            if (result.Succeeded)
-            {
-
-            }
-            return Ok(result);
-        }*/
     }
 }

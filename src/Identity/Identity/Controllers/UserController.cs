@@ -20,12 +20,14 @@ namespace Identity.Controllers
             _userManager = userManager;
             _appManager = appManager;
         }
+
+        // API로 user 등록하기
         [HttpPost]
         public async Task<IActionResult> SignUp(CreateUser request)
         {
             var alice = new ApplicationUser
             {
-                UserName = request.UserName,
+                UserName = request.Email,// AddDefaultUI() 에서는 UserNmae이 Email과 같아야하는 것 같다..
                 Email = request.Email,
                 EmailConfirmed = true,
             };
@@ -36,24 +38,17 @@ namespace Identity.Controllers
             }
 
             result = await _userManager.AddClaimsAsync(alice, new Claim[]{
-                            new Claim(ClaimTypes.Name, request.FirstName + " " + request.Lastname),
+                            new Claim(ClaimTypes.Name, request.UserName),
                             new Claim(ClaimTypes.GivenName, request.FirstName),
-                            new Claim(ClaimTypes.Surname, request.Lastname),
+                            new Claim(ClaimTypes.Surname, request.LastName),
                             new Claim(ClaimTypes.Email, request.Email),
                         });
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
             }
-            await _appManager.CreateAsync(new OpenIddictApplicationDescriptor
-            {
-                ClientId = request.Email,
-                ClientSecret = request.Password,
-                ConsentType = ConsentTypes.Explicit,
-            });
 
             return Ok(result);
-
         }
     }
 }
