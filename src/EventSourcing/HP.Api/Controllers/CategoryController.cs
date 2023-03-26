@@ -5,8 +5,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 namespace HP.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
     public class CategoryController : BaseApiController
     {
         private readonly IMediator _mediator;

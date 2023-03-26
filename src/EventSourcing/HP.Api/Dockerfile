@@ -6,6 +6,7 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+RUN dotnet dev-certs https
 WORKDIR /src
 COPY ["HP.Core/HP.Core.csproj", "HP.Core/"]
 COPY ["HP.Shared/HP.Shared.csproj", "HP.Shared/"]
@@ -23,5 +24,6 @@ RUN dotnet publish "HP.Api/HP.Api.csproj" -c Release -o /app/publish /p:UseAppHo
 
 FROM base AS final
 WORKDIR /app
+COPY --from=build /root/.dotnet/corefx/cryptography/x509stores/my/* /root/.dotnet/corefx/cryptography/x509stores/my/
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "HP.Api.dll"]

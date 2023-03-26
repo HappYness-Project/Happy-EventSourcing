@@ -27,7 +27,8 @@ else
     builder.Configuration.AddJsonFile("appsettings.json", optional: false, true).AddEnvironmentVariables();
 
 
-BsonClassMap.RegisterClassMap<DomainEvent>(cm => {
+BsonClassMap.RegisterClassMap<DomainEvent>(cm =>
+{
     cm.AutoMap();
     cm.SetIsRootClass(true);
 });
@@ -49,8 +50,8 @@ builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
 builder.Services.AddScoped<IEventStore, EventStore>();
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<HpReadDbContext>(opt =>
 {
-   opt.EnableSensitiveDataLogging();
-   opt.UseNpgsql(getConfig.GetConnectionString("postgres"));
+    opt.EnableSensitiveDataLogging();
+    opt.UseNpgsql(getConfig.GetConnectionString("postgres"));
 });
 
 builder.Services.Configure<ProducerConfig>(getConfig.GetSection(nameof(ProducerConfig)));

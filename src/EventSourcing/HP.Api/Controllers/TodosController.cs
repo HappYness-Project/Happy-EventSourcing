@@ -65,7 +65,7 @@ namespace HP.Controllers
 
             return Ok(items);
         }
-        [HttpGet("People/{PersonName}")]
+        [HttpGet("People/{personId}")]
         public async Task<IActionResult> GetTodosByPersonId([FromRoute]Guid personId, CancellationToken token = default)
         {
             if (personId == null)
