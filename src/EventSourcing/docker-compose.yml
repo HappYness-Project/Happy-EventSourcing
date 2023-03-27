@@ -1,6 +1,5 @@
 version: '3.4'
 
-name: HappYnessProject
 services:
   mongo:
     image: mongo
@@ -22,12 +21,12 @@ services:
        POSTGRES_PASSWORD: postgres
        POSTGRES_DB: HP
      ports:
-       - "5432:5432"
+       - 5431:5432
      networks:
        - happy_network
 
   hp.api:
-    image: ${DOCKER_REGISTRY-}hpapi
+    image: ${DOCKER_REGISTRY-}hpapi:${PLATFORM:-linux}-${TAG:-latest}
     container_name: hp.api
     build:
       context: .
@@ -35,11 +34,12 @@ services:
     depends_on:
       - mongo
       - postgres
+    links:
+      - postgres
     ports:
       - 5000:80
     networks:
       - happy_network
-
 
   hp.consumerworker:
     image: ${DOCKER_REGISTRY-}hpconsumerworker
