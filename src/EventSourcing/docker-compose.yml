@@ -28,6 +28,7 @@ services:
 
   hp.api:
     image: ${DOCKER_REGISTRY-}hpapi
+    container_name: hp.api
     build:
       context: .
       dockerfile: HP.Api/Dockerfile
@@ -35,7 +36,7 @@ services:
       - mongo
       - postgres
     ports:
-      - "5000:80"
+      - 5000:80
     networks:
       - happy_network
 
@@ -57,8 +58,6 @@ services:
     build:
       context: .
       dockerfile: BlazorUI/Dockerfile
-    depends_on:
-      - mongo
     ports:
       - 5555:80
     networks:
@@ -97,6 +96,7 @@ services:
       - zookeeper
     networks:
       - happy_network
+
   kafdrop:
     image: obsidiandynamics/kafdrop
     restart: "no"
