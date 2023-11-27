@@ -34,7 +34,7 @@ namespace HP.IntegrationTest
             _producerConfig = appSettingsOptions;
 
             _eventProducer = new EventProducer(_producerConfig, "HP");
-            _eventStore = new EventStore(_mongoDbContext, _eventProducer);
+            _eventStore = new HP.Infrastructure.EventStore(_mongoDbContext, _eventProducer);
             if (_mapper == null)
             {
                 var mappingConfig = new MapperConfiguration(mc =>
