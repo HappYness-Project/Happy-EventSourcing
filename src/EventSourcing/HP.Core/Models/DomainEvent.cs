@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace HP.Core.Models
+﻿namespace HP.Core.Models
 {
     public class DomainEvent : IDomainEvent
     {

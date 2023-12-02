@@ -3,7 +3,6 @@ using Confluent.Kafka;
 using HP.Application.Mappers;
 using HP.Core.Common;
 using HP.Core.Events;
-using HP.Infrastructure;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.EventHandlers;
 using HP.Infrastructure.Kafka;
@@ -11,8 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 namespace HP.IntegrationTest
 {
-
-
     public abstract class TestBase
     {
         protected IConfiguration _configuration;
