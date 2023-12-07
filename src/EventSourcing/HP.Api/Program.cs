@@ -46,7 +46,6 @@ BsonClassMap.RegisterClassMap<TodoDomainEvents.TodoItemRemoved>();
 
 var getConfig = builder.Configuration;
 builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
-builder.Services.AddScoped<IEventStore, HP.Infrastructure.EventStore>();
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<HpReadDbContext>(opt =>
 {
    opt.EnableSensitiveDataLogging();
@@ -63,6 +62,7 @@ builder.Services.AddScoped<ITodoEventHandler, TodoEventHandler>();
 builder.Services.AddScoped<IPersonEventHandler, PersonEventHandlers>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddKafkaEventProducer(getConfig["KafkaTopicName"]);
+builder.Services.AddEventStoreInfra();
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);

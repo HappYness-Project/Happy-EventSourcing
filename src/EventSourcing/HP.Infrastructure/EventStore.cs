@@ -1,10 +1,12 @@
 ﻿using Confluent.Kafka;
 using EventStore.Client;
+using Grpc.Core;
 using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Exceptions;
 using HP.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using MongoDB.Driver;
 using System.Net;
 using System.Text.Json;
@@ -15,35 +17,32 @@ namespace HP.Infrastructure
 {
     public class EventStore : IEventStore
     {
-        protected readonly IMongoCollection<EventModel> _esCollection;
         private readonly IEventProducer _eventProducer;
+        private readonly IEventSerializer _eventSerializer;
         private readonly EventStoreClient _esClient;
-        public EventStore(IMongoDbContext dbContext, IEventProducer eventProducer)
+        public EventStore(EventStoreClient client, IEventProducer eventProducer)
         {
-            var settings = EventStoreClientSettings.Create("{connectionString}");
-            _esClient = new EventStoreClient(settings);
-
-            _esCollection = dbContext.GetCollection<EventModel>("") ?? throw new ArgumentNullException(nameof(dbContext));
+            _esClient = client;
             _eventProducer = eventProducer;
         }
-        public async Task<List<Guid>> GetAggregateIdAsync()
+        public async Task<List<string>> GetAllAggregateIdsAsync()
         {
-            var eventStream = await _esCollection.Find(_ => true).ToListAsync().ConfigureAwait(false);
+            var eventStream = await _esClient.ReadAllAsync(Direction.Forwards, Position.Start).ToListAsync().ConfigureAwait(false);
             if (eventStream == null || !eventStream.Any())
                 throw new ArgumentNullException(nameof(eventStream), "Could not retrieve event stream from the event store!.");
 
-            return eventStream.Select(x => x.AggregateIdentifier).Distinct().ToList();
+            return eventStream.Select(x => x.OriginalStreamId).Distinct().ToList();
+
         }
-        public async Task<List<IDomainEvent>> GetEventsAsync(Guid aggregateId)
+        public async Task<IEnumerable<IDomainEvent>> GetEventsAsync(Guid aggregateId, string streamName)
         {
-            var result = _esClient.ReadStreamAsync(Direction.Forwards, "some-stream",StreamPosition.Start);
-            var events = await result.ToListAsync();
+            var result = _esClient.ReadStreamAsync(Direction.Forwards, streamName + "-" + aggregateId, StreamPosition.Start);
+            List<ResolvedEvent> events = await result.ToListAsync().ConfigureAwait(false);
+            if(events ==null|| !events.Any())
+                throw new AggregateNotFoundException("Incorrect stream ID provided.");
 
-            var eventStream = await _esCollection.Find(x => x.AggregateIdentifier == aggregateId).ToListAsync().ConfigureAwait(false);
-            if (eventStream == null || !eventStream.Any())
-                throw new AggregateNotFoundException("Incorrect post ID provided.");
-
-            return eventStream.OrderBy(x => x.Version).Select(x => x.EventData).ToList();
+            var deserializedEvents = events.Select(Map);
+            return deserializedEvents;
         }
 
         public async Task SaveEventsAsync(Guid aggregateId, string aggregateType, IReadOnlyCollection<IDomainEvent> events,int expectedVersion)
@@ -59,32 +58,21 @@ namespace HP.Infrastructure
 
                 version++;
                 @event.AggregateVersion = version;
-                // new code
-                var eventData = new EventData(
-                    Uuid.NewUuid(),
-                    "TestEvent",
-                    JsonSerializer.SerializeToUtf8Bytes(@event)
-                );
-                /////
-                var eventModel = new EventModel
-                {
-                    TimeStamp = DateTime.Now,
-                    AggregateIdentifier = aggregateId,
-                    AggregateType = aggregateType,
-                    EventType = @event.EventType,
-                    EventData = @event
-                };
-                await _esCollection.InsertOneAsync(eventModel).ConfigureAwait(false);
-
-                // new code
-                await _esClient.AppendToStreamAsync(
-                    "temp-stream-" + aggregateId,
-                    StreamState.Any,
-                    new[] { eventData }
-                );
-                // new code 
+                var eventData = new EventData(Uuid.NewUuid(),"TestEvent",JsonSerializer.SerializeToUtf8Bytes(@event));
+                await _esClient.AppendToStreamAsync($"{aggregateType}-" + aggregateId,StreamState.Any,new[] { eventData });
+                // TODO: Should we append in the same event stream?????
                 await _eventProducer.ProducerAsync(@event);
             }
+        }
+
+        private IDomainEvent Map(ResolvedEvent resolvedEvent)
+        {
+            var meta = JsonSerializer.Deserialize<EventMeta>(resolvedEvent.Event.Metadata.ToArray());
+            return _eventSerializer.Deserialize(meta.EventType, resolvedEvent.Event.Data.ToArray());
+        }
+        internal struct EventMeta
+        {
+            public string EventType { get; set; }
         }
     }
 }

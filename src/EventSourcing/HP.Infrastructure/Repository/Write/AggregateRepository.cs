@@ -16,13 +16,10 @@ namespace HP.Infrastructure.Repository.Write
             _StreamBase = aggregateType.Name;
             _eventStore = eventStore;
         }
-        public async Task<List<Guid>> GetAggregateIdAsync()
-        {
-            var eventStream = await _eventStore.GetAggregateIdAsync();
-            if (eventStream == null || !eventStream.Any())
-                throw new ArgumentNullException(nameof(eventStream), "Could not retrieve event stream from the event store!.");
 
-            return eventStream;
+        public Task<List<Guid>> GetAggregateIdAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<T> GetByAggregateId<T>(Guid id, CancellationToken ct = default) where T : AggregateRoot, new()

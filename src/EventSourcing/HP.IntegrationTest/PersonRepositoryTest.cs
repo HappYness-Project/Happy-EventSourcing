@@ -8,6 +8,7 @@ namespace HP.IntegrationTest
     public class PersonRepositoryTest : TestBase
     {
         private IAggregateRepository<Person> personRepository = null;
+
         [SetUp]
         public void Setup()
         {
@@ -20,6 +21,12 @@ namespace HP.IntegrationTest
 
             var people = personRepository.GetAggregateIdAsync();
             people.Should().NotBeNull();
+        }
+
+        [Test]
+        public void GetTesting()
+        {
+            personRepository.GetByAggregateId
         }
     }
 }

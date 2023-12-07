@@ -1,9 +1,10 @@
 ﻿using Confluent.Kafka;
+using EventStore.Client;
 using HP.Core.Events;
-using HP.Infrastructure.EventHandlers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Net;
 
 namespace HP.Infrastructure.Kafka
 {
@@ -17,6 +18,15 @@ namespace HP.Infrastructure.Kafka
                 var getConfig = c.GetRequiredService<IOptions<ProducerConfig>>();
                 return new EventProducer(getConfig, topicName);
             });
+        }
+
+        public static IServiceCollection AddEventStoreInfra(this IServiceCollection services)
+        {
+            var settings = EventStoreClientSettings.Create("https://localhost:2113");
+            var esClient = new EventStoreClient(settings); 
+            services.AddSingleton(esClient);
+            services.AddScoped<IEventStore, EventStore>();
+            return services;
         }
     }
 }
