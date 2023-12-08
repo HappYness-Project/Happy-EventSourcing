@@ -5,10 +5,9 @@ using HP.Core.Common;
 using HP.Core.Events;
 using HP.Core.Exceptions;
 using HP.Core.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using MongoDB.Driver;
 using System.Net;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 
@@ -47,28 +46,32 @@ namespace HP.Infrastructure
 
         public async Task SaveEventsAsync(Guid aggregateId, string aggregateType, IReadOnlyCollection<IDomainEvent> events,int expectedVersion)
         {
+            var firstEvent = events.First();
 
-            var eventStream = await _esCollection.Find(x => x.AggregateIdentifier == aggregateId).ToListAsync().ConfigureAwait(false);
-            if (expectedVersion != -1 && eventStream[^1].Version != expectedVersion)
-                throw new ConcurrencyException();
-
-            var version = expectedVersion;
-            foreach (var @event in events)
-            {
-
-                version++;
-                @event.AggregateVersion = version;
-                var eventData = new EventData(Uuid.NewUuid(),"TestEvent",JsonSerializer.SerializeToUtf8Bytes(@event));
-                await _esClient.AppendToStreamAsync($"{aggregateType}-" + aggregateId,StreamState.Any,new[] { eventData });
-                // TODO: Should we append in the same event stream?????
-                await _eventProducer.ProducerAsync(@event);
-            }
+            var newEvents = events.Select(Map).ToArray();
+            await _esClient.AppendToStreamAsync(aggregateType + "-" + aggregateId, StreamState.Any, newEvents).ConfigureAwait(false);
         }
 
         private IDomainEvent Map(ResolvedEvent resolvedEvent)
         {
             var meta = JsonSerializer.Deserialize<EventMeta>(resolvedEvent.Event.Metadata.ToArray());
             return _eventSerializer.Deserialize(meta.EventType, resolvedEvent.Event.Data.ToArray());
+        }
+        private static EventData Map(IDomainEvent @event)
+        {
+            var json = JsonSerializer.Serialize(@event);
+            var data = Encoding.UTF8.GetBytes(json);
+
+            var typeOfEvent = @event.GetType();
+            var meta = new EventMeta()
+            {
+                EventType = typeOfEvent.AssemblyQualifiedName
+            };
+            var metaJson = JsonSerializer.Serialize(meta);
+            var metadata = Encoding.UTF8.GetBytes(metaJson);
+
+            var eventPayload = new EventData(Uuid.NewUuid(), typeOfEvent.Name, data, metadata);
+            return eventPayload;
         }
         internal struct EventMeta
         {

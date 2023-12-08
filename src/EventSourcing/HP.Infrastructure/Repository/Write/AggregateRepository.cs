@@ -25,7 +25,8 @@ namespace HP.Infrastructure.Repository.Write
         public async Task<T> GetByAggregateId<T>(Guid id, CancellationToken ct = default) where T : AggregateRoot, new()
         {
             T aggregate = new T();
-            var events = await _eventStore.GetEventsAsync(id);
+            var aggregateType = typeof(T).Name;
+            var events = await _eventStore.GetEventsAsync(id, aggregateType);
             if (events == null || !events.Any()) return aggregate;
             foreach (var eve in events)
                 aggregate.When(eve);
@@ -45,7 +46,9 @@ namespace HP.Infrastructure.Repository.Write
             var aggregateType = typeof(T).Name;
             var firstEvent = aggregateRoot.UncommittedEvents.First();
             var version = firstEvent.AggregateVersion - 1;
-            await _eventStore.SaveEventsAsync(aggregateRoot.Id, aggregateType, aggregateRoot.UncommittedEvents, version); 
+            await _eventStore.SaveEventsAsync(aggregateRoot.Id, aggregateType, aggregateRoot.UncommittedEvents, version);
+
+            aggregateRoot.ClearEvents();
         }
 
 

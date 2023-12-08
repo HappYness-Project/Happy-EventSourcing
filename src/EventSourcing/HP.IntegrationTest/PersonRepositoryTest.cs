@@ -26,7 +26,7 @@ namespace HP.IntegrationTest
         [Test]
         public void GetTesting()
         {
-            personRepository.GetByAggregateId
+            //personRepository.GetByAggregateId
         }
     }
 }

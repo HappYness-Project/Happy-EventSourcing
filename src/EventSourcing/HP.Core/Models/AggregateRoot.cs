@@ -26,6 +26,11 @@
             _domainEvents?.Clear();
         }
         public abstract void When(IDomainEvent @event);
+
+        public void ClearEvents()
+        {
+            _domainEvents?.Clear();
+        }
     }
 }
 
