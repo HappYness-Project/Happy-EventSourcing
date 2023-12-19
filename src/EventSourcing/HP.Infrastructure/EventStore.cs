@@ -59,7 +59,8 @@ namespace HP.Infrastructure
         }
         private static EventData Map(IDomainEvent @event)
         {
-            var json = JsonSerializer.Serialize(@event);
+
+            var json = JsonSerializer.Serialize((dynamic)@event);
             var data = Encoding.UTF8.GetBytes(json);
 
             var typeOfEvent = @event.GetType();

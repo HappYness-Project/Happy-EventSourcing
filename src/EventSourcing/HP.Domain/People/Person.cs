@@ -31,11 +31,11 @@ namespace HP.Domain
         public Person() : base() {
             InitSetup();
         }
-        public Person(string personName) : base()
+        public Person(string displayname) : base()
         {
             InitSetup();
-            DisplayName = personName;
-            AddDomainEvent(new PersonCreated { AggregateId = Id, PersonName = personName, PersonRole = Role.ToString(), PersonType = Type });
+            DisplayName = displayname;
+            AddDomainEvent(new PersonCreated { AggregateId = Id, DisplayName = displayname, PersonRole = Role.ToString(), PersonType = Type });
 
         }
         public static Person Create(string? personName = null)
@@ -94,7 +94,7 @@ namespace HP.Domain
         private void Apply(PersonCreated @event)
         {
             Id = @event.AggregateId;
-            DisplayName = @event.PersonName;
+            DisplayName = @event.DisplayName;
             Type = @event.PersonType;
             Role = PersonRole.FromName(@event.PersonRole);
         }

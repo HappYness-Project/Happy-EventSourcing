@@ -5,7 +5,8 @@ namespace HP.Domain
     {
         public class PersonCreated : DomainEvent
         {
-            public string PersonName { get; set; }
+            public string Email { get; set; }
+            public string DisplayName { get; set; }
             public string PersonType { get; set; }
             public string PersonRole { get; set; }
         }
@@ -18,13 +19,6 @@ namespace HP.Domain
         {
             public string PreRole { get; set; }
             public string Role { get; set; }
-        }
-        public class AddressChanged : DomainEvent
-        {
-            public string Country { get; set; }
-            public string City { get; set; }
-            public string Stress { get; set; }
-            public string ZipCode { get; set; }
         }
         public class PersonGroupUpdated : DomainEvent
         {
