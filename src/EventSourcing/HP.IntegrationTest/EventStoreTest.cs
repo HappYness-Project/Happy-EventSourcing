@@ -14,8 +14,8 @@ namespace HP.IntegrationTest
         [Test]
         public async Task EventStore_GetAllAggregateId_Success()
         {
-            var aggregateIds = await _eventStore.GetAggregateIdAsync();
-            Assert.IsNotNull(aggregateIds);
+            //var aggregateIds = await _eventStore.();
+            //Assert.IsNotNull(aggregateIds);
         }
 
     }

@@ -5,7 +5,8 @@ namespace HP.Domain
 {
     public class Person : AggregateRoot
     {
-        public string PersonName { get; private set; } 
+        public string Email { get; private set; }
+        public string DisplayName { get; private set; } 
         public string Type { get; private set; }
         public string Description { get; private set; }
         public int GroupId { get; private set; }
@@ -33,7 +34,7 @@ namespace HP.Domain
         public Person(string personName) : base()
         {
             InitSetup();
-            PersonName = personName;
+            DisplayName = personName;
             AddDomainEvent(new PersonCreated { AggregateId = Id, PersonName = personName, PersonRole = Role.ToString(), PersonType = Type });
 
         }
@@ -93,7 +94,7 @@ namespace HP.Domain
         private void Apply(PersonCreated @event)
         {
             Id = @event.AggregateId;
-            PersonName = @event.PersonName;
+            DisplayName = @event.PersonName;
             Type = @event.PersonType;
             Role = PersonRole.FromName(@event.PersonRole);
         }

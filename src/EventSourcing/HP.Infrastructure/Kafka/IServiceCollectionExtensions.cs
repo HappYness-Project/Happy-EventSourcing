@@ -22,7 +22,9 @@ namespace HP.Infrastructure.Kafka
 
         public static IServiceCollection AddEventStoreInfra(this IServiceCollection services)
         {
-            var settings = EventStoreClientSettings.Create("https://localhost:2113");
+        //localhost:2113?tls=true&tlsVerifyCert=false
+            var settings = EventStoreClientSettings.Create("esdb://localhost:2113?tls=false");
+            //settings.DefaultCredentials = new UserCredentials("admin", "changeit");
             var esClient = new EventStoreClient(settings); 
             services.AddSingleton(esClient);
             services.AddScoped<IEventStore, EventStore>();

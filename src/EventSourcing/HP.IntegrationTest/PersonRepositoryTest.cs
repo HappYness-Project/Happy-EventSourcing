@@ -15,17 +15,11 @@ namespace HP.IntegrationTest
             personRepository = new AggregateRepository<Person>(_eventStore);
         }
 
-        [Test]
-        public void GetAggregateIdAsync()
-        {
-
-            var people = personRepository.GetAggregateIdAsync();
-            people.Should().NotBeNull();
-        }
 
         [Test]
         public void GetTesting()
         {
+            personRepository.PersistAsync(new Person());
             //personRepository.GetByAggregateId
         }
     }

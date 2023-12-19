@@ -14,7 +14,7 @@ namespace HP.Application.Commands.Todos
         }
         public async Task<CommandResult> Handle(UpdateTodoCommand cmd, CancellationToken cancellationToken)
         {
-            var todo = await _todoRepository.GetByAggregateId<Domain.Todo>(cmd.TodoId);
+            var todo = await _todoRepository.RehydrateAsync<Domain.Todo>(cmd.TodoId);
             if (todo == null)
                 throw new ApplicationException($"TodoId:{cmd.TodoId}, does not exist.");
 

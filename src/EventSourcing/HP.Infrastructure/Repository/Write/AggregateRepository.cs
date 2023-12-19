@@ -17,12 +17,7 @@ namespace HP.Infrastructure.Repository.Write
             _eventStore = eventStore;
         }
 
-        public Task<List<Guid>> GetAggregateIdAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<T> GetByAggregateId<T>(Guid id, CancellationToken ct = default) where T : AggregateRoot, new()
+        public async Task<T> RehydrateAsync<T>(Guid id, CancellationToken ct = default) where T : AggregateRoot, new()
         {
             T aggregate = new T();
             var aggregateType = typeof(T).Name;

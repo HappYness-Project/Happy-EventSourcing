@@ -14,7 +14,7 @@ namespace HP.Application.Commands.Persons
         }
         public async Task<CommandResult> Handle(UpdatePersonGroupCommand request, CancellationToken cancellationToken)
         {
-            var person = await _personRepository.GetByAggregateId<Domain.Person>(request.PersonId);
+            var person = await _personRepository.RehydrateAsync<Domain.Person>(request.PersonId);
             if (person == null)
                 throw new ApplicationException($"PersonId : {request.PersonId} is not exist.");
 

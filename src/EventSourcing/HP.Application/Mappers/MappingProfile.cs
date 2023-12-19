@@ -13,12 +13,12 @@ namespace HP.Application.Mappers
         {
             CreateMap<Person, PersonDetailsDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.PersonName, opt => opt.MapFrom(src => src.PersonName))
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
                 .ForMember(dest => dest.GoalType, opt => opt.MapFrom(src => src.GoalType));
 
             CreateMap<PersonDetails, PersonDetailsDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.PersonName, opt => opt.MapFrom(src => src.PersonName))
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.PersonName))
                 .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId))
                 .ForMember(dest => dest.PersonType, opt => opt.MapFrom(src => src.PersonType));
 
