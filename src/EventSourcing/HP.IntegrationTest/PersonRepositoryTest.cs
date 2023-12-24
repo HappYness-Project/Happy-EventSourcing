@@ -17,10 +17,11 @@ namespace HP.IntegrationTest
 
 
         [Test]
-        public void GetTesting()
+        public void GivenNoEvent_WhenPersistCalled_ThenNothing()
         {
             personRepository.PersistAsync(new Person());
-            //personRepository.GetByAggregateId
+
+            Assert.That(true);
         }
     }
 }

@@ -23,14 +23,18 @@ namespace HP.IntegrationTest
         public async Task BeforeTestStart()
         {
             _configuration = new ConfigurationBuilder().AddJsonFile(@"appsettings.json", optional: false, true).Build();
-            _eventStoreClient = new EventStoreClient();
+
+
+
             var iconfigSec = _configuration.GetSection(nameof(ProducerConfig));
             var pc = new ProducerConfig { BootstrapServers = iconfigSec["BootstrapServers"] };
             IOptions<ProducerConfig> appSettingsOptions = Options.Create(pc);
             _producerConfig = appSettingsOptions;
-
             _eventProducer = new EventProducer(_producerConfig, "HP");
-            _eventStore = new HP.Infrastructure.EventStore(_eventStoreClient, _eventProducer);
+           
+            var settings = EventStoreClientSettings.Create("esdb://localhost:2113?tls=false");
+            _eventStoreClient = new EventStoreClient(settings);
+            _eventStore = new Infrastructure.EventStore(_eventStoreClient, _eventProducer);
             if (_mapper == null)
             {
                 var mappingConfig = new MapperConfiguration(mc =>

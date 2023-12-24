@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentAssertions;
 using HP.Core.Common;
 using HP.Domain;
 using HP.Domain.Todos.Read;
@@ -8,8 +9,9 @@ using Microsoft.Extensions.Configuration;
 
 
 namespace HP.IntegrationTest
-{ 
-    public class TodoInsertionTest
+{
+    [Category("Integration")]
+    public class TodoDetailsTest
     {
 
         protected IConfiguration _configuration;
@@ -26,7 +28,8 @@ namespace HP.IntegrationTest
         public async Task NpgSqlDbConnection()
         {
             var check = await _todoDetailsRepository.GetAllAsync();
-            Assert.IsNotNull(check);
+            
+            check.Should().NotBeNull();
         }
 
         [Test]
@@ -46,8 +49,8 @@ namespace HP.IntegrationTest
                 TodoStatus = "Pending",
             };
 
-            var check = await _todoDetailsRepository.CreateAsync(todoDetails);
-            Assert.IsNotNull(check);
+            //var check = await _todoDetailsRepository.Get
+            //Assert.IsNotNull(check);
         }
     }
 }

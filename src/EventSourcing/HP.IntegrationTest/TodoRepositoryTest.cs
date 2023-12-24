@@ -29,7 +29,8 @@ namespace HP.IntegrationTest.Todos
         public void Exists_ReturnTrueIfExist()
         {
             var check = todoRepository.Exists(x => x.IsActive);
-            Assert.IsTrue(check);
+
+            check.Should().BeTrue();
         }
         [Test]
         public void CreateNewTodo_From_Repository()

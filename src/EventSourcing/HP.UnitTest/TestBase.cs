@@ -38,7 +38,7 @@ namespace HP.test
         }
 
 
-        public static T AssertPubblishedDoaminEvent<T>(AggregateRoot aggregate) where T : IDomainEvent
+        public static T AssertPublishedDoaminEvent<T>(AggregateRoot aggregate) where T : IDomainEvent
         {
             var domainEvent = DomainEventsTestHelper.GetAllDomainEvents(aggregate).OfType<T>().SingleOrDefault();
             if (domainEvent == null)

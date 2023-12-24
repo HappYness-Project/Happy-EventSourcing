@@ -1,4 +1,5 @@
 ﻿using HP.test;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,14 @@ namespace HP.UnitTest.Persons.Commands
 {
     public class CreatePersonCommandHandlerTests : TestBase
     {
+
+        public CreatePersonCommandHandlerTests() { }
+
+        [Test]
+        public void Test()
+        {
+
+        }
+
     }
 }
