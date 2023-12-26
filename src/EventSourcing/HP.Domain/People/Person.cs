@@ -38,10 +38,8 @@ namespace HP.Domain
             AddDomainEvent(new PersonCreated { AggregateId = Id, DisplayName = displayname, PersonRole = Role.ToString(), PersonType = Type });
 
         }
-        public static Person Create(string? personName = null)
-        {
-            return new Person(personName);
-        }
+        public static Person Create(string? displayName = null)=> new Person(displayName);
+
         public void UpdateRole(string role)
         {
             if (role is null)

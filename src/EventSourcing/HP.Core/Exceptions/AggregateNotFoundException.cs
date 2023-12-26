@@ -1,12 +1,6 @@
-namespace HP.Core.Exceptions
+namespace HP.Core.Exceptions;
+public class AggregateNotFoundException : Exception
 {
-   
-    public class AggregateNotFoundException : Exception
-    {
-        public AggregateNotFoundException(string msg) : base(msg)
-        {
-            
-        }
-    }
+    public AggregateNotFoundException(string msg) : base(msg){}
 }
-   
+

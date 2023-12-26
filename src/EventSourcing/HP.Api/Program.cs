@@ -62,7 +62,7 @@ builder.Services.AddScoped<ITodoEventHandler, TodoEventHandler>();
 builder.Services.AddScoped<IPersonEventHandler, PersonEventHandlers>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddKafkaEventProducer(getConfig["KafkaTopicName"]);
-builder.Services.AddEventStoreInfra();
+builder.Services.AddEventStoreInfra(getConfig.GetConnectionString("eventstore"));
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);

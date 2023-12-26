@@ -1,15 +1,8 @@
-﻿using EventStore.Client;
+﻿using Confluent.Kafka;
+using EventStore.Client;
 using FluentAssertions;
-using HP.Core.Events;
-using HP.Infrastructure;
-using HP.Infrastructure.DbAccess;
-using HP.Infrastructure.Repository;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using HP.Core.Models;
+using HP.Core.Test;
 
 namespace HP.IntegrationTest
 {
@@ -26,6 +19,21 @@ namespace HP.IntegrationTest
         {
             await _eventStore.SaveEventsAsync(Guid.NewGuid(), "NewDummyType", null, 0);
         }
+
+        [Test]
+        public async Task CreateEvents_SaveEventsCalled_Then()
+        {
+            var guid = Guid.NewGuid();
+            string nameOfStream = "DummyAggregate" + guid;
+            DummyCreatedEvent dummyCreatedEvent = new DummyCreatedEvent { DummyName = "Dummyname", DummyType = "TestingType"};
+            List<DomainEvent> events = new List<DomainEvent> { dummyCreatedEvent };
+
+            await _eventStore.SaveEventsAsync(guid, nameOfStream, events, 0);
+
+            //await _eventStore.GetEventsAsync(guid, )
+        }
+
+
 
         [Test]
         public async Task GivenInvalidStream_EventsShouldBeZero()
