@@ -1,5 +1,6 @@
 ﻿using HP.Core.Models;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System.Linq.Expressions;
 
 namespace HP.Core.Common
@@ -28,10 +29,10 @@ namespace HP.Core.Common
         {
             return await _collection.AsQueryable().ToListAsync();
         }
-        public bool Exists(Expression<Func<T, bool>> predicate)
+        public async Task<bool> Exists(Expression<Func<T, bool>> predicate)
         {
             var set = _collection.AsQueryable();
-            return set.Any(predicate);
+            return await set.AnyAsync(predicate);
         }
         public Task DeleteByIdAsync(Guid id)
         {

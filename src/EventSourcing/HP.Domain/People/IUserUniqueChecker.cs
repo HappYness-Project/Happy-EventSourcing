@@ -2,6 +2,7 @@
 {
     public interface IUserUniqueChecker
     {
-        bool IsUniqueUser(string userName, string userEmail);
+        Task<bool> IsEmailUnique(string userEmail, CancellationToken cancellationToken = default);
+        Task CreateAsync(string email, string displayName, CancellationToken cancellationToken = default);
     }
 }

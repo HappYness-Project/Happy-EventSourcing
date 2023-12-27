@@ -34,9 +34,9 @@ namespace HP.Infrastructure.Repository
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
-        public virtual bool Exists(Expression<Func<T, bool>> predicate)
+        public virtual Task<bool> Exists(Expression<Func<T, bool>> predicate)
         {
-            return _dbContext.Set<T>().Where(predicate).Any();
+            return _dbContext.Set<T>().Where(predicate).AnyAsync();
         }
         public virtual async Task DeleteByIdAsync(Guid id)
         {

@@ -1,0 +1,6 @@
+﻿
+
+namespace HP.Infrastructure.Services
+{
+
+}

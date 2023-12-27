@@ -26,9 +26,9 @@ namespace HP.IntegrationTest.Todos
             Assert.That(check, Is.Not.Null);
         }
         [Test]
-        public void Exists_ReturnTrueIfExist()
+        public async Task Exists_ReturnTrueIfExist()
         {
-            var check = todoRepository.Exists(x => x.IsActive);
+            var check = await todoRepository.Exists(x => x.IsActive);
 
             check.Should().BeTrue();
         }

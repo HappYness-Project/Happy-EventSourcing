@@ -17,6 +17,8 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson.Serialization;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using HP.Domain.People;
+using HP.Infrastructure.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +33,6 @@ BsonClassMap.RegisterClassMap<DomainEvent>(cm => {
     cm.AutoMap();
     cm.SetIsRootClass(true);
 });
-//BsonClassMap.RegisterClassMap<DomainEvent>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonCreated>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonRemoved>();
 BsonClassMap.RegisterClassMap<PersonDomainEvents.PersonInfoUpdated>();
@@ -65,6 +66,7 @@ builder.Services.AddKafkaEventProducer(getConfig["KafkaTopicName"]);
 builder.Services.AddEventStoreInfra(getConfig.GetConnectionString("eventstore"));
 builder.Services.AddScoped<IEventConsumer, EventConsumer>();
 builder.Services.AddScoped<IInMemoryBus, InMemoryBus>();
+builder.Services.AddScoped<IUserUniqueChecker, UserUniqueChecker>();
 builder.Services.AddMediatR(typeof(DemoLibMediatREntryPoint).Assembly);
 
 builder.Services.AddControllers();

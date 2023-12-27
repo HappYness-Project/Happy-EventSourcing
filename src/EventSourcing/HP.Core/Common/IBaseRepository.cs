@@ -10,6 +10,6 @@ namespace HP.Core.Common
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> FindOneAsync(Expression<Func<T, bool>> filterExpression);
         IList<T> FindAll(Expression<Func<T, bool>> filterExpression);
-        bool Exists(Expression<Func<T, bool>> predicate);
+        Task<bool> Exists(Expression<Func<T, bool>> predicate);
     }
 }

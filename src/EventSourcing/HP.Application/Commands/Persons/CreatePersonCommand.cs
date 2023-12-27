@@ -23,8 +23,8 @@ namespace HP.Application.Commands.Persons
         }
         public async Task<CommandResult> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
-            if (_uniqueChecker.IsUniqueUser(request.DisplayName, request.Email))
-                throw new BusinessRuleException($"The email:{request.Email} or DisplayName:{request.DisplayName} is already in use.");
+            if (await _uniqueChecker.IsEmailUnique(request.Email))
+                throw new BusinessRuleException($"The email:{request.Email}  is already in use.");
 
             var newPerson = Person.Create(request.DisplayName);
             await _peronRepository.PersistAsync(newPerson);
