@@ -1,4 +1,5 @@
 ﻿using HP.Core.Common;
+using HP.Core.Models;
 using HP.Domain.People;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace HP.Infrastructure.Services
 {
     public class UserUniqueChecker : IUserUniqueChecker
     {
-        private IBaseRepository<UserUniqueness> _repository;
-        public UserUniqueChecker(IBaseRepository<UserUniqueness> baseRepository)
+        private IBaseRepository<UserAccountStorage> _repository;
+        public UserUniqueChecker(IBaseRepository<UserAccountStorage> baseRepository)
         {
             _repository = baseRepository;
         }
@@ -21,14 +22,14 @@ namespace HP.Infrastructure.Services
             if (string.IsNullOrWhiteSpace(email))
                 throw new ArgumentException("Email value cannot be null or whitespace.", nameof(email));
 
-            await _repository.CreateAsync(new UserUniqueness { Email = email, DisplayName = displayName });
+            await _repository.CreateAsync(new UserAccountStorage { Email = email, DisplayName = displayName });
         }
 
         public async Task<bool> IsEmailUnique(string userEmail, CancellationToken cancellationToken = default)
             => await _repository.Exists(o => o.Email == userEmail);
 
     }
-    public record UserUniqueness
+    public class UserAccountStorage : BaseEntity
     {
         public string Email { get; set; }
         public string DisplayName { get; set; }

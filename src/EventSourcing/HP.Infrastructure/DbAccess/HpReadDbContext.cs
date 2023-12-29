@@ -1,6 +1,7 @@
 ﻿//using HP.Domain.Todos.Read;
 using HP.Domain.People.Read;
 using HP.Domain.Todos.Read;
+using HP.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -24,5 +25,6 @@ namespace HP.Infrastructure.DbAccess
         }
         public virtual DbSet<TodoDetails> TodoDetails { get; set; }
         public virtual DbSet<PersonDetails> PersonDetails { get; set; }
+        public virtual DbSet<UserAccountStorage> UserAccountStorage { get; set; }
     }
 }

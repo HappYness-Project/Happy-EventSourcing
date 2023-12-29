@@ -13,9 +13,7 @@
             this.Details = brokenRule.Message;
         }
 
-        public override string ToString()
-        {
-            return $"{BrokenRule.GetType().FullName}: {BrokenRule.Message}";
-        }
+        public override string ToString() =>
+             $"{BrokenRule.GetType().FullName}: {BrokenRule.Message}";
     }
 }

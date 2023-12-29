@@ -1,4 +1,5 @@
-﻿using HP.Core.Models;
+﻿using HP.Core.Exceptions;
+using HP.Core.Models;
 using static HP.Domain.PersonDomainEvents;
 
 namespace HP.Domain
@@ -31,15 +32,23 @@ namespace HP.Domain
         public Person() : base() {
             InitSetup();
         }
-        public Person(string displayname) : base()
+        public Person(string email, string displayname) : base()
         {
             InitSetup();
             DisplayName = displayname;
             AddDomainEvent(new PersonCreated { AggregateId = Id, DisplayName = displayname, PersonRole = Role.ToString(), PersonType = Type });
 
         }
-        public static Person Create(string? displayName = null)=> new Person(displayName);
+        public static Person Create(string email, string? displayName = null)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                throw new BusinessRuleException("Email cannot be null");
 
+            if(string.IsNullOrWhiteSpace(displayName))
+                throw new BusinessRuleException("DisplayName cannot be null");
+
+            return new Person(email, displayName);
+        }
         public void UpdateRole(string role)
         {
             if (role is null)

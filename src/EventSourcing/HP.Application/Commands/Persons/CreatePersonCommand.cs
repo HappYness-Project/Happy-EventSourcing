@@ -26,7 +26,7 @@ namespace HP.Application.Commands.Persons
             if (await _uniqueChecker.IsEmailUnique(request.Email))
                 throw new BusinessRuleException($"The email:{request.Email}  is already in use.");
 
-            var newPerson = Person.Create(request.DisplayName);
+            var newPerson = Person.Create(request.Email, request.DisplayName);
             await _peronRepository.PersistAsync(newPerson);
             return new CommandResult(true, "Successfully person has been created.", newPerson.Id.ToString());
         }

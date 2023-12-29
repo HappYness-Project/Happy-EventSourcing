@@ -16,8 +16,14 @@ public class DummyAggregate : AggregateRoot
     public string DummyName { get; private set; }
     public string DummyType { get; private set; }
     public int Score { get; private set; }
-
-    public DummyAggregate() : base() {}
+    public DummyAggregate() : base(){  }
+    public DummyAggregate(string dummyName, string type, int? score = 0) : base()
+    {
+        DummyName = dummyName;
+        DummyType = type;
+        score = Score;
+        AddDomainEvent(new DummyCreatedEvent { DummyName = dummyName, DummyType = type, Score = score ?? 0 });
+    }
 
     public override void When(IDomainEvent @event)
     {
