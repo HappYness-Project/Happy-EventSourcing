@@ -35,8 +35,9 @@ namespace HP.Domain
         public Person(string email, string displayname) : base()
         {
             InitSetup();
+            Email = email;
             DisplayName = displayname;
-            AddDomainEvent(new PersonCreated { AggregateId = Id, DisplayName = displayname, PersonRole = Role.ToString(), PersonType = Type });
+            AddDomainEvent(new PersonCreated { AggregateId = Id, Email = email, DisplayName = displayname, PersonRole = Role.ToString(), PersonType = Type });
 
         }
         public static Person Create(string email, string? displayName = null)

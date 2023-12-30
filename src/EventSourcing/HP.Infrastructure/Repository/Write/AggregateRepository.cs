@@ -9,11 +9,10 @@ namespace HP.Infrastructure.Repository.Write
     public class AggregateRepository<T> : IAggregateRepository<T> where T : IAggregateRoot
     {
         private readonly IEventStore _eventStore;
-        private readonly string _StreamBase;
+        private readonly string _streamAggergateType;
         public AggregateRepository(IEventStore eventStore)
         {
-            var aggregateType = typeof(T);
-            _StreamBase = aggregateType.Name;
+            _streamAggergateType = typeof(T).Name;
             _eventStore = eventStore;
         }
 
@@ -21,7 +20,7 @@ namespace HP.Infrastructure.Repository.Write
         {
             T aggregate = new T();
             var aggregateType = typeof(T).Name;
-            var events = await _eventStore.GetEventsAsync(id, aggregateType);
+            var events = await _eventStore.GetEventsAsync(GetStreamName(id));
             if (events == null || !events.Any()) return aggregate;
             foreach (var eve in events)
                 aggregate.When(eve);
@@ -41,13 +40,13 @@ namespace HP.Infrastructure.Repository.Write
             var aggregateType = typeof(T).Name;
             var firstEvent = aggregateRoot.UncommittedEvents.First();
             var version = firstEvent.AggregateVersion - 1;
-            await _eventStore.SaveEventsAsync(aggregateRoot.Id, aggregateType, aggregateRoot.UncommittedEvents, version);
+            await _eventStore.SaveEventsAsync(GetStreamName(aggregateRoot.Id), aggregateRoot.UncommittedEvents, version);
 
             aggregateRoot.ClearEvents();
         }
 
 
-        private string GetStreamName(Guid aggregateId) => $"{_StreamBase}_{aggregateId}"; // Not using it for now.
+        private string GetStreamName(Guid aggregateId) => $"{_streamAggergateType}-{aggregateId}"; 
 
     }
 }

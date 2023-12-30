@@ -14,14 +14,14 @@ namespace HP.UnitTest.Todos
         [Test]
         public void Create_new_Todo_And_raises_new_event()
         {
-            //Arrange
             string[] faketags = { "Study", "Kevin", "DDD" };
             string userId = "hyunbin7303";
-            Person person = new Person(userId);
+            string email = "hyunbin7303@gmail.com";
+            Person person = new Person(email, userId);
             string todoTitle = "Fake Todo";
             string todoDesc = "Fake Description";
             var expectedEventType = nameof(TodoCreated);
-            // Act
+
             var fakeTodo = Todo.Create(person, todoTitle, todoDesc, TodoType.Others, faketags);
 
             //Assert
@@ -37,12 +37,13 @@ namespace HP.UnitTest.Todos
         [Test]
         public void Create_New_Todo_ThrowException_TodoTitle_Null()
         {
-            //Arrange
             string[] faketags = { "Study", "Kevin", "DDD" };
-            Person person = new Person(Guid.NewGuid().ToString());
+            string userId = "hyunbin7303";
+            Person person = new Person(userId, Guid.NewGuid().ToString());
             string todoTitle = string.Empty;
             string todoDesc = "Fake Description";
             var expectedEventType = nameof(TodoCreated);
+
             // Act
             Action act = () => Todo.Create(person, todoTitle, todoDesc, TodoType.Others, faketags);
 
@@ -52,12 +53,11 @@ namespace HP.UnitTest.Todos
         [Test]
         public void Create_new_Todo_ThrowException_When_Person_Is_Null()
         {
-            //Arrange
             string[] faketags = { "Study", "Kevin", "DDD" };
-            Person person = new Person(Guid.NewGuid().ToString());
+            string userId = "hyunbin7303";
+            Person person = new Person(userId,Guid.NewGuid().ToString());
             string todoTitle = "Fake Todo";
             string todoDesc = "Fake Description";
-            var expectedEventType = nameof(TodoCreated);
 
             // Act
             Action act = () => Todo.Create(null, todoTitle, todoDesc, TodoType.Others, faketags);

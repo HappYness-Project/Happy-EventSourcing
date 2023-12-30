@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using FluentAssertions;
 using HP.Core.Common;
-using HP.Domain;
 using HP.Domain.Todos.Read;
 using HP.Infrastructure.DbAccess;
 using HP.Infrastructure.Repository;

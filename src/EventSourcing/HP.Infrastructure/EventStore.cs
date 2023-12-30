@@ -6,6 +6,7 @@ using HP.Core.Events;
 using HP.Core.Exceptions;
 using HP.Core.Models;
 using MongoDB.Driver;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -33,9 +34,9 @@ namespace HP.Infrastructure
             return eventStream.Select(x => x.OriginalStreamId).Distinct().ToList();
 
         }
-        public async Task<IEnumerable<IDomainEvent>> GetEventsAsync(Guid aggregateId, string streamName)
+        public async Task<IEnumerable<IDomainEvent>> GetEventsAsync(string streamId)
         {
-            var result = _esClient.ReadStreamAsync(Direction.Forwards, streamName + "-" + aggregateId, StreamPosition.Start);
+            var result = _esClient.ReadStreamAsync(Direction.Forwards, streamId, StreamPosition.Start);
             List<ResolvedEvent> events = await result.ToListAsync().ConfigureAwait(false);
             if(events ==null|| !events.Any())
                 throw new AggregateNotFoundException("Incorrect stream ID provided.");
@@ -44,12 +45,11 @@ namespace HP.Infrastructure
             return deserializedEvents;
         }
 
-        public async Task SaveEventsAsync(Guid aggregateId, string aggregateType, IReadOnlyCollection<IDomainEvent> events,int expectedVersion)
+        public async Task SaveEventsAsync(string streamId, IReadOnlyCollection<IDomainEvent> events,int expectedVersion)
         {
             var firstEvent = events.First();
-
             var newEvents = events.Select(Map).ToArray();
-            await _esClient.AppendToStreamAsync(aggregateType + "-" + aggregateId, StreamState.Any, newEvents).ConfigureAwait(false);
+            await _esClient.AppendToStreamAsync(streamId, StreamState.Any, newEvents).ConfigureAwait(false);
         }
 
         private IDomainEvent Map(ResolvedEvent resolvedEvent)
