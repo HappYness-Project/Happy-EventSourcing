@@ -1,12 +1,11 @@
 ﻿using HP.Core.Models;
-using static System.Formats.Asn1.AsnWriter;
-namespace HP.Core.Test;
+namespace HP.Core.Test.Dummy;
 public class DummyAggregate : AggregateRoot
 {
     public string DummyName { get; private set; }
     public string DummyType { get; private set; }
     public int Score { get; private set; }
-    public DummyAggregate() : base(){  }
+    public DummyAggregate() : base() { }
     public DummyAggregate(string dummyName, string type, int score = 0) : base()
     {
         DummyName = dummyName;

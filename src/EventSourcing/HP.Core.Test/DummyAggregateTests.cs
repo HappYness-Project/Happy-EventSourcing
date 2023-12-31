@@ -1,4 +1,5 @@
 ﻿using HP.Core.Models;
+using HP.Core.Test.Dummy;
 namespace HP.Core.Test;
 
 public class DummyAggregateTests

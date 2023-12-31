@@ -26,7 +26,7 @@ namespace HP.Infrastructure.Repository.Write
                 aggregate.When(eve);
 
             aggregate.Version = events.Select(x => x.AggregateVersion).Max();
-            return (T)aggregate;
+            return aggregate;
         }
 
         public async Task PersistAsync(T aggregateRoot, CancellationToken ct = default)
@@ -37,9 +37,7 @@ namespace HP.Infrastructure.Repository.Write
             if (!aggregateRoot.UncommittedEvents.Any())
                 return;
 
-            var aggregateType = typeof(T).Name;
-            var firstEvent = aggregateRoot.UncommittedEvents.First();
-            var version = firstEvent.AggregateVersion - 1;
+            var version = aggregateRoot.UncommittedEvents.First().AggregateVersion - 1;
             await _eventStore.SaveEventsAsync(GetStreamName(aggregateRoot.Id), aggregateRoot.UncommittedEvents, version);
 
             aggregateRoot.ClearEvents();

@@ -55,7 +55,8 @@ namespace HP.Infrastructure
         private IDomainEvent Map(ResolvedEvent resolvedEvent)
         {
             var meta = JsonSerializer.Deserialize<EventMeta>(resolvedEvent.Event.Metadata.ToArray());
-            return _eventSerializer.Deserialize(meta.EventType, resolvedEvent.Event.Data.ToArray());
+            var test = _eventSerializer.Deserialize(meta.EventType, resolvedEvent.Event.Data.ToArray());
+            return test;
         }
         private static EventData Map(IDomainEvent @event)
         {
