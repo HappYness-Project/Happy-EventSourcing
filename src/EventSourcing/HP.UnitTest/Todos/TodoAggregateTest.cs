@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using HP.Domain;
 using HP.Domain.Exceptions;
+using HP.Domain.People;
 using HP.test;
 using NUnit.Framework;
 using System;
@@ -17,7 +18,7 @@ namespace HP.UnitTest.Todos
             string[] faketags = { "Study", "Kevin", "DDD" };
             string userId = "hyunbin7303";
             string email = "hyunbin7303@gmail.com";
-            Person person = new Person(email, userId);
+            Person person = new Person(new Email(email), userId);
             string todoTitle = "Fake Todo";
             string todoDesc = "Fake Description";
             var expectedEventType = nameof(TodoCreated);
@@ -37,30 +38,14 @@ namespace HP.UnitTest.Todos
         [Test]
         public void Create_New_Todo_ThrowException_TodoTitle_Null()
         {
-            string[] faketags = { "Study", "Kevin", "DDD" };
-            string userId = "hyunbin7303";
-            Person person = new Person(userId, Guid.NewGuid().ToString());
-            string todoTitle = string.Empty;
-            string todoDesc = "Fake Description";
-            var expectedEventType = nameof(TodoCreated);
+            Action act = () => Todo.Create(new Person(new Email("hyunbin7303@gmail.com"), "hyunbin7303"), string.Empty, "Fake Description", TodoType.Others, new []{ "Study", "Kevin", "DDD" });
 
-            // Act
-            Action act = () => Todo.Create(person, todoTitle, todoDesc, TodoType.Others, faketags);
-
-            //Assert
             act.Should().Throw<TodoDomainException>("[TodoException]TodoTitle cannot be empty.");
         }
         [Test]
         public void Create_new_Todo_ThrowException_When_Person_Is_Null()
         {
-            string[] faketags = { "Study", "Kevin", "DDD" };
-            string userId = "hyunbin7303";
-            Person person = new Person(userId,Guid.NewGuid().ToString());
-            string todoTitle = "Fake Todo";
-            string todoDesc = "Fake Description";
-
-            // Act
-            Action act = () => Todo.Create(null, todoTitle, todoDesc, TodoType.Others, faketags);
+            Action act = () => Todo.Create(null, "Fake Todo", "Fake Description", TodoType.Others, new []{ "Study", "Kevin", "DDD" });
 
             act.Should().Throw<ArgumentNullException>();
         }

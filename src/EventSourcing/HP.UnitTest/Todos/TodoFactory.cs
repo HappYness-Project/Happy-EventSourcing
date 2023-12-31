@@ -1,4 +1,5 @@
 ﻿using HP.Domain;
+using HP.Domain.People;
 using System;
 
 namespace HP.test
@@ -7,12 +8,12 @@ namespace HP.test
     {
         public static Todo Create()
         {
-            return Todo.Create(new Person("hyunbin7303@gmail.com", "UserId"), "Title", "Desc", TodoType.Others, null);
+            return Todo.Create(new Person(new Email("hyunbin7303@gmail.com"), "UserId"), "Title", "Desc", TodoType.Others, null);
         }
         public static Todo Create(string userId, string title, string type, string desc, bool defaultTag = true)
         {
             string[] tags = { "Study", "Exercise", "Chore" };
-            Person person = Person.Create(userId);
+            Person person = Person.Create("hyunbin7303@gmail.com", userId);
             TodoType Type = TodoType.FromName(type);
             return Todo.Create(person, title, desc, Type, defaultTag ? tags : null);
         }

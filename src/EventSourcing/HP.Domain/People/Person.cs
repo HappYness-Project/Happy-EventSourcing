@@ -1,54 +1,38 @@
 ﻿using HP.Core.Exceptions;
 using HP.Core.Models;
+using HP.Domain.People;
 using static HP.Domain.PersonDomainEvents;
 
 namespace HP.Domain
 {
     public class Person : AggregateRoot
     {
-        public string Email { get; private set; }
+        public Email Email { get; private set; }
         public string DisplayName { get; private set; } 
-        public string Type { get; private set; }
-        public string Description { get; private set; }
-        public int GroupId { get; private set; }
-        public int ProjectId { get; private set; }
-        public PersonRole Role { get; private set; }
-        public GoalType GoalType { get; private set; }
-        public bool IsActive { get; private set; }
-        public decimal CurrentScore { get; private set; }
-        public DateTime UpdateDate { get; private set; }
-        private void InitSetup()
+        public string Type { get; private set; } = "Normal";
+        public string Description { get; private set; } = string.Empty;
+        public int GroupId { get; private set; } = 0;
+        public int ProjectId { get; private set; } = 0;
+        public PersonRole Role { get; private set; } = PersonRole.TBD;
+        public GoalType GoalType { get; private set; } = GoalType.TBD;
+        public bool IsActive { get; private set; } = true;
+        public decimal CurrentScore { get; private set; } = 0;
+        public DateTime UpdateDate { get; private set; } = DateTime.Now;
+
+        public Person() : base() {}
+        public Person(Email email, string displayname) : base()
         {
-            IsActive = true;
-            Description = string.Empty;
-            CurrentScore = 0;
-            ProjectId = 0;
-            GroupId = 0;
-            GoalType = GoalType.TBD;
-            Role = PersonRole.TBD;
-            Type = "Normal";
-            UpdateDate = DateTime.Now;
-        }
-        public Person() : base() {
-            InitSetup();
-        }
-        public Person(string email, string displayname) : base()
-        {
-            InitSetup();
             Email = email;
             DisplayName = displayname;
             AddDomainEvent(new PersonCreated { AggregateId = Id, Email = email, DisplayName = displayname, PersonRole = Role.ToString(), PersonType = Type });
 
         }
-        public static Person Create(string email, string? displayName = null)
+        public static Person Create(string email, string displayName)
         {
-            if (string.IsNullOrWhiteSpace(email))
-                throw new BusinessRuleException("Email cannot be null");
+            if (string.IsNullOrWhiteSpace(email)) throw new ArgumentNullException("Email cannot be null");
+            if(string.IsNullOrWhiteSpace(displayName)) throw new ArgumentNullException("DisplayName cannot be null");
 
-            if(string.IsNullOrWhiteSpace(displayName))
-                throw new BusinessRuleException("DisplayName cannot be null");
-
-            return new Person(email, displayName);
+            return new Person(new Email(email), displayName);
         }
         public void UpdateRole(string role)
         {

@@ -14,7 +14,7 @@ namespace HP.Infrastructure.Services
         private IBaseRepository<UserAccountStorage> _repository;
         public UserUniqueChecker(IBaseRepository<UserAccountStorage> baseRepository)
         {
-            _repository = baseRepository;
+            this._repository = baseRepository ?? throw new ArgumentNullException(nameof(baseRepository));
         }
 
         public async Task CreateAsync(string email, string displayName, CancellationToken cancellationToken = default)

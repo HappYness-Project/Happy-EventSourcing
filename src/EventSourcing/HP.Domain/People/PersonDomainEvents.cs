@@ -1,11 +1,12 @@
 ﻿using HP.Core.Models;
+using HP.Domain.People;
 namespace HP.Domain
 {
     public static class PersonDomainEvents
     {
         public class PersonCreated : DomainEvent
         {
-            public string Email { get; set; }
+            public Email Email { get; set; }
             public string DisplayName { get; set; }
             public string PersonType { get; set; }
             public string PersonRole { get; set; }

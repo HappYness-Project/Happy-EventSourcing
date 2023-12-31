@@ -10,13 +10,10 @@ namespace HP.UnitTest.Persons
         [Test]
         public void CreatePerson_Should_Success()
         {
-            // Arrange 
             string personName = "hyunbin7303";
 
-            // Act
-            var fakePerson = Person.Create(personName);
+            var fakePerson = Person.Create("hyunbin7303@gmail.com", personName);
 
-            // Assert
             fakePerson.UncommittedEvents.Should().NotBeNull();
             fakePerson.UncommittedEvents.Count().Should().Be(1);    
             fakePerson.Id.Should().NotBeEmpty();
@@ -33,7 +30,7 @@ namespace HP.UnitTest.Persons
             string personName = "hyunbin7303";
             string setupRole = PersonRole.Admin.ToString();
             // Act
-            var fakePerson = Person.Create(personName);
+            var fakePerson = Person.Create("hyunbin7303@gmail.com", personName);
             fakePerson.UpdateRole(setupRole);
 
             // Assert
@@ -49,7 +46,7 @@ namespace HP.UnitTest.Persons
             string personName = "hyunbin7303";
             int groupId = 1;
             // Act
-            var fakePerson = Person.Create(personName);
+            var fakePerson = Person.Create("hyunbin7303@gmail.com", personName);
             fakePerson.UpdateGroupId(groupId);
 
             // Assert
