@@ -2,7 +2,7 @@
 using EventStore.Client;
 using FluentAssertions;
 using HP.Core.Models;
-using HP.Core.Test;
+using HP.Core.Test.Dummy;
 
 namespace HP.IntegrationTest
 {
