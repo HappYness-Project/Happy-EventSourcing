@@ -1,6 +1,7 @@
 ﻿using Confluent.Kafka;
 using EventStore.Client;
 using HP.Core.Events;
+using HP.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

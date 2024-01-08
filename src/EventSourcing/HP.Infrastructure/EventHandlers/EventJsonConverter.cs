@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 using static HP.Domain.PersonDomainEvents;
 using static HP.Domain.TodoDomainEvents;
 
-namespace HP.Infrastructure.Kafka
+namespace HP.Infrastructure.EventHandlers
 {
     public class EventJsonConverter : JsonConverter<IDomainEvent>
     {

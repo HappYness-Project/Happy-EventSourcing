@@ -1,25 +1,18 @@
-﻿using Confluent.Kafka;
-using EventStore.Client;
-using Grpc.Core;
-using HP.Core.Common;
+﻿using EventStore.Client;
 using HP.Core.Events;
 using HP.Core.Exceptions;
 using HP.Core.Models;
+using HP.Infrastructure.EventHandlers;
 using MongoDB.Driver;
-using System.IO;
-using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
-
 
 namespace HP.Infrastructure
 {
     public class EventStore : IEventStore
     {
-        private readonly IEventProducer _eventProducer;
-        private readonly IEventSerializer _eventSerializer;
         private readonly EventStoreClient _esClient;
+        private readonly IEventProducer _eventProducer;
         public EventStore(EventStoreClient client, IEventProducer eventProducer)
         {
             _esClient = client;
@@ -32,8 +25,8 @@ namespace HP.Infrastructure
                 throw new ArgumentNullException(nameof(eventStream), "Could not retrieve event stream from the event store!.");
 
             return eventStream.Select(x => x.OriginalStreamId).Distinct().ToList();
-
         }
+
         public async Task<IEnumerable<IDomainEvent>> GetEventsAsync(string streamId)
         {
             var result = _esClient.ReadStreamAsync(Direction.Forwards, streamId, StreamPosition.Start);
@@ -52,11 +45,10 @@ namespace HP.Infrastructure
             await _esClient.AppendToStreamAsync(streamId, StreamState.Any, newEvents).ConfigureAwait(false);
         }
 
-        private IDomainEvent Map(ResolvedEvent resolvedEvent)
+        private IDomainEvent? Map(ResolvedEvent resolvedEvent)
         {
-            var meta = JsonSerializer.Deserialize<EventMeta>(resolvedEvent.Event.Metadata.ToArray());
-            var test = _eventSerializer.Deserialize(meta.EventType, resolvedEvent.Event.Data.ToArray());
-            return test;
+            var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
+            return JsonSerializer.Deserialize<IDomainEvent>(resolvedEvent.Event.Data.Span, options);
         }
         private static EventData Map(IDomainEvent @event)
         {

@@ -1,13 +1,9 @@
 ﻿using FluentAssertions;
 using HP.Core.Models;
-using HP.Infrastructure.Kafka;
+using HP.Infrastructure.EventHandlers;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using static HP.Domain.PersonDomainEvents;
 
 namespace HP.UnitTest
 {
@@ -20,6 +16,16 @@ namespace HP.UnitTest
             var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
             var @event = JsonSerializer.Deserialize<DomainEvent>(jsonMsg, options);
             @event.Should().NotBeNull();
+        }
+
+
+        [Test]
+        public void Testing()
+        {
+            var personCreatedEvent = new PersonCreated { };
+
+            var options = new JsonSerializerOptions { Converters = { new EventJsonConverter() } };
+            //var @event = JsonSerializer.Deserialize<PersonCreated>(jsonMsg, options);
         }
     }
 }

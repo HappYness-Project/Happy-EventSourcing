@@ -31,7 +31,7 @@ namespace HP.IntegrationTest
             IOptions<ProducerConfig> appSettingsOptions = Options.Create(pc);
             _producerConfig = appSettingsOptions;
             _eventProducer = new EventProducer(_producerConfig, "HP");
-           
+
             var settings = EventStoreClientSettings.Create("esdb://localhost:2113?tls=false");
             _eventStoreClient = new EventStoreClient(settings);
             _eventStore = new Infrastructure.EventStore(_eventStoreClient, _eventProducer);
