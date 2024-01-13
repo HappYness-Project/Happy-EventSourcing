@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.Infrastructure", "HP.Inf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.Domain", "HP.Domain\HP.Domain.csproj", "{D5C3347D-A497-4EC4-B6F1-DF03CD5FA227}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.UnitTest", "HP.UnitTest\HP.UnitTest.csproj", "{037E34F5-C62D-4F5F-AA76-FF7F541B2E44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.Domain.Test", "HP.UnitTest\HP.Domain.Test.csproj", "{037E34F5-C62D-4F5F-AA76-FF7F541B2E44}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HP.Shared", "HP.Shared\HP.Shared.csproj", "{645D8EDC-4FCF-47E0-AEB9-FB42BCB72E1C}"
 EndProject

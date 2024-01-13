@@ -2,7 +2,7 @@
 using HP.Domain.People;
 using System;
 
-namespace HP.test
+namespace HP.Domain.Test.Todos
 {
     public class TodoFactory
     {

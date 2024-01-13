@@ -1,14 +1,12 @@
 ﻿using FluentAssertions;
-using HP.Domain;
 using HP.Domain.Exceptions;
 using HP.Domain.People;
-using HP.test;
 using NUnit.Framework;
 using System;
 using System.Linq;
 using static HP.Domain.TodoDomainEvents;
 
-namespace HP.UnitTest.Todos
+namespace HP.Domain.Test.Todos
 {
     public class TodoAggregateTest
     {

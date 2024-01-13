@@ -3,7 +3,7 @@ using HP.Domain;
 using NUnit.Framework;
 using System.Linq;
 
-namespace HP.UnitTest.Persons
+namespace HP.Domain.Test.Persons
 {
     public class PersonAggregateTest
     {

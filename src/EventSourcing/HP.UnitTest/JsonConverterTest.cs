@@ -5,7 +5,7 @@ using NUnit.Framework;
 using System.Text.Json;
 using static HP.Domain.PersonDomainEvents;
 
-namespace HP.UnitTest
+namespace HP.Domain.Test
 {
     public class JsonConverterTest
     {

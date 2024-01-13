@@ -14,7 +14,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HP.test
+namespace HP.Domain.Test
 {
     public abstract class TestBase
     {
