@@ -1,5 +1,6 @@
 ﻿using HP.Core.Exceptions;
 using HP.Core.Models;
+using HP.Domain.Exceptions;
 using HP.Domain.People;
 using static HP.Domain.PersonDomainEvents;
 
@@ -39,6 +40,9 @@ namespace HP.Domain
             if (role is null)
                 throw new ArgumentNullException("Role input cannot be null");
 
+            if(Role.ToString() == role.ToLowerInvariant())
+                throw new PersonDomainException("Same Role.");
+               
             AddDomainEvent(new PersonRoleUpdated { PreRole = Role.ToString(), Role = role });
         }
         public void UpdateGroupId(int groupId)
